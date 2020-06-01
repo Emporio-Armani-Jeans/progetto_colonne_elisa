@@ -9,6 +9,8 @@
 #include "ColonnaInt.h"
 #include "ColonnaFloat.h"
 #include "ColonnaText.h"
+#include "ColonnaDate.h"
+
 #include <list>
 #include <string>
 using namespace std;
@@ -20,17 +22,10 @@ public:
     void aggiungiColonna(Colonna *to_be_added);
     void setChiavePrimaria(Colonna *to_be_primary_key);
 
-    void impostaValore(const string &nomecolonna, const string &valore);
-
-
 private:
     list<Colonna*> _colonne;
     string _nome_tabella;
     Colonna *_chiave_primaria;
-    int _numero_colonne;
 };
-
-
-
 
 #endif //PROGETTO_COLONNE_TABELLA_H

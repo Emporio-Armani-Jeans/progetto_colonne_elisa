@@ -1,9 +1,11 @@
 file(REMOVE_RECURSE
   "CMakeFiles/progetto_colonne.dir/Colonna.cpp.obj"
+  "CMakeFiles/progetto_colonne.dir/ColonnaDate.cpp.obj"
   "CMakeFiles/progetto_colonne.dir/ColonnaFloat.cpp.obj"
   "CMakeFiles/progetto_colonne.dir/ColonnaInt.cpp.obj"
   "CMakeFiles/progetto_colonne.dir/ColonnaText.cpp.obj"
   "CMakeFiles/progetto_colonne.dir/Tabella.cpp.obj"
+  "CMakeFiles/progetto_colonne.dir/data.cpp.obj"
   "CMakeFiles/progetto_colonne.dir/main.cpp.obj"
   "libprogetto_colonne.dll.a"
   "progetto_colonne.exe"

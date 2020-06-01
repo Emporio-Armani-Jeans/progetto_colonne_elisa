@@ -6,11 +6,10 @@
 
 Tabella::Tabella(const string &nometabella) {
     _nome_tabella = nometabella;
-    _numero_colonne = 0;
+    _chiave_primaria= nullptr;
 }
 
 void Tabella::aggiungiColonna(Colonna *to_be_added) {
-    _numero_colonne++;
     _colonne.push_back(to_be_added);
 }
 

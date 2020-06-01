@@ -149,6 +149,33 @@ Colonna.cpp.s:
 	$(MAKE) -f CMakeFiles\progetto_colonne.dir\build.make CMakeFiles/progetto_colonne.dir/Colonna.cpp.s
 .PHONY : Colonna.cpp.s
 
+ColonnaDate.obj: ColonnaDate.cpp.obj
+
+.PHONY : ColonnaDate.obj
+
+# target to build an object file
+ColonnaDate.cpp.obj:
+	$(MAKE) -f CMakeFiles\progetto_colonne.dir\build.make CMakeFiles/progetto_colonne.dir/ColonnaDate.cpp.obj
+.PHONY : ColonnaDate.cpp.obj
+
+ColonnaDate.i: ColonnaDate.cpp.i
+
+.PHONY : ColonnaDate.i
+
+# target to preprocess a source file
+ColonnaDate.cpp.i:
+	$(MAKE) -f CMakeFiles\progetto_colonne.dir\build.make CMakeFiles/progetto_colonne.dir/ColonnaDate.cpp.i
+.PHONY : ColonnaDate.cpp.i
+
+ColonnaDate.s: ColonnaDate.cpp.s
+
+.PHONY : ColonnaDate.s
+
+# target to generate assembly for a file
+ColonnaDate.cpp.s:
+	$(MAKE) -f CMakeFiles\progetto_colonne.dir\build.make CMakeFiles/progetto_colonne.dir/ColonnaDate.cpp.s
+.PHONY : ColonnaDate.cpp.s
+
 ColonnaFloat.obj: ColonnaFloat.cpp.obj
 
 .PHONY : ColonnaFloat.obj
@@ -257,6 +284,33 @@ Tabella.cpp.s:
 	$(MAKE) -f CMakeFiles\progetto_colonne.dir\build.make CMakeFiles/progetto_colonne.dir/Tabella.cpp.s
 .PHONY : Tabella.cpp.s
 
+data.obj: data.cpp.obj
+
+.PHONY : data.obj
+
+# target to build an object file
+data.cpp.obj:
+	$(MAKE) -f CMakeFiles\progetto_colonne.dir\build.make CMakeFiles/progetto_colonne.dir/data.cpp.obj
+.PHONY : data.cpp.obj
+
+data.i: data.cpp.i
+
+.PHONY : data.i
+
+# target to preprocess a source file
+data.cpp.i:
+	$(MAKE) -f CMakeFiles\progetto_colonne.dir\build.make CMakeFiles/progetto_colonne.dir/data.cpp.i
+.PHONY : data.cpp.i
+
+data.s: data.cpp.s
+
+.PHONY : data.s
+
+# target to generate assembly for a file
+data.cpp.s:
+	$(MAKE) -f CMakeFiles\progetto_colonne.dir\build.make CMakeFiles/progetto_colonne.dir/data.cpp.s
+.PHONY : data.cpp.s
+
 main.obj: main.cpp.obj
 
 .PHONY : main.obj
@@ -296,6 +350,9 @@ help:
 	@echo ... Colonna.obj
 	@echo ... Colonna.i
 	@echo ... Colonna.s
+	@echo ... ColonnaDate.obj
+	@echo ... ColonnaDate.i
+	@echo ... ColonnaDate.s
 	@echo ... ColonnaFloat.obj
 	@echo ... ColonnaFloat.i
 	@echo ... ColonnaFloat.s
@@ -308,6 +365,9 @@ help:
 	@echo ... Tabella.obj
 	@echo ... Tabella.i
 	@echo ... Tabella.s
+	@echo ... data.obj
+	@echo ... data.i
+	@echo ... data.s
 	@echo ... main.obj
 	@echo ... main.i
 	@echo ... main.s
