@@ -14,7 +14,7 @@ void Tabella::aggiungiColonna(Colonna *to_be_added) {
     _colonne.push_back(to_be_added);
 }
 
-void Tabella::setChiavePrimaria(ColonnaInt *to_be_primary_key) {
+void Tabella::setChiavePrimaria(Colonna *to_be_primary_key) {
     _chiave_primaria = to_be_primary_key;
 }
 

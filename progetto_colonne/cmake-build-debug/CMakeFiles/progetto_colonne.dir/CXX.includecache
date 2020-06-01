@@ -6,17 +6,9 @@
 
 #IncludeRegexTransform: 
 
-C:/Users/andry/CLionProjects/progetto_colonne_elisa/progetto_colonne/Colonna.cpp
-Colonna.h
-C:/Users/andry/CLionProjects/progetto_colonne_elisa/progetto_colonne/Colonna.h
-
 C:/Users/andry/CLionProjects/progetto_colonne_elisa/progetto_colonne/Colonna.h
 string
 -
-
-C:/Users/andry/CLionProjects/progetto_colonne_elisa/progetto_colonne/ColonnaFloat.cpp
-ColonnaFloat.h
-C:/Users/andry/CLionProjects/progetto_colonne_elisa/progetto_colonne/ColonnaFloat.h
 
 C:/Users/andry/CLionProjects/progetto_colonne_elisa/progetto_colonne/ColonnaFloat.h
 string
@@ -26,10 +18,6 @@ list
 Colonna.h
 C:/Users/andry/CLionProjects/progetto_colonne_elisa/progetto_colonne/Colonna.h
 
-C:/Users/andry/CLionProjects/progetto_colonne_elisa/progetto_colonne/ColonnaInt.cpp
-ColonnaInt.h
-C:/Users/andry/CLionProjects/progetto_colonne_elisa/progetto_colonne/ColonnaInt.h
-
 C:/Users/andry/CLionProjects/progetto_colonne_elisa/progetto_colonne/ColonnaInt.h
 string
 -
@@ -37,10 +25,6 @@ list
 -
 Colonna.h
 C:/Users/andry/CLionProjects/progetto_colonne_elisa/progetto_colonne/Colonna.h
-
-C:/Users/andry/CLionProjects/progetto_colonne_elisa/progetto_colonne/ColonnaText.cpp
-ColonnaText.h
-C:/Users/andry/CLionProjects/progetto_colonne_elisa/progetto_colonne/ColonnaText.h
 
 C:/Users/andry/CLionProjects/progetto_colonne_elisa/progetto_colonne/ColonnaText.h
 string
