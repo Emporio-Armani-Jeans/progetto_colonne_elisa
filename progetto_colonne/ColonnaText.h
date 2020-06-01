@@ -8,6 +8,7 @@
 #include <string>
 #include <list>
 #include "Colonna.h"
+#include <vector>
 using namespace std;
 class ColonnaText : public Colonna{
 public:
@@ -15,9 +16,10 @@ public:
     explicit ColonnaText(const string &nomecolonna, bool notnull = false);
 
     void impostaValore(const string &valore_da_impostare) override;
+    string getElement(int i)override;
 
 private:
-    list <string> _elementi_di_testo;
+    vector<string> _elementi_di_testo;
     bool _not_null;
 };
 

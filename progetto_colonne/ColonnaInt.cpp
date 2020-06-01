@@ -16,3 +16,7 @@ void ColonnaInt::impostaValore(const string &valore_da_impostare) {
     int value_to_be_added = std::stoi(valore_da_impostare);
     _elementi_interi.push_back(value_to_be_added);
 }
+
+string ColonnaInt::getElement(int i) {
+    return to_string(_elementi_interi[i]);
+}

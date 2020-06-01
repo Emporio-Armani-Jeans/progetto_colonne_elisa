@@ -12,3 +12,7 @@ ColonnaText::ColonnaText(const string &nomecolonna, bool notnull) {
 void ColonnaText::impostaValore(const string &valore_da_impostare) {
     _elementi_di_testo.push_back(valore_da_impostare);
 }
+
+string ColonnaText::getElement(int i){
+    return _elementi_di_testo[i];
+}

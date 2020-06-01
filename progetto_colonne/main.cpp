@@ -19,7 +19,7 @@ void deleteOggettoTabella(Tabella **ptr){
 
 int main() {
 
-    int autoincrement = 0;
+    int autoincrement = 0, a;
     list<Tabella*> tabelle;
 
     //creazione tabella + aggiunta colonne
@@ -45,7 +45,6 @@ int main() {
     tab1->impostaValore(s2,s2_1);
     tab1->impostaValore(s3,s3_1);
 
-    
 
 
     return 0;

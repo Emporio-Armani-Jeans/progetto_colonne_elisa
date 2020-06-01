@@ -13,3 +13,7 @@ void ColonnaFloat::impostaValore(const string &valore_da_impostare) {
     float value_to_be_added = std::stof(valore_da_impostare);
     _elementi_float.push_back(value_to_be_added);
 }
+
+string ColonnaFloat::getElement(int i){
+    return to_string(_elementi_float[i]);
+}

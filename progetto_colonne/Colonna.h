@@ -13,6 +13,7 @@ public:
     friend class Tabella;
     string getNomeColonna() const {return _nome_colonna;}
     virtual void impostaValore(const string &valore_da_impostare) = 0;
+    virtual string getElement(int i)=0; //test
 protected:
     string _nome_colonna;
 };

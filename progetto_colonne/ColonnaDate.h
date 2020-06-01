@@ -6,8 +6,9 @@
 #define PROGETTO_COLONNE_COLONNADATE_H
 #include "Colonna.h"
 #include "data.h"
-#include <list>
+#include <vector>
 #include <iostream>
+#include <sstream>
 using namespace std;
 
 
@@ -17,8 +18,9 @@ public:
     explicit ColonnaDate(const string &nomecolonna, bool notnull = false);
 
     void impostaValore(const string& valore_da_impostare)override;
+    string getElement(int i)override;
 private:
-    list<Date> _elementi_date;
+    vector<Date> _elementi_date;
     bool _not_null;
 };
 

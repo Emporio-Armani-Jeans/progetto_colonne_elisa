@@ -17,3 +17,7 @@ void ColonnaDate::impostaValore(const string &valore_da_impostare){
     Date data(day,month,year);
     _elementi_date.push_back(data);
 }
+
+string ColonnaDate::getElement(int i){
+    return _elementi_date[i].str();
+}
