@@ -11,8 +11,10 @@ using namespace std;
 class Colonna {
 public:
     friend class Tabella;
-    virtual string getNomeColonna() const = 0;
+    string getNomeColonna() const {return _nome_colonna;}
     virtual void impostaValore(const string &valore_da_impostare) = 0;
+protected:
+    string _nome_colonna;
 };
 
 

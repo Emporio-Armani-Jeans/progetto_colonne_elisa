@@ -15,11 +15,9 @@ public:
     friend class Tabella;
     explicit ColonnaFloat(const string &nomecolonna, bool notnull = false);
 
-    string getNomeColonna() const override;
     void impostaValore(const string &valore_da_impostare) override;
 
 private:
-    string _nome_colonna;
     list <float> _elementi_float;
     bool _not_null;
 };

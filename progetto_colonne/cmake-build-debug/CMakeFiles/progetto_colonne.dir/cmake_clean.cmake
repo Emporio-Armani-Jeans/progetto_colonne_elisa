@@ -1,11 +1,13 @@
 file(REMOVE_RECURSE
-  "CMakeFiles/progetto_colonne.dir/Colonna.cpp.o"
-  "CMakeFiles/progetto_colonne.dir/ColonnaFloat.cpp.o"
-  "CMakeFiles/progetto_colonne.dir/ColonnaInt.cpp.o"
-  "CMakeFiles/progetto_colonne.dir/ColonnaText.cpp.o"
-  "CMakeFiles/progetto_colonne.dir/Tabella.cpp.o"
-  "CMakeFiles/progetto_colonne.dir/main.cpp.o"
-  "progetto_colonne"
+  "CMakeFiles/progetto_colonne.dir/Colonna.cpp.obj"
+  "CMakeFiles/progetto_colonne.dir/ColonnaFloat.cpp.obj"
+  "CMakeFiles/progetto_colonne.dir/ColonnaInt.cpp.obj"
+  "CMakeFiles/progetto_colonne.dir/ColonnaText.cpp.obj"
+  "CMakeFiles/progetto_colonne.dir/Tabella.cpp.obj"
+  "CMakeFiles/progetto_colonne.dir/main.cpp.obj"
+  "libprogetto_colonne.dll.a"
+  "progetto_colonne.exe"
+  "progetto_colonne.exe.manifest"
   "progetto_colonne.pdb"
 )
 

@@ -15,10 +15,8 @@ public:
     explicit ColonnaInt(const string &nomecolonna, bool notnull = false, bool autoincrement = false);
 
     void impostaValore(const string &valore_da_impostare) override;
-    string getNomeColonna() const override;
 
 private:
-    string _nome_colonna;
     list <int> _elementi_interi;
     bool _not_null;
     bool _auto_increment;
