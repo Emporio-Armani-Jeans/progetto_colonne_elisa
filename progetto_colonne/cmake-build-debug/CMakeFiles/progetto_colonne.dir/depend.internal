@@ -4,6 +4,11 @@
 CMakeFiles/progetto_colonne.dir/Colonna.cpp.obj
  C:/Users/andry/CLionProjects/progetto_colonne_elisa/progetto_colonne/Colonna.cpp
  C:/Users/andry/CLionProjects/progetto_colonne_elisa/progetto_colonne/Colonna.h
+CMakeFiles/progetto_colonne.dir/ColonnaDate.cpp.obj
+ C:/Users/andry/CLionProjects/progetto_colonne_elisa/progetto_colonne/Colonna.h
+ C:/Users/andry/CLionProjects/progetto_colonne_elisa/progetto_colonne/ColonnaDate.cpp
+ C:/Users/andry/CLionProjects/progetto_colonne_elisa/progetto_colonne/ColonnaDate.h
+ C:/Users/andry/CLionProjects/progetto_colonne_elisa/progetto_colonne/data.h
 CMakeFiles/progetto_colonne.dir/ColonnaFloat.cpp.obj
  C:/Users/andry/CLionProjects/progetto_colonne_elisa/progetto_colonne/Colonna.h
  C:/Users/andry/CLionProjects/progetto_colonne_elisa/progetto_colonne/ColonnaFloat.cpp
@@ -18,15 +23,22 @@ CMakeFiles/progetto_colonne.dir/ColonnaText.cpp.obj
  C:/Users/andry/CLionProjects/progetto_colonne_elisa/progetto_colonne/ColonnaText.h
 CMakeFiles/progetto_colonne.dir/Tabella.cpp.obj
  C:/Users/andry/CLionProjects/progetto_colonne_elisa/progetto_colonne/Colonna.h
+ C:/Users/andry/CLionProjects/progetto_colonne_elisa/progetto_colonne/ColonnaDate.h
  C:/Users/andry/CLionProjects/progetto_colonne_elisa/progetto_colonne/ColonnaFloat.h
  C:/Users/andry/CLionProjects/progetto_colonne_elisa/progetto_colonne/ColonnaInt.h
  C:/Users/andry/CLionProjects/progetto_colonne_elisa/progetto_colonne/ColonnaText.h
  C:/Users/andry/CLionProjects/progetto_colonne_elisa/progetto_colonne/Tabella.cpp
  C:/Users/andry/CLionProjects/progetto_colonne_elisa/progetto_colonne/Tabella.h
+ C:/Users/andry/CLionProjects/progetto_colonne_elisa/progetto_colonne/data.h
+CMakeFiles/progetto_colonne.dir/data.cpp.obj
+ C:/Users/andry/CLionProjects/progetto_colonne_elisa/progetto_colonne/data.cpp
+ C:/Users/andry/CLionProjects/progetto_colonne_elisa/progetto_colonne/data.h
 CMakeFiles/progetto_colonne.dir/main.cpp.obj
  C:/Users/andry/CLionProjects/progetto_colonne_elisa/progetto_colonne/Colonna.h
+ C:/Users/andry/CLionProjects/progetto_colonne_elisa/progetto_colonne/ColonnaDate.h
  C:/Users/andry/CLionProjects/progetto_colonne_elisa/progetto_colonne/ColonnaFloat.h
  C:/Users/andry/CLionProjects/progetto_colonne_elisa/progetto_colonne/ColonnaInt.h
  C:/Users/andry/CLionProjects/progetto_colonne_elisa/progetto_colonne/ColonnaText.h
  C:/Users/andry/CLionProjects/progetto_colonne_elisa/progetto_colonne/Tabella.h
+ C:/Users/andry/CLionProjects/progetto_colonne_elisa/progetto_colonne/data.h
  C:/Users/andry/CLionProjects/progetto_colonne_elisa/progetto_colonne/main.cpp

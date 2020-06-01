@@ -10,6 +10,16 @@ C:/Users/andry/CLionProjects/progetto_colonne_elisa/progetto_colonne/Colonna.h
 string
 -
 
+C:/Users/andry/CLionProjects/progetto_colonne_elisa/progetto_colonne/ColonnaDate.h
+Colonna.h
+C:/Users/andry/CLionProjects/progetto_colonne_elisa/progetto_colonne/Colonna.h
+data.h
+C:/Users/andry/CLionProjects/progetto_colonne_elisa/progetto_colonne/data.h
+list
+-
+iostream
+-
+
 C:/Users/andry/CLionProjects/progetto_colonne_elisa/progetto_colonne/ColonnaFloat.h
 string
 -
@@ -47,9 +57,23 @@ ColonnaFloat.h
 C:/Users/andry/CLionProjects/progetto_colonne_elisa/progetto_colonne/ColonnaFloat.h
 ColonnaText.h
 C:/Users/andry/CLionProjects/progetto_colonne_elisa/progetto_colonne/ColonnaText.h
+ColonnaDate.h
+C:/Users/andry/CLionProjects/progetto_colonne_elisa/progetto_colonne/ColonnaDate.h
 list
 -
 string
+-
+
+C:/Users/andry/CLionProjects/progetto_colonne_elisa/progetto_colonne/data.h
+iostream
+-
+string
+-
+sstream
+-
+iomanip
+-
+ctime
 -
 
 C:/Users/andry/CLionProjects/progetto_colonne_elisa/progetto_colonne/main.cpp

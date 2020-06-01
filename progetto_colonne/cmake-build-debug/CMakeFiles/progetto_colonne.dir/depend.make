@@ -4,6 +4,11 @@
 CMakeFiles/progetto_colonne.dir/Colonna.cpp.obj: ../Colonna.cpp
 CMakeFiles/progetto_colonne.dir/Colonna.cpp.obj: ../Colonna.h
 
+CMakeFiles/progetto_colonne.dir/ColonnaDate.cpp.obj: ../Colonna.h
+CMakeFiles/progetto_colonne.dir/ColonnaDate.cpp.obj: ../ColonnaDate.cpp
+CMakeFiles/progetto_colonne.dir/ColonnaDate.cpp.obj: ../ColonnaDate.h
+CMakeFiles/progetto_colonne.dir/ColonnaDate.cpp.obj: ../data.h
+
 CMakeFiles/progetto_colonne.dir/ColonnaFloat.cpp.obj: ../Colonna.h
 CMakeFiles/progetto_colonne.dir/ColonnaFloat.cpp.obj: ../ColonnaFloat.cpp
 CMakeFiles/progetto_colonne.dir/ColonnaFloat.cpp.obj: ../ColonnaFloat.h
@@ -17,16 +22,23 @@ CMakeFiles/progetto_colonne.dir/ColonnaText.cpp.obj: ../ColonnaText.cpp
 CMakeFiles/progetto_colonne.dir/ColonnaText.cpp.obj: ../ColonnaText.h
 
 CMakeFiles/progetto_colonne.dir/Tabella.cpp.obj: ../Colonna.h
+CMakeFiles/progetto_colonne.dir/Tabella.cpp.obj: ../ColonnaDate.h
 CMakeFiles/progetto_colonne.dir/Tabella.cpp.obj: ../ColonnaFloat.h
 CMakeFiles/progetto_colonne.dir/Tabella.cpp.obj: ../ColonnaInt.h
 CMakeFiles/progetto_colonne.dir/Tabella.cpp.obj: ../ColonnaText.h
 CMakeFiles/progetto_colonne.dir/Tabella.cpp.obj: ../Tabella.cpp
 CMakeFiles/progetto_colonne.dir/Tabella.cpp.obj: ../Tabella.h
+CMakeFiles/progetto_colonne.dir/Tabella.cpp.obj: ../data.h
+
+CMakeFiles/progetto_colonne.dir/data.cpp.obj: ../data.cpp
+CMakeFiles/progetto_colonne.dir/data.cpp.obj: ../data.h
 
 CMakeFiles/progetto_colonne.dir/main.cpp.obj: ../Colonna.h
+CMakeFiles/progetto_colonne.dir/main.cpp.obj: ../ColonnaDate.h
 CMakeFiles/progetto_colonne.dir/main.cpp.obj: ../ColonnaFloat.h
 CMakeFiles/progetto_colonne.dir/main.cpp.obj: ../ColonnaInt.h
 CMakeFiles/progetto_colonne.dir/main.cpp.obj: ../ColonnaText.h
 CMakeFiles/progetto_colonne.dir/main.cpp.obj: ../Tabella.h
+CMakeFiles/progetto_colonne.dir/main.cpp.obj: ../data.h
 CMakeFiles/progetto_colonne.dir/main.cpp.obj: ../main.cpp
 

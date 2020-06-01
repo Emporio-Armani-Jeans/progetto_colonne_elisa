@@ -22,6 +22,7 @@ public:
     void aggiungiColonna(Colonna *to_be_added);
     void setChiavePrimaria(Colonna *to_be_primary_key);
 
+    void impostaValore(const string &nomecolonna, const string &valore);
 private:
     list<Colonna*> _colonne;
     string _nome_tabella;
