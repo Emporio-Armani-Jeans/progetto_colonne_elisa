@@ -28,7 +28,7 @@ void Tabella::impostaVal(const string &nomecolonna, const string &valore) {
     int index;
     for (auto elem : _colonne){
         if ((*elem).getNomeColonna() == nomecolonna) {
-            (*elem).setVal(valore);
+            (*elem).addVal(valore);
         }
     }
 }
@@ -74,4 +74,42 @@ void Tabella::deleteRecord(const string& nome_col, const string &condizione) {
     }else{
         //creare eccezione campo non esistente
     }
+}
+
+void Tabella::updateRecord(const string& condizione, const string& nome_col, vector<string> campi, vector<string> valori){
+    bool trovata=false;
+    int i=0, j;
+    while(i<_colonne.size() && !trovata){
+        if(nome_col==_colonne[i]->getNomeColonna()) trovata=true;
+        else i++;
+    }
+    if(trovata){
+        for(j=0; j<_recs.size(); j++){
+            if(_colonne[i]->getElement(j)==condizione) {
+                for(int y=0; y<campi.size(); y++){
+                    for(int g=0; g<_colonne.size(); g++){
+                        if(campi[y]==_colonne[g]->getNomeColonna()){
+                            _colonne[g]->updateVal(valori[y],j);
+                        }
+                    }
+                }
+            }
+        }
+    }else{
+        //creare eccezione campo non esistente
+    }
+}
+
+vector<string> Tabella::returnData() {
+    vector<string> righe_testo;
+    string riga;
+    for(int i=0; i<_recs.size(); i++){
+        riga.clear();
+        for(int j=0; j<_colonne.size(); j++){
+            riga+=_colonne[j]->getElement(i);
+            riga+=" ";
+        }
+        righe_testo.push_back(riga);
+    }
+    return righe_testo;
 }

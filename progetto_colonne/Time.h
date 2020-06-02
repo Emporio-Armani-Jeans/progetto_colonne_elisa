@@ -20,14 +20,14 @@ public:
     int getMinutes() const;
     int getSeconds() const;
 
-    Time& operator= (const Time & to_assign);
+    Time& operator=(const Time & to_assign);
     bool operator==(const Time & to_compare) const;
     bool operator!=(const Time & to_compare) const;
 
     std::string str() const;
 
-    friend std::ostream& operator<< (std::ostream& stream, const Time & d);
-    friend std::istream& operator>> (std::istream& stream, Time d);
+    friend std::ostream& operator<<(std::ostream& stream, const Time & d);
+    friend std::istream& operator>>(std::istream& stream, Time d);
 
 private:
     int _minuti, _secondi, _ora;

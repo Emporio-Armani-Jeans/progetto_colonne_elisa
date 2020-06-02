@@ -9,7 +9,7 @@ ColonnaText::ColonnaText(const string &nomecolonna, bool notnull) {
     _not_null = notnull;
 }
 
-void ColonnaText::setVal(const string &valore_da_impostare) {
+void ColonnaText::addVal(const string &valore_da_impostare) {
     _elementi_di_testo.push_back(valore_da_impostare);
 }
 
@@ -21,4 +21,8 @@ void ColonnaText::deleteVal(int index) {
     auto it=_elementi_di_testo.begin();
     it+=index;
     _elementi_di_testo.erase(it);
+}
+
+void ColonnaText::updateVal(const string &val, int index) {
+    _elementi_di_testo[index]=val;
 }

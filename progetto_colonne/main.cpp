@@ -39,7 +39,7 @@ int main() {
 
     string s1 = "Age", s2 = "Salary", s3 = "Address", s4="Data_di_nascita", s5="Ora_di_nascita";
     string s1_1 = "12", s2_1 = "35.6", s3_1 = "Via dei Gigli 33", s4_1="17/04/1999", s5_1="00:47:34";
-    string s1_2 = "90", s2_2= "69.420", s3_2= "Via Petalosa 77", s4_2="04/06/1989", s5_2="12:56:59";
+    string s1_2 = "90", s2_2= "69.420", s3_2= "Via Petalosa 77", s4_2="04/06/1989", s5_2="12:56:59";   //mmm nice
 
     //prova per impostare i valori:
     //attraverso la insert salviamo tutto in delle stringhe e con cicli controlli ecc: (cast all'interno della singola colonna per salvare il tipo giusto!)
@@ -65,14 +65,9 @@ int main() {
         cout << endl;
     }
 
-    tabelle.front()->deleteRecord("Address", "Via dei Gigli 33");
+
     for(int i=0; i<tab1->numRecs(); i++) {
-        if (tab1->recExists(i)) {
-            for (int j = 0; j < tab1->numCampi(); j++) {
-                cout << tab1->getCol(j)->getElement(i) << " ";
-            }
-        }
-        cout << endl;
+        cout << tab1->returnData()[i] << endl;
     }
 
     deleteOggettoTabella(&tab1);

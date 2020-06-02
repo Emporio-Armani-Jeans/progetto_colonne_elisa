@@ -108,3 +108,21 @@ iomanip
 ctime
 -
 
+C:/Users/andry/CLionProjects/progetto_colonne_elisa/progetto_colonne/main.cpp
+iostream
+-
+ColonnaText.h
+C:/Users/andry/CLionProjects/progetto_colonne_elisa/progetto_colonne/ColonnaText.h
+ColonnaFloat.h
+C:/Users/andry/CLionProjects/progetto_colonne_elisa/progetto_colonne/ColonnaFloat.h
+ColonnaInt.h
+C:/Users/andry/CLionProjects/progetto_colonne_elisa/progetto_colonne/ColonnaInt.h
+Colonna.h
+C:/Users/andry/CLionProjects/progetto_colonne_elisa/progetto_colonne/Colonna.h
+Tabella.h
+C:/Users/andry/CLionProjects/progetto_colonne_elisa/progetto_colonne/Tabella.h
+list
+-
+vector
+-
+

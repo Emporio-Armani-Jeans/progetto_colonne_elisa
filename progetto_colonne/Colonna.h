@@ -13,8 +13,9 @@ public:
     friend class Tabella;
     ~Colonna()=default;
     string getNomeColonna() const {return _nome_colonna;}
-    virtual void setVal(const string &valore_da_impostare) = 0;
-    virtual string getElement(int i)=0; //test
+    virtual void addVal(const string &valore_da_impostare) = 0;
+    virtual void updateVal(const string& val, int index)=0;
+    virtual string getElement(int i)=0;
     virtual void deleteVal(int index)=0;
 protected:
     string _nome_colonna;
