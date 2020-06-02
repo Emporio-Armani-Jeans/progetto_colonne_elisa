@@ -4,18 +4,18 @@ set(CMAKE_DEPENDS_LANGUAGES
   )
 # The set of files for implicit dependencies of each language:
 set(CMAKE_DEPENDS_CHECK_CXX
-  "C:/Users/andry/CLionProjects/progetto_colonne_elisa/progetto_colonne/ColonnaChar.cpp" "C:/Users/andry/CLionProjects/progetto_colonne_elisa/progetto_colonne/cmake-build-debug/CMakeFiles/progetto_colonne.dir/ColonnaChar.cpp.obj"
-  "C:/Users/andry/CLionProjects/progetto_colonne_elisa/progetto_colonne/ColonnaDate.cpp" "C:/Users/andry/CLionProjects/progetto_colonne_elisa/progetto_colonne/cmake-build-debug/CMakeFiles/progetto_colonne.dir/ColonnaDate.cpp.obj"
-  "C:/Users/andry/CLionProjects/progetto_colonne_elisa/progetto_colonne/ColonnaFloat.cpp" "C:/Users/andry/CLionProjects/progetto_colonne_elisa/progetto_colonne/cmake-build-debug/CMakeFiles/progetto_colonne.dir/ColonnaFloat.cpp.obj"
-  "C:/Users/andry/CLionProjects/progetto_colonne_elisa/progetto_colonne/ColonnaInt.cpp" "C:/Users/andry/CLionProjects/progetto_colonne_elisa/progetto_colonne/cmake-build-debug/CMakeFiles/progetto_colonne.dir/ColonnaInt.cpp.obj"
-  "C:/Users/andry/CLionProjects/progetto_colonne_elisa/progetto_colonne/ColonnaText.cpp" "C:/Users/andry/CLionProjects/progetto_colonne_elisa/progetto_colonne/cmake-build-debug/CMakeFiles/progetto_colonne.dir/ColonnaText.cpp.obj"
-  "C:/Users/andry/CLionProjects/progetto_colonne_elisa/progetto_colonne/ColonnaTime.cpp" "C:/Users/andry/CLionProjects/progetto_colonne_elisa/progetto_colonne/cmake-build-debug/CMakeFiles/progetto_colonne.dir/ColonnaTime.cpp.obj"
-  "C:/Users/andry/CLionProjects/progetto_colonne_elisa/progetto_colonne/Tabella.cpp" "C:/Users/andry/CLionProjects/progetto_colonne_elisa/progetto_colonne/cmake-build-debug/CMakeFiles/progetto_colonne.dir/Tabella.cpp.obj"
-  "C:/Users/andry/CLionProjects/progetto_colonne_elisa/progetto_colonne/Time.cpp" "C:/Users/andry/CLionProjects/progetto_colonne_elisa/progetto_colonne/cmake-build-debug/CMakeFiles/progetto_colonne.dir/Time.cpp.obj"
-  "C:/Users/andry/CLionProjects/progetto_colonne_elisa/progetto_colonne/data.cpp" "C:/Users/andry/CLionProjects/progetto_colonne_elisa/progetto_colonne/cmake-build-debug/CMakeFiles/progetto_colonne.dir/data.cpp.obj"
-  "C:/Users/andry/CLionProjects/progetto_colonne_elisa/progetto_colonne/main.cpp" "C:/Users/andry/CLionProjects/progetto_colonne_elisa/progetto_colonne/cmake-build-debug/CMakeFiles/progetto_colonne.dir/main.cpp.obj"
+  "/Users/elisamessina/CLionProjects/progetto_colonne_2/progetto_colonne/ColonnaChar.cpp" "/Users/elisamessina/CLionProjects/progetto_colonne_2/progetto_colonne/cmake-build-debug/CMakeFiles/progetto_colonne.dir/ColonnaChar.cpp.o"
+  "/Users/elisamessina/CLionProjects/progetto_colonne_2/progetto_colonne/ColonnaDate.cpp" "/Users/elisamessina/CLionProjects/progetto_colonne_2/progetto_colonne/cmake-build-debug/CMakeFiles/progetto_colonne.dir/ColonnaDate.cpp.o"
+  "/Users/elisamessina/CLionProjects/progetto_colonne_2/progetto_colonne/ColonnaFloat.cpp" "/Users/elisamessina/CLionProjects/progetto_colonne_2/progetto_colonne/cmake-build-debug/CMakeFiles/progetto_colonne.dir/ColonnaFloat.cpp.o"
+  "/Users/elisamessina/CLionProjects/progetto_colonne_2/progetto_colonne/ColonnaInt.cpp" "/Users/elisamessina/CLionProjects/progetto_colonne_2/progetto_colonne/cmake-build-debug/CMakeFiles/progetto_colonne.dir/ColonnaInt.cpp.o"
+  "/Users/elisamessina/CLionProjects/progetto_colonne_2/progetto_colonne/ColonnaText.cpp" "/Users/elisamessina/CLionProjects/progetto_colonne_2/progetto_colonne/cmake-build-debug/CMakeFiles/progetto_colonne.dir/ColonnaText.cpp.o"
+  "/Users/elisamessina/CLionProjects/progetto_colonne_2/progetto_colonne/ColonnaTime.cpp" "/Users/elisamessina/CLionProjects/progetto_colonne_2/progetto_colonne/cmake-build-debug/CMakeFiles/progetto_colonne.dir/ColonnaTime.cpp.o"
+  "/Users/elisamessina/CLionProjects/progetto_colonne_2/progetto_colonne/Tabella.cpp" "/Users/elisamessina/CLionProjects/progetto_colonne_2/progetto_colonne/cmake-build-debug/CMakeFiles/progetto_colonne.dir/Tabella.cpp.o"
+  "/Users/elisamessina/CLionProjects/progetto_colonne_2/progetto_colonne/Time.cpp" "/Users/elisamessina/CLionProjects/progetto_colonne_2/progetto_colonne/cmake-build-debug/CMakeFiles/progetto_colonne.dir/Time.cpp.o"
+  "/Users/elisamessina/CLionProjects/progetto_colonne_2/progetto_colonne/data.cpp" "/Users/elisamessina/CLionProjects/progetto_colonne_2/progetto_colonne/cmake-build-debug/CMakeFiles/progetto_colonne.dir/data.cpp.o"
+  "/Users/elisamessina/CLionProjects/progetto_colonne_2/progetto_colonne/main.cpp" "/Users/elisamessina/CLionProjects/progetto_colonne_2/progetto_colonne/cmake-build-debug/CMakeFiles/progetto_colonne.dir/main.cpp.o"
   )
-set(CMAKE_CXX_COMPILER_ID "GNU")
+set(CMAKE_CXX_COMPILER_ID "AppleClang")
 
 # The include file search paths:
 set(CMAKE_CXX_TARGET_INCLUDE_PATH
