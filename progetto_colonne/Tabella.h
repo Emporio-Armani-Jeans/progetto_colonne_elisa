@@ -10,6 +10,9 @@
 #include "ColonnaFloat.h"
 #include "ColonnaText.h"
 #include "ColonnaDate.h"
+#include "ColonnaChar.h"
+#include "ColonnaTime.h"
+
 
 #include <vector>
 #include <string>
@@ -35,5 +38,8 @@ private:
     Colonna *_chiave_primaria;
     vector<bool> _recs;
 };
+
+
+
 
 #endif //PROGETTO_COLONNE_TABELLA_H

@@ -6,7 +6,7 @@
 
 Tabella::Tabella(const string &nometabella) {
     _nome_tabella = nometabella;
-    _chiave_primaria= nullptr;
+    _chiave_primaria = nullptr;
 }
 
 void Tabella::aggiungiColonna(Colonna *to_be_added) {
