@@ -17,8 +17,8 @@ public:
     ~ColonnaText() override =default;
 
     void setValore(const string &value_to_set) override;
-    string getElemento(const int &index) const override;
-    void deleteValore(const int &index) override;
+    string getElemento(int index) const override;
+    void deleteValore(int index) override;
 
 private:
     vector<string> _elementi_di_testo;

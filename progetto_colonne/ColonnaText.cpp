@@ -13,11 +13,11 @@ void ColonnaText::setValore(const string &value_to_set) {
     _elementi_di_testo.push_back(value_to_set);
 }
 
-string ColonnaText::getElemento(const int &index) const {
+string ColonnaText::getElemento(int index) const {
     return _elementi_di_testo[index];
 }
 
-void ColonnaText::deleteValore(const int &index) {
+void ColonnaText::deleteValore(int index) {
     auto it=_elementi_di_testo.begin();
     it+=index;
     _elementi_di_testo.erase(it);

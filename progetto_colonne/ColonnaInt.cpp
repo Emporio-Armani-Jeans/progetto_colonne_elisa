@@ -17,11 +17,11 @@ void ColonnaInt::setValore(const string &value_to_set) {
     _elementi_interi.push_back(value_to_be_added);
 }
 
-string ColonnaInt::getElemento(const int &index) const {
+string ColonnaInt::getElemento(int index) const {
     return to_string(_elementi_interi[index]);
 }
 
-void ColonnaInt::deleteValore(const int &index){
+void ColonnaInt::deleteValore(int index){
     auto it=_elementi_interi.begin();
     it+=index;
     _elementi_interi.erase(it);

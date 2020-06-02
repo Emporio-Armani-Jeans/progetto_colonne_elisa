@@ -18,11 +18,11 @@ void ColonnaDate::setValore(const string &value_to_set){
     _elementi_date.push_back(data);
 }
 
-string ColonnaDate::getElemento(const int &index) const {
+string ColonnaDate::getElemento(int index) const {
     return _elementi_date[index].str();
 }
 
-void ColonnaDate::deleteValore(const int &index) {
+void ColonnaDate::deleteValore(int index) {
     auto it=_elementi_date.begin();
     it+=index;
     _elementi_date.erase(it);

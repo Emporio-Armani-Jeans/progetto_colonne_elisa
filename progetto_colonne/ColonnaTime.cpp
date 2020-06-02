@@ -19,11 +19,11 @@ void ColonnaTime::setValore(const string &value_to_set) {
     _elementi_time.push_back(time);
 }
 
-string ColonnaTime::getElemento(const int &index) const{
+string ColonnaTime::getElemento(int index) const{
     return _elementi_time[index].str();
 }
 
-void ColonnaTime::deleteValore(const int &index) {
+void ColonnaTime::deleteValore(int index) {
     auto it=_elementi_time.begin();
     it+=index;
     _elementi_time.erase(it);

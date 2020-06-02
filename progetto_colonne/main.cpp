@@ -24,7 +24,7 @@ int main() {
 
     //creazione tabella + aggiunta colonne
     Tabella *tab1 = new Tabella("Customers");
-    //tabelle.push_back(new Tabella("Customers"));
+   // tabelle.push_back(new Tabella("Customers"));
     tabelle.push_back(tab1);
     ColonnaInt *age = new ColonnaInt("Age");
     ColonnaFloat *salary = new ColonnaFloat("Salary");

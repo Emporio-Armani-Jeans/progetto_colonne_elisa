@@ -14,13 +14,13 @@ void ColonnaChar::setValore(const string &value_to_set) {
     _elementi_char.push_back(value_to_be_added);
 }
 
-string ColonnaChar::getElemento(const int &index) const{
+string ColonnaChar::getElemento(int index) const{
     string str_to_return;
     str_to_return.push_back(_elementi_char[index]);
     return str_to_return;
 }
 
-void ColonnaChar::deleteValore(const int &index) {
+void ColonnaChar::deleteValore(int index) {
     auto it=_elementi_char.begin();
     it+=index;
     _elementi_char.erase(it);

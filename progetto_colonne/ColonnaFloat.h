@@ -18,8 +18,8 @@ public:
     ~ColonnaFloat() override = default;
 
     void setValore(const string &value_to_set) override;
-    string getElemento(const int &i) const override;
-    void deleteValore(const int &index) override;
+    string getElemento(int i) const override;
+    void deleteValore(int index) override;
 private:
     vector <float> _elementi_float;
 };

@@ -14,8 +14,8 @@ public:
     virtual ~Colonna() = default;
     string getNomeColonna() const { return _nome_colonna; }
     virtual void setValore(const string &value_to_set) = 0;
-    virtual string getElemento(const int &i) const = 0; //test
-    virtual void deleteValore(const int &index) = 0;
+    virtual string getElemento(int i) const = 0; //test
+    virtual void deleteValore(int index) = 0;
 protected:
     string _nome_colonna;
     bool _not_null;
