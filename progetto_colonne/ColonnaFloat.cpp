@@ -17,3 +17,9 @@ void ColonnaFloat::setVal(const string &valore_da_impostare) {
 string ColonnaFloat::getElement(int i){
     return to_string(_elementi_float[i]);
 }
+
+void ColonnaFloat::deleteVal(int index) {
+    auto it=_elementi_float.begin();
+    it+=index;
+    _elementi_float.erase(it);
+}

@@ -21,3 +21,9 @@ void ColonnaDate::setVal(const string &valore_da_impostare){
 string ColonnaDate::getElement(int index){
     return _elementi_date[index].str();
 }
+
+void ColonnaDate::deleteVal(int index) {
+    auto it=_elementi_date.begin();
+    it+=index;
+    _elementi_date.erase(it);
+}

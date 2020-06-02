@@ -26,6 +26,7 @@ public:
     void setChiavePrimaria(Colonna *to_be_primary_key);
 
     void addRecord();
+    void deleteRecord(const string& nome_col, const string& condizione);
     void impostaVal(const string &nomecolonna, const string &valore);
     Colonna* getCol(int index)const;
     bool recExists(int index)const;
@@ -38,8 +39,6 @@ private:
     Colonna *_chiave_primaria;
     vector<bool> _recs;
 };
-
-
 
 
 #endif //PROGETTO_COLONNE_TABELLA_H

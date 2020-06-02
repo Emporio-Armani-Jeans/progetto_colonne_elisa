@@ -52,3 +52,26 @@ int Tabella::numRecs() const {
 void Tabella::addRecord() {
     _recs.push_back(true);
 }
+
+void Tabella::deleteRecord(const string& nome_col, const string &condizione) {
+    bool trovata=false;
+    int i=0, j;
+    vector<bool>::iterator it=_recs.begin();
+    while(i<_colonne.size() && !trovata){
+        if(nome_col==_colonne[i]->getNomeColonna()) trovata=true;
+        else i++;
+    }
+    if(trovata){
+        for(j=0; j<_recs.size(); j++){
+            if(_colonne[i]->getElement(j)==condizione) {
+                it+=j;
+                _recs.erase(it);
+                for(auto & elem : _colonne){
+                    elem->deleteVal(j);
+                }
+            }
+        }
+    }else{
+        //creare eccezione campo non esistente
+    }
+}

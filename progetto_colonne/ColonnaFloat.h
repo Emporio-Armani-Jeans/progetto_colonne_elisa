@@ -19,9 +19,9 @@ public:
 
     void setVal(const string &valore_da_impostare) override;
     string getElement(int i) override;
+    void deleteVal(int index)override;
 private:
     vector <float> _elementi_float;
-    bool _not_null;
 };
 
 

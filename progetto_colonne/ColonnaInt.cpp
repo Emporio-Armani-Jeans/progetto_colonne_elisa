@@ -20,3 +20,10 @@ void ColonnaInt::setVal(const string &valore_da_impostare) {
 string ColonnaInt::getElement(int index) {
     return to_string(_elementi_interi[index]);
 }
+
+void ColonnaInt::deleteVal(int index){
+    auto it=_elementi_interi.begin();
+    it+=index;
+    _elementi_interi.erase(it);
+}
+

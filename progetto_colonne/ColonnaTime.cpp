@@ -22,3 +22,9 @@ void ColonnaTime::setVal(const string &valore_da_impostare) {
 string ColonnaTime::getElement(int index) {
     return _elementi_time[index].str();
 }
+
+void ColonnaTime::deleteVal(int index) {
+    auto it=_elementi_time.begin();
+    it+=index;
+    _elementi_time.erase(it);
+}

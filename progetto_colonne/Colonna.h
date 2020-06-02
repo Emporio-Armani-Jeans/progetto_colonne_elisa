@@ -15,8 +15,10 @@ public:
     string getNomeColonna() const {return _nome_colonna;}
     virtual void setVal(const string &valore_da_impostare) = 0;
     virtual string getElement(int i)=0; //test
+    virtual void deleteVal(int index)=0;
 protected:
     string _nome_colonna;
+    bool _not_null;
 };
 
 

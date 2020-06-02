@@ -19,10 +19,10 @@ public:
    // ~ColonnaDate() override =default;
 
     void setVal(const string& valore_da_impostare)override;
+    void deleteVal(int index)override;
     string getElement(int index)override;
 private:
     vector<Date> _elementi_date;
-    bool _not_null;
 };
 
 

@@ -22,11 +22,6 @@ int main() {
     int autoincrement = 0, a;
     list<Tabella*> tabelle;
     vector<int> ciao;
-    ciao.push_back(9);
-    ciao.emplace_back();
-    ciao.push_back(7);
-
-    cout << ciao[0] << " " << ciao[1] << " " << ciao[2] << endl;
 
     //creazione tabella + aggiunta colonne
     Tabella *tab1 = new Tabella("Customers");
@@ -61,6 +56,16 @@ int main() {
     tab1->impostaVal(s5, s5_2);
     tab1->addRecord();
 
+    for(int i=0; i<tab1->numRecs(); i++) {
+        if (tab1->recExists(i)) {
+            for (int j = 0; j < tab1->numCampi(); j++) {
+                cout << tab1->getCol(j)->getElement(i) << " ";
+            }
+        }
+        cout << endl;
+    }
+
+    tabelle.front()->deleteRecord("Address", "Via dei Gigli 33");
     for(int i=0; i<tab1->numRecs(); i++) {
         if (tab1->recExists(i)) {
             for (int j = 0; j < tab1->numCampi(); j++) {

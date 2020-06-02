@@ -16,10 +16,10 @@ public:
 
     void setVal(const string &valore_da_impostare) override;
     string getElement(int index) override;
+    void deleteVal(int index)override;
 
 private:
     vector <char> _elementi_char;
-    bool _not_null;
 };
 
 

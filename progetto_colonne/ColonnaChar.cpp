@@ -19,3 +19,9 @@ string ColonnaChar::getElement(int index) {
     str_to_return.push_back(_elementi_char[index]);
     return str_to_return;
 }
+
+void ColonnaChar::deleteVal(int index) {
+    auto it=_elementi_char.begin();
+    it+=index;
+    _elementi_char.erase(it);
+}

@@ -17,10 +17,10 @@ public:
 
     void setVal(const string &valore_da_impostare) override;
     string getElement(int index) override;
+    void deleteVal(int index)override;
 
 private:
     vector <Time> _elementi_time;
-    bool _not_null;
 };
 
 

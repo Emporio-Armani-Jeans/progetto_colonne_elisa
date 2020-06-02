@@ -18,10 +18,10 @@ public:
 
     void setVal(const string &valore_da_impostare) override;
     string getElement(int index)override;
+    void deleteVal(int index)override;
 
 private:
     vector<string> _elementi_di_testo;
-    bool _not_null;
 };
 
 

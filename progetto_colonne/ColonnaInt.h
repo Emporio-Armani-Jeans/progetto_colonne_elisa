@@ -19,10 +19,10 @@ public:
 
     void setVal(const string &valore_da_impostare) override;
     string getElement(int index) override;
+    void deleteVal(int index)override;
 
 private:
     vector <int> _elementi_interi;
-    bool _not_null;
     bool _auto_increment;
 };
 

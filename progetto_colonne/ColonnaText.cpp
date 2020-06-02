@@ -16,3 +16,9 @@ void ColonnaText::setVal(const string &valore_da_impostare) {
 string ColonnaText::getElement(int index){
     return _elementi_di_testo[index];
 }
+
+void ColonnaText::deleteVal(int index) {
+    auto it=_elementi_di_testo.begin();
+    it+=index;
+    _elementi_di_testo.erase(it);
+}
