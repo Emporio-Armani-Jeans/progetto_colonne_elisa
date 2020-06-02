@@ -16,6 +16,7 @@ class ColonnaDate : public Colonna{
 public:
     friend class Tabella;
     explicit ColonnaDate(const string &nomecolonna, bool notnull = false);
+   // ~ColonnaDate() override =default;
 
     void setVal(const string& valore_da_impostare)override;
     string getElement(int index)override;

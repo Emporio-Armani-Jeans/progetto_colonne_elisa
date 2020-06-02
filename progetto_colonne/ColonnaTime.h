@@ -13,6 +13,7 @@ class ColonnaTime : public Colonna {
 public:
     friend class Tabella;
     explicit ColonnaTime(const string &nomecolonna, bool notnull = false);
+  //  ~ColonnaTime() override =default;
 
     void setVal(const string &valore_da_impostare) override;
     string getElement(int index) override;

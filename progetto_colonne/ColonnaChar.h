@@ -12,6 +12,7 @@ class ColonnaChar : public Colonna {
 public:
     friend class Tabella;
     explicit ColonnaChar(const string &nomecolonna, bool notnull = false);
+   // ~ColonnaChar()  override =default;
 
     void setVal(const string &valore_da_impostare) override;
     string getElement(int index) override;

@@ -18,7 +18,10 @@ void Tabella::setChiavePrimaria(Colonna *to_be_primary_key) {
 }
 
 Tabella::~Tabella() {
-    _colonne.clear();
+    for(auto & i : _colonne){
+        delete i;
+        i= nullptr;
+    }
 }
 
 void Tabella::impostaVal(const string &nomecolonna, const string &valore) {
