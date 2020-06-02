@@ -16,7 +16,7 @@ public:
     friend class Tabella;
     explicit ColonnaFloat(const string &nomecolonna, bool notnull = false);
 
-    void impostaValore(const string &valore_da_impostare) override;
+    void setVal(const string &valore_da_impostare) override;
     string getElement(int i) override;
 private:
     vector <float> _elementi_float;

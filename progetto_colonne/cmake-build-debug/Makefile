@@ -122,33 +122,6 @@ progetto_colonne/fast:
 	$(MAKE) -f CMakeFiles\progetto_colonne.dir\build.make CMakeFiles/progetto_colonne.dir/build
 .PHONY : progetto_colonne/fast
 
-Colonna.obj: Colonna.cpp.obj
-
-.PHONY : Colonna.obj
-
-# target to build an object file
-Colonna.cpp.obj:
-	$(MAKE) -f CMakeFiles\progetto_colonne.dir\build.make CMakeFiles/progetto_colonne.dir/Colonna.cpp.obj
-.PHONY : Colonna.cpp.obj
-
-Colonna.i: Colonna.cpp.i
-
-.PHONY : Colonna.i
-
-# target to preprocess a source file
-Colonna.cpp.i:
-	$(MAKE) -f CMakeFiles\progetto_colonne.dir\build.make CMakeFiles/progetto_colonne.dir/Colonna.cpp.i
-.PHONY : Colonna.cpp.i
-
-Colonna.s: Colonna.cpp.s
-
-.PHONY : Colonna.s
-
-# target to generate assembly for a file
-Colonna.cpp.s:
-	$(MAKE) -f CMakeFiles\progetto_colonne.dir\build.make CMakeFiles/progetto_colonne.dir/Colonna.cpp.s
-.PHONY : Colonna.cpp.s
-
 ColonnaDate.obj: ColonnaDate.cpp.obj
 
 .PHONY : ColonnaDate.obj
@@ -347,9 +320,6 @@ help:
 	@echo ... progetto_colonne
 	@echo ... edit_cache
 	@echo ... rebuild_cache
-	@echo ... Colonna.obj
-	@echo ... Colonna.i
-	@echo ... Colonna.s
 	@echo ... ColonnaDate.obj
 	@echo ... ColonnaDate.i
 	@echo ... ColonnaDate.s

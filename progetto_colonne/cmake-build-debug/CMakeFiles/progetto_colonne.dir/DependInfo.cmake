@@ -4,7 +4,6 @@ set(CMAKE_DEPENDS_LANGUAGES
   )
 # The set of files for implicit dependencies of each language:
 set(CMAKE_DEPENDS_CHECK_CXX
-  "C:/Users/andry/CLionProjects/progetto_colonne_elisa/progetto_colonne/Colonna.cpp" "C:/Users/andry/CLionProjects/progetto_colonne_elisa/progetto_colonne/cmake-build-debug/CMakeFiles/progetto_colonne.dir/Colonna.cpp.obj"
   "C:/Users/andry/CLionProjects/progetto_colonne_elisa/progetto_colonne/ColonnaDate.cpp" "C:/Users/andry/CLionProjects/progetto_colonne_elisa/progetto_colonne/cmake-build-debug/CMakeFiles/progetto_colonne.dir/ColonnaDate.cpp.obj"
   "C:/Users/andry/CLionProjects/progetto_colonne_elisa/progetto_colonne/ColonnaFloat.cpp" "C:/Users/andry/CLionProjects/progetto_colonne_elisa/progetto_colonne/cmake-build-debug/CMakeFiles/progetto_colonne.dir/ColonnaFloat.cpp.obj"
   "C:/Users/andry/CLionProjects/progetto_colonne_elisa/progetto_colonne/ColonnaInt.cpp" "C:/Users/andry/CLionProjects/progetto_colonne_elisa/progetto_colonne/cmake-build-debug/CMakeFiles/progetto_colonne.dir/ColonnaInt.cpp.obj"

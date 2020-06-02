@@ -15,7 +15,7 @@ public:
     friend class Tabella;
     explicit ColonnaText(const string &nomecolonna, bool notnull = false);
 
-    void impostaValore(const string &valore_da_impostare) override;
+    void setVal(const string &valore_da_impostare) override;
     string getElement(int index)override;
 
 private:

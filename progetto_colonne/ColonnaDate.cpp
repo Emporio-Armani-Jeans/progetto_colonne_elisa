@@ -9,7 +9,7 @@ ColonnaDate::ColonnaDate(const string &nomecolonna, bool notnull){
     _not_null = notnull;
 }
 
-void ColonnaDate::impostaValore(const string &valore_da_impostare){
+void ColonnaDate::setVal(const string &valore_da_impostare){
     int day, month, year;
     day=std::stoi(valore_da_impostare.substr(0,2));
     month=std::stoi(valore_da_impostare.substr(3,2));

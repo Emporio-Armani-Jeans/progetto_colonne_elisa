@@ -80,9 +80,6 @@
 				</MakeCommands>
 			</Target>
 		</Build>
-		<Unit filename="C:/Users/andry/CLionProjects/progetto_colonne_elisa/progetto_colonne/Colonna.cpp">
-			<Option target="progetto_colonne"/>
-		</Unit>
 		<Unit filename="C:/Users/andry/CLionProjects/progetto_colonne_elisa/progetto_colonne/Colonna.h">
 			<Option target="progetto_colonne"/>
 		</Unit>

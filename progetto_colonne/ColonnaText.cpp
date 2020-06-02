@@ -9,7 +9,7 @@ ColonnaText::ColonnaText(const string &nomecolonna, bool notnull) {
     _not_null = notnull;
 }
 
-void ColonnaText::impostaValore(const string &valore_da_impostare) {
+void ColonnaText::setVal(const string &valore_da_impostare) {
     _elementi_di_testo.push_back(valore_da_impostare);
 }
 

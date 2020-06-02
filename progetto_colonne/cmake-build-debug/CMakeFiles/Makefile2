@@ -73,12 +73,12 @@ clean: CMakeFiles/progetto_colonne.dir/clean
 CMakeFiles/progetto_colonne.dir/all:
 	$(MAKE) -f CMakeFiles\progetto_colonne.dir\build.make CMakeFiles/progetto_colonne.dir/depend
 	$(MAKE) -f CMakeFiles\progetto_colonne.dir\build.make CMakeFiles/progetto_colonne.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=C:\Users\andry\CLionProjects\progetto_colonne_elisa\progetto_colonne\cmake-build-debug\CMakeFiles --progress-num=1,2,3,4,5,6,7,8,9 "Built target progetto_colonne"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=C:\Users\andry\CLionProjects\progetto_colonne_elisa\progetto_colonne\cmake-build-debug\CMakeFiles --progress-num=1,2,3,4,5,6,7,8 "Built target progetto_colonne"
 .PHONY : CMakeFiles/progetto_colonne.dir/all
 
 # Build rule for subdir invocation for target.
 CMakeFiles/progetto_colonne.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start C:\Users\andry\CLionProjects\progetto_colonne_elisa\progetto_colonne\cmake-build-debug\CMakeFiles 9
+	$(CMAKE_COMMAND) -E cmake_progress_start C:\Users\andry\CLionProjects\progetto_colonne_elisa\progetto_colonne\cmake-build-debug\CMakeFiles 8
 	$(MAKE) -f CMakeFiles\Makefile2 CMakeFiles/progetto_colonne.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start C:\Users\andry\CLionProjects\progetto_colonne_elisa\progetto_colonne\cmake-build-debug\CMakeFiles 0
 .PHONY : CMakeFiles/progetto_colonne.dir/rule

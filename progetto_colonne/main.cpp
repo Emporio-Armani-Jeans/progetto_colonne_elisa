@@ -38,15 +38,27 @@ int main() {
 
     string s1 = "Age", s2 = "Salary", s3 = "Address";
     string s1_1 = "12", s2_1 = "35.6", s3_1 = "Via dei Gigli 33";
+    string s1_2 = "90", s2_2= "69.420", s3_2= "Via Petalosa 77";
 
     //prova per impostare i valori:
     //attraverso la insert salviamo tutto in delle stringhe e con cicli controlli ecc: (cast all'interno della singola colonna per salvare il tipo giusto!)
-    tab1->impostaValore(s1,s1_1);
-    tab1->impostaValore(s2,s2_1);
-    tab1->impostaValore(s3,s3_1);
+    tab1->impostaVal(s1, s1_1);
+    tab1->impostaVal(s2, s2_1);
+    tab1->impostaVal(s3, s3_1);
+    tab1->addRecord();           //da fare ogni volta che si è impostati i campi del nuovo rec
+    tab1->impostaVal(s1, s1_2);
+    tab1->impostaVal(s2, s2_2);
+    tab1->impostaVal(s3, s3_2);
+    tab1->addRecord();
 
-    cout << tab1->getCol(2)->getElement(0) << endl;
-
+    for(int i=0; i<tab1->numRecs(); i++) {
+        if (tab1->recExists(i)) {
+            for (int j = 0; j < tab1->numCampi(); j++) {
+                cout << tab1->getCol(j)->getElement(i) << " ";
+            }
+        }
+        cout << endl;
+    }
 
     return 0;
 }

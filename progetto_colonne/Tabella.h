@@ -22,13 +22,18 @@ public:
     void aggiungiColonna(Colonna *to_be_added);
     void setChiavePrimaria(Colonna *to_be_primary_key);
 
-    void impostaValore(const string &nomecolonna, const string &valore);
+    void addRecord();
+    void impostaVal(const string &nomecolonna, const string &valore);
     Colonna* getCol(int index)const;
+    bool recExists(int index)const;
+    int numCampi()const;
+    int numRecs()const;
 
 private:
     vector<Colonna*> _colonne;
     string _nome_tabella;
     Colonna *_chiave_primaria;
+    vector<bool> _recs;
 };
 
 #endif //PROGETTO_COLONNE_TABELLA_H

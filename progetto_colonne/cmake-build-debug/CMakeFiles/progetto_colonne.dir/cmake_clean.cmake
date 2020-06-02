@@ -1,5 +1,4 @@
 file(REMOVE_RECURSE
-  "CMakeFiles/progetto_colonne.dir/Colonna.cpp.obj"
   "CMakeFiles/progetto_colonne.dir/ColonnaDate.cpp.obj"
   "CMakeFiles/progetto_colonne.dir/ColonnaFloat.cpp.obj"
   "CMakeFiles/progetto_colonne.dir/ColonnaInt.cpp.obj"

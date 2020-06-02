@@ -21,14 +21,31 @@ Tabella::~Tabella() {
     _colonne.clear();
 }
 
-void Tabella::impostaValore(const string &nomecolonna, const string &valore) {
+void Tabella::impostaVal(const string &nomecolonna, const string &valore) {
+    int index;
     for (auto elem : _colonne){
         if ((*elem).getNomeColonna() == nomecolonna) {
-            (*elem).impostaValore(valore);
+            (*elem).setVal(valore);
         }
     }
 }
 
 Colonna *Tabella::getCol(int index) const {
     return _colonne[index];
+}
+
+bool Tabella::recExists(int index) const {
+    return _recs[index];
+}
+
+int Tabella::numCampi() const {
+    return _colonne.size();
+}
+
+int Tabella::numRecs() const {
+    return _recs.size();
+}
+
+void Tabella::addRecord() {
+    _recs.push_back(true);
 }
