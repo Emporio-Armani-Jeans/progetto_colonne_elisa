@@ -28,3 +28,7 @@ void Tabella::impostaValore(const string &nomecolonna, const string &valore) {
         }
     }
 }
+
+Colonna *Tabella::getCol(int index) const {
+    return _colonne[index];
+}

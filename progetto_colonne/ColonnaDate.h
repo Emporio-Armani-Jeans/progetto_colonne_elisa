@@ -18,7 +18,7 @@ public:
     explicit ColonnaDate(const string &nomecolonna, bool notnull = false);
 
     void impostaValore(const string& valore_da_impostare)override;
-    string getElement(int i)override;
+    string getElement(int index)override;
 private:
     vector<Date> _elementi_date;
     bool _not_null;

@@ -11,7 +11,7 @@
 #include "ColonnaText.h"
 #include "ColonnaDate.h"
 
-#include <list>
+#include <vector>
 #include <string>
 using namespace std;
 class Tabella {
@@ -23,9 +23,10 @@ public:
     void setChiavePrimaria(Colonna *to_be_primary_key);
 
     void impostaValore(const string &nomecolonna, const string &valore);
+    Colonna* getCol(int index)const;
 
 private:
-    list<Colonna*> _colonne;
+    vector<Colonna*> _colonne;
     string _nome_tabella;
     Colonna *_chiave_primaria;
 };

@@ -16,7 +16,7 @@ public:
     explicit ColonnaText(const string &nomecolonna, bool notnull = false);
 
     void impostaValore(const string &valore_da_impostare) override;
-    string getElement(int i)override;
+    string getElement(int index)override;
 
 private:
     vector<string> _elementi_di_testo;

@@ -45,6 +45,7 @@ int main() {
     tab1->impostaValore(s2,s2_1);
     tab1->impostaValore(s3,s3_1);
 
+    cout << tab1->getCol(2)->getElement(0) << endl;
 
 
     return 0;
