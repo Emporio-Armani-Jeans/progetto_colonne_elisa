@@ -27,11 +27,13 @@ public:
 
     void addRecord();
     void deleteRecord(const string& nome_col, const string& condizione);
-    void impostaVal(const string &nomecolonna, const string &valore);
-    Colonna* getCol(int index)const;
-    bool recExists(int index)const;
-    int numCampi()const;
-    int numRecs()const;
+    bool recExists(int index) const;
+
+    void impostaValore(const string &nomecolonna, const string &value_to_set);
+    Colonna* getCol(int index) const;
+
+    int numCampi() const;
+    int numRecs() const;
 
 private:
     vector<Colonna*> _colonne;

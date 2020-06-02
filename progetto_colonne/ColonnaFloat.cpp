@@ -9,16 +9,16 @@ ColonnaFloat::ColonnaFloat(const string &nomecolonna, bool notnull) {
     _not_null = notnull;
 }
 
-void ColonnaFloat::setVal(const string &valore_da_impostare) {
-    float value_to_be_added = std::stof(valore_da_impostare);
+void ColonnaFloat::setValore(const string &value_to_set) {
+    float value_to_be_added = std::stof(value_to_set);
     _elementi_float.push_back(value_to_be_added);
 }
 
-string ColonnaFloat::getElement(int i){
+string ColonnaFloat::getElemento(const int &i) const {
     return to_string(_elementi_float[i]);
 }
 
-void ColonnaFloat::deleteVal(int index) {
+void ColonnaFloat::deleteValore(const int &index) {
     auto it=_elementi_float.begin();
     it+=index;
     _elementi_float.erase(it);

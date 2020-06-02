@@ -9,20 +9,20 @@ ColonnaDate::ColonnaDate(const string &nomecolonna, bool notnull){
     _not_null = notnull;
 }
 
-void ColonnaDate::setVal(const string &valore_da_impostare){
+void ColonnaDate::setValore(const string &value_to_set){
     int day, month, year;
-    day=std::stoi(valore_da_impostare.substr(0,2));
-    month=std::stoi(valore_da_impostare.substr(3,2));
-    year=std::stoi(valore_da_impostare.substr(6,4));
+    day=std::stoi(value_to_set.substr(0, 2));
+    month=std::stoi(value_to_set.substr(3, 2));
+    year=std::stoi(value_to_set.substr(6, 4));
     Date data(day,month,year);
     _elementi_date.push_back(data);
 }
 
-string ColonnaDate::getElement(int index){
+string ColonnaDate::getElemento(const int &index) const {
     return _elementi_date[index].str();
 }
 
-void ColonnaDate::deleteVal(int index) {
+void ColonnaDate::deleteValore(const int &index) {
     auto it=_elementi_date.begin();
     it+=index;
     _elementi_date.erase(it);

@@ -14,11 +14,11 @@ class ColonnaText : public Colonna{
 public:
     friend class Tabella;
     explicit ColonnaText(const string &nomecolonna, bool notnull = false);
-  //  ~ColonnaText() override =default;
+    ~ColonnaText() override =default;
 
-    void setVal(const string &valore_da_impostare) override;
-    string getElement(int index)override;
-    void deleteVal(int index)override;
+    void setValore(const string &value_to_set) override;
+    string getElemento(const int &index) const override;
+    void deleteValore(const int &index) override;
 
 private:
     vector<string> _elementi_di_testo;

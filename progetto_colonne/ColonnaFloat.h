@@ -15,11 +15,11 @@ class ColonnaFloat : public Colonna{
 public:
     friend class Tabella;
     explicit ColonnaFloat(const string &nomecolonna, bool notnull = false);
-   // ~ColonnaFloat() override =default;
+    ~ColonnaFloat() override = default;
 
-    void setVal(const string &valore_da_impostare) override;
-    string getElement(int i) override;
-    void deleteVal(int index)override;
+    void setValore(const string &value_to_set) override;
+    string getElemento(const int &i) const override;
+    void deleteValore(const int &index) override;
 private:
     vector <float> _elementi_float;
 };

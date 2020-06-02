@@ -16,11 +16,11 @@ class ColonnaDate : public Colonna{
 public:
     friend class Tabella;
     explicit ColonnaDate(const string &nomecolonna, bool notnull = false);
-   // ~ColonnaDate() override =default;
+    ~ColonnaDate() override = default;
 
-    void setVal(const string& valore_da_impostare)override;
-    void deleteVal(int index)override;
-    string getElement(int index)override;
+    void setValore(const string& value_to_set) override;
+    void deleteValore(const int &index) override;
+    string getElemento(const int &index) const override;
 private:
     vector<Date> _elementi_date;
 };

@@ -9,15 +9,15 @@ ColonnaText::ColonnaText(const string &nomecolonna, bool notnull) {
     _not_null = notnull;
 }
 
-void ColonnaText::setVal(const string &valore_da_impostare) {
-    _elementi_di_testo.push_back(valore_da_impostare);
+void ColonnaText::setValore(const string &value_to_set) {
+    _elementi_di_testo.push_back(value_to_set);
 }
 
-string ColonnaText::getElement(int index){
+string ColonnaText::getElemento(const int &index) const {
     return _elementi_di_testo[index];
 }
 
-void ColonnaText::deleteVal(int index) {
+void ColonnaText::deleteValore(const int &index) {
     auto it=_elementi_di_testo.begin();
     it+=index;
     _elementi_di_testo.erase(it);

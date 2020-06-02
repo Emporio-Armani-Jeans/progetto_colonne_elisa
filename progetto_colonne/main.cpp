@@ -19,12 +19,12 @@ void deleteOggettoTabella(Tabella **ptr){
 
 int main() {
 
-    int autoincrement = 0, a;
+    int autoincrement = 0;
     list<Tabella*> tabelle;
-    vector<int> ciao;
 
     //creazione tabella + aggiunta colonne
     Tabella *tab1 = new Tabella("Customers");
+    //tabelle.push_back(new Tabella("Customers"));
     tabelle.push_back(tab1);
     ColonnaInt *age = new ColonnaInt("Age");
     ColonnaFloat *salary = new ColonnaFloat("Salary");
@@ -43,23 +43,23 @@ int main() {
 
     //prova per impostare i valori:
     //attraverso la insert salviamo tutto in delle stringhe e con cicli controlli ecc: (cast all'interno della singola colonna per salvare il tipo giusto!)
-    tab1->impostaVal(s1, s1_1);
-    tab1->impostaVal(s2, s2_1);
-    tab1->impostaVal(s3, s3_1);
-    tab1->impostaVal(s4, s4_1);
-    tab1->impostaVal(s5, s5_1);
+    tab1->impostaValore(s1, s1_1);
+    tab1->impostaValore(s2, s2_1);
+    tab1->impostaValore(s3, s3_1);
+    tab1->impostaValore(s4, s4_1);
+    tab1->impostaValore(s5, s5_1);
     tab1->addRecord();           //da fare ogni volta che si è impostati i campi del nuovo rec
-    tab1->impostaVal(s1, s1_2);
-    tab1->impostaVal(s2, s2_2);
-    tab1->impostaVal(s3, s3_2);
-    tab1->impostaVal(s4, s4_2);
-    tab1->impostaVal(s5, s5_2);
+    tab1->impostaValore(s1, s1_2);
+    tab1->impostaValore(s2, s2_2);
+    tab1->impostaValore(s3, s3_2);
+    tab1->impostaValore(s4, s4_2);
+    tab1->impostaValore(s5, s5_2);
     tab1->addRecord();
 
     for(int i=0; i<tab1->numRecs(); i++) {
         if (tab1->recExists(i)) {
             for (int j = 0; j < tab1->numCampi(); j++) {
-                cout << tab1->getCol(j)->getElement(i) << " ";
+                cout << tab1->getCol(j)->getElemento(i) << " ";
             }
         }
         cout << endl;
@@ -69,7 +69,7 @@ int main() {
     for(int i=0; i<tab1->numRecs(); i++) {
         if (tab1->recExists(i)) {
             for (int j = 0; j < tab1->numCampi(); j++) {
-                cout << tab1->getCol(j)->getElement(i) << " ";
+                cout << tab1->getCol(j)->getElemento(i) << " ";
             }
         }
         cout << endl;

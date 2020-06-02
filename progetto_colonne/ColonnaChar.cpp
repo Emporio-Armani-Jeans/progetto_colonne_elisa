@@ -9,18 +9,18 @@ ColonnaChar::ColonnaChar(const string &nomecolonna, bool notnull) {
     _not_null = notnull;
 }
 
-void ColonnaChar::setVal(const string &valore_da_impostare) {
-    char value_to_be_added = valore_da_impostare[0];
+void ColonnaChar::setValore(const string &value_to_set) {
+    char value_to_be_added = value_to_set[0];
     _elementi_char.push_back(value_to_be_added);
 }
 
-string ColonnaChar::getElement(int index) {
+string ColonnaChar::getElemento(const int &index) const{
     string str_to_return;
     str_to_return.push_back(_elementi_char[index]);
     return str_to_return;
 }
 
-void ColonnaChar::deleteVal(int index) {
+void ColonnaChar::deleteValore(const int &index) {
     auto it=_elementi_char.begin();
     it+=index;
     _elementi_char.erase(it);

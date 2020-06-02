@@ -20,15 +20,15 @@ void Tabella::setChiavePrimaria(Colonna *to_be_primary_key) {
 Tabella::~Tabella() {
     for(auto & i : _colonne){
         delete i;
-        i= nullptr;
+        i = nullptr;
     }
 }
 
-void Tabella::impostaVal(const string &nomecolonna, const string &valore) {
+void Tabella::impostaValore(const string &nomecolonna, const string &value_to_set) {
     int index;
     for (auto elem : _colonne){
         if ((*elem).getNomeColonna() == nomecolonna) {
-            (*elem).setVal(valore);
+            (*elem).setValore(value_to_set);
         }
     }
 }
@@ -58,20 +58,21 @@ void Tabella::deleteRecord(const string& nome_col, const string &condizione) {
     int i=0, j;
     vector<bool>::iterator it=_recs.begin();
     while(i<_colonne.size() && !trovata){
-        if(nome_col==_colonne[i]->getNomeColonna()) trovata=true;
+        if(nome_col==_colonne[i]->getNomeColonna())
+            trovata = true;
         else i++;
     }
     if(trovata){
         for(j=0; j<_recs.size(); j++){
-            if(_colonne[i]->getElement(j)==condizione) {
+            if(_colonne[i]->getElemento(j) == condizione) {
                 it+=j;
                 _recs.erase(it);
                 for(auto & elem : _colonne){
-                    elem->deleteVal(j);
+                    elem->deleteValore(j);
                 }
             }
         }
-    }else{
+    } else {
         //creare eccezione campo non esistente
     }
 }
