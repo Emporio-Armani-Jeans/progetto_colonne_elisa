@@ -30,16 +30,15 @@ int main() {
     ColonnaFloat *salary = new ColonnaFloat("Salary");
     ColonnaText *address = new ColonnaText("Address");
     ColonnaDate *data = new ColonnaDate("Data_di_nascita");
-    ColonnaTime *ora= new ColonnaTime("Ora_di_nascita");
     tab1->aggiungiColonna(age);
     tab1->aggiungiColonna(salary);
     tab1->aggiungiColonna(address);
     tab1->aggiungiColonna(data);
-    tab1->aggiungiColonna(ora);
 
-    string s1 = "Age", s2 = "Salary", s3 = "Address", s4="Data_di_nascita", s5="Ora_di_nascita";
-    string s1_1 = "12", s2_1 = "35.6", s3_1 = "Via dei Gigli 33", s4_1="17/04/1999", s5_1="00:47:34";
-    string s1_2 = "90", s2_2= "69.420", s3_2= "Via Petalosa 77", s4_2="04/06/1989", s5_2="12:56:59";   //mmm nice
+    string s1 = "Age", s2 = "Salary", s3 = "Address", s4="Data_di_nascita";
+    string s1_1 = "12", s2_1 = "35.6", s3_1 = "Via dei Gigli 33", s4_1="17/04/1999";
+    string s1_2 = "90", s2_2= "69.420", s3_2= "Via Petalosa 77", s4_2="04/06/1989";   //mmm nice
+    string s1_3="12", s2_3="556.95", s3_3="Via Dal Cazzo 666", s4_3="23/07/2002";
 
     //prova per impostare i valori:
     //attraverso la insert salviamo tutto in delle stringhe e con cicli controlli ecc: (cast all'interno della singola colonna per salvare il tipo giusto!)
@@ -47,14 +46,18 @@ int main() {
     tab1->impostaVal(s2, s2_1);
     tab1->impostaVal(s3, s3_1);
     tab1->impostaVal(s4, s4_1);
-    tab1->impostaVal(s5, s5_1);
     tab1->addRecord();           //da fare ogni volta che si è impostati i campi del nuovo rec
     tab1->impostaVal(s1, s1_2);
     tab1->impostaVal(s2, s2_2);
     tab1->impostaVal(s3, s3_2);
     tab1->impostaVal(s4, s4_2);
-    tab1->impostaVal(s5, s5_2);
     tab1->addRecord();
+    tab1->impostaVal(s1, s1_3);
+    tab1->impostaVal(s2, s2_3);
+    tab1->impostaVal(s3, s3_3);
+    tab1->impostaVal(s4, s4_3);
+    tab1->addRecord();
+
 
     for(int i=0; i<tab1->numRecs(); i++) {
         if (tab1->recExists(i)) {
@@ -65,9 +68,11 @@ int main() {
         cout << endl;
     }
 
-
-    for(int i=0; i<tab1->numRecs(); i++) {
-        cout << tab1->returnData()[i] << endl;
+    vector<string> teststampa;
+    teststampa.emplace_back("Age");
+    teststampa.emplace_back("Salary");
+    for(int i=0; i<tab1->returnData(teststampa,"Age", "12").size(); i++) {
+        cout << tab1->returnData(teststampa, "Age", "12")[i] << endl;
     }
 
     deleteOggettoTabella(&tab1);

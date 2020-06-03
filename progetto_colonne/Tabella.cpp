@@ -100,16 +100,64 @@ void Tabella::updateRecord(const string& condizione, const string& nome_col, vec
     }
 }
 
-vector<string> Tabella::returnData() {
+vector<string> Tabella::returnData()const{
     vector<string> righe_testo;
     string riga;
     for(int i=0; i<_recs.size(); i++){
         riga.clear();
-        for(int j=0; j<_colonne.size(); j++){
-            riga+=_colonne[j]->getElement(i);
+        for(auto j : _colonne){
+            riga+=j->getElement(i);
             riga+=" ";
         }
         righe_testo.push_back(riga);
+    }
+    return righe_testo;
+}
+
+vector<string> Tabella::returnData(const vector<string>& campi) const {
+    vector<string> righe_testo;
+    string riga;
+    for(int i=0; i<_recs.size(); i++){
+        riga.clear();
+        for(auto j : _colonne){
+            for(const auto & s : campi){
+                if(j->getNomeColonna()==s) {
+                    riga += j->getElement(i);
+                    riga += " ";
+                }
+            }
+        }
+        righe_testo.push_back(riga);
+    }
+    return righe_testo;
+}
+
+vector<string> Tabella::returnData(const vector<string> &campi, const string& campo_condizione, const string &condizione) {
+    vector<string> righe_testo;
+    string riga;
+    bool trovata=false;
+    int i=0;
+    while(i<_colonne.size() && !trovata){
+        if(campo_condizione==_colonne[i]->getNomeColonna()) trovata=true;
+        else i++;
+    }
+    if(trovata){
+        for(int j=0; j<_recs.size(); j++){
+            if(_colonne[i]->getElement(j)==condizione) {
+                riga.clear();
+                for(auto elem : _colonne){
+                    for(const auto & s : campi){
+                        if(elem->getNomeColonna()==s) {
+                            riga += elem->getElement(j);
+                            riga += " ";
+                        }
+                    }
+                }
+                righe_testo.push_back(riga);
+            }
+        }
+    }else{
+        //eccezione campo non trovato
     }
     return righe_testo;
 }

@@ -33,7 +33,9 @@ public:
     bool recExists(int index)const;
     int numCampi()const;
     int numRecs()const;
-    vector<string> returnData();  //scrivere le altre due versioni con diversi parametri
+    vector<string> returnData()const;  //scrivere le altre due versioni con diversi parametri
+    vector<string> returnData(const vector<string>& campi)const;
+    vector<string> returnData(const vector<string>& campi, const string& campo_condizione, const string& condizione);
 
 private:
     vector<Colonna*> _colonne;
