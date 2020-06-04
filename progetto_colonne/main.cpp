@@ -42,37 +42,31 @@ int main() {
 
     //prova per impostare i valori:
     //attraverso la insert salviamo tutto in delle stringhe e con cicli controlli ecc: (cast all'interno della singola colonna per salvare il tipo giusto!)
-    tab1->impostaVal(s1, s1_1);
-    tab1->impostaVal(s2, s2_1);
-    tab1->impostaVal(s3, s3_1);
-    tab1->impostaVal(s4, s4_1);
-    tab1->addRecord();           //da fare ogni volta che si è impostati i campi del nuovo rec
-    tab1->impostaVal(s1, s1_2);
-    tab1->impostaVal(s2, s2_2);
-    tab1->impostaVal(s3, s3_2);
-    tab1->impostaVal(s4, s4_2);
-    tab1->addRecord();
-    tab1->impostaVal(s1, s1_3);
-    tab1->impostaVal(s2, s2_3);
-    tab1->impostaVal(s3, s3_3);
-    tab1->impostaVal(s4, s4_3);
-    tab1->addRecord();
+    vector<string> v1, v2, v3;
+    v1.push_back(s1);
+    v1.push_back(s2);
+    v1.push_back(s4);
+
+    v2.push_back(s1_1);
+    v2.push_back(s2_1);
+    v2.push_back(s4_1);
+
+    tab1->addRecord(v1, v2);
+
+    v1.push_back(s3);
+
+    v3.push_back(s1_2);
+    v3.push_back(s2_2);
+    v3.push_back(s4_2);
+    v3.push_back(s3_2);
+
+
+    tab1->addRecord(v1, v3);
+
 
 
     for(int i=0; i<tab1->numRecs(); i++) {
-        if (tab1->recExists(i)) {
-            for (int j = 0; j < tab1->numCampi(); j++) {
-                cout << tab1->getCol(j)->getElement(i) << " ";
-            }
-        }
-        cout << endl;
-    }
-
-    vector<string> teststampa;
-    teststampa.emplace_back("Age");
-    teststampa.emplace_back("Salary");
-    for(int i=0; i<tab1->returnData(teststampa,"Age", "12").size(); i++) {
-        cout << tab1->returnData(teststampa, "Age", "12")[i] << endl;
+        cout << tab1->returnData()[i] << endl;
     }
 
     deleteOggettoTabella(&tab1);

@@ -7,6 +7,7 @@
 ColonnaChar::ColonnaChar(const string &nomecolonna, bool notnull) {
     _nome_colonna = nomecolonna;
     _not_null = notnull;
+    _default_value='\0';
 }
 
 void ColonnaChar::addVal(const string &valore_da_impostare) {
@@ -16,7 +17,11 @@ void ColonnaChar::addVal(const string &valore_da_impostare) {
 
 string ColonnaChar::getElement(int index) {
     string str_to_return;
-    str_to_return.push_back(_elementi_char[index]);
+    if(index==-1){
+        str_to_return.push_back(_default_value);
+    }else {
+        str_to_return.push_back(_elementi_char[index]);
+    }
     return str_to_return;
 }
 
@@ -29,4 +34,8 @@ void ColonnaChar::deleteVal(int index) {
 void ColonnaChar::updateVal(const string &val, int index) {   //testare, danger: probabile esplosione durante esecuzione
     char new_val = val[0];
     _elementi_char[new_val];
+}
+
+void ColonnaChar::addDefault() {
+    _elementi_char.push_back(_default_value);
 }

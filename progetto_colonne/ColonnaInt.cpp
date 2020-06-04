@@ -8,6 +8,7 @@ ColonnaInt::ColonnaInt(const string &nomecolonna, bool notnull, bool autoincreme
     _nome_colonna = nomecolonna;
     _not_null = notnull;
     _auto_increment = autoincrement;
+    _default_value=0;
 }
 
 void ColonnaInt::addVal(const string &valore_da_impostare) {
@@ -16,7 +17,8 @@ void ColonnaInt::addVal(const string &valore_da_impostare) {
 }
 
 string ColonnaInt::getElement(int index) {
-    return to_string(_elementi_interi[index]);
+    if(index==-1) return to_string(_default_value);
+    else return to_string(_elementi_interi[index]);
 }
 
 void ColonnaInt::deleteVal(int index){
@@ -28,4 +30,8 @@ void ColonnaInt::deleteVal(int index){
 void ColonnaInt::updateVal(const string& val, int index){
     int new_value = std::stoi(val);
     _elementi_interi[index]=new_value;
+}
+
+void ColonnaInt::addDefault() {
+    _elementi_interi.push_back(_default_value);
 }

@@ -21,8 +21,10 @@ public:
     void updateVal(const string& val, int index)override;
     string getElement(int i) override;
     void deleteVal(int index)override;
+    void addDefault()override;
 private:
     vector <float> _elementi_float;
+    float _default_value;
 };
 
 

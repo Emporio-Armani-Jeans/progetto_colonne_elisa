@@ -17,6 +17,7 @@ public:
     virtual void updateVal(const string& val, int index)=0;
     virtual string getElement(int i)=0;
     virtual void deleteVal(int index)=0;
+    virtual void addDefault()=0;
 protected:
     string _nome_colonna;
     bool _not_null;

@@ -20,9 +20,11 @@ public:
     void updateVal(const string& val, int index)override;
     string getElement(int index)override;
     void deleteVal(int index)override;
+    void addDefault() override;
 
 private:
     vector<string> _elementi_di_testo;
+    string _default_value;
 };
 
 

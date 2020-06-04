@@ -7,6 +7,8 @@
 ColonnaDate::ColonnaDate(const string &nomecolonna, bool notnull){
     _nome_colonna=nomecolonna;
     _not_null = notnull;
+    Date d(0,0,0);
+    _default_value=d;
 }
 
 void ColonnaDate::addVal(const string &valore_da_impostare){
@@ -19,7 +21,8 @@ void ColonnaDate::addVal(const string &valore_da_impostare){
 }
 
 string ColonnaDate::getElement(int index){
-    return _elementi_date[index].str();
+    if(index==-1) return _default_value.str();
+    else return _elementi_date[index].str();
 }
 
 void ColonnaDate::deleteVal(int index) {
@@ -35,4 +38,8 @@ void ColonnaDate::updateVal(const string &val, int index) {
     year=std::stoi(val.substr(6,4));
     Date data(day,month,year);
     _elementi_date[index]=data;
+}
+
+void ColonnaDate::addDefault() {
+    _elementi_date.push_back(_default_value);
 }

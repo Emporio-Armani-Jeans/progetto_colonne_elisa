@@ -8,6 +8,8 @@
 ColonnaTime::ColonnaTime(const string &nomecolonna, bool notnull) {
     _nome_colonna = nomecolonna;
     _not_null = notnull;
+    Time s(0,0,0);
+    _default_value=s;
 }
 
 void ColonnaTime::addVal(const string &valore_da_impostare) {
@@ -20,7 +22,8 @@ void ColonnaTime::addVal(const string &valore_da_impostare) {
 }
 
 string ColonnaTime::getElement(int index) {
-    return _elementi_time[index].str();
+    if(index==-1) return _default_value.str();
+    else return _elementi_time[index].str();
 }
 
 void ColonnaTime::deleteVal(int index) {
@@ -36,4 +39,8 @@ void ColonnaTime::updateVal(const string& val, int index){
     secondi=std::stoi(val.substr(6,2));
     Time time(ora,minuti,secondi);
     _elementi_time[index]=time;
+}
+
+void ColonnaTime::addDefault() {
+    _elementi_time.push_back(_default_value);
 }

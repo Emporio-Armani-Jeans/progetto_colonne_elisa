@@ -49,8 +49,17 @@ int Tabella::numRecs() const {
     return _recs.size();
 }
 
-void Tabella::addRecord() {
+void Tabella::addRecord(const vector<string>& campi, const vector<string>& valori) {
     _recs.push_back(true);
+    for(auto & i : _colonne){
+        i->addDefault();
+    }
+    for(int i=0; i<campi.size(); i++){
+        for(auto & j : _colonne){
+            if(campi[i]==j->getNomeColonna())
+                j->updateVal(valori[i], int(_recs.size()-1));
+        }
+    }
 }
 
 void Tabella::deleteRecord(const string& nome_col, const string &condizione) {
@@ -87,9 +96,9 @@ void Tabella::updateRecord(const string& condizione, const string& nome_col, vec
         for(j=0; j<_recs.size(); j++){
             if(_colonne[i]->getElement(j)==condizione) {
                 for(int y=0; y<campi.size(); y++){
-                    for(int g=0; g<_colonne.size(); g++){
-                        if(campi[y]==_colonne[g]->getNomeColonna()){
-                            _colonne[g]->updateVal(valori[y],j);
+                    for(auto & g : _colonne){
+                        if(campi[y]==g->getNomeColonna()){
+                            g->updateVal(valori[y],j);
                         }
                     }
                 }
@@ -106,8 +115,12 @@ vector<string> Tabella::returnData()const{
     for(int i=0; i<_recs.size(); i++){
         riga.clear();
         for(auto j : _colonne){
-            riga+=j->getElement(i);
-            riga+=" ";
+            if(j->getElement(i)==j->getElement(-1)){
+                riga+="___ ";
+            }else {
+                riga += j->getElement(i);
+                riga += " ";
+            }
         }
         righe_testo.push_back(riga);
     }
@@ -122,8 +135,12 @@ vector<string> Tabella::returnData(const vector<string>& campi) const {
         for(auto j : _colonne){
             for(const auto & s : campi){
                 if(j->getNomeColonna()==s) {
-                    riga += j->getElement(i);
-                    riga += " ";
+                    if(j->getElement(i)==j->getElement(-1)){
+                        riga+="___ ";
+                    }else {
+                        riga += j->getElement(i);
+                        riga += " ";
+                    }
                 }
             }
         }
@@ -148,8 +165,12 @@ vector<string> Tabella::returnData(const vector<string> &campi, const string& ca
                 for(auto elem : _colonne){
                     for(const auto & s : campi){
                         if(elem->getNomeColonna()==s) {
-                            riga += elem->getElement(j);
-                            riga += " ";
+                            if(elem->getElement(i)==elem->getElement(-1)){
+                                riga+="___ ";
+                            }else {
+                                riga += elem->getElement(i);
+                                riga += " ";
+                            }
                         }
                     }
                 }

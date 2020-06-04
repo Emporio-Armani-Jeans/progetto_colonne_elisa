@@ -19,9 +19,11 @@ public:
     void updateVal(const string& val, int index)override;
     string getElement(int index) override;
     void deleteVal(int index)override;
+    void addDefault()override;
 
 private:
     vector <Time> _elementi_time;
+    Time _default_value;
 };
 
 

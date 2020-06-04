@@ -22,8 +22,10 @@ public:
     void updateVal(const string& val, int index)override;
     void deleteVal(int index)override;
     string getElement(int index)override;
+    void addDefault() override;
 private:
     vector<Date> _elementi_date;
+    Date _default_value;
 };
 
 
