@@ -79,3 +79,43 @@ std::istream &operator>>(std::istream &stream, Date d) {
     stream >> d._day >> c >> d._month >> c >> d._year;
     return stream;
 }
+
+bool Date::operator<(const Date &to_compare) const {
+    if(_year==to_compare._year){
+        if(_month==to_compare._month){
+            return _day<to_compare._day;
+        }
+        else return _month<to_compare._month;
+    }
+    else return _year < to_compare._year;
+}
+
+bool Date::operator<=(const Date &to_compare) const {
+    if(_year==to_compare._year){
+        if(_month==to_compare._month){
+            return _day<=to_compare._day;
+        }
+        else return _month<=to_compare._month;
+    }
+    else return _year <= to_compare._year;
+}
+
+bool Date::operator>(const Date &to_compare) const {
+    if(_year==to_compare._year){
+        if(_month==to_compare._month){
+            return _day>to_compare._day;
+        }
+        else return _month>to_compare._month;
+    }
+    else return _year > to_compare._year;
+}
+
+bool Date::operator>=(const Date &to_compare) const {
+    if(_year==to_compare._year){
+        if(_month==to_compare._month){
+            return _day>=to_compare._day;
+        }
+        else return _month>=to_compare._month;
+    }
+    else return _year >= to_compare._year;
+}

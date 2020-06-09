@@ -11,13 +11,14 @@ using namespace std;
 class Colonna {
 public:
     friend class Tabella;
-    ~Colonna()=default;
+    virtual ~Colonna()=default;
     string getNomeColonna() const {return _nome_colonna;}
     virtual void addVal(const string &valore_da_impostare) = 0;
     virtual void updateVal(const string& val, int index)=0;
     virtual string getElement(int i)=0;
     virtual void deleteVal(int index)=0;
     virtual void addDefault()=0;
+    virtual bool compareElements(const string& condizione, int operatore, int index)const=0;
 protected:
     string _nome_colonna;
     bool _not_null;

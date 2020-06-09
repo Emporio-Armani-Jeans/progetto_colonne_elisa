@@ -34,3 +34,22 @@ void ColonnaFloat::updateVal(const string &val, int index) {
 void ColonnaFloat::addDefault() {
     _elementi_float.push_back(_default_value);
 }
+
+bool ColonnaFloat::compareElements(const string& condizione, int operatore, int index)const{
+    float to_compare=std::stof(condizione);
+    switch (operatore){
+        case 0:
+            return _elementi_float[index]==to_compare;
+        case 1:
+            return _elementi_float[index]<to_compare;
+        case 2:
+            return _elementi_float[index]<=to_compare;
+        case 3:
+            return _elementi_float[index]>to_compare;
+        case 4:
+            return _elementi_float[index]>=to_compare;
+        default:
+            //creare eccezione
+            return false;
+    }
+}

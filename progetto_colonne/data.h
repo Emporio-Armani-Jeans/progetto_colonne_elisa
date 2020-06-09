@@ -37,8 +37,12 @@ public:
 	Date operator+(const Date & to_add) const;
 	bool operator==(const Date & to_compare) const;
 	bool operator!=(const Date & to_compare) const;
+	bool operator<(const Date& to_compare)const;
+	bool operator<=(const Date& to_compare)const;
+    bool operator>(const Date& to_compare)const;
+    bool operator>=(const Date& to_compare)const;
 
-	friend std::ostream& operator<< (std::ostream& stream, const Date& d);
+    friend std::ostream& operator<< (std::ostream& stream, const Date& d);
 	friend std::istream& operator>> (std::istream& stream, Date d);
 private:
 	int _year; int _month;

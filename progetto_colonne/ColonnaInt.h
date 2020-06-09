@@ -15,13 +15,14 @@ class ColonnaInt : public Colonna {
 public:
     friend class Tabella;
     explicit ColonnaInt(const string &nomecolonna, bool notnull = false, bool autoincrement = false);
-   // ~ColonnaInt() override =default;
+    ~ColonnaInt()  override =default;
 
     void addVal(const string &valore_da_impostare) override;
     void updateVal(const string& val, int index)override;
     string getElement(int index) override;
     void deleteVal(int index)override;
     void addDefault() override;
+    bool compareElements(const string& condizione, int operatore, int index)const override;
 
 private:
     vector <int> _elementi_interi;

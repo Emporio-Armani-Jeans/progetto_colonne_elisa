@@ -39,3 +39,21 @@ void ColonnaChar::updateVal(const string &val, int index) {   //testare, danger:
 void ColonnaChar::addDefault() {
     _elementi_char.push_back(_default_value);
 }
+
+bool ColonnaChar::compareElements(const string& condizione, int operatore, int index)const{
+    switch (operatore){
+        case 0:
+            return _elementi_char[index]==condizione[0];
+        case 1:
+            return _elementi_char[index]<condizione[0];
+        case 2:
+            return _elementi_char[index]<=condizione[0];
+        case 3:
+            return _elementi_char[index]>condizione[0];
+        case 4:
+            return _elementi_char[index]>=condizione[0];
+        default:
+            return false;
+            //creare eccezione
+    }
+}

@@ -7,6 +7,7 @@
 Tabella::Tabella(const string &nometabella) {
     _nome_tabella = nometabella;
     _chiave_primaria = nullptr;
+    _recs=0;
 }
 
 void Tabella::aggiungiColonna(Colonna *to_be_added) {
@@ -37,55 +38,70 @@ Colonna *Tabella::getCol(int index) const {
     return _colonne[index];
 }
 
-bool Tabella::recExists(int index) const {
-    return _recs[index];
-}
-
 int Tabella::numCampi() const {
     return _colonne.size();
 }
 
 int Tabella::numRecs() const {
-    return _recs.size();
+    return _recs;
 }
 
 void Tabella::addRecord(const vector<string>& campi, const vector<string>& valori) {
-    _recs.push_back(true);
+    _recs++;
     for(auto & i : _colonne){
         i->addDefault();
     }
     for(int i=0; i<campi.size(); i++){
         for(auto & j : _colonne){
             if(campi[i]==j->getNomeColonna())
-                j->updateVal(valori[i], int(_recs.size()-1));
+                j->updateVal(valori[i], int(_recs-1));
         }
     }
 }
 
-void Tabella::deleteRecord(const string& nome_col, const string &condizione) {
+void Tabella::deleteRecord(const string& nome_col, const string &condizione, int operatore) {
     bool trovata=false;
-    int i=0, j;
-    vector<bool>::iterator it=_recs.begin();
+    int i=0, j=0;
     while(i<_colonne.size() && !trovata){
         if(nome_col==_colonne[i]->getNomeColonna()) trovata=true;
         else i++;
     }
     if(trovata){
-        for(j=0; j<_recs.size(); j++){
-            if(_colonne[i]->getElement(j)==condizione) {
-                it+=j;
-                _recs.erase(it);
-                for(auto & elem : _colonne){
+        while(j<_recs){
+            if (_colonne[i]->compareElements(condizione, operatore, j)){
+                _recs--;
+                for (auto &elem : _colonne) {
                     elem->deleteVal(j);
                 }
-            }
+            }else j++;
         }
     }else{
         //creare eccezione campo non esistente
     }
 }
 
-void Tabella::updateRecord(const string& condizione, const string& nome_col, vector<string> campi, vector<string> valori){
+void Tabella::deleteRecord(const string& nome_col, const string& condizione1, const string& condizione2){
+    bool trovata=false;
+    int i=0, j=0;
+    while(i<_colonne.size() && !trovata){
+        if(nome_col==_colonne[i]->getNomeColonna()) trovata=true;
+        else i++;
+    }
+    if(trovata){
+        while(j<_recs){
+            if (_colonne[i]->compareElements(condizione1, 4, j) && _colonne[i]->compareElements(condizione2, 2, j)) {
+                _recs--;
+                for (auto &elem : _colonne) {
+                    elem->deleteVal(j);
+                }
+            }else j++;
+        }
+    }else{
+        //creare eccezione campo non esistente
+    }
+}
+
+void Tabella::updateRecord(const string& condizione, const string& nome_col, const vector<string>& campi, const vector<string>& valori){
     bool trovata=false;
     int i=0, j;
     while(i<_colonne.size() && !trovata){
@@ -93,7 +109,7 @@ void Tabella::updateRecord(const string& condizione, const string& nome_col, vec
         else i++;
     }
     if(trovata){
-        for(j=0; j<_recs.size(); j++){
+        for(j=0; j<_recs; j++){
             if(_colonne[i]->getElement(j)==condizione) {
                 for(int y=0; y<campi.size(); y++){
                     for(auto & g : _colonne){
@@ -111,18 +127,22 @@ void Tabella::updateRecord(const string& condizione, const string& nome_col, vec
 
 vector<string> Tabella::returnData()const{
     vector<string> righe_testo;
-    string riga;
-    for(int i=0; i<_recs.size(); i++){
-        riga.clear();
-        for(auto j : _colonne){
-            if(j->getElement(i)==j->getElement(-1)){
-                riga+="___ ";
-            }else {
-                riga += j->getElement(i);
-                riga += " ";
+    if(_recs!=0) {
+        string riga;
+        for (int i = 0; i < _recs; i++) {
+            riga.clear();
+            for (auto j : _colonne) {
+                if (j->getElement(i) == j->getElement(-1)) {
+                    riga += "___ ";
+                } else {
+                    riga += j->getElement(i);
+                    riga += " ";
+                }
             }
+            righe_testo.push_back(riga);
         }
-        righe_testo.push_back(riga);
+    }else{
+        righe_testo.emplace_back("Tabella vuota");
     }
     return righe_testo;
 }
@@ -130,7 +150,7 @@ vector<string> Tabella::returnData()const{
 vector<string> Tabella::returnData(const vector<string>& campi) const {
     vector<string> righe_testo;
     string riga;
-    for(int i=0; i<_recs.size(); i++){
+    for(int i=0; i<_recs; i++){
         riga.clear();
         for(auto j : _colonne){
             for(const auto & s : campi){
@@ -159,7 +179,7 @@ vector<string> Tabella::returnData(const vector<string> &campi, const string& ca
         else i++;
     }
     if(trovata){
-        for(int j=0; j<_recs.size(); j++){
+        for(int j=0; j<_recs; j++){
             if(_colonne[i]->getElement(j)==condizione) {
                 riga.clear();
                 for(auto elem : _colonne){

@@ -43,3 +43,26 @@ void ColonnaDate::updateVal(const string &val, int index) {
 void ColonnaDate::addDefault() {
     _elementi_date.push_back(_default_value);
 }
+
+bool ColonnaDate::compareElements(const string& condizione, int operatore, int index)const{
+    int day, month, year;
+    day=std::stoi(condizione.substr(0,2));
+    month=std::stoi(condizione.substr(3,2));
+    year=std::stoi(condizione.substr(6,4));
+    Date to_compare(day,month,year);
+    switch (operatore){
+        case 0:
+            return _elementi_date[index]==to_compare;
+        case 1:
+            return _elementi_date[index]<to_compare;
+        case 2:
+            return _elementi_date[index]<=to_compare;
+        case 3:
+            return _elementi_date[index]>to_compare;
+        case 4:
+            return _elementi_date[index]>=to_compare;
+        default:
+            //creare eccezione
+            return false;
+    }
+}

@@ -74,6 +74,46 @@ std::istream &operator>>(std::istream &stream, Time d) {
     return stream;
 }
 
+bool Time::operator<(const Time &to_compare) const {
+    if(_ora==to_compare._ora){
+        if(_minuti==to_compare._minuti){
+            return _secondi<to_compare._secondi;
+        }
+        else return _minuti<to_compare._minuti;
+    }
+    else return _ora < to_compare._ora;
+}
+
+bool Time::operator<=(const Time &to_compare) const {
+    if(_ora==to_compare._ora){
+        if(_minuti==to_compare._minuti){
+            return _secondi<=to_compare._secondi;
+        }
+        else return _minuti<=to_compare._minuti;
+    }
+    else return _ora <= to_compare._ora;
+}
+
+bool Time::operator>(const Time &to_compare) const {
+    if(_ora==to_compare._ora){
+        if(_minuti==to_compare._minuti){
+            return _secondi>to_compare._secondi;
+        }
+        else return _minuti>to_compare._minuti;
+    }
+    else return _ora > to_compare._ora;
+}
+
+bool Time::operator>=(const Time &to_compare) const {
+    if(_ora==to_compare._ora){
+        if(_minuti==to_compare._minuti){
+            return _secondi>=to_compare._secondi;
+        }
+        else return _minuti>=to_compare._minuti;
+    }
+    else return _ora >= to_compare._ora;
+}
+
 
 
 

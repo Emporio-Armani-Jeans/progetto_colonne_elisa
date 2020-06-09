@@ -35,3 +35,22 @@ void ColonnaInt::updateVal(const string& val, int index){
 void ColonnaInt::addDefault() {
     _elementi_interi.push_back(_default_value);
 }
+
+bool ColonnaInt::compareElements(const string& condizione, int operatore, int index)const{
+    int to_compare=std::stoi(condizione);
+    switch (operatore){
+        case 0:
+            return _elementi_interi[index]==to_compare;
+        case 1:
+            return _elementi_interi[index]<to_compare;
+        case 2:
+            return _elementi_interi[index]<=to_compare;
+        case 3:
+            return _elementi_interi[index]>to_compare;
+        case 4:
+            return _elementi_interi[index]>=to_compare;
+        default:
+            //creare eccezione
+            return false;
+    }
+}

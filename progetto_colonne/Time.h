@@ -23,6 +23,10 @@ public:
     Time& operator=(const Time & to_assign);
     bool operator==(const Time & to_compare) const;
     bool operator!=(const Time & to_compare) const;
+    bool operator<(const Time& to_compare)const;
+    bool operator<=(const Time& to_compare)const;
+    bool operator>(const Time& to_compare)const;
+    bool operator>=(const Time& to_compare)const;
 
     std::string str() const;
 

@@ -32,3 +32,21 @@ void ColonnaText::updateVal(const string &val, int index) {
 void ColonnaText::addDefault() {
     _elementi_di_testo.push_back(_default_value);
 }
+
+bool ColonnaText::compareElements(const string& condizione, int operatore, int index)const{
+    switch (operatore){
+        case 0:
+            return _elementi_di_testo[index]==condizione;
+        case 1:
+            return _elementi_di_testo[index]<condizione;
+        case 2:
+            return _elementi_di_testo[index]<=condizione;
+        case 3:
+            return _elementi_di_testo[index]>condizione;
+        case 4:
+            return _elementi_di_testo[index]>=condizione;
+        default:
+            //creare eccezione
+            return false;
+    }
+}

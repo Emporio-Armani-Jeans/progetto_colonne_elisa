@@ -37,12 +37,12 @@ int main() {
 
     string s1 = "Age", s2 = "Salary", s3 = "Address", s4="Data_di_nascita";
     string s1_1 = "12", s2_1 = "35.6", s3_1 = "Via dei Gigli 33", s4_1="17/04/1999";
-    string s1_2 = "90", s2_2= "69.420", s3_2= "Via Petalosa 77", s4_2="04/06/1989";   //mmm nice
-    string s1_3="12", s2_3="556.95", s3_3="Via Dal Cazzo 666", s4_3="23/07/2002";
+    string s1_2 = "120", s2_2= "69.420", s3_2= "Via Petalosa 77", s4_2="04/06/1989";   //mmm nice
+    string s1_3="13", s2_3="556.95", s3_3="Via Dal Cazzo 666", s4_3="23/07/2002";
 
     //prova per impostare i valori:
     //attraverso la insert salviamo tutto in delle stringhe e con cicli controlli ecc: (cast all'interno della singola colonna per salvare il tipo giusto!)
-    vector<string> v1, v2, v3;
+    vector<string> v1, v2, v3, v4;
     v1.push_back(s1);
     v1.push_back(s2);
     v1.push_back(s4);
@@ -59,11 +59,20 @@ int main() {
     v3.push_back(s2_2);
     v3.push_back(s4_2);
     v3.push_back(s3_2);
-
-
     tab1->addRecord(v1, v3);
 
+    v4.push_back(s1_3);
+    v4.push_back(s2_3);
+    v4.push_back(s4_3);
+    v4.push_back(s3_3);
+    tab1->addRecord(v1, v4);
 
+    for(int i=0; i<tab1->numRecs(); i++) {
+        cout << tab1->returnData()[i] << endl;
+    }
+    cout << endl;
+
+    tab1->deleteRecord("Age", "12","15");
 
     for(int i=0; i<tab1->numRecs(); i++) {
         cout << tab1->returnData()[i] << endl;

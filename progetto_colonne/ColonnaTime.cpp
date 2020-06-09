@@ -44,3 +44,26 @@ void ColonnaTime::updateVal(const string& val, int index){
 void ColonnaTime::addDefault() {
     _elementi_time.push_back(_default_value);
 }
+
+bool ColonnaTime::compareElements(const string& condizione, int operatore, int index)const{
+    int ora, minuti, secondi;
+    ora=std::stoi(condizione.substr(0,2));
+    minuti=std::stoi(condizione.substr(3,2));
+    secondi=std::stoi(condizione.substr(6,2));
+    Time to_compare(ora,minuti,secondi);
+    switch (operatore){
+        case 0:
+            return _elementi_time[index]==to_compare;
+        case 1:
+            return _elementi_time[index]<to_compare;
+        case 2:
+            return _elementi_time[index]<=to_compare;
+        case 3:
+            return _elementi_time[index]>to_compare;
+        case 4:
+            return _elementi_time[index]>=to_compare;
+        default:
+            //creare eccezione
+            return false;
+    }
+}

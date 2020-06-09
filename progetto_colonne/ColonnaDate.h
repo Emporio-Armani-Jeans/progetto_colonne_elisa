@@ -16,13 +16,15 @@ class ColonnaDate : public Colonna{
 public:
     friend class Tabella;
     explicit ColonnaDate(const string &nomecolonna, bool notnull = false);
-   // ~ColonnaDate() override =default;
+    ~ColonnaDate()  override =default;
 
     void addVal(const string& valore_da_impostare)override;
     void updateVal(const string& val, int index)override;
     void deleteVal(int index)override;
     string getElement(int index)override;
     void addDefault() override;
+    bool compareElements(const string& condizione, int operatore, int index)const override;
+
 private:
     vector<Date> _elementi_date;
     Date _default_value;
