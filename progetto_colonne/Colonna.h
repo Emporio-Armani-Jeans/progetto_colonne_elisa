@@ -11,13 +11,18 @@ using namespace std;
 class Colonna {
 public:
     friend class Tabella;
-    virtual ~Colonna()=default;
-    string getNomeColonna() const {return _nome_colonna;}
-    virtual void updateVal(const string& val, int index)=0;
-    virtual string getElement(int i)=0;
-    virtual void deleteVal(int index)=0;
-    virtual void addDefault()=0;
-    virtual bool compareElements(const string& condizione, int operatore, int index)const=0;
+    
+    virtual ~Colonna() = default;
+    
+    string getNomeColonna() const { return _nome_colonna; }
+    
+    virtual void updateVal(const string& val, int index) = 0; //aggiorna a <val> il valore dell'elemento di indice <index> di una colonna
+    virtual string getElement(int index) = 0; //ritorna sottoforma di stringa l'elemento di indice <index> di una colonna
+    virtual void deleteVal(int index) = 0; //cancella l'elemento di indice <index> della colonna
+    virtual void addDefault() = 0;
+    virtual bool compareElements(const string& condizione, int operatore, int index) const = 0; /*confronta il valore dell'elemento di indice <index>
+                                                                                                  con <condizione>, secondo l'operatore <operatore>*/
+    
 protected:
     string _nome_colonna;
     bool _not_null;

@@ -15,14 +15,16 @@ using namespace std;
 class ColonnaDate : public Colonna{
 public:
     friend class Tabella;
-    explicit ColonnaDate(const string &nomecolonna, bool notnull = false);
-    ~ColonnaDate()  override =default;
 
-    void updateVal(const string& val, int index)override;
-    void deleteVal(int index)override;
-    string getElement(int index)override;
+    explicit ColonnaDate(const string &nomecolonna, bool notnull = false); //costruttore
+    ~ColonnaDate()  override = default; //distruttore
+
+    /* metodi ereditati */
+    void updateVal(const string& val, int index) override;
+    void deleteVal(int index) override;
+    string getElement(int index) override;
     void addDefault() override;
-    bool compareElements(const string& condizione, int operatore, int index)const override;
+    bool compareElements(const string& condizione, int operatore, int index) const override;
 
 private:
     vector<Date> _elementi_date;

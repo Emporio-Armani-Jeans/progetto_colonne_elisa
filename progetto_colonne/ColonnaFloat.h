@@ -14,14 +14,16 @@ using namespace std;
 class ColonnaFloat : public Colonna{
 public:
     friend class Tabella;
-    explicit ColonnaFloat(const string &nomecolonna, bool notnull = false);
-    ~ColonnaFloat()  override =default;
 
-    void updateVal(const string& val, int index)override;
+    explicit ColonnaFloat(const string &nomecolonna, bool notnull = false); //costruttore
+    ~ColonnaFloat()  override = default; //distruttore
+
+    /* metodi ereditati */
+    void updateVal(const string& val, int index) override;
     string getElement(int i) override;
-    void deleteVal(int index)override;
-    void addDefault()override;
-    bool compareElements(const string& condizione, int operatore, int index)const override;
+    void deleteVal(int index) override;
+    void addDefault() override;
+    bool compareElements(const string& condizione, int operatore, int index) const override;
 
 private:
     vector <float> _elementi_float;

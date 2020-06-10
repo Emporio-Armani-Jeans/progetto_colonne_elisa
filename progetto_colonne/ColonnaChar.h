@@ -11,14 +11,16 @@
 class ColonnaChar : public Colonna {
 public:
     friend class Tabella;
-    explicit ColonnaChar(const string &nomecolonna, bool notnull = false);
-    ~ColonnaChar() override =default;
 
-    void updateVal(const string& val, int index)override;
+    explicit ColonnaChar(const string &nomecolonna, bool notnull = false); //costruttore
+    ~ColonnaChar() override = default; //distruttore
+
+    /* metodi ereditati */
+    void updateVal(const string& val, int index) override;
     string getElement(int index) override;
-    void deleteVal(int index)override;
-    void addDefault()override;
-    bool compareElements(const string& condizione, int operatore, int index)const override;
+    void deleteVal(int index) override;
+    void addDefault() override;
+    bool compareElements(const string& condizione, int operatore, int index) const override;
 
 private:
     vector <char> _elementi_char;

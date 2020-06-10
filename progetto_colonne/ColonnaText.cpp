@@ -7,23 +7,26 @@
 ColonnaText::ColonnaText(const string &nomecolonna, bool notnull) {
     _nome_colonna = nomecolonna;
     _not_null = notnull;
-    _default_value='\0';
-    _primary_key=false;
+    _default_value = '\0';
+    _primary_key = false;
 }
 
 string ColonnaText::getElement(int index){
-    if(index==-1) return _default_value;
-    else return _elementi_di_testo[index];
+    if(index == -1)
+        return _default_value;
+    else
+        return _elementi_di_testo[index];
 }
 
 void ColonnaText::deleteVal(int index) {
-    auto it=_elementi_di_testo.begin();
-    it+=index;
+    auto it = _elementi_di_testo.begin();
+    it += index;
     _elementi_di_testo.erase(it);
 }
 
 void ColonnaText::updateVal(const string &val, int index) {
-    _elementi_di_testo[index]=val;
+    _elementi_di_testo[index] = val;
+    //aggiungere primary key!!!!!!!!!
 }
 
 void ColonnaText::addDefault() {
@@ -33,17 +36,17 @@ void ColonnaText::addDefault() {
 bool ColonnaText::compareElements(const string& condizione, int operatore, int index)const{
     switch (operatore){
         case 0:
-            return _elementi_di_testo[index]==condizione;
+            return (_elementi_di_testo[index] == condizione);
         case 1:
-            return _elementi_di_testo[index]<condizione;
+            return (_elementi_di_testo[index] < condizione);
         case 2:
-            return _elementi_di_testo[index]<=condizione;
+            return (_elementi_di_testo[index] <= condizione);
         case 3:
-            return _elementi_di_testo[index]>condizione;
+            return (_elementi_di_testo[index] > condizione);
         case 4:
-            return _elementi_di_testo[index]>=condizione;
+            return (_elementi_di_testo[index] >= condizione);
         default:
-            //creare eccezione
+            //creare eccezione e togliere return false
             return false;
     }
 }

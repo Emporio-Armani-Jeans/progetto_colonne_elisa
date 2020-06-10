@@ -13,14 +13,16 @@ using namespace std;
 class ColonnaText : public Colonna{
 public:
     friend class Tabella;
-    explicit ColonnaText(const string &nomecolonna, bool notnull = false);
-    ~ColonnaText()  override =default;
 
-    void updateVal(const string& val, int index)override;
-    string getElement(int index)override;
-    void deleteVal(int index)override;
+    explicit ColonnaText(const string &nomecolonna, bool notnull = false); //costruttore
+    ~ColonnaText()  override = default; //distruttore
+
+    /* metodi ereditati */
+    void updateVal(const string& val, int index) override;
+    string getElement(int index) override;
+    void deleteVal(int index) override;
     void addDefault() override;
-    bool compareElements(const string& condizione, int operatore, int index)const override;
+    bool compareElements(const string& condizione, int operatore, int index) const override;
 
 private:
     vector<string> _elementi_di_testo;
