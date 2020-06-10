@@ -12,15 +12,6 @@ ColonnaTime::ColonnaTime(const string &nomecolonna, bool notnull) {
     _default_value=s;
 }
 
-void ColonnaTime::addVal(const string &valore_da_impostare) {
-    int ora, minuti, secondi;
-    ora=std::stoi(valore_da_impostare.substr(0,2));
-    minuti=std::stoi(valore_da_impostare.substr(3,2));
-    secondi=std::stoi(valore_da_impostare.substr(6,2));
-    Time time(ora,minuti,secondi);
-    _elementi_time.push_back(time);
-}
-
 string ColonnaTime::getElement(int index) {
     if(index==-1) return _default_value.str();
     else return _elementi_time[index].str();

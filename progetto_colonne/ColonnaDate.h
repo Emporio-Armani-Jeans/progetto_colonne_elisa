@@ -18,7 +18,6 @@ public:
     explicit ColonnaDate(const string &nomecolonna, bool notnull = false);
     ~ColonnaDate()  override =default;
 
-    void addVal(const string& valore_da_impostare)override;
     void updateVal(const string& val, int index)override;
     void deleteVal(int index)override;
     string getElement(int index)override;

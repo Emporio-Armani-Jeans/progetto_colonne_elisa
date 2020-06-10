@@ -9,12 +9,12 @@ ColonnaChar::ColonnaChar(const string &nomecolonna, bool notnull) {
     _not_null = notnull;
     _default_value='\0';
 }
-
+/*
 void ColonnaChar::addVal(const string &valore_da_impostare) {
     char value_to_be_added = valore_da_impostare[0];
     _elementi_char.push_back(value_to_be_added);
 }
-
+*/
 string ColonnaChar::getElement(int index) {
     string str_to_return;
     if(index==-1){

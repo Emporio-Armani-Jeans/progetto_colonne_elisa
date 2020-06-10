@@ -6,7 +6,6 @@
 
 Tabella::Tabella(const string &nometabella) {
     _nome_tabella = nometabella;
-    _chiave_primaria = nullptr;
     _recs=0;
 }
 
@@ -15,22 +14,13 @@ void Tabella::aggiungiColonna(Colonna *to_be_added) {
 }
 
 void Tabella::setChiavePrimaria(Colonna *to_be_primary_key) {
-    _chiave_primaria = to_be_primary_key;
+    to_be_primary_key->_primary_key=true;        //verificare che non ci siano più colonne primary key
 }
 
 Tabella::~Tabella() {
     for(auto & i : _colonne){
         delete i;
         i= nullptr;
-    }
-}
-
-void Tabella::impostaVal(const string &nomecolonna, const string &valore) {
-    int index;
-    for (auto elem : _colonne){
-        if ((*elem).getNomeColonna() == nomecolonna) {
-            (*elem).addVal(valore);
-        }
     }
 }
 
@@ -101,7 +91,7 @@ void Tabella::deleteRecord(const string& nome_col, const string& condizione1, co
     }
 }
 
-void Tabella::updateRecord(const string& condizione, const string& nome_col, const vector<string>& campi, const vector<string>& valori){
+void Tabella::updateRecord(const string& condizione, const string& nome_col, const vector<string>& campi, const vector<string>& valori, int operatore){
     bool trovata=false;
     int i=0, j;
     while(i<_colonne.size() && !trovata){
@@ -110,7 +100,31 @@ void Tabella::updateRecord(const string& condizione, const string& nome_col, con
     }
     if(trovata){
         for(j=0; j<_recs; j++){
-            if(_colonne[i]->getElement(j)==condizione) {
+            if(_colonne[i]->compareElements(condizione, operatore, j)) {
+                for(int y=0; y<campi.size(); y++){
+                    for(auto & g : _colonne){
+                        if(campi[y]==g->getNomeColonna()){
+                            g->updateVal(valori[y],j);
+                        }
+                    }
+                }
+            }
+        }
+    }else{
+        //creare eccezione campo non esistente
+    }
+}
+
+void Tabella::updateRecord(const string& condizione1, const string& condizione2, const string& nome_col, const vector<string>& campi, const vector<string>& valori){
+    bool trovata=false;
+    int i=0, j;
+    while(i<_colonne.size() && !trovata){
+        if(nome_col==_colonne[i]->getNomeColonna()) trovata=true;
+        else i++;
+    }
+    if(trovata){
+        for(j=0; j<_recs; j++){
+            if(_colonne[i]->compareElements(condizione1, 4, j) && _colonne[i]->compareElements(condizione2, 2, j)) {
                 for(int y=0; y<campi.size(); y++){
                     for(auto & g : _colonne){
                         if(campi[y]==g->getNomeColonna()){
@@ -169,8 +183,9 @@ vector<string> Tabella::returnData(const vector<string>& campi) const {
     return righe_testo;
 }
 
-vector<string> Tabella::returnData(const vector<string> &campi, const string& campo_condizione, const string &condizione) {
+vector<string> Tabella::returnData(const vector<string> &campi, const string& campo_condizione, const string &condizione, int operatore) {
     vector<string> righe_testo;
+    righe_testo.clear();
     string riga;
     bool trovata=false;
     int i=0;
@@ -180,15 +195,50 @@ vector<string> Tabella::returnData(const vector<string> &campi, const string& ca
     }
     if(trovata){
         for(int j=0; j<_recs; j++){
-            if(_colonne[i]->getElement(j)==condizione) {
+            if(_colonne[i]->compareElements(condizione, operatore, j)) {
                 riga.clear();
                 for(auto elem : _colonne){
                     for(const auto & s : campi){
                         if(elem->getNomeColonna()==s) {
-                            if(elem->getElement(i)==elem->getElement(-1)){
+                            if(elem->getElement(j)==elem->getElement(-1)){
                                 riga+="___ ";
                             }else {
-                                riga += elem->getElement(i);
+                                riga += elem->getElement(j);
+                                riga += " ";
+                            }
+                        }
+                    }
+                }
+                righe_testo.push_back(riga);
+            }
+        }
+    }else{
+        //eccezione campo non trovato
+    }
+    return righe_testo;
+}
+
+vector<string> Tabella::returnData(const vector<string> &campi, const string& campo_condizione, const string &condizione1, const string& condizione2) {
+    vector<string> righe_testo;
+    righe_testo.clear();
+    string riga;
+    bool trovata=false;
+    int i=0;
+    while(i<_colonne.size() && !trovata){
+        if(campo_condizione==_colonne[i]->getNomeColonna()) trovata=true;
+        else i++;
+    }
+    if(trovata){
+        for(int j=0; j<_recs; j++){
+            if(_colonne[i]->compareElements(condizione1, 4, j) && _colonne[i]->compareElements(condizione2, 2, j)) {
+                riga.clear();
+                for(auto elem : _colonne){
+                    for(const auto & s : campi){
+                        if(elem->getNomeColonna()==s) {
+                            if(elem->getElement(j)==elem->getElement(-1)){
+                                riga+="___ ";
+                            }else {
+                                riga += elem->getElement(j);
                                 riga += " ";
                             }
                         }

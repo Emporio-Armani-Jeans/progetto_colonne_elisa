@@ -4,16 +4,12 @@
 
 #include "ColonnaInt.h"
 
-ColonnaInt::ColonnaInt(const string &nomecolonna, bool notnull, bool autoincrement) {
+ColonnaInt::ColonnaInt(const string &nomecolonna, bool notnull, bool autoincrement, int* increment_value) {
     _nome_colonna = nomecolonna;
     _not_null = notnull;
     _auto_increment = autoincrement;
     _default_value=0;
-}
-
-void ColonnaInt::addVal(const string &valore_da_impostare) {
-    int value_to_be_added = std::stoi(valore_da_impostare);
-    _elementi_interi.push_back(value_to_be_added);
+    _increment_value=increment_value;
 }
 
 string ColonnaInt::getElement(int index) {
@@ -28,12 +24,19 @@ void ColonnaInt::deleteVal(int index){
 }
 
 void ColonnaInt::updateVal(const string& val, int index){
-    int new_value = std::stoi(val);
-    _elementi_interi[index]=new_value;
+    if(!_auto_increment) {
+        int new_value = std::stoi(val);
+        _elementi_interi[index] = new_value;
+    }
 }
 
 void ColonnaInt::addDefault() {
-    _elementi_interi.push_back(_default_value);
+    if(!_auto_increment) {
+        _elementi_interi.push_back(_default_value);
+    }else{
+        _elementi_interi.push_back((*_increment_value)+1);
+        (*_increment_value)++;
+    }
 }
 
 bool ColonnaInt::compareElements(const string& condizione, int operatore, int index)const{

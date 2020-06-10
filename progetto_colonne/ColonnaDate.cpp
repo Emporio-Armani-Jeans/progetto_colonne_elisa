@@ -11,15 +11,6 @@ ColonnaDate::ColonnaDate(const string &nomecolonna, bool notnull){
     _default_value=d;
 }
 
-void ColonnaDate::addVal(const string &valore_da_impostare){
-    int day, month, year;
-    day=std::stoi(valore_da_impostare.substr(0,2));
-    month=std::stoi(valore_da_impostare.substr(3,2));
-    year=std::stoi(valore_da_impostare.substr(6,4));
-    Date data(day,month,year);
-    _elementi_date.push_back(data);
-}
-
 string ColonnaDate::getElement(int index){
     if(index==-1) return _default_value.str();
     else return _elementi_date[index].str();

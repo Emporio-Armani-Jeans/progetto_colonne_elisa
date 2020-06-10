@@ -23,25 +23,25 @@ public:
     ~Tabella();
 
     void aggiungiColonna(Colonna *to_be_added);
-    void setChiavePrimaria(Colonna *to_be_primary_key);
+    static void setChiavePrimaria(Colonna *to_be_primary_key);
 
     void addRecord(const vector<string>& campi, const vector<string>& valori);
     void deleteRecord(const string& nome_col, const string& condizione, int operatore=0);
     void deleteRecord(const string& nome_col, const string& condizione1, const string& condizione2);  //between operator
-    void updateRecord(const string& condizione, const string& nome_col, const vector<string>& campi, const vector<string>& valori);
+    void updateRecord(const string& condizione, const string& nome_col, const vector<string>& campi, const vector<string>& valori, int operatore=0);
+    void updateRecord(const string& condizione1, const string& condizione2, const string& nome_col, const vector<string>& campi, const vector<string>& valori);
     Colonna* getCol(int index)const;
     int numCampi()const;
     int numRecs()const;
     vector<string> returnData()const;
     vector<string> returnData(const vector<string>& campi)const;
-    vector<string> returnData(const vector<string>& campi, const string& campo_condizione, const string& condizione);
+    vector<string> returnData(const vector<string>& campi, const string& campo_condizione, const string& condizione, int operatore=0);
+    vector<string> returnData(const vector<string>& campi, const string& campo_condizione, const string& condizione1, const string& condizione2);
 
 private:
     vector<Colonna*> _colonne;
     string _nome_tabella;
-    Colonna *_chiave_primaria;
     int _recs;
-    void impostaVal(const string &nomecolonna, const string &valore);
 };
 
 

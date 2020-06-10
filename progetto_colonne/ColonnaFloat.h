@@ -17,7 +17,6 @@ public:
     explicit ColonnaFloat(const string &nomecolonna, bool notnull = false);
     ~ColonnaFloat()  override =default;
 
-    void addVal(const string &valore_da_impostare) override;
     void updateVal(const string& val, int index)override;
     string getElement(int i) override;
     void deleteVal(int index)override;

@@ -10,11 +10,6 @@ ColonnaFloat::ColonnaFloat(const string &nomecolonna, bool notnull) {
     _default_value=0.0;
 }
 
-void ColonnaFloat::addVal(const string &valore_da_impostare) {
-    float value_to_be_added = std::stof(valore_da_impostare);
-    _elementi_float.push_back(value_to_be_added);
-}
-
 string ColonnaFloat::getElement(int index){
     if(index==-1) return to_string(_default_value);
     return to_string(_elementi_float[index]);

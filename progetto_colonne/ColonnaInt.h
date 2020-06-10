@@ -14,10 +14,9 @@ using namespace std;
 class ColonnaInt : public Colonna {
 public:
     friend class Tabella;
-    explicit ColonnaInt(const string &nomecolonna, bool notnull = false, bool autoincrement = false);
+    explicit ColonnaInt(const string &nomecolonna, bool notnull = false, bool autoincrement = false, int* increment_value= nullptr);
     ~ColonnaInt()  override =default;
 
-    void addVal(const string &valore_da_impostare) override;
     void updateVal(const string& val, int index)override;
     string getElement(int index) override;
     void deleteVal(int index)override;
@@ -27,6 +26,7 @@ public:
 private:
     vector <int> _elementi_interi;
     bool _auto_increment;
+    int *_increment_value;
     int _default_value;
 };
 
