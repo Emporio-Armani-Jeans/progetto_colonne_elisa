@@ -23,7 +23,7 @@ public:
     ~Tabella();
 
     void aggiungiColonna(Colonna *to_be_added);
-    static void setChiavePrimaria(Colonna *to_be_primary_key);
+    void setChiavePrimaria(const string& nomecolonna);
 
     void addRecord(const vector<string>& campi, const vector<string>& valori);
     void deleteRecord(const string& nome_col, const string& condizione, int operatore=0);

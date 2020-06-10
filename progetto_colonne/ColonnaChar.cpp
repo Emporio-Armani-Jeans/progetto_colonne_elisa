@@ -8,6 +8,7 @@ ColonnaChar::ColonnaChar(const string &nomecolonna, bool notnull) {
     _nome_colonna = nomecolonna;
     _not_null = notnull;
     _default_value='\0';
+    _primary_key=false;
 }
 /*
 void ColonnaChar::addVal(const string &valore_da_impostare) {

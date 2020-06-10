@@ -8,6 +8,7 @@ ColonnaFloat::ColonnaFloat(const string &nomecolonna, bool notnull) {
     _nome_colonna = nomecolonna;
     _not_null = notnull;
     _default_value=0.0;
+    _primary_key=false;
 }
 
 string ColonnaFloat::getElement(int index){

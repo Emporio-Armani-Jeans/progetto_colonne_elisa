@@ -13,8 +13,22 @@ void Tabella::aggiungiColonna(Colonna *to_be_added) {
     _colonne.push_back(to_be_added);
 }
 
-void Tabella::setChiavePrimaria(Colonna *to_be_primary_key) {
-    to_be_primary_key->_primary_key=true;        //verificare che non ci siano più colonne primary key
+void Tabella::setChiavePrimaria(const string& nomecolonna) {
+    bool trovata=false, flag=false;
+    for(auto & i : _colonne) {     //verificare che non ci siano più colonne primary key
+        if(i->_primary_key) trovata=true;
+    }
+    if(!trovata){
+        for(int j=0; j<_colonne.size() && !flag; j++){
+            if(_colonne[j]->getNomeColonna()==nomecolonna){
+                _colonne[j]->_primary_key=true;
+                _colonne[j]->_not_null=true;
+                flag=true;
+            }
+        }
+    }else{
+        //eccezione
+    }
 }
 
 Tabella::~Tabella() {
@@ -37,15 +51,29 @@ int Tabella::numRecs() const {
 }
 
 void Tabella::addRecord(const vector<string>& campi, const vector<string>& valori) {
-    _recs++;
-    for(auto & i : _colonne){
-        i->addDefault();
-    }
-    for(int i=0; i<campi.size(); i++){
-        for(auto & j : _colonne){
-            if(campi[i]==j->getNomeColonna())
-                j->updateVal(valori[i], int(_recs-1));
+    bool flag=false, flag2=false;
+    for(int i=0; i<_colonne.size() && !flag; i++){
+        flag2=false;
+        if(_colonne[i]->_not_null){
+            for(int j=0; j<campi.size() && !flag2; j++){
+                if(_colonne[i]->getNomeColonna()==campi[j]) flag2=true;
+            }
+            if(!flag2) flag=true;
         }
+    }
+    if(!flag) {
+        _recs++;
+        for (auto &i : _colonne) {
+            i->addDefault();
+        }
+        for (int i = 0; i < campi.size(); i++) {
+            for (auto &j : _colonne) {
+                if (campi[i] == j->getNomeColonna())
+                    j->updateVal(valori[i], int(_recs - 1));
+            }
+        }
+    }else{
+        //eccezione campo non trovato
     }
 }
 

@@ -25,7 +25,7 @@ int main() {
     Tabella *tab1 = new Tabella("Customers");
     tabelle.push_back(tab1);
     ColonnaInt *age = new ColonnaInt("Age");
-    ColonnaInt *id=new ColonnaInt("Id", true, true, &increment);
+    ColonnaInt *id=new ColonnaInt("Id", true);
     ColonnaFloat *salary = new ColonnaFloat("Salary");
     ColonnaText *address = new ColonnaText("Address");
     ColonnaDate *data = new ColonnaDate("Data_di_nascita");
@@ -34,11 +34,12 @@ int main() {
     tab1->aggiungiColonna(address);
     tab1->aggiungiColonna(data);
     tab1->aggiungiColonna(id);
+    tab1->setChiavePrimaria("Id");
 
     string s1 = "Age", s2 = "Salary", s3 = "Address", s4="Data_di_nascita", s5="Id";
-    string s1_1 = "12", s2_1 = "35.6", s3_1 = "Via dei Gigli 33", s4_1="17/04/1999";
-    string s1_2 = "90", s2_2= "69.420", s3_2= "Via Petalosa 77", s4_2="04/06/1989";   //mmm nice
-    string s1_3="13", s2_3="556.95", s3_3="Via Dal Cazzo 666", s4_3="23/07/2002";
+    string s1_1 = "12", s2_1 = "35.6", s3_1 = "Via dei Gigli 33", s4_1="17/04/1999", s5_1="2";
+    string s1_2 = "90", s2_2= "69.420", s3_2= "Via Petalosa 77", s4_2="04/06/1989", s5_2="2";
+    string s1_3="13", s2_3="556.95", s3_3="Via Dal Cazzo 666", s4_3="23/07/2002", s5_3="2";
 
     //prova per impostare i valori:
     //attraverso la insert salviamo tutto in delle stringhe e con cicli controlli ecc: (cast all'interno della singola colonna per salvare il tipo giusto!)
@@ -47,10 +48,12 @@ int main() {
     v1.push_back(s1);
     v1.push_back(s2);
     v1.push_back(s4);
+    v1.push_back(s5);
 
     v2.push_back(s1_1);
     v2.push_back(s2_1);
     v2.push_back(s4_1);
+    v2.push_back(s5_1);
 
     tab1->addRecord(v1, v2);
 
@@ -59,12 +62,14 @@ int main() {
     v3.push_back(s1_2);
     v3.push_back(s2_2);
     v3.push_back(s4_2);
+    v3.push_back(s5_2);
     v3.push_back(s3_2);
     tab1->addRecord(v1, v3);
 
     v4.push_back(s1_3);
     v4.push_back(s2_3);
     v4.push_back(s4_3);
+    v4.push_back(s5_3);
     v4.push_back(s3_3);
     tab1->addRecord(v1, v4);
 
@@ -72,17 +77,6 @@ int main() {
         cout << tab1->returnData()[i] << endl;
     }
     cout << endl;
-
-    vector<string> nomi,valori;
-    nomi.push_back(s1);
-    nomi.push_back(s3);
-    valori.emplace_back("45");
-    valori.emplace_back("Viabilità");
-
-
-    for(int i=0; i<tab1->returnData(nomi, "Age", "13", "20").size(); i++){
-        cout << tab1->returnData(nomi, "Age", "13", "20")[i] << endl;
-    }
 
     deleteOggettoTabella(&tab1);
     //rimozione tabella:

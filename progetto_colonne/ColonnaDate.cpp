@@ -9,6 +9,7 @@ ColonnaDate::ColonnaDate(const string &nomecolonna, bool notnull){
     _not_null = notnull;
     Date d(0,0,0);
     _default_value=d;
+    _primary_key=false;
 }
 
 string ColonnaDate::getElement(int index){

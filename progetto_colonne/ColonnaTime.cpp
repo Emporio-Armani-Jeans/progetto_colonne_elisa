@@ -10,6 +10,7 @@ ColonnaTime::ColonnaTime(const string &nomecolonna, bool notnull) {
     _not_null = notnull;
     Time s(0,0,0);
     _default_value=s;
+    _primary_key=false;
 }
 
 string ColonnaTime::getElement(int index) {
