@@ -39,15 +39,18 @@ public:
     int numCampi()const;
     int numRecs()const;
 
-    vector<string> returnData()const;
-    vector<string> returnData(const vector<string>& campi)const;
-    vector<string> returnData(const vector<string>& campi, const string& campo_condizione, const string& condizione, int operatore=0);
-    vector<string> returnData(const vector<string>& campi, const string& campo_condizione, const string& condizione1, const string& condizione2);
+    vector<string> returnData(const string& campo_ordinamento=string(), int operatore_ordinamento=0)const;
+    vector<string> returnData(const vector<string>& campi, const string& campo_ordinamento=string(), int operatore_ordinamento=0)const;
+    vector<string> returnData(const vector<string>& campi, const string& campo_condizione, const string& condizione,
+            int operatore=0, const string& campo_ordinamento=string(), int operatore_ordinamento=0)const;
+    vector<string> returnData(const vector<string>& campi, const string& campo_condizione, const string& condizione1,
+            const string& condizione2, const string& campo_ordinamento=string(), int operatore_ordinamento=0)const;
 
 private:
     vector<Colonna*> _colonne;
     string _nome_tabella;
     int _recs;
+    vector<int> ordinamento(const string& campo, int operatore)const;
 };
 
 

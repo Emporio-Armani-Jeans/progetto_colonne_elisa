@@ -25,8 +25,21 @@ void ColonnaText::deleteVal(int index) {
 }
 
 void ColonnaText::updateVal(const string &val, int index) {
-    _elementi_di_testo[index] = val;
-    //aggiungere primary key!!!!!!!!!
+    if (!_primary_key) {
+        _elementi_di_testo[index] = val;
+    }
+    else { //se la colonna è una chiave primaria, controllo che il valore che si sta cercando di aggiornare non sia già presente in un altro record
+        bool flag_duplicate_found = false;
+        for (int i = 0; i < _elementi_di_testo.size() && !flag_duplicate_found; i++) {
+            if(_elementi_di_testo[i] == val)
+                flag_duplicate_found = true;
+        }
+        if(flag_duplicate_found) {
+            //eccezione doppione per primary key
+        }
+        else //se non ci sono valori uguali presenti, l'aggiornamento è permesso
+            _elementi_di_testo[index] = val;
+    }
 }
 
 void ColonnaText::addDefault() {

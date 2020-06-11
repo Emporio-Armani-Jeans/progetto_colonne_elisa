@@ -32,7 +32,21 @@ void ColonnaTime::updateVal(const string& val, int index){
     minuti = std::stoi(val.substr(3,2));
     secondi = std::stoi(val.substr(6,2));
     Time time(ora,minuti,secondi);
-    _elementi_time[index] = time;
+    if (!_primary_key) {
+        _elementi_time[index] = time;
+    }
+    else { //se la colonna è una chiave primaria, controllo che il valore che si sta cercando di aggiornare non sia già presente in un altro record
+        bool flag_duplicate_found = false;
+        for (int i = 0; i < _elementi_time.size() && !flag_duplicate_found; i++) {
+            if( _elementi_time[i] == time)
+                flag_duplicate_found = true;
+        }
+        if(flag_duplicate_found) {
+            //eccezione doppione per primary key
+        }
+        else //se non ci sono valori uguali presenti, l'aggiornamento è permesso
+            _elementi_time[index] = time;
+    }
 }
 
 void ColonnaTime::addDefault() {

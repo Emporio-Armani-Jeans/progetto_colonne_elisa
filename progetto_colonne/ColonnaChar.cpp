@@ -32,9 +32,23 @@ void ColonnaChar::deleteVal(int index) {
     _elementi_char.erase(it);
 }
 
-void ColonnaChar::updateVal(const string &val, int index) {   //testare, danger: probabile esplosione durante esecuzione
-    char new_val = val[0];
-    _elementi_char[new_val];
+void ColonnaChar::updateVal(const string &val, int index) {
+    char new_value = val[0];
+    if (!_primary_key) {
+        _elementi_char[index] = new_value;
+    }
+    else { //se la colonna è una chiave primaria, controllo che il valore che si sta cercando di aggiornare non sia già presente in un altro record
+        bool flag_duplicate_found = false;
+        for (int i = 0; i < _elementi_char.size() && !flag_duplicate_found; i++) {
+            if(_elementi_char[i] == new_value)
+                flag_duplicate_found = true;
+        }
+        if(flag_duplicate_found) {
+            //eccezione doppione per primary key
+        }
+        else //se non ci sono valori uguali presenti, l'aggiornamento è permesso
+            _elementi_char[index] = new_value;
+    }
 }
 
 void ColonnaChar::addDefault() {

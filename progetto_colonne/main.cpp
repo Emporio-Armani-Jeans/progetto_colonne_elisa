@@ -25,7 +25,7 @@ int main() {
     Tabella *tab1 = new Tabella("Customers");
     tabelle.push_back(tab1);
     ColonnaInt *age = new ColonnaInt("Age");
-    ColonnaInt *id=new ColonnaInt("Id", true);
+    ColonnaInt *id=new ColonnaInt("Id", false, true, &increment);
     ColonnaFloat *salary = new ColonnaFloat("Salary");
     ColonnaText *address = new ColonnaText("Address");
     ColonnaDate *data = new ColonnaDate("Data_di_nascita");
@@ -38,8 +38,8 @@ int main() {
 
     string s1 = "Age", s2 = "Salary", s3 = "Address", s4="Data_di_nascita", s5="Id";
     string s1_1 = "12", s2_1 = "35.6", s3_1 = "Via dei Gigli 33", s4_1="17/04/1999", s5_1="2";
-    string s1_2 = "90", s2_2= "69.420", s3_2= "Via Petalosa 77", s4_2="04/06/1989", s5_2="2";
-    string s1_3="13", s2_3="556.95", s3_3="Via Dal Cazzo 666", s4_3="23/07/2002", s5_3="2";
+    string s1_2 = "9", s2_2= "69.420", s3_2= "Via Petalosa 77", s4_2="04/06/1989", s5_2="2";
+    string s1_3="8", s2_3="556.95", s3_3="Via Dal Cazzo 666", s4_3="23/07/2002", s5_3="2";
 
     //prova per impostare i valori:
     //attraverso la insert salviamo tutto in delle stringhe e con cicli controlli ecc: (cast all'interno della singola colonna per salvare il tipo giusto!)
@@ -75,6 +75,17 @@ int main() {
 
     for(int i=0; i<tab1->numRecs(); i++) {
         cout << tab1->returnData()[i] << endl;
+    }
+    cout << endl;
+
+    //const vector<string>& campi, const string& campo_condizione, const string& condizione1,
+    //            const string& condizione2, const string& campo_ordinamento=string(), int operatore_ordinamento=0)
+    vector<string> campi;
+    campi.emplace_back("Age");
+    campi.emplace_back("Address");
+
+    for(int j=0; j<tab1->returnData(campi, "Age", "5", 4, "Age", 4).size(); j++){
+        cout << tab1->returnData(campi, "Age", "5", 4, "Age", 4)[j] << endl;
     }
     cout << endl;
 

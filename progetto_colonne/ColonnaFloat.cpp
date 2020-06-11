@@ -23,9 +23,22 @@ void ColonnaFloat::deleteVal(int index) {
 }
 
 void ColonnaFloat::updateVal(const string &val, int index) {
-    float new_val = std::stof(val);
-    _elementi_float[index] = new_val;
-    //aggiungere primary keyyyyyy
+    float new_value = std::stof(val);
+    if (!_primary_key) {
+        _elementi_float[index] = new_value;
+    }
+    else { //se la colonna è una chiave primaria, controllo che il valore che si sta cercando di aggiornare non sia già presente in un altro record
+        bool flag_duplicate_found = false;
+        for (int i = 0; i < _elementi_float.size() && !flag_duplicate_found; i++) {
+            if(_elementi_float[i] == new_value)
+                flag_duplicate_found = true;
+        }
+        if(flag_duplicate_found) {
+            //eccezione doppione per primary key
+        }
+        else //se non ci sono valori uguali presenti, l'aggiornamento è permesso
+            _elementi_float[index] = new_value;
+    }
 }
 
 void ColonnaFloat::addDefault() {

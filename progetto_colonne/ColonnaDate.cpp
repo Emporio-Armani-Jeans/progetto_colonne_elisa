@@ -31,8 +31,21 @@ void ColonnaDate::updateVal(const string &val, int index) {
     month = std::stoi(val.substr(3,2));
     year = std::stoi(val.substr(6,4));
     Date data(day,month,year);
-    _elementi_date[index] = data;
-    //copiare e incollare cosa primary keyyyyy
+    if (!_primary_key) {
+        _elementi_date[index] = data;
+    }
+    else { //se la colonna è una chiave primaria, controllo che il valore che si sta cercando di aggiornare non sia già presente in un altro record
+        bool flag_duplicate_found = false;
+        for (int i = 0; i < _elementi_date.size() && !flag_duplicate_found; i++) {
+            if(_elementi_date[i] == data)
+                flag_duplicate_found = true;
+        }
+        if(flag_duplicate_found) {
+            //eccezione doppione per primary key
+        }
+        else //se non ci sono valori uguali presenti, l'aggiornamento è permesso
+            _elementi_date[index] = data;
+    }
 }
 
 void ColonnaDate::addDefault() {
