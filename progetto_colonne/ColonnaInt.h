@@ -14,14 +14,16 @@ using namespace std;
 class ColonnaInt : public Colonna {
 public:
     friend class Tabella;
-    explicit ColonnaInt(const string &nomecolonna, bool notnull = false, bool autoincrement = false, int* increment_value= nullptr);
-    ~ColonnaInt()  override =default;
 
-    void updateVal(const string& val, int index)override;
+    explicit ColonnaInt(const string &nomecolonna, bool notnull = false, bool autoincrement = false, int* increment_value= nullptr); //costruttore
+    ~ColonnaInt()  override = default; //distruttore
+
+    /* metodi ereditati */
+    void updateVal(const string& val, int index) override;
     string getElement(int index) override;
-    void deleteVal(int index)override;
+    void deleteVal(int index) override;
     void addDefault() override;
-    bool compareElements(const string& condizione, int operatore, int index)const override;
+    bool compareElements(const string& condizione, int operatore, int index) const override;
 
 private:
     vector <int> _elementi_interi;

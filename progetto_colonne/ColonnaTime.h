@@ -12,14 +12,16 @@
 class ColonnaTime : public Colonna {
 public:
     friend class Tabella;
-    explicit ColonnaTime(const string &nomecolonna, bool notnull = false);
-    ~ColonnaTime()  =default;
 
-    void updateVal(const string& val, int index)override;
+    explicit ColonnaTime(const string &nomecolonna, bool notnull = false); //costruttore
+    ~ColonnaTime() override = default; //distruttore
+
+    /* metodi ereditati */
+    void updateVal(const string& val, int index) override;
     string getElement(int index) override;
-    void deleteVal(int index)override;
-    void addDefault()override;
-    bool compareElements(const string& condizione, int operatore, int index)const override;
+    void deleteVal(int index) override;
+    void addDefault() override;
+    bool compareElements(const string& condizione, int operatore, int index) const override;
 
 private:
     vector <Time> _elementi_time;

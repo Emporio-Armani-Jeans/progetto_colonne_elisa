@@ -9,34 +9,41 @@ Tabella::Tabella(const string &nometabella) {
     _recs=0;
 }
 
+Tabella::~Tabella() {
+    for(auto & i : _colonne){
+        delete i;
+        i = nullptr;
+    }
+}
+
+
 void Tabella::aggiungiColonna(Colonna *to_be_added) {
     _colonne.push_back(to_be_added);
 }
 
 void Tabella::setChiavePrimaria(const string& nomecolonna) {
-    bool trovata=false, flag=false;
-    for(auto & i : _colonne) {     //verificare che non ci siano più colonne primary key
-        if(i->_primary_key) trovata=true;
+    bool flag_another_pk_found = false, flag_colonna_trovata = false;
+    for(auto & i : _colonne) {   //verifica che non ci siano altre colonne marcate come primary key
+        if(i->_primary_key)
+            flag_another_pk_found = true;
     }
-    if(!trovata){
-        for(int j=0; j<_colonne.size() && !flag; j++){
-            if(_colonne[j]->getNomeColonna()==nomecolonna){
-                _colonne[j]->_primary_key=true;
-                _colonne[j]->_not_null=true;
-                flag=true;
+    if(!flag_another_pk_found){ //se effettivamente non è ancora stata aggiunta una colonna marcata come primary key, posso impostarla
+        for(int j = 0; j < _colonne.size() && !flag_colonna_trovata; j++){
+            if(_colonne[j]->getNomeColonna() == nomecolonna){
+                _colonne[j]->_primary_key = true;
+                _colonne[j]->_not_null = true;
+                flag_colonna_trovata = true;
+            }
+            else {
+                //eccezione colonna non esistente
             }
         }
-    }else{
-        //eccezione
+    }
+    else{
+        //eccezione già c'è un'altra colonna primary key
     }
 }
 
-Tabella::~Tabella() {
-    for(auto & i : _colonne){
-        delete i;
-        i= nullptr;
-    }
-}
 
 Colonna *Tabella::getCol(int index) const {
     return _colonne[index];
@@ -51,17 +58,19 @@ int Tabella::numRecs() const {
 }
 
 void Tabella::addRecord(const vector<string>& campi, const vector<string>& valori) {
-    bool flag=false, flag2=false;
-    for(int i=0; i<_colonne.size() && !flag; i++){
-        flag2=false;
-        if(_colonne[i]->_not_null){
-            for(int j=0; j<campi.size() && !flag2; j++){
-                if(_colonne[i]->getNomeColonna()==campi[j]) flag2=true;
+    bool flag_campo_non_trovato = false, flag_colonna_trovata = false;
+    for(int i = 0; i < _colonne.size() && !flag_campo_non_trovato; i++){
+        flag_colonna_trovata=false;
+        if(_colonne[i]->_not_null){ //se la colonna è marcata come not null, all'interno dei campi da modificare deve esserci il suo nome
+            for(int j=0; j<campi.size() && !flag_colonna_trovata; j++){
+                if(_colonne[i]->getNomeColonna() == campi[j])
+                    flag_colonna_trovata = true;
             }
-            if(!flag2) flag=true;
+            if(!flag_colonna_trovata)
+                flag_campo_non_trovato = true;
         }
     }
-    if(!flag) {
+    if(!flag_campo_non_trovato) { //se tutte le colonne marcate come not null sono presenti nei campi, posso procedere con l'aggiunta del record
         _recs++;
         for (auto &i : _colonne) {
             i->addDefault();

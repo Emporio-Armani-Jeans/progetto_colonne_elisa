@@ -7,8 +7,8 @@
 ColonnaChar::ColonnaChar(const string &nomecolonna, bool notnull) {
     _nome_colonna = nomecolonna;
     _not_null = notnull;
-    _default_value='\0';
-    _primary_key=false;
+    _default_value = '\0';
+    _primary_key = false;
 }
 /*
 void ColonnaChar::addVal(const string &valore_da_impostare) {
@@ -18,17 +18,17 @@ void ColonnaChar::addVal(const string &valore_da_impostare) {
 */
 string ColonnaChar::getElement(int index) {
     string str_to_return;
-    if(index==-1){
+    if(index == -1){
         str_to_return.push_back(_default_value);
-    }else {
-        str_to_return.push_back(_elementi_char[index]);
     }
+    else
+        str_to_return.push_back(_elementi_char[index]);
     return str_to_return;
 }
 
 void ColonnaChar::deleteVal(int index) {
-    auto it=_elementi_char.begin();
-    it+=index;
+    auto it = _elementi_char.begin();
+    it += index;
     _elementi_char.erase(it);
 }
 
@@ -44,15 +44,15 @@ void ColonnaChar::addDefault() {
 bool ColonnaChar::compareElements(const string& condizione, int operatore, int index)const{
     switch (operatore){
         case 0:
-            return _elementi_char[index]==condizione[0];
+            return (_elementi_char[index] == condizione[0]);
         case 1:
-            return _elementi_char[index]<condizione[0];
+            return (_elementi_char[index] < condizione[0]);
         case 2:
-            return _elementi_char[index]<=condizione[0];
+            return (_elementi_char[index] <= condizione[0]);
         case 3:
-            return _elementi_char[index]>condizione[0];
+            return (_elementi_char[index] > condizione[0]);
         case 4:
-            return _elementi_char[index]>=condizione[0];
+            return (_elementi_char[index] >= condizione[0]);
         default:
             return false;
             //creare eccezione
