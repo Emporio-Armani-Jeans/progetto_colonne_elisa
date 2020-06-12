@@ -25,6 +25,7 @@ public:
     string getElement(int index) override;
     void addDefault() override;
     bool compareElements(const string& condizione, int operatore, int index) const override;
+    int getSize() const override;
 
 private:
     vector<Date> _elementi_date;

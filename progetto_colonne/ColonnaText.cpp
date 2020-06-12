@@ -9,6 +9,7 @@ ColonnaText::ColonnaText(const string &nomecolonna, bool notnull) {
     _not_null = notnull;
     _default_value = '\0';
     _primary_key = false;
+    _foreign_key = nullptr;
 }
 
 string ColonnaText::getElement(int index){
@@ -26,7 +27,20 @@ void ColonnaText::deleteVal(int index) {
 
 void ColonnaText::updateVal(const string &val, int index) {
     if (!_primary_key) {
-        _elementi_di_testo[index] = val;
+        if (_foreign_key == nullptr)
+            _elementi_di_testo[index] = val;
+        else {
+            bool valore_trovato = false;
+            for (int i = 0; i < _foreign_key->getSize(); i++){
+                if (_foreign_key->getElement(i) == val){
+                    valore_trovato = true;
+                    _elementi_di_testo[index] = val;
+                }
+            }
+            if (!valore_trovato) {
+                //eccezione valore non esistente quindi non valido
+            }
+        }
     }
     else { //se la colonna è una chiave primaria, controllo che il valore che si sta cercando di aggiornare non sia già presente in un altro record
         bool flag_duplicate_found = false;
@@ -62,4 +76,8 @@ bool ColonnaText::compareElements(const string& condizione, int operatore, int i
             //creare eccezione e togliere return false
             return false;
     }
+}
+
+int ColonnaText::getSize() const {
+    return _elementi_di_testo.size();
 }

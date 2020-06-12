@@ -6,21 +6,21 @@
 
 #IncludeRegexTransform: 
 
-C:/Users/andry/CLionProjects/progetto_colonne_elisa/progetto_colonne/Colonna.h
+/Users/elisamessina/CLionProjects/progetto_colonne_elisa/progetto_colonne/Colonna.h
 string
 -
 
-C:/Users/andry/CLionProjects/progetto_colonne_elisa/progetto_colonne/ColonnaChar.h
+/Users/elisamessina/CLionProjects/progetto_colonne_elisa/progetto_colonne/ColonnaChar.h
 Colonna.h
-C:/Users/andry/CLionProjects/progetto_colonne_elisa/progetto_colonne/Colonna.h
+/Users/elisamessina/CLionProjects/progetto_colonne_elisa/progetto_colonne/Colonna.h
 vector
 -
 
-C:/Users/andry/CLionProjects/progetto_colonne_elisa/progetto_colonne/ColonnaDate.h
+/Users/elisamessina/CLionProjects/progetto_colonne_elisa/progetto_colonne/ColonnaDate.h
 Colonna.h
-C:/Users/andry/CLionProjects/progetto_colonne_elisa/progetto_colonne/Colonna.h
+/Users/elisamessina/CLionProjects/progetto_colonne_elisa/progetto_colonne/Colonna.h
 data.h
-C:/Users/andry/CLionProjects/progetto_colonne_elisa/progetto_colonne/data.h
+/Users/elisamessina/CLionProjects/progetto_colonne_elisa/progetto_colonne/data.h
 vector
 -
 iostream
@@ -28,71 +28,71 @@ iostream
 sstream
 -
 
-C:/Users/andry/CLionProjects/progetto_colonne_elisa/progetto_colonne/ColonnaFloat.h
+/Users/elisamessina/CLionProjects/progetto_colonne_elisa/progetto_colonne/ColonnaFloat.h
 string
 -
 list
 -
 Colonna.h
-C:/Users/andry/CLionProjects/progetto_colonne_elisa/progetto_colonne/Colonna.h
+/Users/elisamessina/CLionProjects/progetto_colonne_elisa/progetto_colonne/Colonna.h
 vector
 -
 
-C:/Users/andry/CLionProjects/progetto_colonne_elisa/progetto_colonne/ColonnaInt.h
+/Users/elisamessina/CLionProjects/progetto_colonne_elisa/progetto_colonne/ColonnaInt.h
 string
 -
 list
 -
 Colonna.h
-C:/Users/andry/CLionProjects/progetto_colonne_elisa/progetto_colonne/Colonna.h
+/Users/elisamessina/CLionProjects/progetto_colonne_elisa/progetto_colonne/Colonna.h
 vector
 -
 
-C:/Users/andry/CLionProjects/progetto_colonne_elisa/progetto_colonne/ColonnaText.h
+/Users/elisamessina/CLionProjects/progetto_colonne_elisa/progetto_colonne/ColonnaText.h
 string
 -
 list
 -
 Colonna.h
-C:/Users/andry/CLionProjects/progetto_colonne_elisa/progetto_colonne/Colonna.h
+/Users/elisamessina/CLionProjects/progetto_colonne_elisa/progetto_colonne/Colonna.h
 vector
 -
 
-C:/Users/andry/CLionProjects/progetto_colonne_elisa/progetto_colonne/ColonnaTime.h
+/Users/elisamessina/CLionProjects/progetto_colonne_elisa/progetto_colonne/ColonnaTime.h
 Colonna.h
-C:/Users/andry/CLionProjects/progetto_colonne_elisa/progetto_colonne/Colonna.h
+/Users/elisamessina/CLionProjects/progetto_colonne_elisa/progetto_colonne/Colonna.h
 Time.h
-C:/Users/andry/CLionProjects/progetto_colonne_elisa/progetto_colonne/Time.h
+/Users/elisamessina/CLionProjects/progetto_colonne_elisa/progetto_colonne/Time.h
 vector
 -
 
-C:/Users/andry/CLionProjects/progetto_colonne_elisa/progetto_colonne/Tabella.h
+/Users/elisamessina/CLionProjects/progetto_colonne_elisa/progetto_colonne/Tabella.h
 Colonna.h
-C:/Users/andry/CLionProjects/progetto_colonne_elisa/progetto_colonne/Colonna.h
+/Users/elisamessina/CLionProjects/progetto_colonne_elisa/progetto_colonne/Colonna.h
 ColonnaInt.h
-C:/Users/andry/CLionProjects/progetto_colonne_elisa/progetto_colonne/ColonnaInt.h
+/Users/elisamessina/CLionProjects/progetto_colonne_elisa/progetto_colonne/ColonnaInt.h
 ColonnaFloat.h
-C:/Users/andry/CLionProjects/progetto_colonne_elisa/progetto_colonne/ColonnaFloat.h
+/Users/elisamessina/CLionProjects/progetto_colonne_elisa/progetto_colonne/ColonnaFloat.h
 ColonnaText.h
-C:/Users/andry/CLionProjects/progetto_colonne_elisa/progetto_colonne/ColonnaText.h
+/Users/elisamessina/CLionProjects/progetto_colonne_elisa/progetto_colonne/ColonnaText.h
 ColonnaDate.h
-C:/Users/andry/CLionProjects/progetto_colonne_elisa/progetto_colonne/ColonnaDate.h
+/Users/elisamessina/CLionProjects/progetto_colonne_elisa/progetto_colonne/ColonnaDate.h
 ColonnaChar.h
-C:/Users/andry/CLionProjects/progetto_colonne_elisa/progetto_colonne/ColonnaChar.h
+/Users/elisamessina/CLionProjects/progetto_colonne_elisa/progetto_colonne/ColonnaChar.h
 ColonnaTime.h
-C:/Users/andry/CLionProjects/progetto_colonne_elisa/progetto_colonne/ColonnaTime.h
+/Users/elisamessina/CLionProjects/progetto_colonne_elisa/progetto_colonne/ColonnaTime.h
 vector
 -
 string
 -
 
-C:/Users/andry/CLionProjects/progetto_colonne_elisa/progetto_colonne/Time.h
+/Users/elisamessina/CLionProjects/progetto_colonne_elisa/progetto_colonne/Time.h
 iostream
 -
 string
 -
 
-C:/Users/andry/CLionProjects/progetto_colonne_elisa/progetto_colonne/data.h
+/Users/elisamessina/CLionProjects/progetto_colonne_elisa/progetto_colonne/data.h
 iostream
 -
 string
@@ -104,17 +104,17 @@ iomanip
 ctime
 -
 
-C:/Users/andry/CLionProjects/progetto_colonne_elisa/progetto_colonne/main.cpp
+/Users/elisamessina/CLionProjects/progetto_colonne_elisa/progetto_colonne/main.cpp
 iostream
 -
 ColonnaText.h
-C:/Users/andry/CLionProjects/progetto_colonne_elisa/progetto_colonne/ColonnaText.h
+/Users/elisamessina/CLionProjects/progetto_colonne_elisa/progetto_colonne/ColonnaText.h
 ColonnaFloat.h
-C:/Users/andry/CLionProjects/progetto_colonne_elisa/progetto_colonne/ColonnaFloat.h
+/Users/elisamessina/CLionProjects/progetto_colonne_elisa/progetto_colonne/ColonnaFloat.h
 ColonnaInt.h
-C:/Users/andry/CLionProjects/progetto_colonne_elisa/progetto_colonne/ColonnaInt.h
+/Users/elisamessina/CLionProjects/progetto_colonne_elisa/progetto_colonne/ColonnaInt.h
 Tabella.h
-C:/Users/andry/CLionProjects/progetto_colonne_elisa/progetto_colonne/Tabella.h
+/Users/elisamessina/CLionProjects/progetto_colonne_elisa/progetto_colonne/Tabella.h
 list
 -
 vector

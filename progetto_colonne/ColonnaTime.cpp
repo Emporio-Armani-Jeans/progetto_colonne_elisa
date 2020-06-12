@@ -11,6 +11,7 @@ ColonnaTime::ColonnaTime(const string &nomecolonna, bool notnull) {
     Time s(0,0,0);
     _default_value = s;
     _primary_key = false;
+    _foreign_key = nullptr;
 }
 
 string ColonnaTime::getElement(int index) {
@@ -33,7 +34,20 @@ void ColonnaTime::updateVal(const string& val, int index){
     secondi = std::stoi(val.substr(6,2));
     Time time(ora,minuti,secondi);
     if (!_primary_key) {
-        _elementi_time[index] = time;
+        if (_foreign_key == nullptr)
+            _elementi_time[index] = time;
+        else {
+            bool valore_trovato = false;
+            for (int i = 0; i < _foreign_key->getSize(); i++){
+                if (_foreign_key->getElement(i) == val){
+                    valore_trovato = true;
+                    _elementi_time[index] = time;
+                }
+            }
+            if (!valore_trovato) {
+                //eccezione valore non esistente quindi non valido
+            }
+        }
     }
     else { //se la colonna è una chiave primaria, controllo che il valore che si sta cercando di aggiornare non sia già presente in un altro record
         bool flag_duplicate_found = false;
@@ -74,4 +88,8 @@ bool ColonnaTime::compareElements(const string& condizione, int operatore, int i
             //creare eccezione e toglere false
             return false;
     }
+}
+
+int ColonnaTime::getSize() const {
+    return _elementi_time.size();
 }

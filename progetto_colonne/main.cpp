@@ -23,12 +23,15 @@ int main() {
 
     //creazione tabella + aggiunta colonne
     Tabella *tab1 = new Tabella("Customers");
+    Tabella *tab2 = new Tabella("Tabellina");
     tabelle.push_back(tab1);
+    tabelle.push_back(tab2);
     ColonnaInt *age = new ColonnaInt("Age");
     ColonnaInt *id=new ColonnaInt("Id", false, true, &increment);
     ColonnaFloat *salary = new ColonnaFloat("Salary");
     ColonnaText *address = new ColonnaText("Address");
     ColonnaDate *data = new ColonnaDate("Data_di_nascita");
+    ColonnaInt *countries_id = new ColonnaInt("Countries_id");
     tab1->aggiungiColonna(age);
     tab1->aggiungiColonna(salary);
     tab1->aggiungiColonna(address);
@@ -36,10 +39,27 @@ int main() {
     tab1->aggiungiColonna(id);
     tab1->setChiavePrimaria("Id");
 
+    tab2->aggiungiColonna(countries_id);
+    tab2->setChiavePrimaria("Countries_id");
+
+    tab1->setChiaveEsterna(tab2, "Age", "Countries_id");
+
+    vector<string> vettore1;
+    vector<string> valore1, valore2, valore3;
+
+    vettore1.emplace_back("Countries_id");
+    valore1.emplace_back("3");
+    valore2.emplace_back("10");
+    valore3.emplace_back("12");
+
+    tab2->addRecord(vettore1,valore1);
+    tab2->addRecord(vettore1, valore2);
+    tab2->addRecord(vettore1, valore3);
+
     string s1 = "Age", s2 = "Salary", s3 = "Address", s4="Data_di_nascita", s5="Id";
-    string s1_1 = "12", s2_1 = "35.6", s3_1 = "Via dei Gigli 33", s4_1="17/04/1999", s5_1="2";
-    string s1_2 = "9", s2_2= "69.420", s3_2= "Via Petalosa 77", s4_2="04/06/1989", s5_2="2";
-    string s1_3="8", s2_3="556.95", s3_3="Via Dal Cazzo 666", s4_3="23/07/2002", s5_3="2";
+    string s1_1 = "1267", s2_1 = "35.6", s3_1 = "Via dei Gigli 33", s4_1="17/04/1999", s5_1="2";
+    string s1_2 = "123", s2_2= "69.420", s3_2= "Via Petalosa 77", s4_2="04/06/1989", s5_2="2";
+    string s1_3="133", s2_3="556.95", s3_3="Via Dal Cazzo 666", s4_3="23/07/2002", s5_3="2";
 
     //prova per impostare i valori:
     //attraverso la insert salviamo tutto in delle stringhe e con cicli controlli ecc: (cast all'interno della singola colonna per salvare il tipo giusto!)
@@ -83,11 +103,6 @@ int main() {
     vector<string> campi;
     campi.emplace_back("Age");
     campi.emplace_back("Address");
-
-    for(int j=0; j<tab1->returnData(campi, "Age", "5", 4, "Age", 4).size(); j++){
-        cout << tab1->returnData(campi, "Age", "5", 4, "Age", 4)[j] << endl;
-    }
-    cout << endl;
 
     deleteOggettoTabella(&tab1);
     //rimozione tabella:

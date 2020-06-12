@@ -22,11 +22,13 @@ public:
     virtual void addDefault() = 0;
     virtual bool compareElements(const string& condizione, int operatore, int index) const = 0; /*confronta il valore dell'elemento di indice <index>
                                                                                                   con <condizione>, secondo l'operatore <operatore>*/
+    virtual int getSize() const = 0;
     
 protected:
     string _nome_colonna;
     bool _not_null;
     bool _primary_key;
+    Colonna* _foreign_key;
 };
 
 

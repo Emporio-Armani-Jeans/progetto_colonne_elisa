@@ -60,7 +60,7 @@ int Tabella::numRecs() const {
 void Tabella::addRecord(const vector<string>& campi, const vector<string>& valori) {
     bool flag_campo_non_trovato = false, flag_colonna_trovata = false;
     for(int i = 0; i < _colonne.size() && !flag_campo_non_trovato; i++){
-        flag_colonna_trovata=false;
+        flag_colonna_trovata = false;
         if(_colonne[i]->_not_null){ //se la colonna è marcata come not null, all'interno dei campi da modificare deve esserci il suo nome
             for(int j=0; j<campi.size() && !flag_colonna_trovata; j++){
                 if(_colonne[i]->getNomeColonna() == campi[j])
@@ -87,8 +87,8 @@ void Tabella::addRecord(const vector<string>& campi, const vector<string>& valor
 }
 
 void Tabella::deleteRecord(const string& nome_col, const string &condizione, int operatore) {
-    bool trovata=false;
-    int i=0, j=0;
+    bool trovata = false;
+    int i = 0, j = 0;
     while(i<_colonne.size() && !trovata){
         if(nome_col==_colonne[i]->getNomeColonna()) trovata=true;
         else i++;
@@ -384,4 +384,25 @@ vector<int> Tabella::ordinamento(const string &campo, int operatore) const {
         //operatore non valido
         return vector<int>();
     }
+}
+
+void Tabella::setChiaveEsterna(Tabella* tabella_to_link, const string& colonna_this, const string& chiave_esterna) {
+    int i,j;
+    for (i = 0; i < tabella_to_link->_colonne.size(); i++){
+       if (tabella_to_link->_colonne[i]->_primary_key && tabella_to_link->_colonne[i]->getNomeColonna() == chiave_esterna)
+           break;
+    }
+    if (i < tabella_to_link->_colonne.size()){
+        for (j = 0; j < _colonne.size(); j++){
+            if (_colonne[j]->getNomeColonna() == colonna_this) {
+                break;
+            }
+        }
+        if ( j < _colonne.size()) {
+            _colonne[j]->_foreign_key = tabella_to_link->_colonne[i];
+        } else{//eccezione col not found
+             }
+
+    } else {//eccezione colonna non trovat
+         }
 }

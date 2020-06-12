@@ -10,6 +10,7 @@ ColonnaDate::ColonnaDate(const string &nomecolonna, bool notnull){
     Date d(0,0,0);
     _default_value = d;
     _primary_key = false;
+    _foreign_key = nullptr;
 }
 
 string ColonnaDate::getElement(int index){
@@ -32,7 +33,20 @@ void ColonnaDate::updateVal(const string &val, int index) {
     year = std::stoi(val.substr(6,4));
     Date data(day,month,year);
     if (!_primary_key) {
-        _elementi_date[index] = data;
+        if (_foreign_key == nullptr)
+            _elementi_date[index] = data;
+        else {
+            bool valore_trovato = false;
+            for (int i = 0; i < _foreign_key->getSize(); i++){
+                if (_foreign_key->getElement(i) == val){
+                    valore_trovato = true;
+                    _elementi_date[index] = data;
+                }
+            }
+            if (!valore_trovato) {
+                //eccezione valore non esistente quindi non valido
+            }
+        }
     }
     else { //se la colonna è una chiave primaria, controllo che il valore che si sta cercando di aggiornare non sia già presente in un altro record
         bool flag_duplicate_found = false;
@@ -73,4 +87,8 @@ bool ColonnaDate::compareElements(const string& condizione, int operatore, int i
             //creare eccezione e togliere return false
             return false;
     }
+}
+
+int ColonnaDate::getSize() const {
+    return _elementi_date.size();
 }

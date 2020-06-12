@@ -24,6 +24,7 @@ public:
 
     void aggiungiColonna(Colonna *to_be_added); //aggiunta di un nuovo oggetto colonna alla tabella
     void setChiavePrimaria(const string& nomecolonna); //imposta la chiave primaria della tabella
+    void setChiaveEsterna(Tabella* tabella_to_link, const string& colonna_this, const string& chiave_esterna);
 
     /* Funzione per aggiungere un record: per ogni colonna con nome uguale agli elementi del vettore <campi>,
      * aggiunge un elemento e imposta il corrispettivo valore contenuto nel vettore <valori> */
@@ -51,7 +52,10 @@ private:
     string _nome_tabella;
     int _recs;
     vector<int> ordinamento(const string& campo, int operatore)const;
+
 };
+
+
 
 
 #endif //PROGETTO_COLONNE_TABELLA_H

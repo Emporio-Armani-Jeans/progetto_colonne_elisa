@@ -9,6 +9,7 @@ ColonnaChar::ColonnaChar(const string &nomecolonna, bool notnull) {
     _not_null = notnull;
     _default_value = '\0';
     _primary_key = false;
+    _foreign_key = nullptr;
 }
 /*
 void ColonnaChar::addVal(const string &valore_da_impostare) {
@@ -35,7 +36,20 @@ void ColonnaChar::deleteVal(int index) {
 void ColonnaChar::updateVal(const string &val, int index) {
     char new_value = val[0];
     if (!_primary_key) {
-        _elementi_char[index] = new_value;
+        if (_foreign_key == nullptr)
+            _elementi_char[index] = new_value;
+        else {
+            bool valore_trovato = false;
+            for (int i = 0; i < _foreign_key->getSize(); i++){
+                if (_foreign_key->getElement(i) == val){
+                    valore_trovato = true;
+                    _elementi_char[index] = new_value;
+                }
+            }
+            if (!valore_trovato) {
+                //eccezione valore non esistente quindi non valido
+            }
+        }
     }
     else { //se la colonna è una chiave primaria, controllo che il valore che si sta cercando di aggiornare non sia già presente in un altro record
         bool flag_duplicate_found = false;
@@ -71,4 +85,8 @@ bool ColonnaChar::compareElements(const string& condizione, int operatore, int i
             return false;
             //creare eccezione
     }
+}
+
+int ColonnaChar::getSize() const {
+    return _elementi_char.size();
 }

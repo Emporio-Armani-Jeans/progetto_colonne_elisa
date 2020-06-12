@@ -11,6 +11,7 @@ ColonnaInt::ColonnaInt(const string &nomecolonna, bool notnull, bool autoincreme
     _default_value = 0;
     _increment_value = increment_value;
     _primary_key = false;
+    _foreign_key = nullptr;
 }
 
 string ColonnaInt::getElement(int index) {
@@ -30,7 +31,20 @@ void ColonnaInt::updateVal(const string& val, int index){
     if (!_auto_increment) { //aggiornamento del valore solo se la colonna non è auto increment (se lo è viene già aggiornata precedentemente)
         int new_value = std::stoi(val);
         if (!_primary_key) {
-            _elementi_interi[index] = new_value;
+            if (_foreign_key == nullptr)
+                _elementi_interi[index] = new_value;
+            else {
+                bool valore_trovato = false;
+                for (int i = 0; i < _foreign_key->getSize(); i++){
+                    if (_foreign_key->getElement(i) == val){
+                        valore_trovato = true;
+                        _elementi_interi[index] = new_value;
+                    }
+                }
+                if (!valore_trovato) {
+                    //eccezione valore non esistente quindi non valido
+                }
+            }
         }
         else { //se la colonna è una chiave primaria, controllo che il valore che si sta cercando di aggiornare non sia già presente in un altro record
             bool flag_duplicate_found = false;
@@ -74,4 +88,8 @@ bool ColonnaInt::compareElements(const string& condizione, int operatore, int in
             //creare eccezione
             return false;
     }
+}
+
+int ColonnaInt::getSize() const {
+    return _elementi_interi.size();
 }

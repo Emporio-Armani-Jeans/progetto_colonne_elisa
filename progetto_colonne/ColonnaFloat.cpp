@@ -9,6 +9,7 @@ ColonnaFloat::ColonnaFloat(const string &nomecolonna, bool notnull) {
     _not_null = notnull;
     _default_value = 0.0;
     _primary_key = false;
+    _foreign_key = nullptr;
 }
 
 string ColonnaFloat::getElement(int index){
@@ -25,7 +26,20 @@ void ColonnaFloat::deleteVal(int index) {
 void ColonnaFloat::updateVal(const string &val, int index) {
     float new_value = std::stof(val);
     if (!_primary_key) {
-        _elementi_float[index] = new_value;
+        if (_foreign_key == nullptr)
+            _elementi_float[index] = new_value;
+        else {
+            bool valore_trovato = false;
+            for (int i = 0; i < _foreign_key->getSize(); i++){
+                if (_foreign_key->getElement(i) == val){
+                    valore_trovato = true;
+                    _elementi_float[index] = new_value;
+                }
+            }
+            if (!valore_trovato) {
+                //eccezione valore non esistente quindi non valido
+            }
+        }
     }
     else { //se la colonna è una chiave primaria, controllo che il valore che si sta cercando di aggiornare non sia già presente in un altro record
         bool flag_duplicate_found = false;
@@ -62,4 +76,9 @@ bool ColonnaFloat::compareElements(const string& condizione, int operatore, int 
             //creare eccezione e toglierr return false
             return false;
     }
+}
+
+
+int ColonnaFloat::getSize() const {
+    return _elementi_float.size();
 }

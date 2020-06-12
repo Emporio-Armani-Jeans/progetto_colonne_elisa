@@ -23,7 +23,7 @@ public:
     void deleteVal(int index) override;
     void addDefault() override;
     bool compareElements(const string& condizione, int operatore, int index) const override;
-
+    int getSize() const override;
 private:
     vector<string> _elementi_di_testo;
     string _default_value;
