@@ -45,7 +45,7 @@ void ColonnaTime::updateVal(const string& val, int index){
                 }
             }
             if (!valore_trovato) {
-                //eccezione valore non esistente quindi non valido
+                throw SecKeyError();
             }
         }
     }
@@ -56,7 +56,7 @@ void ColonnaTime::updateVal(const string& val, int index){
                 flag_duplicate_found = true;
         }
         if(flag_duplicate_found) {
-            //eccezione doppione per primary key
+            throw PrimKeyError();
         }
         else //se non ci sono valori uguali presenti, l'aggiornamento è permesso
             _elementi_time[index] = time;
@@ -85,8 +85,7 @@ bool ColonnaTime::compareElements(const string& condizione, int operatore, int i
         case 4:
             return (_elementi_time[index] >= to_compare);
         default:
-            //creare eccezione e toglere false
-            return false;
+            throw InvalidOperator();
     }
 }
 

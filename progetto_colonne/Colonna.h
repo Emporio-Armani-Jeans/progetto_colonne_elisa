@@ -4,7 +4,13 @@
 
 #ifndef PROGETTO_COLONNE_COLONNA_H
 #define PROGETTO_COLONNE_COLONNA_H
-
+#include "CampoNonTrovato.h"
+#include "InvalidOperator.h"
+#include "SecKeyError.h"
+#include "SecKeyNotFound.h"
+#include "PrimKeyError.h"
+#include "PrimaryKeyAlreadyExisting.h"
+#include "InvalidCondition.h"
 #include <string>
 using namespace std;
 

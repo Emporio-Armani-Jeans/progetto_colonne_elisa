@@ -11,12 +11,7 @@ ColonnaChar::ColonnaChar(const string &nomecolonna, bool notnull) {
     _primary_key = false;
     _foreign_key = nullptr;
 }
-/*
-void ColonnaChar::addVal(const string &valore_da_impostare) {
-    char value_to_be_added = valore_da_impostare[0];
-    _elementi_char.push_back(value_to_be_added);
-}
-*/
+
 string ColonnaChar::getElement(int index) {
     string str_to_return;
     if(index == -1){
@@ -47,7 +42,7 @@ void ColonnaChar::updateVal(const string &val, int index) {
                 }
             }
             if (!valore_trovato) {
-                //eccezione valore non esistente quindi non valido
+                throw SecKeyError();
             }
         }
     }
@@ -58,7 +53,7 @@ void ColonnaChar::updateVal(const string &val, int index) {
                 flag_duplicate_found = true;
         }
         if(flag_duplicate_found) {
-            //eccezione doppione per primary key
+            throw PrimKeyError();
         }
         else //se non ci sono valori uguali presenti, l'aggiornamento è permesso
             _elementi_char[index] = new_value;
@@ -82,8 +77,7 @@ bool ColonnaChar::compareElements(const string& condizione, int operatore, int i
         case 4:
             return (_elementi_char[index] >= condizione[0]);
         default:
-            return false;
-            //creare eccezione
+            throw InvalidOperator();
     }
 }
 

@@ -34,13 +34,12 @@ void Tabella::setChiavePrimaria(const string& nomecolonna) {
                 _colonne[j]->_not_null = true;
                 flag_colonna_trovata = true;
             }
-            else {
-                //eccezione colonna non esistente
-            }
-        }
+
+        }if(!flag_colonna_trovata)
+            throw CampoNonTrovato();
     }
     else{
-        //eccezione già c'è un'altra colonna primary key
+        throw PrimaryKeyAlreadyExisting();
     }
 }
 
@@ -82,15 +81,15 @@ void Tabella::addRecord(const vector<string>& campi, const vector<string>& valor
             }
         }
     }else{
-        //eccezione campo non trovato
+        throw NotNullError(); //campo che doveva essere obbligatorio non inserito
     }
 }
 
-void Tabella::deleteRecord(const string& nome_col, const string &condizione, int operatore) {
+void Tabella::deleteRecord(const string& campo_condizione, const string &condizione, int operatore) {
     bool trovata = false;
     int i = 0, j = 0;
     while(i<_colonne.size() && !trovata){
-        if(nome_col==_colonne[i]->getNomeColonna()) trovata=true;
+        if(campo_condizione == _colonne[i]->getNomeColonna()) trovata=true;
         else i++;
     }
     if(trovata){
@@ -103,15 +102,15 @@ void Tabella::deleteRecord(const string& nome_col, const string &condizione, int
             }else j++;
         }
     }else{
-        //creare eccezione campo non esistente
+        throw InvalidCondition();
     }
 }
 
-void Tabella::deleteRecord(const string& nome_col, const string& condizione1, const string& condizione2){
+void Tabella::deleteRecord(const string& campo_condizione, const string& condizione1, const string& condizione2){
     bool trovata=false;
     int i=0, j=0;
     while(i<_colonne.size() && !trovata){
-        if(nome_col==_colonne[i]->getNomeColonna()) trovata=true;
+        if(campo_condizione == _colonne[i]->getNomeColonna()) trovata=true;
         else i++;
     }
     if(trovata){
@@ -124,15 +123,15 @@ void Tabella::deleteRecord(const string& nome_col, const string& condizione1, co
             }else j++;
         }
     }else{
-        //creare eccezione campo non esistente
+        throw InvalidCondition();
     }
 }
 
-void Tabella::updateRecord(const string& condizione, const string& nome_col, const vector<string>& campi, const vector<string>& valori, int operatore){
+void Tabella::updateRecord(const string& campo_condizione,const string& condizione, const vector<string>& campi, const vector<string>& valori, int operatore){
     bool trovata=false;
     int i=0, j;
     while(i<_colonne.size() && !trovata){
-        if(nome_col==_colonne[i]->getNomeColonna()) trovata=true;
+        if(campo_condizione == _colonne[i]->getNomeColonna()) trovata=true;
         else i++;
     }
     if(trovata){
@@ -148,15 +147,15 @@ void Tabella::updateRecord(const string& condizione, const string& nome_col, con
             }
         }
     }else{
-        //creare eccezione campo non esistente
+        throw InvalidCondition();
     }
 }
 
-void Tabella::updateRecord(const string& condizione1, const string& condizione2, const string& nome_col, const vector<string>& campi, const vector<string>& valori){
+void Tabella::updateRecord(const string& campo_condizioni, const string& condizione1, const string& condizione2, const vector<string>& campi, const vector<string>& valori){
     bool trovata=false;
     int i=0, j;
     while(i<_colonne.size() && !trovata){
-        if(nome_col==_colonne[i]->getNomeColonna()) trovata=true;
+        if(campo_condizioni == _colonne[i]->getNomeColonna()) trovata=true;
         else i++;
     }
     if(trovata){
@@ -172,7 +171,7 @@ void Tabella::updateRecord(const string& condizione1, const string& condizione2,
             }
         }
     }else{
-        //creare eccezione campo non esistente
+        throw InvalidCondition();
     }
 }
 
@@ -211,31 +210,35 @@ vector<string> Tabella::returnData(const string& campo_ordinamento, int operator
 vector<string> Tabella::returnData(const vector<string>& campi, const string& campo_ordinamento, int operatore_ordinamento) const {
     vector<string> righe_testo;
     string riga;
-    for(int i=0; i<_recs; i++){
-        riga.clear();
-        for(auto j : _colonne){
-            for(const auto & s : campi){
-                if(j->getNomeColonna()==s) {
-                    if(operatore_ordinamento==0) {
-                        if (j->getElement(i) == j->getElement(-1)) {
-                            riga += "___ ";
+    if(_recs!=0) {
+        for (int i = 0; i < _recs; i++) {
+            riga.clear();
+            for (auto j : _colonne) {
+                for (const auto &s : campi) {
+                    if (j->getNomeColonna() == s) {
+                        if (operatore_ordinamento == 0) {
+                            if (j->getElement(i) == j->getElement(-1)) {
+                                riga += "___ ";
+                            } else {
+                                riga += j->getElement(i);
+                                riga += " ";
+                            }
                         } else {
-                            riga += j->getElement(i);
-                            riga += " ";
-                        }
-                    }else{
-                        vector<int> indici_ordinati=ordinamento(campo_ordinamento, operatore_ordinamento);
-                        if (j->getElement(indici_ordinati[i]) == j->getElement(-1)) {
-                            riga += "___ ";
-                        } else {
-                            riga += j->getElement(indici_ordinati[i]);
-                            riga += " ";
+                            vector<int> indici_ordinati = ordinamento(campo_ordinamento, operatore_ordinamento);
+                            if (j->getElement(indici_ordinati[i]) == j->getElement(-1)) {
+                                riga += "___ ";
+                            } else {
+                                riga += j->getElement(indici_ordinati[i]);
+                                riga += " ";
+                            }
                         }
                     }
                 }
             }
+            righe_testo.push_back(riga);
         }
-        righe_testo.push_back(riga);
+    }else{
+        righe_testo.emplace_back("Tabella vuota");
     }
     return righe_testo;
 }
@@ -245,53 +248,57 @@ vector<string> Tabella::returnData(const vector<string> &campi, const string& ca
     vector<string> righe_testo;
     righe_testo.clear();
     string riga;
-    bool trovata=false;
-    int a=0;
-    while(a < _colonne.size() && !trovata){
-        if(campo_condizione==_colonne[a]->getNomeColonna()) trovata=true;
-        else a++;
-    }
-    if(trovata){
-        for(int i=0; i < _recs; i++){
-            if(operatore_ordinamento==0) {
-                if (_colonne[a]->compareElements(condizione, operatore, i)) {
-                    riga.clear();
-                    for (auto j : _colonne) {
-                        for (const auto &s : campi) {
-                            if (j->getNomeColonna() == s) {
-                                if (j->getElement(i) == j->getElement(-1)) {
-                                    riga += "___ ";
-                                } else {
-                                    riga += j->getElement(i);
-                                    riga += " ";
-                                }
-                            }
-                        }
-                    }
-                }
-                righe_testo.push_back(riga);
-            }else{
-                vector<int> indici_ordinati=ordinamento(campo_ordinamento, operatore_ordinamento);
-                if (_colonne[a]->compareElements(condizione, operatore, indici_ordinati[i])){
-                    riga.clear();
-                    for (auto j : _colonne) {
-                        for (const auto &s : campi) {
-                            if (j->getNomeColonna() == s) {
-                                if (j->getElement(indici_ordinati[i]) == j->getElement(-1)) {
-                                    riga += "___ ";
-                                } else {
-                                    riga += j->getElement(indici_ordinati[i]);
-                                    riga += " ";
+    if(_recs!=0) {
+        bool trovata = false;
+        int a = 0;
+        while (a < _colonne.size() && !trovata) {
+            if (campo_condizione == _colonne[a]->getNomeColonna()) trovata = true;
+            else a++;
+        }
+        if (trovata) {
+            for (int i = 0; i < _recs; i++) {
+                if (operatore_ordinamento == 0) {
+                    if (_colonne[a]->compareElements(condizione, operatore, i)) {
+                        riga.clear();
+                        for (auto j : _colonne) {
+                            for (const auto &s : campi) {
+                                if (j->getNomeColonna() == s) {
+                                    if (j->getElement(i) == j->getElement(-1)) {
+                                        riga += "___ ";
+                                    } else {
+                                        riga += j->getElement(i);
+                                        riga += " ";
+                                    }
                                 }
                             }
                         }
                     }
                     righe_testo.push_back(riga);
+                } else {
+                    vector<int> indici_ordinati = ordinamento(campo_ordinamento, operatore_ordinamento);
+                    if (_colonne[a]->compareElements(condizione, operatore, indici_ordinati[i])) {
+                        riga.clear();
+                        for (auto j : _colonne) {
+                            for (const auto &s : campi) {
+                                if (j->getNomeColonna() == s) {
+                                    if (j->getElement(indici_ordinati[i]) == j->getElement(-1)) {
+                                        riga += "___ ";
+                                    } else {
+                                        riga += j->getElement(indici_ordinati[i]);
+                                        riga += " ";
+                                    }
+                                }
+                            }
+                        }
+                        righe_testo.push_back(riga);
+                    }
                 }
             }
+        } else {
+            throw InvalidCondition();
         }
     }else{
-        //eccezione campo non trovato
+        righe_testo.emplace_back("Tabella vuota");
     }
     return righe_testo;
 }
@@ -302,55 +309,59 @@ vector<string> Tabella::returnData(const vector<string> &campi, const string& ca
     vector<string> righe_testo;
     righe_testo.clear();
     string riga;
-    bool trovata=false;
-    int a=0;
-    while(a < _colonne.size() && !trovata){
-        if(campo_condizione==_colonne[a]->getNomeColonna()) trovata=true;
-        else a++;
-    }
-    if(trovata){
-        for(int i=0; i < _recs; i++) {
-            if (operatore_ordinamento == 0) {
-                if (_colonne[a]->compareElements(condizione1, 4, i) &&
-                    _colonne[a]->compareElements(condizione2, 2, i)) {
-                    riga.clear();
-                    for (auto j : _colonne) {
-                        for (const auto &s : campi) {
-                            if (j->getNomeColonna() == s) {
-                                if (j->getElement(i) == j->getElement(-1)) {
-                                    riga += "___ ";
-                                } else {
-                                    riga += j->getElement(i);
-                                    riga += " ";
+    if(_recs!=0) {
+        bool trovata = false;
+        int a = 0;
+        while (a < _colonne.size() && !trovata) {
+            if (campo_condizione == _colonne[a]->getNomeColonna()) trovata = true;
+            else a++;
+        }
+        if (trovata) {
+            for (int i = 0; i < _recs; i++) {
+                if (operatore_ordinamento == 0) {
+                    if (_colonne[a]->compareElements(condizione1, 4, i) &&
+                        _colonne[a]->compareElements(condizione2, 2, i)) {
+                        riga.clear();
+                        for (auto j : _colonne) {
+                            for (const auto &s : campi) {
+                                if (j->getNomeColonna() == s) {
+                                    if (j->getElement(i) == j->getElement(-1)) {
+                                        riga += "___ ";
+                                    } else {
+                                        riga += j->getElement(i);
+                                        riga += " ";
+                                    }
                                 }
                             }
                         }
+                        righe_testo.push_back(riga);
                     }
-                    righe_testo.push_back(riga);
-                }
-            }else{
-                vector<int> indici_ordinati=ordinamento(campo_ordinamento, operatore_ordinamento);
-                if (_colonne[a]->compareElements(condizione1, 4, indici_ordinati[i]) &&
-                    _colonne[a]->compareElements(condizione2, 2, indici_ordinati[i])) {
-                    riga.clear();
-                    for (auto j : _colonne) {
-                        for (const auto &s : campi) {
-                            if (j->getNomeColonna() == s) {
-                                if (j->getElement(indici_ordinati[i]) == j->getElement(-1)) {
-                                    riga += "___ ";
-                                } else {
-                                    riga += j->getElement(indici_ordinati[i]);
-                                    riga += " ";
+                } else {
+                    vector<int> indici_ordinati = ordinamento(campo_ordinamento, operatore_ordinamento);
+                    if (_colonne[a]->compareElements(condizione1, 4, indici_ordinati[i]) &&
+                        _colonne[a]->compareElements(condizione2, 2, indici_ordinati[i])) {
+                        riga.clear();
+                        for (auto j : _colonne) {
+                            for (const auto &s : campi) {
+                                if (j->getNomeColonna() == s) {
+                                    if (j->getElement(indici_ordinati[i]) == j->getElement(-1)) {
+                                        riga += "___ ";
+                                    } else {
+                                        riga += j->getElement(indici_ordinati[i]);
+                                        riga += " ";
+                                    }
                                 }
                             }
                         }
+                        righe_testo.push_back(riga);
                     }
-                    righe_testo.push_back(riga);
                 }
             }
+        } else {
+            throw InvalidCondition();
         }
     }else{
-        //eccezione campo non trovato
+        righe_testo.emplace_back("Tabella vuota");
     }
     return righe_testo;
 }
@@ -377,12 +388,10 @@ vector<int> Tabella::ordinamento(const string &campo, int operatore) const {
             }
             return indici;
         } else {
-            //eccezione colonna non trovata
-            return vector<int>();
+            throw CampoNonTrovato();
         }
     }else{
-        //operatore non valido
-        return vector<int>();
+        throw InvalidOperator();
     }
 }
 
@@ -400,9 +409,10 @@ void Tabella::setChiaveEsterna(Tabella* tabella_to_link, const string& colonna_t
         }
         if ( j < _colonne.size()) {
             _colonne[j]->_foreign_key = tabella_to_link->_colonne[i];
-        } else{//eccezione col not found
-             }
-
-    } else {//eccezione colonna non trovat
-         }
+        } else{
+            throw CampoNonTrovato();
+        }
+    } else {
+        throw SecKeyNotFound();
+    }
 }

@@ -44,7 +44,7 @@ void ColonnaDate::updateVal(const string &val, int index) {
                 }
             }
             if (!valore_trovato) {
-                //eccezione valore non esistente quindi non valido
+                throw SecKeyError();
             }
         }
     }
@@ -55,7 +55,7 @@ void ColonnaDate::updateVal(const string &val, int index) {
                 flag_duplicate_found = true;
         }
         if(flag_duplicate_found) {
-            //eccezione doppione per primary key
+            throw PrimKeyError();
         }
         else //se non ci sono valori uguali presenti, l'aggiornamento è permesso
             _elementi_date[index] = data;
@@ -84,8 +84,7 @@ bool ColonnaDate::compareElements(const string& condizione, int operatore, int i
         case 4:
             return (_elementi_date[index] >= to_compare);
         default:
-            //creare eccezione e togliere return false
-            return false;
+            throw InvalidOperator();
     }
 }
 

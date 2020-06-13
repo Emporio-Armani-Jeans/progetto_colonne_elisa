@@ -12,8 +12,14 @@
 #include "ColonnaDate.h"
 #include "ColonnaChar.h"
 #include "ColonnaTime.h"
-
-
+#include "CampoNonTrovato.h"
+#include "InvalidOperator.h"
+#include "SecKeyError.h"
+#include "NotNullError.h"
+#include "SecKeyNotFound.h"
+#include "PrimKeyError.h"
+#include "PrimaryKeyAlreadyExisting.h"
+#include "InvalidCondition.h"
 #include <vector>
 #include <string>
 using namespace std;
@@ -30,11 +36,11 @@ public:
      * aggiunge un elemento e imposta il corrispettivo valore contenuto nel vettore <valori> */
     void addRecord(const vector<string>& campi, const vector<string>& valori);
 
-    void deleteRecord(const string& nome_col, const string& condizione, int operatore=0);
-    void deleteRecord(const string& nome_col, const string& condizione1, const string& condizione2);  //between operator
+    void deleteRecord(const string& campo_condizione, const string& condizione, int operatore=0);
+    void deleteRecord(const string& campo_condizione, const string& condizione1, const string& condizione2);  //between operator
 
-    void updateRecord(const string& condizione, const string& nome_col, const vector<string>& campi,const vector<string>& valori, int operatore=0);
-    void updateRecord(const string& condizione1, const string& condizione2, const string& nome_col, const vector<string>& campi, const vector<string>& valori);
+    void updateRecord(const string& campo_condizione, const string& condizione, const vector<string>& campi, const vector<string>& valori, int operatore=0);
+    void updateRecord(const string& campo_condizioni, const string& condizione1, const string& condizione2, const vector<string>& campi, const vector<string>& valori);
 
     Colonna* getCol(int index)const; //boh ahah
     int numCampi()const;

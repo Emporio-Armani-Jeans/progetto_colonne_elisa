@@ -37,13 +37,14 @@ int main() {
     tab1->aggiungiColonna(address);
     tab1->aggiungiColonna(data);
     tab1->aggiungiColonna(id);
-    tab1->setChiavePrimaria("Id");
 
+    //chiavi
+    tab1->setChiavePrimaria("Age");
     tab2->aggiungiColonna(countries_id);
     tab2->setChiavePrimaria("Countries_id");
-
     tab1->setChiaveEsterna(tab2, "Age", "Countries_id");
 
+    //set elementi
     vector<string> vettore1;
     vector<string> valore1, valore2, valore3;
 
@@ -57,12 +58,10 @@ int main() {
     tab2->addRecord(vettore1, valore3);
 
     string s1 = "Age", s2 = "Salary", s3 = "Address", s4="Data_di_nascita", s5="Id";
-    string s1_1 = "1267", s2_1 = "35.6", s3_1 = "Via dei Gigli 33", s4_1="17/04/1999", s5_1="2";
-    string s1_2 = "123", s2_2= "69.420", s3_2= "Via Petalosa 77", s4_2="04/06/1989", s5_2="2";
-    string s1_3="133", s2_3="556.95", s3_3="Via Dal Cazzo 666", s4_3="23/07/2002", s5_3="2";
+    string s1_1 = "10", s2_1 = "35.6", s3_1 = "Via dei Gigli 33", s4_1="17/04/1999", s5_1="2";
+    string s1_2 = "12", s2_2= "69.420", s3_2= "Via Petalosa 77", s4_2="04/06/1989", s5_2="2";
+    string s1_3="3", s2_3="556.95", s3_3="Via Dal Cazzo 666", s4_3="23/07/2002", s5_3="2";
 
-    //prova per impostare i valori:
-    //attraverso la insert salviamo tutto in delle stringhe e con cicli controlli ecc: (cast all'interno della singola colonna per salvare il tipo giusto!)
     vector<string> v1, v2, v3, v4;
 
     v1.push_back(s1);
@@ -93,21 +92,14 @@ int main() {
     v4.push_back(s3_3);
     tab1->addRecord(v1, v4);
 
+    //stampa
     for(int i=0; i<tab1->numRecs(); i++) {
         cout << tab1->returnData()[i] << endl;
     }
     cout << endl;
 
-    //const vector<string>& campi, const string& campo_condizione, const string& condizione1,
-    //            const string& condizione2, const string& campo_ordinamento=string(), int operatore_ordinamento=0)
-    vector<string> campi;
-    campi.emplace_back("Age");
-    campi.emplace_back("Address");
-
+    //fine programma
     deleteOggettoTabella(&tab1);
-    //rimozione tabella:
-    /*  tabelle.remove(tab1); //elimina la tabella dalla lista delle tabelle
-    deleteOggettoTabella(&tab1); //elimina l'oggetto */
 
     return 0;
 }

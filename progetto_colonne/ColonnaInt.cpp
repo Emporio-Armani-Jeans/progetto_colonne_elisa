@@ -42,7 +42,7 @@ void ColonnaInt::updateVal(const string& val, int index){
                     }
                 }
                 if (!valore_trovato) {
-                    //eccezione valore non esistente quindi non valido
+                    throw SecKeyError();
                 }
             }
         }
@@ -53,7 +53,7 @@ void ColonnaInt::updateVal(const string& val, int index){
                     flag_duplicate_found = true;
             }
             if(flag_duplicate_found) {
-                //eccezione doppione per primary key
+                throw PrimKeyError();
             }
             else //se non ci sono valori uguali presenti, l'aggiornamento è permesso
                 _elementi_interi[index] = new_value;
@@ -85,8 +85,7 @@ bool ColonnaInt::compareElements(const string& condizione, int operatore, int in
         case 4:
             return (_elementi_interi[index] >= to_compare);
         default:
-            //creare eccezione
-            return false;
+            throw InvalidOperator();
     }
 }
 
