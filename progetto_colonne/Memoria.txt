@@ -1,0 +1,12 @@
+2
+tab1 3
+Age Id Address
+10# 1# Via Dei Gigli 33#
+3# 2# Via Dal Cazzo 666#
+12# 3# Via Petalosa 77#
+end
+tab2 2
+Country Country_Id
+Italy# 1#
+Germany# 2#
+end

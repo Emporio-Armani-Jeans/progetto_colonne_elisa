@@ -3,8 +3,10 @@
 #include "ColonnaFloat.h"
 #include "ColonnaInt.h"
 #include "Tabella.h"
+#include "FileError.h"
 #include <list>
 #include <vector>
+#include <fstream>
 
 using namespace std;
 
@@ -15,6 +17,8 @@ void deleteOggettoTabella(Tabella **ptr){
         *ptr = nullptr;
     }
 }
+void Avvio(const string& nome_file);                     ////
+void Arresto(const string& nome_file);                   ////
 
 int main() {
     list<Tabella*> tabelle;
@@ -102,4 +106,25 @@ int main() {
     deleteOggettoTabella(&tab1);
 
     return 0;
+}
+
+
+void Avvio(const string& nome_file){                ////
+    ifstream database;
+    database.open(nome_file);
+    if(!database){
+        throw FileError();
+    }else{
+        int num_tabs, num_cols, numero;
+        string parola;
+        vector<string> nomi_colonne;
+        database >> num_tabs >> num_cols;
+        for(int i=0; i<num_tabs; i++){
+            //salvataggio della i-esima tabella
+            for(int i_col=0; i_col<num_cols; i_col++){        //da terminare
+                database >> parola;
+                nomi_colonne.push_back(parola);
+            }
+        }
+    }
 }
