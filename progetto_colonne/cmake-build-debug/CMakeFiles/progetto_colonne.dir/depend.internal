@@ -96,6 +96,7 @@ CMakeFiles/progetto_colonne.dir/data.cpp.obj
  C:/Users/andry/CLionProjects/progetto_colonne_elisa/progetto_colonne/data.cpp
  C:/Users/andry/CLionProjects/progetto_colonne_elisa/progetto_colonne/data.h
 CMakeFiles/progetto_colonne.dir/main.cpp.obj
+ C:/Users/andry/CLionProjects/progetto_colonne_elisa/progetto_colonne/Avvio_Arresto.hpp
  C:/Users/andry/CLionProjects/progetto_colonne_elisa/progetto_colonne/CampoNonTrovato.h
  C:/Users/andry/CLionProjects/progetto_colonne_elisa/progetto_colonne/Colonna.h
  C:/Users/andry/CLionProjects/progetto_colonne_elisa/progetto_colonne/ColonnaChar.h
@@ -104,6 +105,7 @@ CMakeFiles/progetto_colonne.dir/main.cpp.obj
  C:/Users/andry/CLionProjects/progetto_colonne_elisa/progetto_colonne/ColonnaInt.h
  C:/Users/andry/CLionProjects/progetto_colonne_elisa/progetto_colonne/ColonnaText.h
  C:/Users/andry/CLionProjects/progetto_colonne_elisa/progetto_colonne/ColonnaTime.h
+ C:/Users/andry/CLionProjects/progetto_colonne_elisa/progetto_colonne/FileError.h
  C:/Users/andry/CLionProjects/progetto_colonne_elisa/progetto_colonne/InvalidCondition.h
  C:/Users/andry/CLionProjects/progetto_colonne_elisa/progetto_colonne/InvalidOperator.h
  C:/Users/andry/CLionProjects/progetto_colonne_elisa/progetto_colonne/NotNullError.h

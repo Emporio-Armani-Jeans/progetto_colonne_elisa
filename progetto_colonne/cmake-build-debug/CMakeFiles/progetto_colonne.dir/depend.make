@@ -95,6 +95,7 @@ CMakeFiles/progetto_colonne.dir/Time.cpp.obj: ../Time.h
 CMakeFiles/progetto_colonne.dir/data.cpp.obj: ../data.cpp
 CMakeFiles/progetto_colonne.dir/data.cpp.obj: ../data.h
 
+CMakeFiles/progetto_colonne.dir/main.cpp.obj: ../Avvio_Arresto.hpp
 CMakeFiles/progetto_colonne.dir/main.cpp.obj: ../CampoNonTrovato.h
 CMakeFiles/progetto_colonne.dir/main.cpp.obj: ../Colonna.h
 CMakeFiles/progetto_colonne.dir/main.cpp.obj: ../ColonnaChar.h
@@ -103,6 +104,7 @@ CMakeFiles/progetto_colonne.dir/main.cpp.obj: ../ColonnaFloat.h
 CMakeFiles/progetto_colonne.dir/main.cpp.obj: ../ColonnaInt.h
 CMakeFiles/progetto_colonne.dir/main.cpp.obj: ../ColonnaText.h
 CMakeFiles/progetto_colonne.dir/main.cpp.obj: ../ColonnaTime.h
+CMakeFiles/progetto_colonne.dir/main.cpp.obj: ../FileError.h
 CMakeFiles/progetto_colonne.dir/main.cpp.obj: ../InvalidCondition.h
 CMakeFiles/progetto_colonne.dir/main.cpp.obj: ../InvalidOperator.h
 CMakeFiles/progetto_colonne.dir/main.cpp.obj: ../NotNullError.h

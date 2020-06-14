@@ -6,6 +6,16 @@
 
 #IncludeRegexTransform: 
 
+C:/Users/andry/CLionProjects/progetto_colonne_elisa/progetto_colonne/Avvio_Arresto.hpp
+Tabella.h
+C:/Users/andry/CLionProjects/progetto_colonne_elisa/progetto_colonne/Tabella.h
+fstream
+-
+Colonna.h
+C:/Users/andry/CLionProjects/progetto_colonne_elisa/progetto_colonne/Colonna.h
+FileError.h
+C:/Users/andry/CLionProjects/progetto_colonne_elisa/progetto_colonne/FileError.h
+
 C:/Users/andry/CLionProjects/progetto_colonne_elisa/progetto_colonne/CampoNonTrovato.h
 exception
 -
@@ -82,6 +92,10 @@ C:/Users/andry/CLionProjects/progetto_colonne_elisa/progetto_colonne/Colonna.h
 Time.h
 C:/Users/andry/CLionProjects/progetto_colonne_elisa/progetto_colonne/Time.h
 vector
+-
+
+C:/Users/andry/CLionProjects/progetto_colonne_elisa/progetto_colonne/FileError.h
+exception
 -
 
 C:/Users/andry/CLionProjects/progetto_colonne_elisa/progetto_colonne/InvalidCondition.h
@@ -177,8 +191,18 @@ ColonnaInt.h
 C:/Users/andry/CLionProjects/progetto_colonne_elisa/progetto_colonne/ColonnaInt.h
 Tabella.h
 C:/Users/andry/CLionProjects/progetto_colonne_elisa/progetto_colonne/Tabella.h
+FileError.h
+C:/Users/andry/CLionProjects/progetto_colonne_elisa/progetto_colonne/FileError.h
 list
 -
 vector
 -
+fstream
+-
+string
+-
+sstream
+-
+Avvio_Arresto.hpp
+C:/Users/andry/CLionProjects/progetto_colonne_elisa/progetto_colonne/Avvio_Arresto.hpp
 

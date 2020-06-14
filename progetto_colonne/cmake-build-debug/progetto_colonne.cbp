@@ -80,6 +80,9 @@
 				</MakeCommands>
 			</Target>
 		</Build>
+		<Unit filename="C:/Users/andry/CLionProjects/progetto_colonne_elisa/progetto_colonne/Avvio_Arresto.hpp">
+			<Option target="progetto_colonne"/>
+		</Unit>
 		<Unit filename="C:/Users/andry/CLionProjects/progetto_colonne_elisa/progetto_colonne/CampoNonTrovato.h">
 			<Option target="progetto_colonne"/>
 		</Unit>

@@ -7,6 +7,10 @@
 #include <list>
 #include <vector>
 #include <fstream>
+#include <string>
+#include <sstream>
+#include "Avvio_Arresto.hpp"
+#define ERR_COMANDO -1
 
 using namespace std;
 
@@ -17,66 +21,131 @@ void deleteOggettoTabella(Tabella **ptr){
         *ptr = nullptr;
     }
 }
-list<Tabella*> Avvio(const string& nome_file);                     ////
-void Arresto(const string& nome_file, list<Tabella*> tabelle);                   ////
+
+
+
+
+enum comando {CREATE, DROP, INSERT, DELETE, UPDATE, SELECT,QUIT};
+int compare_first_word_comandi(string &first_word);
+string toUpper(string word);
+
 
 int main() {
     list<Tabella*> tabelle;
-    int increment=0;
+    string comando_intero;
+    string stringa;
+    char c;
+    string first_word, word, nome_colonna, condizione1, condizione2, nome, tipo, not_null, auto_increment;
+    vector<string> first_word_comandi {"CREATE", "DROP", "INSERT", "DELETE", "UPDATE", "SELECT","QUIT"};
+    vector<string> campi;
+    vector<string> valori;
 
+
+    cout << "Inserisci comando: " << endl;
+    //leggi comando intero
+    while (stringa[stringa.size() - 1] != ';') {
+        if (stringa[stringa.size() - 1] != ';') {
+            getline(cin, stringa);
+            comando_intero.append(stringa);
+            comando_intero.append(" ");
+        }
+    }
+    cout << "il comando è: " << comando_intero;
+    //scomposizione comando
+    stringstream buffer(comando_intero);
+    buffer >> first_word;
+    cout << endl << first_word;
+
+    while(compare_first_word_comandi(first_word)!=QUIT) {
+        switch (compare_first_word_comandi(first_word)) {
+            case CREATE :
+               /*CREATE TABLE CUSTOMERS(
+                ID INT NOT NULL AUTO_INCREMENT,
+                NAME TEXT NOT NULL,
+                AGE INT NOT NULL,
+                ADDRESS TEXT ,
+                COUNTRY_ID INT
+                SALARY FLOAT,
+                PRIMARY KEY (ID)
+                FOREIGN KEY (COUNTRY_ID) REFERENCES COUNTRIES (ID)); */
+                buffer >> word;
+                word = toUpper(word);
+                if (word == "TABLE") {
+                    getline(buffer, word, '(');
+                    buffer >> c;
+                    if(c!='(') {
+                        cout << "Comando non valido, errore di sintassi" << endl;
+                        break;
+                    }
+                    tabelle.emplace_back(new Tabella(word));
+                    buffer >> word >> tipo;
+                    campi.push_back(word);
+                } else cout << "Comando non valido" << endl;
+                break;
+            case DROP :
+                break;
+            case INSERT :
+                break;
+            case DELETE :
+                break;
+            case UPDATE :
+                break;
+            case SELECT :
+                break;
+            case QUIT :
+                break;
+            default:
+                //eccezione comando non valido
+                break;
+        }
+
+        cout << "Inserisci comando: " << endl;
+        //leggi comando intero
+        stringa.clear();
+        comando_intero.clear();
+        while (stringa[stringa.size() - 1] != ';') {
+            if (stringa[stringa.size() - 1] != ';') {
+                getline(cin, stringa);
+                comando_intero.append(stringa);
+                comando_intero.append(" ");
+            }
+        }
+        cout << "il comando è: " << comando_intero;
+        //scomposizione comando
+        buffer << comando_intero;
+        buffer >> first_word;
+        first_word = toUpper(first_word);
+        cout << endl << first_word;
+    }
     return 0;
 }
 
 
-list<Tabella*> Avvio(const string& nome_file){                ////
-    ifstream database;
-    database.open(nome_file);
-    if(!database){
-        throw FileError();
-    }else{
-        int num_tabs, num_cols, numero;
-        string parola, tipo, auto_increment, not_null, primary_key;
-        Colonna* colonna, *new_col;
-        Tabella* tabella;
-        list<Tabella*> tabs;
-        database >> num_tabs >> num_cols;
-        for(int i=0; i<num_tabs; i++){
-            //salvataggio della i-esima tabella
-            database >> parola;
-            tabella= new Tabella("parola");
-            for(int i_col=0; i_col<num_cols; i_col++){        //da terminare
-                getline(database, parola, ':');
-                getline(database, tipo, ',');
-                getline(database, auto_increment,',');
-                getline(database, not_null,',');
-                getline(database, primary_key,'#');
-                if(tipo=="int"){
-                    if(auto_increment=="true") new_col= new ColonnaInt("parola", false, true);
-                    else new_col= new ColonnaInt("parola");
-                }
-                else if(tipo=="char"){
-                    new_col= new ColonnaChar("parola");
-                }
-                else if(tipo=="text"){
-                    new_col= new ColonnaText("parola");
-                }
-                else if(tipo=="float"){
-                    new_col= new ColonnaFloat("parola");
-                }
-                else if(tipo=="data"){
-                    new_col= new ColonnaDate("parola");
-                }
-                else if(tipo=="time"){
-                    new_col= new ColonnaTime("parola");
-                }
-                tabella->aggiungiColonna(new_col);
-                if(not_null=="true") new_col->setNotNull();
-                if(primary_key=="true") tabella->setChiavePrimaria(new_col->getNomeColonna());
-                new_col= nullptr;
-            }
-            //add record
-        }
-        database.close();
-        return tabs;
-    }
+
+
+int compare_first_word_comandi(string &first_word){
+    first_word = toUpper(first_word);
+    if(first_word == "CREATE")
+        return CREATE;
+    else if (first_word == "DROP")
+        return DROP;
+    else if (first_word == "INSERT")
+        return INSERT;
+    else if (first_word == "DELETE")
+        return DELETE;
+    else if (first_word == "UPDATE")
+        return UPDATE;
+    else if (first_word == "SELECT")
+        return SELECT;
+    else if (first_word == "QUIT")
+        return QUIT;
+    else
+        return ERR_COMANDO;
+}
+
+
+string toUpper(string word){
+    for (auto & c : word)
+        c = toupper(c);
+    return word;
 }
