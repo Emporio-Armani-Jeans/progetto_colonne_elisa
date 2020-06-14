@@ -1,12 +1,14 @@
 2
 tab1 3
-Age Id Address
-10# 1# Via Dei Gigli 33#
-3# 2# Via Dal Cazzo 666#
-12# 3# Via Petalosa 77#
+Customers
+Age:int,false,true,false#Id:int,true,true,true#Address:text,false,false,false
+10#1#Via Dei Gigli 33#
+3#2#Via Dal Cazzo 666#
+12#3#Via Petalosa 77#
 end
 tab2 2
-Country Country_Id
-Italy# 1#
-Germany# 2#
+Countries
+Country:text#Country_Id:int
+Italy#1#
+Germany#2#
 end

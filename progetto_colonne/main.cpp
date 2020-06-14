@@ -17,7 +17,7 @@ void deleteOggettoTabella(Tabella **ptr){
         *ptr = nullptr;
     }
 }
-void Avvio(const string& nome_file);                     ////
+vector<Tabella*> Avvio(const string& nome_file);                     ////
 void Arresto(const string& nome_file);                   ////
 
 int main() {
@@ -109,22 +109,53 @@ int main() {
 }
 
 
-void Avvio(const string& nome_file){                ////
+vector<Tabella*> Avvio(const string& nome_file){                ////
     ifstream database;
     database.open(nome_file);
     if(!database){
         throw FileError();
     }else{
         int num_tabs, num_cols, numero;
-        string parola;
-        vector<string> nomi_colonne;
+        string parola, tipo, auto_increment, not_null, primary_key;
+        Colonna* colonna;
+        Tabella* tabella;
+        vector<Tabella*> tabs;
         database >> num_tabs >> num_cols;
         for(int i=0; i<num_tabs; i++){
             //salvataggio della i-esima tabella
+            database >> parola;
+            tabella= new Tabella("parola");
             for(int i_col=0; i_col<num_cols; i_col++){        //da terminare
-                database >> parola;
-                nomi_colonne.push_back(parola);
+                getline(database, parola, ':');
+                getline(database, tipo, ',');
+                getline(database, auto_increment,',');
+                getline(database, not_null,',');
+                getline(database, primary_key,'#');
+                if(tipo=="int"){
+                    auto *new_col= new ColonnaInt("parola");
+                    if(auto_increment=="true") new_col->setAutoIncrement();
+                }
+                else if(tipo=="char"){
+                    auto *new_col= new ColonnaChar("parola");
+                }
+                else if(tipo=="text"){
+                    auto *new_col= new ColonnaText("parola");
+                }
+                else if(tipo=="float"){
+                    auto *new_col= new ColonnaFloat("parola");
+                }
+                else if(tipo=="data"){
+                    auto *new_col= new ColonnaDate("parola");
+                }
+                else if(tipo=="time"){
+                    auto *new_col= new ColonnaTime("parola");
+                }
+                tabella->aggiungiColonna(new_col);                        //problema
+                if(not_null=="true") new_col->setNotNull();
+                if(primary_key=="true") tabella->setChiavePrimaria(new_col->getNomeColonna());
+                new_col= nullptr;
             }
         }
+        return tabs;
     }
 }

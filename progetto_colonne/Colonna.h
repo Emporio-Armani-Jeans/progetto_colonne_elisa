@@ -29,6 +29,9 @@ public:
     virtual bool compareElements(const string& condizione, int operatore, int index) const = 0; /*confronta il valore dell'elemento di indice <index>
                                                                                                   con <condizione>, secondo l'operatore <operatore>*/
     virtual int getSize() const = 0;
+    void setNotNull(){
+        _not_null=true;
+    }
     
 protected:
     string _nome_colonna;
