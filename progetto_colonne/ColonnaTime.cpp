@@ -92,3 +92,7 @@ bool ColonnaTime::compareElements(const string& condizione, int operatore, int i
 int ColonnaTime::getSize() const {
     return _elementi_time.size();
 }
+
+string ColonnaTime::getTipo() const {
+    return "time";
+}

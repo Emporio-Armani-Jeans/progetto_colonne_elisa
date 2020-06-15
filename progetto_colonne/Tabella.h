@@ -42,6 +42,7 @@ public:
     void updateRecord(const string& campo_condizione, const string& condizione, const vector<string>& campi, const vector<string>& valori, int operatore=0);
     void updateRecord(const string& campo_condizioni, const string& condizione1, const string& condizione2, const vector<string>& campi, const vector<string>& valori);
 
+    string getNome()const;
     Colonna* getCol(int index)const; //boh ahah
     int numCampi()const;
     int numRecs()const;
@@ -60,8 +61,5 @@ private:
     vector<int> ordinamento(const string& campo, int operatore)const;
 
 };
-
-
-
 
 #endif //PROGETTO_COLONNE_TABELLA_H

@@ -25,6 +25,10 @@ public:
     void addDefault() override;
     bool compareElements(const string& condizione, int operatore, int index) const override;
     int getSize() const override;
+    string getTipo()const override;
+    bool isAutoIncrement()const override{
+        return false;
+    }
 
 private:
     vector <float> _elementi_float;

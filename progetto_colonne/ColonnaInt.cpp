@@ -92,3 +92,11 @@ bool ColonnaInt::compareElements(const string& condizione, int operatore, int in
 int ColonnaInt::getSize() const {
     return _elementi_interi.size();
 }
+
+bool ColonnaInt::isAutoIncrement() const {
+    return _auto_increment;
+}
+
+string ColonnaInt::getTipo() const {
+    return "int";
+}

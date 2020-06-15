@@ -81,3 +81,7 @@ bool ColonnaFloat::compareElements(const string& condizione, int operatore, int 
 int ColonnaFloat::getSize() const {
     return _elementi_float.size();
 }
+
+string ColonnaFloat::getTipo() const {
+    return "float";
+}

@@ -91,3 +91,7 @@ bool ColonnaDate::compareElements(const string& condizione, int operatore, int i
 int ColonnaDate::getSize() const {
     return _elementi_date.size();
 }
+
+string ColonnaDate::getTipo()const{
+    return "data";
+}

@@ -32,13 +32,17 @@ string toUpper(string word);
 
 int main() {
     list<Tabella*> tabelle;
-    string comando_intero;
+    string comando_intero, nome_file;
     string stringa;
     char c;
     string first_word, word, nome_colonna, condizione1, condizione2, nome, tipo, not_null, auto_increment;
     vector<string> first_word_comandi {"CREATE", "DROP", "INSERT", "DELETE", "UPDATE", "SELECT","QUIT"};
     vector<string> campi;
     vector<string> valori;
+
+    cout << "Inserire nome file database" << endl;
+    cin >> nome_file;
+    tabelle=Avvio(nome_file);
 
 
     cout << "Inserisci comando: " << endl;
@@ -117,6 +121,9 @@ int main() {
         first_word = toUpper(first_word);
         cout << endl << first_word;
     }
+
+
+    Arresto(nome_file, tabelle);
     return 0;
 }
 

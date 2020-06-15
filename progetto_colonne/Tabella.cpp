@@ -416,3 +416,7 @@ void Tabella::setChiaveEsterna(Tabella* tabella_to_link, const string& colonna_t
         throw SecKeyNotFound();
     }
 }
+
+string Tabella::getNome() const {
+    return _nome_tabella;
+}

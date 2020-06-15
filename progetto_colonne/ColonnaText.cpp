@@ -80,3 +80,7 @@ bool ColonnaText::compareElements(const string& condizione, int operatore, int i
 int ColonnaText::getSize() const {
     return _elementi_di_testo.size();
 }
+
+string ColonnaText::getTipo() const {
+    return "text";
+}

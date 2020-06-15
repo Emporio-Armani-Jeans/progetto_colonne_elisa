@@ -1,12 +1,13 @@
 2
 Customers 3
-Age:int,false,true,false#Id:int,true,true,true#Address:text,false,false,false
+Age:int,false,true,false#Id:int,true,true,true#Address:text,false,false,false#
+3
 10#1#Via Dei Gigli 33#
 3#2#Via Dal Cazzo 666#
 12#3#Via Petalosa 77#
-end
+
 Countries 2
-Country:text#Country_Id:int
+Country:text,false,false,false#Country_Id:int,true,true,true#
+2
 Italy#1#
 Germany#2#
-end

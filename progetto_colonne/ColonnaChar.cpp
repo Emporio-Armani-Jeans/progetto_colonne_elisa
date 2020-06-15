@@ -84,3 +84,7 @@ bool ColonnaChar::compareElements(const string& condizione, int operatore, int i
 int ColonnaChar::getSize() const {
     return _elementi_char.size();
 }
+
+string ColonnaChar::getTipo() const {
+    return "char";
+}

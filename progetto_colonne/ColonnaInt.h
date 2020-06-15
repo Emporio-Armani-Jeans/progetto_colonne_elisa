@@ -27,7 +27,9 @@ public:
     void deleteVal(int index) override;
     void addDefault() override;
     bool compareElements(const string& condizione, int operatore, int index) const override;
+    bool isAutoIncrement()const override;
     int getSize() const override;
+    string getTipo()const override;
 
 private:
     vector <int> _elementi_interi;
