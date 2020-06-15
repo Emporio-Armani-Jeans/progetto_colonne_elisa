@@ -36,7 +36,7 @@ public:
      * aggiunge un elemento e imposta il corrispettivo valore contenuto nel vettore <valori> */
     void addRecord(const vector<string>& campi, const vector<string>& valori);
 
-    void deleteRecord(const string& campo_condizione, const string& condizione, int operatore=0);
+    void deleteRecord(const string& campo_condizione=std::string(), const string& condizione=std::string(), int operatore=0);
     void deleteRecord(const string& campo_condizione, const string& condizione1, const string& condizione2);  //between operator
 
     void updateRecord(const string& campo_condizione, const string& condizione, const vector<string>& campi, const vector<string>& valori, int operatore=0);

@@ -25,17 +25,19 @@ void deleteOggettoTabella(Tabella **ptr){
 
 
 
-enum comando {CREATE, DROP, INSERT, DELETE, UPDATE, SELECT,QUIT};
+enum comando {CREATE, DROP, INSERT, DELETE, TRUNCATE, UPDATE, SELECT,QUIT};
 int compare_first_word_comandi(string &first_word);
 string toUpper(string word);
+bool belong_to(const string& elemento, const vector<string>& insieme);
 
 
 int main() {
-    list<Tabella*> tabelle;
+    vector<Tabella*> tabelle;
     string nome_file, riga_comando;
     char c;
     int contatore=0, i=0;
     bool auto_increm, not_nul, key;
+    string syntax_err="Comando non valido, errore di sintassi";
     string first_word, word, nome_colonna, condizione1, condizione2, nome, tipo, not_null, auto_increment;
     vector<string> first_word_comandi {"CREATE", "DROP", "INSERT", "DELETE", "UPDATE", "SELECT","QUIT"};
     vector<string> campi, valori, words;
@@ -76,7 +78,7 @@ int main() {
                     getline(comando_intero, word, '(');
                     comando_intero >> c;
                     if(c!='(') {
-                        cout << "Comando non valido, errore di sintassi" << endl;
+                        cout << syntax_err << endl;
                         break;
                     }
                     tabelle.emplace_back(new Tabella(word));
@@ -96,6 +98,22 @@ int main() {
                 break;
             case DELETE :
                 break;
+            case TRUNCATE :
+                comando_intero >> word;
+                if(word!="TABLE"){
+                    cout << syntax_err << endl;
+                    break;
+                }else{
+                    comando_intero >> word;
+                    for(auto & s : tabelle){
+                        if(word==s->getNome()) {
+                            s->deleteRecord();
+                            break;
+                        }
+                    }
+                    cout << "Tabella non esistente" << endl;
+                    break;
+                }
             case UPDATE :
                 break;
             case SELECT :
@@ -103,7 +121,7 @@ int main() {
             case QUIT :
                 break;
             default:
-                //eccezione comando non valido
+                cout << syntax_err << endl;
                 break;
         }
 
@@ -140,6 +158,8 @@ int compare_first_word_comandi(string &first_word){
         return INSERT;
     else if (first_word == "DELETE")
         return DELETE;
+    else if (first_word == "TRUNCATE")
+        return TRUNCATE;
     else if (first_word == "UPDATE")
         return UPDATE;
     else if (first_word == "SELECT")
@@ -155,4 +175,11 @@ string toUpper(string word){
     for (auto & c : word)
         c = toupper(c);
     return word;
+}
+
+bool belong_to(const string& elemento, const vector<string>& insieme){
+    for(const auto & i : insieme){
+        if(elemento==i) return true;
+    }
+    return false;
 }

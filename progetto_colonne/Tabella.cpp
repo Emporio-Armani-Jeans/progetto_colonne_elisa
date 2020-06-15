@@ -88,21 +88,29 @@ void Tabella::addRecord(const vector<string>& campi, const vector<string>& valor
 void Tabella::deleteRecord(const string& campo_condizione, const string &condizione, int operatore) {
     bool trovata = false;
     int i = 0, j = 0;
-    while(i<_colonne.size() && !trovata){
-        if(campo_condizione == _colonne[i]->getNomeColonna()) trovata=true;
-        else i++;
-    }
-    if(trovata){
-        while(j<_recs){
-            if (_colonne[i]->compareElements(condizione, operatore, j)){
-                _recs--;
-                for (auto &elem : _colonne) {
-                    elem->deleteVal(j);
-                }
-            }else j++;
+    if(campo_condizione.empty() && condizione.empty()){   //se parametri sono tutti default cancello tutti i record
+        for(int x=0; x<numRecs(); x++){
+            for(int y=0; y<numCampi(); y++){
+                _colonne[y]->deleteVal(x);
+            }
         }
-    }else{
-        throw InvalidCondition();
+    }else {
+        while (i < _colonne.size() && !trovata) {
+            if (campo_condizione == _colonne[i]->getNomeColonna()) trovata = true;
+            else i++;
+        }
+        if (trovata) {
+            while (j < _recs) {
+                if (_colonne[i]->compareElements(condizione, operatore, j)) {
+                    _recs--;
+                    for (auto &elem : _colonne) {
+                        elem->deleteVal(j);
+                    }
+                } else j++;
+            }
+        } else {
+            throw InvalidCondition();
+        }
     }
 }
 
