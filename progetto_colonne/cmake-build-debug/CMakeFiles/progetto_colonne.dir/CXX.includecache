@@ -38,19 +38,11 @@ C:/Users/andry/CLionProjects/progetto_colonne_elisa/progetto_colonne/InvalidCond
 string
 -
 
-C:/Users/andry/CLionProjects/progetto_colonne_elisa/progetto_colonne/ColonnaChar.cpp
-ColonnaChar.h
-C:/Users/andry/CLionProjects/progetto_colonne_elisa/progetto_colonne/ColonnaChar.h
-
 C:/Users/andry/CLionProjects/progetto_colonne_elisa/progetto_colonne/ColonnaChar.h
 Colonna.h
 C:/Users/andry/CLionProjects/progetto_colonne_elisa/progetto_colonne/Colonna.h
 vector
 -
-
-C:/Users/andry/CLionProjects/progetto_colonne_elisa/progetto_colonne/ColonnaDate.cpp
-ColonnaDate.h
-C:/Users/andry/CLionProjects/progetto_colonne_elisa/progetto_colonne/ColonnaDate.h
 
 C:/Users/andry/CLionProjects/progetto_colonne_elisa/progetto_colonne/ColonnaDate.h
 Colonna.h
@@ -64,10 +56,6 @@ iostream
 sstream
 -
 
-C:/Users/andry/CLionProjects/progetto_colonne_elisa/progetto_colonne/ColonnaFloat.cpp
-ColonnaFloat.h
-C:/Users/andry/CLionProjects/progetto_colonne_elisa/progetto_colonne/ColonnaFloat.h
-
 C:/Users/andry/CLionProjects/progetto_colonne_elisa/progetto_colonne/ColonnaFloat.h
 string
 -
@@ -77,10 +65,6 @@ Colonna.h
 C:/Users/andry/CLionProjects/progetto_colonne_elisa/progetto_colonne/Colonna.h
 vector
 -
-
-C:/Users/andry/CLionProjects/progetto_colonne_elisa/progetto_colonne/ColonnaInt.cpp
-ColonnaInt.h
-C:/Users/andry/CLionProjects/progetto_colonne_elisa/progetto_colonne/ColonnaInt.h
 
 C:/Users/andry/CLionProjects/progetto_colonne_elisa/progetto_colonne/ColonnaInt.h
 string
@@ -92,10 +76,6 @@ C:/Users/andry/CLionProjects/progetto_colonne_elisa/progetto_colonne/Colonna.h
 vector
 -
 
-C:/Users/andry/CLionProjects/progetto_colonne_elisa/progetto_colonne/ColonnaText.cpp
-ColonnaText.h
-C:/Users/andry/CLionProjects/progetto_colonne_elisa/progetto_colonne/ColonnaText.h
-
 C:/Users/andry/CLionProjects/progetto_colonne_elisa/progetto_colonne/ColonnaText.h
 string
 -
@@ -105,12 +85,6 @@ Colonna.h
 C:/Users/andry/CLionProjects/progetto_colonne_elisa/progetto_colonne/Colonna.h
 vector
 -
-
-C:/Users/andry/CLionProjects/progetto_colonne_elisa/progetto_colonne/ColonnaTime.cpp
-ColonnaTime.h
-C:/Users/andry/CLionProjects/progetto_colonne_elisa/progetto_colonne/ColonnaTime.h
-Time.h
-C:/Users/andry/CLionProjects/progetto_colonne_elisa/progetto_colonne/Time.h
 
 C:/Users/andry/CLionProjects/progetto_colonne_elisa/progetto_colonne/ColonnaTime.h
 Colonna.h
@@ -151,10 +125,6 @@ exception
 C:/Users/andry/CLionProjects/progetto_colonne_elisa/progetto_colonne/SecKeyNotFound.h
 exception
 -
-
-C:/Users/andry/CLionProjects/progetto_colonne_elisa/progetto_colonne/Tabella.cpp
-Tabella.h
-C:/Users/andry/CLionProjects/progetto_colonne_elisa/progetto_colonne/Tabella.h
 
 C:/Users/andry/CLionProjects/progetto_colonne_elisa/progetto_colonne/Tabella.h
 Colonna.h

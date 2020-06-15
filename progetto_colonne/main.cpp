@@ -32,32 +32,30 @@ string toUpper(string word);
 
 int main() {
     list<Tabella*> tabelle;
-    string comando_intero, nome_file;
-    string stringa;
+    string nome_file, riga_comando;
     char c;
+    int contatore=0, i=0;
+    bool auto_increm, not_nul, key;
     string first_word, word, nome_colonna, condizione1, condizione2, nome, tipo, not_null, auto_increment;
     vector<string> first_word_comandi {"CREATE", "DROP", "INSERT", "DELETE", "UPDATE", "SELECT","QUIT"};
-    vector<string> campi;
-    vector<string> valori;
+    vector<string> campi, valori, words;
 
-    cout << "Inserire nome file database" << endl;
-    cin >> nome_file;
-    tabelle=Avvio(nome_file);
+   // cout << "Inserire nome file database" << endl;
+   // cin >> nome_file;
+   // tabelle=Avvio(nome_file);
 
 
+    stringstream comando_intero;
     cout << "Inserisci comando: " << endl;
     //leggi comando intero
-    while (stringa[stringa.size() - 1] != ';') {
-        if (stringa[stringa.size() - 1] != ';') {
-            getline(cin, stringa);
-            comando_intero.append(stringa);
-            comando_intero.append(" ");
+    while (riga_comando[riga_comando.size() - 1] != ';') {
+        if (riga_comando[riga_comando.size() - 1] != ';') {
+            getline(cin, riga_comando);
+            comando_intero << riga_comando << " ";
         }
     }
-    cout << "il comando è: " << comando_intero;
-    //scomposizione comando
-    stringstream buffer(comando_intero);
-    buffer >> first_word;
+    cout << "il comando è: " << comando_intero.str();
+    comando_intero >> first_word;
     cout << endl << first_word;
 
     while(compare_first_word_comandi(first_word)!=QUIT) {
@@ -67,23 +65,29 @@ int main() {
                 ID INT NOT NULL AUTO_INCREMENT,
                 NAME TEXT NOT NULL,
                 AGE INT NOT NULL,
-                ADDRESS TEXT ,
-                COUNTRY_ID INT
+                ADDRESS TEXT,
+                COUNTRY_ID INT,
                 SALARY FLOAT,
-                PRIMARY KEY (ID)
+                PRIMARY KEY (ID),
                 FOREIGN KEY (COUNTRY_ID) REFERENCES COUNTRIES (ID)); */
-                buffer >> word;
+                comando_intero >> word;
                 word = toUpper(word);
                 if (word == "TABLE") {
-                    getline(buffer, word, '(');
-                    buffer >> c;
+                    getline(comando_intero, word, '(');
+                    comando_intero >> c;
                     if(c!='(') {
                         cout << "Comando non valido, errore di sintassi" << endl;
                         break;
                     }
                     tabelle.emplace_back(new Tabella(word));
-                    buffer >> word >> tipo;
-                    campi.push_back(word);
+                    while(!comando_intero.eof()){
+                        comando_intero >> words[i];
+                        while(words[i][words[i].size()-1]!=',') {
+                            i++;
+                            words.emplace_back();
+                            comando_intero >> words[i];
+                        } //ho letto tutta la riga, in words[i] c'è la i-esima parola
+                    }
                 } else cout << "Comando non valido" << endl;
                 break;
             case DROP :
@@ -103,27 +107,23 @@ int main() {
                 break;
         }
 
+        comando_intero.clear();
+        riga_comando.clear();
         cout << "Inserisci comando: " << endl;
         //leggi comando intero
-        stringa.clear();
-        comando_intero.clear();
-        while (stringa[stringa.size() - 1] != ';') {
-            if (stringa[stringa.size() - 1] != ';') {
-                getline(cin, stringa);
-                comando_intero.append(stringa);
-                comando_intero.append(" ");
+        while (riga_comando[riga_comando.size() - 1] != ';') {
+            if (riga_comando[riga_comando.size() - 1] != ';') {
+                getline(cin, riga_comando);
+                comando_intero << riga_comando << " ";
             }
         }
-        cout << "il comando è: " << comando_intero;
-        //scomposizione comando
-        buffer << comando_intero;
-        buffer >> first_word;
-        first_word = toUpper(first_word);
+        cout << "il comando è: " << comando_intero.str();
+        comando_intero >> first_word;
         cout << endl << first_word;
     }
 
 
-    Arresto(nome_file, tabelle);
+   // Arresto(nome_file, tabelle);
     return 0;
 }
 
