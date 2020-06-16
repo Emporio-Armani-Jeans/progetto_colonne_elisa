@@ -108,21 +108,16 @@ int main() {
             case DELETE :
                 break;
             case TRUNCATE :
-                comando_intero >> word;
-                if(word!="TABLE"){
-                    cout << syntax_err << endl;
-                    break;
-                }else{
-                    comando_intero >> word;
-                    for(auto & s : tabelle){
-                        if(word==s->getNome()) {
-                            s->deleteRecord();
-                            break;
-                        }
+                comando_intero >> word;      //butto via "TABLE"
+                comando_intero >> word;       //in word ho nome_tab
+                for(auto & s : tabelle){
+                    if(word==s->getNome()) {
+                        s->deleteRecord();
+                        break;
                     }
-                    cout << "Tabella non esistente" << endl;
-                    break;
                 }
+                cout << "Tabella non esistente" << endl;       //se non ho trovato tab con tale nome nel database
+                break;
             case UPDATE :
                 break;
             case SELECT :
@@ -185,9 +180,3 @@ string toUpper(string word){
     return word;
 }
 
-bool belong_to(const string& elemento, const vector<string>& insieme){
-    for(const auto & i : insieme){
-        if(elemento==i) return true;
-    }
-    return false;
-}

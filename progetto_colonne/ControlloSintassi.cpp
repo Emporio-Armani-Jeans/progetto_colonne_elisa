@@ -41,8 +41,18 @@ int compare_tipo(string &tipo){
 ControlloSintassi::ControlloSintassi() {
     _message_error = "ERRORE: errore di sintassi nel comando, riprovare!";
     _message_error_keyword = "ERRORE: utilizzo improprio di una parola chiave del linguaggio, riprovare!";
-    _comando_corretto = "valido";
+    _comando_corretto = "Comando valido";
     _wrong_type_auto_increment = "ERRORE: utilizzo improprio della keyword AUTO_INCREMENT, riprovare!";
+}
+
+bool ControlloSintassi::belongs_to_keywords(string &to_be_compared) const{
+    to_be_compared = toUp(to_be_compared);
+    bool _keyword_trovata = false;
+    for (const auto & _keyword : _keywords){
+        if (to_be_compared == _keyword)
+            _keyword_trovata = true;
+    }
+    return _keyword_trovata;
 }
 
 string ControlloSintassi::controlloCreate(stringstream &comando) const {
@@ -55,7 +65,7 @@ string ControlloSintassi::controlloCreate(stringstream &comando) const {
         comando >> word;
         if (word[word.size()-1] == '('){ //controllo che alla fine del nome della tabella ci sia la (
             word.pop_back();
-            if (!compareKeyword(word)){ //controllo che il nome assegnato alla tabella non sia una keyword del linguaggio
+            if (!belongs_to_keywords(word)){ //controllo che il nome assegnato alla tabella non sia una keyword del linguaggio
                 while(!comando.eof()){ //finchè non finisce il comando
                     comando_corretto = false;
                     words.clear();
@@ -123,7 +133,7 @@ string ControlloSintassi::controlloCreate(stringstream &comando) const {
                             words.emplace_back();
                             comando >> words[i];
                         }
-                        if (!compareKeyword(words[0])){ //controllo che non sia una keyword
+                        if (!belongs_to_keywords(words[0])){ //controllo che non sia una keyword
                             if (words[words.size()-1][words[words.size()-1].size()-1] == ','){ //controllo che ci sia la virgola a fine riga
                                 words[words.size()-1].pop_back(); //una volta appurato che la virgola c'è la tolgo
                                 if (compare_tipo(words[1]) != -1){ //controllo che il tipo della colonna sia fra quelli permessi
@@ -177,14 +187,30 @@ string ControlloSintassi::controlloCreate(stringstream &comando) const {
     return _message_error;
 }
 
-bool ControlloSintassi::compareKeyword(string &to_be_compared) const{
-    to_be_compared = toUp(to_be_compared);
-    bool _keyword_trovata = false;
-    for (const auto & _keyword : _keywords){
-        if (to_be_compared == _keyword)
-            _keyword_trovata = true;
+string ControlloSintassi::controlloTruncate(stringstream &comando) const {
+    vector<string> words;
+    int i=0;
+    while(words[i][words[i].size()-1]!=';'){      //salvo riga del comando fino al punto e virgola
+        words.emplace_back();
+        comando >> words[i];
+        i++;
     }
-    return _keyword_trovata;
+    if(words.size()!=3)                      //comando del tipo TRUNCATE TABLE <NOME_TAB>;
+        return _message_error;
+    else{
+        if(words[0]!="TRUNCATE")
+            return _message_error_keyword;
+        else{
+            if(words[1]!="TABLE")
+                return _message_error_keyword;
+            else{
+                if(!belongs_to_keywords(words[2]))      //controllo nome tab non appartenga alle keywords
+                    return _comando_corretto;
+                else
+                    return _message_error_keyword;
+            }
+        }
+    }
 }
 
 

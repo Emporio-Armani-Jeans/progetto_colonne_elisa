@@ -15,6 +15,7 @@ public:
     ControlloSintassi();
 
     string controlloCreate(stringstream &comando) const;
+    string controlloTruncate(stringstream &comando) const;
 
 private:
     string _message_error;
@@ -25,7 +26,7 @@ private:
                               "AUTO_INCREMENT", "PRIMARY", "KEY", "DROP", "INSERT", "VALUES", "INTO", "DELETE",
                               "FROM", "WHERE", "TRUNCATE", "UPDATE", "SET", "SELECT", "ORDER", "BY", "DESC",
                               "ASC", "FOREIGN", "REFERENCES", "BETWEEN", "AND"};
-    bool compareKeyword(string &to_be_compared) const;
+    bool belongs_to_keywords(string &to_be_compared) const;
 };
 
 
