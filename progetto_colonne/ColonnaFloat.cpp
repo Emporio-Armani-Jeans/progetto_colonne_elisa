@@ -24,6 +24,10 @@ void ColonnaFloat::deleteVal(int index) {
 }
 
 void ColonnaFloat::updateVal(const string &val, int index) {
+    for(char i : val){          //controllo formato
+        if((i<48 || i>57) && i!='.')
+            throw FormatTypeError();
+    }
     float new_value = std::stof(val);
     if (!_primary_key) {
         if (_foreign_key == nullptr)

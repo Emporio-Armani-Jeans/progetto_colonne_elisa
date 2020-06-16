@@ -11,6 +11,7 @@
 #include "PrimKeyError.h"
 #include "PrimaryKeyAlreadyExisting.h"
 #include "InvalidCondition.h"
+#include "FormatTypeError.h"
 #include <string>
 using namespace std;
 

@@ -28,6 +28,15 @@ void ColonnaTime::deleteVal(int index) {
 }
 
 void ColonnaTime::updateVal(const string& val, int index){
+    for(int i=0; i<val.size(); i++){          //controllo formato
+        if(i==2 || i==5){
+            if(val[i]!=':')
+                throw FormatTypeError();
+        }else{
+            if(val[i]<48 || val[i]>57)
+                throw FormatTypeError();
+        }
+    }
     int ora, minuti, secondi;
     ora = std::stoi(val.substr(0,2));
     minuti = std::stoi(val.substr(3,2));

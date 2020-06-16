@@ -26,6 +26,7 @@ void ColonnaText::deleteVal(int index) {
 }
 
 void ColonnaText::updateVal(const string &val, int index) {
+    //nessun controllo sul formato, il text può contenere qualsiasi char
     if (!_primary_key) {
         if (_foreign_key == nullptr)
             _elementi_di_testo[index] = val;
