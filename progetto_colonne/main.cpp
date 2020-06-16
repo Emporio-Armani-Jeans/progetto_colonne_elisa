@@ -35,6 +35,7 @@ int main() {
     ControlloSintassi controllore;
     vector<Tabella*> tabelle;
     string nome_file, riga_comando;
+    string message_error;
     char c;
     int contatore=0, i=0;
     bool auto_increm, not_nul, key;
@@ -57,27 +58,18 @@ int main() {
             comando_intero << riga_comando << " ";
         }
     }
-    cout << "il comando è: " << comando_intero.str();
+    //cout << comando_intero.str();
     comando_intero >> first_word;
-    cout << endl << first_word;
+    //cout << endl << first_word;
 
     while(compare_first_word_comandi(first_word)!=QUIT) {
         switch (compare_first_word_comandi(first_word)) {
             case CREATE :
-               /*CREATE TABLE CUSTOMERS(
-                ID INT NOT NULL AUTO_INCREMENT,
-                NAME TEXT NOT NULL,
-                AGE INT NOT NULL,
-                ADDRESS TEXT,
-                COUNTRY_ID INT,
-                SALARY FLOAT,
-                PRIMARY KEY (ID),
-                FOREIGN KEY (COUNTRY_ID) REFERENCES COUNTRIES (ID)); */
-               if (controllore.controlloCreate(comando_intero)){
-                   cout << "sono arrivato fin qui" << endl;
+               if (controllore.controlloCreate(comando_intero,&message_error)){
+                   cout << "sono arrivato fin qui :)" << endl;
                }
                else
-                   cout << "Errore di sintassi, riprovare" << endl;
+                   cout << message_error <<endl;
                
                 /*comando_intero >> word;
                 word = toUpper(word);
@@ -106,19 +98,22 @@ int main() {
             case DELETE :
                 break;
             case TRUNCATE :
-                if(controllore.controlloTruncate(comando_intero)) {
-                    comando_intero >> word;      //butto via "TABLE"
-                    comando_intero >> word;       //in word ho nome_tab
-                    for (auto &s : tabelle) {
-                        if (word == s->getNome()) {
-                            s->deleteRecord();
-                            break;
+                if(controllore.controlloTruncate(comando_intero,&message_error)) {
+                    if (tabelle.size() != 0){
+                        comando_intero >> word;      //butto via "TABLE"
+                        comando_intero >> word;       //in word ho nome_tab
+                        for (auto &s : tabelle) {
+                            if (word == s->getNome()) {
+                                s->deleteRecord();
+                                break;
+                            }
                         }
                     }
-                    cout << "Tabella non esistente" << endl;       //se non ho trovato tab con tale nome nel database
+                    else
+                        cout << "Tabella non esistente" << endl;       //se non ho trovato tab con tale nome nel database
                     break;
                 } else
-                    cout << "Errore di sintassi, riprovare" << endl;
+                    cout << message_error << endl;
             case UPDATE :
                 break;
             case SELECT :
@@ -130,8 +125,9 @@ int main() {
                 break;
         }
 
-        comando_intero.clear();
+        comando_intero.str("");
         riga_comando.clear();
+
         cout << "Inserisci comando: " << endl;
         //leggi comando intero
         while (riga_comando[riga_comando.size() - 1] != ';') {
@@ -140,9 +136,8 @@ int main() {
                 comando_intero << riga_comando << " ";
             }
         }
-        cout << "il comando è: " << comando_intero.str();
+        //cout << comando_intero.str() << endl;
         comando_intero >> first_word;
-        cout << endl << first_word;
     }
 
    // Arresto(nome_file, tabelle);
@@ -168,7 +163,7 @@ int compare_first_word_comandi(string &first_word){
         return UPDATE;
     else if (first_word == "SELECT")
         return SELECT;
-    else if (first_word == "QUIT")
+    else if (first_word == "QUIT" || first_word == "QUIT;")
         return QUIT;
     else
         return ERR_COMANDO;

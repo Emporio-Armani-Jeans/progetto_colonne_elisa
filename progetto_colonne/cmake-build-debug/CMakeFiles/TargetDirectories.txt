@@ -1,3 +1,3 @@
-C:/Users/andry/CLionProjects/progetto_colonne_elisa/progetto_colonne/cmake-build-debug/CMakeFiles/progetto_colonne.dir
-C:/Users/andry/CLionProjects/progetto_colonne_elisa/progetto_colonne/cmake-build-debug/CMakeFiles/edit_cache.dir
-C:/Users/andry/CLionProjects/progetto_colonne_elisa/progetto_colonne/cmake-build-debug/CMakeFiles/rebuild_cache.dir
+/Users/elisamessina/CLionProjects/progetto_colonne_elisa/progetto_colonne/cmake-build-debug/CMakeFiles/rebuild_cache.dir
+/Users/elisamessina/CLionProjects/progetto_colonne_elisa/progetto_colonne/cmake-build-debug/CMakeFiles/edit_cache.dir
+/Users/elisamessina/CLionProjects/progetto_colonne_elisa/progetto_colonne/cmake-build-debug/CMakeFiles/progetto_colonne.dir
