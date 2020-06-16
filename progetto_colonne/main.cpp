@@ -32,6 +32,7 @@ bool belong_to(const string& elemento, const vector<string>& insieme);
 
 
 int main() {
+    ControlloSintassi controllore;
     vector<Tabella*> tabelle;
     string nome_file, riga_comando;
     char c;
@@ -41,8 +42,6 @@ int main() {
     string first_word, word, nome_colonna, condizione1, condizione2, nome, tipo, not_null, auto_increment;
     vector<string> first_word_comandi {"CREATE", "DROP", "INSERT", "DELETE", "UPDATE", "SELECT","QUIT"};
     vector<string> campi, valori, words;
-    ControlloSintassi oggetto;
-    string message;
 
    // cout << "Inserire nome file database" << endl;
    // cin >> nome_file;
@@ -74,12 +73,11 @@ int main() {
                 SALARY FLOAT,
                 PRIMARY KEY (ID),
                 FOREIGN KEY (COUNTRY_ID) REFERENCES COUNTRIES (ID)); */
-               message = oggetto.controlloCreate(comando_intero);
-               if (message == "valid"){
+               if (controllore.controlloCreate(comando_intero)){
                    cout << "sono arrivato fin qui" << endl;
                }
                else
-                   cout << message << endl;
+                   cout << "Errore di sintassi, riprovare" << endl;
                
                 /*comando_intero >> word;
                 word = toUpper(word);
@@ -108,16 +106,19 @@ int main() {
             case DELETE :
                 break;
             case TRUNCATE :
-                comando_intero >> word;      //butto via "TABLE"
-                comando_intero >> word;       //in word ho nome_tab
-                for(auto & s : tabelle){
-                    if(word==s->getNome()) {
-                        s->deleteRecord();
-                        break;
+                if(controllore.controlloTruncate(comando_intero)) {
+                    comando_intero >> word;      //butto via "TABLE"
+                    comando_intero >> word;       //in word ho nome_tab
+                    for (auto &s : tabelle) {
+                        if (word == s->getNome()) {
+                            s->deleteRecord();
+                            break;
+                        }
                     }
-                }
-                cout << "Tabella non esistente" << endl;       //se non ho trovato tab con tale nome nel database
-                break;
+                    cout << "Tabella non esistente" << endl;       //se non ho trovato tab con tale nome nel database
+                    break;
+                } else
+                    cout << "Errore di sintassi, riprovare" << endl;
             case UPDATE :
                 break;
             case SELECT :

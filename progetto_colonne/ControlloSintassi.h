@@ -12,16 +12,17 @@ using namespace std;
 
 class ControlloSintassi {
 public:
-    ControlloSintassi();
+    ControlloSintassi()=default;
 
-    string controlloCreate(stringstream &comando) const;
-    string controlloTruncate(stringstream &comando) const;
+    //controlli tornano true se il formato è corretto
+    bool controlloCreate(stringstream &comando)const;
+    bool controlloTruncate(stringstream &comando)const;
 
 private:
-    string _message_error;
+   /* string _message_error;
     string _message_error_keyword;
     string _comando_corretto;
-    string _wrong_type_auto_increment;
+    string _wrong_type_auto_increment; */
     vector <string> _keywords{"CREATE", "TABLE", "INT", "FLOAT", "CHAR", "TEXT", "DATE", "TIME", "NOT", "NULL",
                               "AUTO_INCREMENT", "PRIMARY", "KEY", "DROP", "INSERT", "VALUES", "INTO", "DELETE",
                               "FROM", "WHERE", "TRUNCATE", "UPDATE", "SET", "SELECT", "ORDER", "BY", "DESC",

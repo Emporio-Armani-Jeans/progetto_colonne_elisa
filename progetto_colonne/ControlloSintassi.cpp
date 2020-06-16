@@ -38,12 +38,12 @@ int compare_tipo(string &tipo){
 
 
 
-ControlloSintassi::ControlloSintassi() {
+/*ControlloSintassi::ControlloSintassi() {
     _message_error = "ERRORE: errore di sintassi nel comando, riprovare!";
     _message_error_keyword = "ERRORE: utilizzo improprio di una parola chiave del linguaggio, riprovare!";
     _comando_corretto = "Comando valido";
     _wrong_type_auto_increment = "ERRORE: utilizzo improprio della keyword AUTO_INCREMENT, riprovare!";
-}
+}*/
 
 bool ControlloSintassi::belongs_to_keywords(string &to_be_compared) const{
     to_be_compared = toUp(to_be_compared);
@@ -55,7 +55,7 @@ bool ControlloSintassi::belongs_to_keywords(string &to_be_compared) const{
     return _keyword_trovata;
 }
 
-string ControlloSintassi::controlloCreate(stringstream &comando) const {
+bool ControlloSintassi::controlloCreate(stringstream &comando) const {
     string word;
     bool comando_corretto = false;
     vector<string> words;
@@ -86,10 +86,10 @@ string ControlloSintassi::controlloCreate(stringstream &comando) const {
                                 comando_corretto = true;
                             }
                             else
-                                return _message_error;
+                                return false;
                         }
                         else
-                            return _message_error_keyword;
+                            return false;
                     }
 
 
@@ -111,20 +111,20 @@ string ControlloSintassi::controlloCreate(stringstream &comando) const {
                                                                    ( (words[5][words[5].size()-1] == ';' && words[5][words[5].size()-2] == ')' && words[5][words[5].size()-1] == ')') ) ) ) //caso senza spazio
                                         comando_corretto = true;
                                     else
-                                        return _message_error;
+                                        return false;
                                 }
                                 else
-                                    return _message_error;
+                                    return false;
                             }
                             else
-                                return _message_error;
+                                return false;
                         }
                         else
-                            return _message_error_keyword;
+                            return false;
                     }
 
                     else if (words[0] == ");"){
-                        return _comando_corretto;
+                        return true;
                     }
 
                     else {//se la prima parola di una riga non è nè foreign nè primary allora è per forza il nome di una colonna
@@ -144,17 +144,17 @@ string ControlloSintassi::controlloCreate(stringstream &comando) const {
                                                 if ( (words[j] == "NOT" && words[j+1] == "NULL") || (words[j] == "NULL" && words[j-1] == "NOT") || (words[j] == "AUTO_INCREMENT") ){
                                                     if (words[j] == "AUTO_INCREMENT"){
                                                         if (compare_tipo(words[1]) != INT)
-                                                            return _wrong_type_auto_increment; // ATTENZIONE si può fare eccezione??
+                                                            return false;//_wrong_type_auto_increment; // ATTENZIONE si può fare eccezione??
                                                     }
                                                 }
                                                 else
-                                                    return _message_error;
+                                                    return false;
                                             }
                                             else { //se invece si è arrivati all'ultima parola
                                                 if ((words[j] == "NULL" && words[j-1] == "NOT") || (words[j] == "AUTO_INCREMENT"))
                                                     comando_corretto = true;
                                                 else
-                                                    return _message_error;
+                                                    return false;
                                             }
                                         }
                                     }
@@ -162,32 +162,32 @@ string ControlloSintassi::controlloCreate(stringstream &comando) const {
                                         comando_corretto = true;
                                 }
                                 else
-                                    return _message_error;
+                                    return false;
                             }
                             else
-                                return _message_error;
+                                return false;
                         }
                         else
-                            return _message_error_keyword;
+                            return false;
                     }
                     if (!comando_corretto) //se alla fine di un ciclo di un while (fine di una riga) il comando non è corretto ritorno il messaggio di errore
-                        return _message_error;
+                        return false;
                 }
                 if (comando_corretto){ //se dopo aver analizzato tutte le righe il comando è corretto vuol dire che la sintassi è tutta giusta
-                    return _comando_corretto;
+                    return true;
                 }
             } else
-                return _message_error_keyword;
+                return false;
         }
         else
-            return _message_error;
+            return false;
     }
     else
-        return _message_error;
-    return _message_error;
+        return false;
+    return false;
 }
 
-string ControlloSintassi::controlloTruncate(stringstream &comando) const {
+bool ControlloSintassi::controlloTruncate(stringstream &comando) const {
     vector<string> words;
     int i=0;
     while(words[i][words[i].size()-1]!=';'){      //salvo riga del comando fino al punto e virgola
@@ -196,22 +196,20 @@ string ControlloSintassi::controlloTruncate(stringstream &comando) const {
         i++;
     }
     if(words.size()!=3)                      //comando del tipo TRUNCATE TABLE <NOME_TAB>;
-        return _message_error;
+        return false;//_message_error;
     else{
         if(words[0]!="TRUNCATE")
-            return _message_error_keyword;
+            return false;//_message_error_keyword;
         else{
             if(words[1]!="TABLE")
-                return _message_error_keyword;
+                return false;//_message_error_keyword;
             else{
-                if(!belongs_to_keywords(words[2]))      //controllo nome tab non appartenga alle keywords
-                    return _comando_corretto;
-                else
-                    return _message_error_keyword;
+                return !belongs_to_keywords(words[2]);
             }
         }
     }
 }
+
 
 
 
