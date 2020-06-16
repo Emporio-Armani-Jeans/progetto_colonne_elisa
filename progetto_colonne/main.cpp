@@ -10,6 +10,7 @@
 #include <string>
 #include <sstream>
 #include "Avvio_Arresto.hpp"
+#include "ControlloSintassi.h"
 #define ERR_COMANDO -1
 
 using namespace std;
@@ -22,10 +23,9 @@ void deleteOggettoTabella(Tabella **ptr){
     }
 }
 
-
-
-
 enum comando {CREATE, DROP, INSERT, DELETE, TRUNCATE, UPDATE, SELECT,QUIT};
+
+
 int compare_first_word_comandi(string &first_word);
 string toUpper(string word);
 bool belong_to(const string& elemento, const vector<string>& insieme);
@@ -37,10 +37,12 @@ int main() {
     char c;
     int contatore=0, i=0;
     bool auto_increm, not_nul, key;
-    string syntax_err="Comando non valido, errore di sintassi";
+    string syntax_err = "Comando non valido, errore di sintassi";
     string first_word, word, nome_colonna, condizione1, condizione2, nome, tipo, not_null, auto_increment;
     vector<string> first_word_comandi {"CREATE", "DROP", "INSERT", "DELETE", "UPDATE", "SELECT","QUIT"};
     vector<string> campi, valori, words;
+    ControlloSintassi oggetto;
+    string message;
 
    // cout << "Inserire nome file database" << endl;
    // cin >> nome_file;
@@ -72,7 +74,14 @@ int main() {
                 SALARY FLOAT,
                 PRIMARY KEY (ID),
                 FOREIGN KEY (COUNTRY_ID) REFERENCES COUNTRIES (ID)); */
-                comando_intero >> word;
+               message = oggetto.controlloCreate(comando_intero);
+               if (message == "valid"){
+                   cout << "sono arrivato fin qui" << endl;
+               }
+               else
+                   cout << message << endl;
+               
+                /*comando_intero >> word;
                 word = toUpper(word);
                 if (word == "TABLE") {
                     getline(comando_intero, word, '(');
@@ -90,7 +99,7 @@ int main() {
                             comando_intero >> words[i];
                         } //ho letto tutta la riga, in words[i] c'è la i-esima parola
                     }
-                } else cout << "Comando non valido" << endl;
+                } else cout << "Comando non valido" << endl;*/
                 break;
             case DROP :
                 break;
@@ -121,7 +130,7 @@ int main() {
             case QUIT :
                 break;
             default:
-                cout << syntax_err << endl;
+                cerr << syntax_err << endl;
                 break;
         }
 
@@ -139,7 +148,6 @@ int main() {
         comando_intero >> first_word;
         cout << endl << first_word;
     }
-
 
    // Arresto(nome_file, tabelle);
     return 0;
