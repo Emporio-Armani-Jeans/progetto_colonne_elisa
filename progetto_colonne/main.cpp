@@ -48,20 +48,63 @@ int main() {
    // cin >> nome_file;
    // tabelle=Avvio(nome_file);
 
-
     stringstream comando_intero;
     stringstream riga_temp;
+
+
+    //IL COMMENTO QUI DI SEGUITO E' DA COMPLETARE NON TOCCARE !!!!
+  /*  string comando;
+    bool found_text = false, found_first = false, found_last = false;
+    vector <int> pos_first, pos_last; //possono esserci più campi testo
     cout << "Inserisci comando: " << endl;
     //leggi comando intero
+    cin >> comando;
+    for (int j = 0; j < comando.size(); ++j) {
+        if (!found_first){
+            if (comando[j] == '"' && ((int)comando[j-1] != 39 && (int)comando[j+1] != 39)) { //se trovo un " e non è all'interno di un campo char
+                found_text = true;
+                found_first = true;
+                pos_first.push_back(j);
+            }
+        }
+        else {
+            if (!found_last){
+                if (comando[j] == '"' && ((int)comando[j-1] != 39 && (int)comando[j+1] != 39) ){
+                    found_last = true;
+                    pos_last.push_back(j);
+                }
+            }
+            else {
+
+            }
+        }
+    }
+    for (int k = 0; k < comando.size(); ++k) {
+        if (!found_text){
+            if (comando[k] == ';' && ((int)comando[k-1] != 39 && (int)comando[k+1] != 39) ){
+                comando.erase(k-1);
+            }
+        }
+        else{
+            if ( k < pos_first && k > pos_last ){
+
+            }
+            else {
+
+            }
+        }
+    }*/
+
+
+
     while (riga_comando[riga_comando.size() - 1] != ';') {
         if (riga_comando[riga_comando.size() - 1] != ';') {
             getline(cin, riga_comando);
             comando_intero << riga_comando << " ";
         }
     }
-    //cout << comando_intero.str();
     comando_intero >> first_word;
-    //cout << endl << first_word;
+
 
     while(compare_first_word_comandi(first_word)!=QUIT) {
         switch (compare_first_word_comandi(first_word)) {
@@ -74,7 +117,7 @@ int main() {
                    riga_temp << riga_comando;
                    riga_temp >> nome_colonna >> tipo;
                    while (tipo != "key") {
-                       if (tipo == "INT") {
+                       if (toUpper(tipo) == "INT") {
                            //se è auto increment mi servono delle stringhe in più
                            string word2, word3;
                            riga_temp >> word2;
