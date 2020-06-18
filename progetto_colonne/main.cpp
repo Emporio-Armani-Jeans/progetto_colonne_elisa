@@ -38,9 +38,9 @@ int main() {
     string message_error;
     char c;
     int contatore=0, i=0;
-    bool auto_increm, not_nul, key;
+    bool auto_increm, not_null, key;
     string syntax_err = "Comando non valido, errore di sintassi";
-    string first_word, word, nome_colonna, condizione1, condizione2, nome, tipo, not_null, auto_increment;
+    string first_word, word, nome_tabella, nome_colonna, condizione1, condizione2, nome, tipo, auto_increment;
     vector<string> first_word_comandi {"CREATE", "DROP", "INSERT", "DELETE", "UPDATE", "SELECT","QUIT"};
     vector<string> campi, valori, words;
 
@@ -50,6 +50,7 @@ int main() {
 
 
     stringstream comando_intero;
+    stringstream riga_temp;
     cout << "Inserisci comando: " << endl;
     //leggi comando intero
     while (riga_comando[riga_comando.size() - 1] != ';') {
@@ -66,30 +67,99 @@ int main() {
         switch (compare_first_word_comandi(first_word)) {
             case CREATE :
                if (controllore.controlloCreate(comando_intero,&message_error)){
-                   cout << "sono arrivato fin qui :)" << endl;
+                   comando_intero >> word >> nome_tabella;
+                   tabelle.emplace_back(new Tabella(nome_tabella));
+                   comando_intero >> word;
+                   getline(comando_intero, riga_comando, ',');
+                   riga_temp << riga_comando;
+                   riga_temp >> nome_colonna >> tipo;
+                   while (tipo != "key") {
+                       if (tipo == "INT") {
+                           //se è auto increment mi servono delle stringhe in più
+                           string word2, word3;
+                           riga_temp >> word2;
+                           riga_temp >> word3;
+                           word+= " " + word2;
+                           if (word == "NOT NULL") not_null = true;
+                           getline(riga_temp, word, ',');
+                           if (word == "AUTO_INCREMENT") auto_increm= true;
+                       } else {
+                           //se non è int controllo solo not null
+                           getline(riga_temp, word, ',');
+                           if (word == "NOT NULL") not_null = true;
+                       }
+                       //aggiungo la colonna
+                       if(tipo == "INT") {
+                           if (!not_null) {
+                               tabelle[tabelle.size()-1]->aggiungiColonna(new ColonnaInt(nome_colonna));
+                           } else {
+                               if (!auto_increm) {
+                                   tabelle[tabelle.size()-1]->aggiungiColonna(new ColonnaInt(nome_colonna, false));
+                               } else
+                                   tabelle[tabelle.size()-1]->aggiungiColonna(
+                                           new ColonnaInt(nome_colonna, false, true, &contatore));
+                           }
+                       } else if(tipo == "TEXT") {
+                           if (!not_null)
+                               tabelle[tabelle.size()-1]->aggiungiColonna(new ColonnaText(nome_colonna));
+                           else
+                               tabelle[tabelle.size()-1]->aggiungiColonna(new ColonnaInt(nome_colonna, false));
+                       }
+                       else if(tipo == "CHAR") {
+                           if (!not_null)
+                               tabelle[tabelle.size()-1]->aggiungiColonna(new ColonnaChar(nome_colonna));
+                           else
+                               tabelle[tabelle.size()-1]->aggiungiColonna(new ColonnaChar(nome_colonna, false));
+                       }
+                       else if(tipo == "DATE") {
+                           if (!not_null)
+                               tabelle[tabelle.size()-1]->aggiungiColonna(new ColonnaDate(nome_colonna));
+                           else
+                               tabelle[tabelle.size()-1]->aggiungiColonna(new ColonnaDate(nome_colonna, false));
+                       }
+                       else if(tipo == "FLOAT") {
+                           if (!not_null)
+                               tabelle[tabelle.size()-1]->aggiungiColonna(new ColonnaFloat(nome_colonna));
+                           else
+                               tabelle[tabelle.size()-1]->aggiungiColonna(new ColonnaFloat(nome_colonna, false));
+                       }
+                       else if(tipo == "TIME") {
+                           if (!not_null)
+                               tabelle[tabelle.size()-1]->aggiungiColonna(new ColonnaTime(nome_colonna));
+                           else
+                               tabelle[tabelle.size()-1]->aggiungiColonna(new ColonnaTime(nome_colonna, false));
+                       }
+                       getline(comando_intero, riga_comando, ',');
+                       riga_temp << riga_comando;
+                       riga_temp >> nome_colonna >> tipo;
+                   }
+                   while (!comando_intero.eof()) {
+                       if (nome_colonna == "PRIMARY") {
+                           getline(riga_temp, word, '(');
+                           getline(riga_temp, word, ')');
+                           tabelle[tabelle.size()-1]->setChiavePrimaria(word);
+                       } else if (nome_colonna == "FOREIGN") {
+                              //FOREIGN KEY (COUNTRY_ID) REFERENCES COUNTRIES (ID)
+                           getline(riga_temp, word, '(');
+                           getline(riga_temp, nome_colonna, ')');
+                           riga_temp << word;
+                           riga_temp << nome_tabella;
+                           for (i=0; i<tabelle.size(); i++) {
+                               if (tabelle[i]->getNome() == nome_tabella)
+                                   break;
+                           }
+                           getline(riga_temp, word, '(');
+                           getline(riga_temp, word, ')');
+                           tabelle[tabelle.size()-1]->setChiaveEsterna(tabelle[i], word, nome_colonna);
+                       }
+                       getline(comando_intero, riga_comando, ',');
+                       riga_temp << riga_comando;
+                       riga_temp >> nome_colonna >> tipo;
+                   }
+
                }
                else
                    cout << message_error <<endl;
-               
-                /*comando_intero >> word;
-                word = toUpper(word);
-                if (word == "TABLE") {
-                    getline(comando_intero, word, '(');
-                    comando_intero >> c;
-                    if(c!='(') {
-                        cout << syntax_err << endl;
-                        break;
-                    }
-                    tabelle.emplace_back(new Tabella(word));
-                    while(!comando_intero.eof()){
-                        comando_intero >> words[i];
-                        while(words[i][words[i].size()-1]!=',') {
-                            i++;
-                            words.emplace_back();
-                            comando_intero >> words[i];
-                        } //ho letto tutta la riga, in words[i] c'è la i-esima parola
-                    }
-                } else cout << "Comando non valido" << endl;*/
                 break;
             case DROP :
                 break;
@@ -101,7 +171,7 @@ int main() {
                 if(controllore.controlloTruncate(comando_intero,&message_error)) {
                     if (tabelle.size() != 0){
                         comando_intero >> word;      //butto via "TABLE"
-                        comando_intero >> word;       //in word ho nome_tab
+                        comando_intero >> word;       //in word1 ho nome_tab
                         for (auto &s : tabelle) {
                             if (word == s->getNome()) {
                                 s->deleteRecord();
