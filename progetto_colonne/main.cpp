@@ -345,7 +345,95 @@ int main() {
                 } else
                     cout << message_error << endl;
             case UPDATE :
-
+                campi.clear();
+                valori.clear();
+                comando_intero >> word;
+                for(a=0, trovata=false; a<tabelle.size(); a++){
+                    if(toUpper(tabelle[a]->getNome())==word) {
+                        trovata=true;
+                        break;
+                    }
+                }
+                comando_intero >> scarto; //scarto SET
+                word.clear();
+                word2.clear();
+                while(toUpper(word)!="WHERE") {
+                    comando_intero >> word;
+                    campi.push_back(word);
+                    comando_intero >> scarto;   //operatore è sempre '='
+                    comando_intero >> word2;   //valore
+                    word2.pop_back();   //rimuovo virgola
+                    if(word2[0]=='"'){
+                        word2.pop_back();
+                        word2.erase(0,1);
+                    }
+                    valori.push_back(word2);
+                }    //ho opportunamente riempito campi e valori
+                comando_intero >> word; //in word c'è campo condizione
+                comando_intero >> word2; //operatore
+                if (word2 == "=") {
+                    comando_intero >> word3; //condizione
+                    word3.pop_back();  //rimuovo ';'
+                    if(word3[0]=='"'){
+                        word3.erase(0,1);
+                        word3.pop_back();
+                    }
+                    tabelle[a]->updateRecord(word, word3, campi, valori);
+                } else if (word2 == "<") {
+                    comando_intero >> word3; //condizione
+                    word3.pop_back();  //rimuovo ';'
+                    if(word3[0]=='"'){
+                        word3.erase(0,1);
+                        word3.pop_back();
+                    }
+                    tabelle[a]->updateRecord(word, word3, campi, valori, 1);
+                } else if (word2 == "<=") {
+                    comando_intero >> word3; //condizione
+                    word3.pop_back();  //rimuovo ';'
+                    if(word3[0]=='"'){
+                        word3.erase(0,1);
+                        word3.pop_back();
+                    }
+                    tabelle[a]->updateRecord(word, word3, campi, valori, 2);
+                } else if (word2 == ">") {
+                    comando_intero >> word3; //condizione
+                    word3.pop_back();  //rimuovo ';'
+                    if(word3[0]=='"'){
+                        word3.erase(0,1);
+                        word3.pop_back();
+                    }
+                    tabelle[a]->updateRecord(word, word3, campi, valori, 3);
+                } else if (word2 == ">=") {
+                    comando_intero >> word3; //condizione
+                    word3.pop_back();  //rimuovo ';'
+                    if(word3[0]=='"'){
+                        word3.erase(0,1);
+                        word3.pop_back();
+                    }
+                    tabelle[a]->updateRecord(word, word3, campi, valori, 4);
+                } else if (word2 == "<>") {
+                    comando_intero >> word3; //condizione
+                    word3.pop_back();  //rimuovo ';'
+                    if(word3[0]=='"'){
+                        word3.erase(0,1);
+                        word3.pop_back();
+                    }
+                    tabelle[a]->updateRecord(word, word3, campi, valori, 5);
+                } else if (toUpper(word2) == "BETWEEN") {
+                    comando_intero >> condizione1;
+                    if(condizione1[0]=='"'){
+                        condizione1.erase(0,1);
+                        condizione1.pop_back();
+                    }
+                    comando_intero >> scarto; //scarto AND
+                    comando_intero >> condizione2;
+                    condizione2.pop_back();  //rimuovo ';'
+                    if(condizione1[0]=='"'){
+                        condizione1.erase(0,1);
+                        condizione1.pop_back();
+                    }
+                    tabelle[a]->updateRecord(word, condizione1, condizione2, campi, valori);
+                }
                 break;
             case SELECT :
                 comando_intero >> word;  //leggo seconda parola
