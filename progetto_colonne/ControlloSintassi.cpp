@@ -264,6 +264,96 @@ bool ControlloSintassi::controlloTruncate(stringstream &comando, string *messagg
     }
 }
 
+bool ControlloSintassi::controlloDrop(stringstream &comando, string *messaggio) const {
+    vector<string> words;
+    int i = 0;
+    words.emplace_back();
+    comando >> words[0];
+    while(words[i][words[i].size()-1]!=';'){//salvo riga del comando fino al punto e virgola
+        i++;
+        words.emplace_back();
+        comando >> words[i];
+    }
+    if(words.size()!= 2 ){ //comando del tipo DROP TABLE <NOMETABELLA>; (DROP già controllato)
+        messaggio->assign(_message_error);
+        return false;
+    }
+    else {
+        if(toUp(words[0])!= "TABLE"){
+            messaggio->assign(_message_error);
+            return false;
+        }
+        else{
+            if (words[1][words[1].size()-1] == ';') { //controllo che alla fine del nome della tabella ci sia il ;
+                words[1].pop_back(); //se c'è lo tolgo
+                if (!belongs_to_keywords(words[1]))
+                    return true;
+                else {
+                    messaggio->assign(_message_error_keyword);
+                    return false;
+                }
+            }
+            else {
+                messaggio->assign(_message_error);
+                return false;
+            }
+        }
+    }
+}
+
+/*
+bool ControlloSintassi::controlloInsert(stringstream &comando, string *messaggio) const{
+    string word;
+    char car;
+    vector<string> words;
+    comando >> word;
+    if (toUp(word) == "INTO"){
+        comando >> word;
+        comando >> car;
+        if (car == '('){
+            words.clear();
+            int i = 0;
+            words.emplace_back();
+            comando >> words[i];
+            while (words[i][words[i].size()-1] != ')'){
+                if (words[i][words[i].size()-1] != ','){
+                    messaggio->assign(_message_error);
+                    return false;
+                }
+                words[i].pop_back(); //una volta appurato che ci sia la , alla fine, la tolgo.
+                if (belongs_to_keywords(words[i])){
+                    messaggio->assign(_message_error_keyword);
+                    return false;
+                }
+                i++;
+                comando >> words[i];
+            }
+            comando >> word;
+            if (toUp(word) != "VALUES"){
+                messaggio->assign(_message_error);
+                return false;
+            }
+            else{
+                comando >> car;
+                if(car != '('){
+                    messaggio->assign(_message_error);
+                    return false;
+                }
+                else {
+                    while ()
+                }
+            }
+        }else{
+            messaggio->assign(_message_error);
+            return false;
+        }
+    }
+    else{
+        messaggio->assign(_message_error);
+        return false;
+    }
+}*/
+
 
 
 

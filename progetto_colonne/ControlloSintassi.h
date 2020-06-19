@@ -17,6 +17,8 @@ public:
     //controlli tornano true se il formato è corretto e modificano il messaggio di errore caso per caso
     bool controlloCreate(stringstream &comando, string *messaggio) const;
     bool controlloTruncate(stringstream &comando, string *messaggio) const;
+    bool controlloDrop(stringstream &comando, string *messaggio) const;
+    bool controlloInsert(stringstream &comando, string *messaggio) const;
 
 private:
     string _message_error;
