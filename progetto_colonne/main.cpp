@@ -49,61 +49,76 @@ int main() {
    // cin >> nome_file;
    // tabelle=Avvio(nome_file);
 
-    stringstream comando_intero;
+
     stringstream riga_temp;
 
 
-    //IL COMMENTO QUI DI SEGUITO E' DA COMPLETARE NON TOCCARE !!!!
-  /*  string comando;
-    bool found_text = false, found_first = false, found_last = false;
+    string comando;
+    bool found_text = false;
+    bool campo_testo_presente = false;
     vector <int> pos_first, pos_last; //possono esserci più campi testo
     cout << "Inserisci comando: " << endl;
+
+
     //leggi comando intero
-    cin >> comando;
+    getline(cin,comando);
     for (int j = 0; j < comando.size(); ++j) {
-        if (!found_first){
+        if (!found_text){
             if (comando[j] == '"' && ((int)comando[j-1] != 39 && (int)comando[j+1] != 39)) { //se trovo un " e non è all'interno di un campo char
                 found_text = true;
-                found_first = true;
+                campo_testo_presente = true;
                 pos_first.push_back(j);
             }
         }
         else {
-            if (!found_last){
-                if (comando[j] == '"' && ((int)comando[j-1] != 39 && (int)comando[j+1] != 39) ){
-                    found_last = true;
-                    pos_last.push_back(j);
-                }
-            }
-            else {
-
+            if ( (comando[j] == '"' && comando[j+1] != '"' ) && ((comando[j] == '"' && comando[j-1] != '"') || (comando[j]=='"' && comando[j-1] == '"' && comando[j-2] == '"')) ){
+                found_text = false;
+                pos_last.push_back(j);
             }
         }
     }
+
     for (int k = 0; k < comando.size(); ++k) {
-        if (!found_text){
-            if (comando[k] == ';' && ((int)comando[k-1] != 39 && (int)comando[k+1] != 39) ){
-                comando.erase(k-1);
+        if (!campo_testo_presente){
+            if ( k!= comando.size()-1 && comando[k] == ';' && ((int)comando[k-1] != 39 && (int)comando[k+1] != 39) ){
+                comando.erase(k+1);
             }
         }
         else{
-            if ( k < pos_first && k > pos_last ){
-
-            }
-            else {
-
+            if (pos_first.size() != pos_last.size())
+                cout << "errore" <<endl; //modificare
+            else{
+                for (int j = 0; j < pos_first.size(); ++j) {
+                    if (j != pos_first.size()-1){ //se non si è ancora arrivati all'ultimo campo testo
+                        if ( (k < pos_first[j] || k > pos_last [j]) && k < pos_first[j+1]) {
+                            if ( k != comando.size()-1 && comando[k] == ';' && ((int)comando[k-1] != 39 && (int)comando[k+1] != 39)){
+                                comando.erase(k+1);
+                            }
+                        }
+                    }
+                    else {
+                        if ( k < pos_first[j] || k > pos_last [j] ) {
+                            if ( k!= comando.size()-1 && comando[k] == ';' && ((int)comando[k-1] != 39 && (int)comando[k+1] != 39)){
+                                comando.erase(k+1);
+                            }
+                        }
+                    }
+                }
             }
         }
-    }*/
+    }
 
 
+    cout << comando << endl;
 
-    while (riga_comando[riga_comando.size() - 1] != ';') {
+    stringstream comando_intero(comando);
+
+    /*while (riga_comando[riga_comando.size() - 1] != ';') {
         if (riga_comando[riga_comando.size() - 1] != ';') {
             getline(cin, riga_comando);
             comando_intero << riga_comando << " ";
         }
-    }
+    }*/
     comando_intero >> first_word;
 
 
@@ -446,13 +461,53 @@ int main() {
 
         cout << "Inserisci comando: " << endl;
         //leggi comando intero
-        while (riga_comando[riga_comando.size() - 1] != ';') {
-            if (riga_comando[riga_comando.size() - 1] != ';') {
-                getline(cin, riga_comando);
-                comando_intero << riga_comando << " ";
+        getline(cin,comando);
+        for (int j = 0; j < comando.size(); ++j) {
+            if (!found_text){
+                if (comando[j] == '"' && ((int)comando[j-1] != 39 && (int)comando[j+1] != 39)) { //se trovo un " e non è all'interno di un campo char
+                    found_text = true;
+                    campo_testo_presente = true;
+                    pos_first.push_back(j);
+                }
+            }
+            else {
+                if ( (comando[j] == '"' && comando[j+1] != '"' ) && ((comando[j] == '"' && comando[j-1] != '"') || (comando[j]=='"' && comando[j-1] == '"' && comando[j-2] == '"')) ){
+                    found_text = false;
+                    pos_last.push_back(j);
+                }
             }
         }
-        //cout << comando_intero.str() << endl;
+
+        for (int k = 0; k < comando.size(); ++k) {
+            if (!campo_testo_presente){
+                if ( k!= comando.size()-1 && comando[k] == ';' && ((int)comando[k-1] != 39 && (int)comando[k+1] != 39) ){
+                    comando.erase(k+1);
+                }
+            }
+            else{
+                if (pos_first.size() != pos_last.size())
+                    cout << "errore" <<endl; //modificare
+                else{
+                    for (int j = 0; j < pos_first.size(); ++j) {
+                        if (j != pos_first.size()-1){ //se non si è ancora arrivati all'ultimo campo testo
+                            if ( (k < pos_first[j] || k > pos_last [j]) && k < pos_first[j+1]) {
+                                if ( k != comando.size()-1 && comando[k] == ';' && ((int)comando[k-1] != 39 && (int)comando[k+1] != 39)){
+                                    comando.erase(k+1);
+                                }
+                            }
+                        }
+                        else {
+                            if ( k < pos_first[j] || k > pos_last [j] ) {
+                                if ( k!= comando.size()-1 && comando[k] == ';' && ((int)comando[k-1] != 39 && (int)comando[k+1] != 39)){
+                                    comando.erase(k+1);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        comando_intero << comando;
         comando_intero >> first_word;
     }
 
