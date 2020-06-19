@@ -37,10 +37,11 @@ int main() {
     string nome_file, riga_comando;
     string message_error;
     char c;
-    int contatore=0, i=0;
-    bool auto_increm, not_null, key;
+    int contatore=0, i=0, a, b;
+    bool auto_increm, not_null, key, trovata=false;
     string syntax_err = "Comando non valido, errore di sintassi";
-    string first_word, word, nome_tabella, nome_colonna, condizione1, condizione2, nome, tipo, auto_increment;
+    string first_word, word, word2, nome_tabella, nome_colonna, condizione1, condizione2, nome, tipo, auto_increment;
+    vector<string> operatori {"=", "<", ">", ">=", "<=", "<>", "BETWEEN"};
     vector<string> first_word_comandi {"CREATE", "DROP", "INSERT", "DELETE", "UPDATE", "SELECT","QUIT"};
     vector<string> campi, valori, words;
 
@@ -205,14 +206,116 @@ int main() {
                    cout << message_error <<endl;
                 break;
             case DROP :
+                comando_intero >> word;      //butto via "TABLE"
+                comando_intero >> word;
+                word.pop_back();            //butto via ';'
+                //ricerco match nome tabella
+                for(a=0, trovata=false; a<tabelle.size(); a++){
+                    if(toUpper(tabelle[a]->getNome())==word) {
+                        trovata=true;
+                        break;
+                    }
+                }
+                if(!trovata){
+                    cout << "Tabella non esistente" << endl;
+                }else{
+                    deleteOggettoTabella(&tabelle[a]);
+                }
                 break;
             case INSERT :
                 break;
             case DELETE :
+                comando_intero >> word;    //butto via "FROM"
+                comando_intero >> word;
+                //cerco match nome tabella
+                for(a=0, trovata=false; a<tabelle.size(); a++){
+                    if(toUpper(tabelle[a]->getNome())==word) {
+                        trovata=true;
+                        break;
+                    }
+                }
+                if(!trovata){
+                    cout << "Tabella non esistente" << endl;
+                    break;
+                }else{                //a contiene indice della tabella scelta
+                    comando_intero >> word; //butto via "WHERE"
+                    comando_intero >> word;
+                    //cerco match con campo condizione
+                    for(b=0, trovata=false; b<tabelle.size(); b++){
+                        if(toUpper(tabelle[a]->getCol(b)->getNomeColonna())==word) {
+                            trovata=true;
+                            break;
+                        }
+                    }
+                    if(!trovata){
+                        cout << "Campo non esistente nella tabella" << endl;
+                        break;
+                    }else{
+                        //leggo operatore; assumere che tra operatore e parole adiacenti ci sia almeno uno spazio
+                        comando_intero >> word;
+                        if(!(belong_to(word, operatori))){
+                            cout << "Operatore non valido" << endl;
+                            break;
+                        }else{
+                            if(word=="="){
+                                comando_intero >> word;
+                                word.pop_back();
+                                word.pop_back();
+                                word.erase(0,1);    //rimuovo virgolette e punto e virgola finale
+                                tabelle[a]->deleteRecord(tabelle[a]->getCol(b)->getNomeColonna(), word);
+                            }
+                            else if(word=="<"){
+                                comando_intero >> word;
+                                word.pop_back();
+                                word.pop_back();
+                                word.erase(0,1);    //rimuovo virgolette e punto e virgola finale
+                                tabelle[a]->deleteRecord(tabelle[a]->getCol(b)->getNomeColonna(), word, 1);
+                            }
+                            else if(word=="<="){
+                                comando_intero >> word;
+                                word.pop_back();
+                                word.pop_back();
+                                word.erase(0,1);    //rimuovo virgolette e punto e virgola finale
+                                tabelle[a]->deleteRecord(tabelle[a]->getCol(b)->getNomeColonna(), word, 2);
+                            }
+                            else if(word==">"){
+                                comando_intero >> word;
+                                word.pop_back();
+                                word.pop_back();
+                                word.erase(0,1);    //rimuovo virgolette e punto e virgola finale
+                                tabelle[a]->deleteRecord(tabelle[a]->getCol(b)->getNomeColonna(), word, 3);
+                            }
+                            else if(word==">="){
+                                comando_intero >> word;
+                                word.pop_back();
+                                word.pop_back();
+                                word.erase(0,1);    //rimuovo virgolette e punto e virgola finale
+                                tabelle[a]->deleteRecord(tabelle[a]->getCol(b)->getNomeColonna(), word, 4);
+                            }
+                            else if(word=="<>"){
+                                comando_intero >> word;
+                                word.pop_back();
+                                word.pop_back();
+                                word.erase(0,1);    //rimuovo virgolette e punto e virgola finale
+                                tabelle[a]->deleteRecord(tabelle[a]->getCol(b)->getNomeColonna(), word, 5);
+                            }
+                            else if(toUpper(word)=="BETWEEN"){
+                                comando_intero >> word; //prima condizione
+                                comando_intero >> word2; //butto via "AND"
+                                comando_intero >> word2; //seconda condizione
+                                word.erase(0,1);
+                                word.pop_back();           //rimuovo le virgolette
+                                word2.erase(0,1);
+                                word2.pop_back();
+                                tabelle[a]->deleteRecord(tabelle[a]->getCol(b)->getNomeColonna(),word,word2);
+                            }
+                        }
+                    }
+                }
                 break;
             case TRUNCATE :
                 if(controllore.controlloTruncate(comando_intero,&message_error)) {
-                    if (tabelle.size() != 0){
+                    if (!tabelle.empty()){
                         comando_intero >> word;      //butto via "TABLE"
                         comando_intero >> word;       //in word1 ho nome_tab
                         for (auto &s : tabelle) {
@@ -289,3 +392,9 @@ string toUpper(string word){
     return word;
 }
 
+bool belong_to(const string& elemento, const vector<string>& insieme){
+    for(const auto & elem : insieme){
+        if(elemento==elem) return true;
+    }
+    return false;
+}

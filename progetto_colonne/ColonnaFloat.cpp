@@ -76,6 +76,8 @@ bool ColonnaFloat::compareElements(const string& condizione, int operatore, int 
             return (_elementi_float[index] > to_compare);
         case 4:
             return (_elementi_float[index] >= to_compare);
+        case 5:
+            return (_elementi_float[index] != to_compare);
         default:
             throw InvalidOperator();
     }

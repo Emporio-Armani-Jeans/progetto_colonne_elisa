@@ -14,7 +14,7 @@ class ControlloSintassi {
 public:
     ControlloSintassi();
 
-    //controlli tornano true se il formato è corretto
+    //controlli tornano true se il formato è corretto e modificano il messaggio di errore caso per caso
     bool controlloCreate(stringstream &comando, string *messaggio) const;
     bool controlloTruncate(stringstream &comando, string *messaggio) const;
 

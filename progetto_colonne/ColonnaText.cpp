@@ -73,6 +73,8 @@ bool ColonnaText::compareElements(const string& condizione, int operatore, int i
             return (_elementi_di_testo[index] > condizione);
         case 4:
             return (_elementi_di_testo[index] >= condizione);
+        case 5:
+            return (_elementi_di_testo[index] != condizione);
         default:
             throw InvalidOperator();
     }

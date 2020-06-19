@@ -78,6 +78,8 @@ bool ColonnaChar::compareElements(const string& condizione, int operatore, int i
             return (_elementi_char[index] > condizione[0]);
         case 4:
             return (_elementi_char[index] >= condizione[0]);
+        case 5:
+            return _elementi_char[index] != condizione[0];
         default:
             throw InvalidOperator();
     }

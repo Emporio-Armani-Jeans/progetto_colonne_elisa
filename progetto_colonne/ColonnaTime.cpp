@@ -93,6 +93,8 @@ bool ColonnaTime::compareElements(const string& condizione, int operatore, int i
             return (_elementi_time[index] > to_compare);
         case 4:
             return (_elementi_time[index] >= to_compare);
+        case 5:
+            return (_elementi_time[index] != to_compare);
         default:
             throw InvalidOperator();
     }
