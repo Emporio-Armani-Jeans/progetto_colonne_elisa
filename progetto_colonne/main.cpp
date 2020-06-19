@@ -40,7 +40,7 @@ int main() {
     int contatore=0, i=0, a, b;
     bool auto_increm, not_null, key, trovata=false;
     string syntax_err = "Comando non valido, errore di sintassi";
-    string first_word, word, word2, nome_tabella, nome_colonna, condizione1, condizione2, nome, tipo, auto_increment;
+    string first_word, word, word2, word3, scarto, nome_tabella, nome_colonna, condizione1, condizione2, nome, tipo, auto_increment;
     vector<string> operatori {"=", "<", ">", ">=", "<=", "<>", "BETWEEN"};
     vector<string> first_word_comandi {"CREATE", "DROP", "INSERT", "DELETE", "UPDATE", "SELECT","QUIT"};
     vector<string> campi, valori, words;
@@ -120,7 +120,6 @@ int main() {
                    while (tipo != "key") {
                        if (toUpper(tipo) == "INT") {
                            //se è auto increment mi servono delle stringhe in più
-                           string word2, word3;
                            riga_temp >> word2;
                            riga_temp >> word3;
                            word+= " " + word2;
@@ -332,7 +331,108 @@ int main() {
                     cout << message_error << endl;
             case UPDATE :
                 break;
-            case SELECT :
+            case SELECT :      //    IMPORTANTE :  fatto solo stampa con ordinamento, fare stampa normale
+                comando_intero >> word;
+                campi.clear();
+                while(toUpper(word)=="FROM"){   //memorizzo campi finchè non incontro from, suppongo spazio dopo la virgola
+                    word.pop_back(); //rimuovo virgola
+                    campi.push_back(word);
+                    comando_intero >> word;
+                }
+                comando_intero >> word;
+                //cerco match tabella in questione
+                for(a=0, trovata=false; a<tabelle.size(); a++){
+                    if(toUpper(tabelle[a]->getNome())==word) {
+                        trovata=true;
+                        break;
+                    }
+                }
+                if(!trovata){
+                    cout << "Tabella non esistente" << endl;
+                    break;
+                }else{
+                    comando_intero >> word; //butto via "WHERE"
+                    comando_intero >> word;  //in word c'è il campo condizione
+                    comando_intero >> word2;  //in word2 c'è l'operatore
+                    if(!belong_to(word2, operatori)){
+                        cout << "Operatore non valido" << endl;
+                        break;
+                    }else{
+                        //casistica operatori
+                        if(word2=="="){
+                            comando_intero >> word3; //in word3 c'è la condizione
+                            comando_intero >> scarto;  //scarto order
+                            comando_intero >> scarto; //scarto by
+                            comando_intero >> nome_colonna;   //campo ordinamento
+                            comando_intero >> scarto; //scarto DESC
+                            for(int z=0; z<tabelle[b]->returnData(campi, word2, word3, 0, nome_colonna, 1).size(); z++){
+                                cout << tabelle[b]->returnData(campi, word2, word3, 0, nome_colonna, 1)[z] << endl;
+                            }
+                        }
+                        else if(word2=="<"){
+                            comando_intero >> word3; //in word3 c'è la condizione
+                            comando_intero >> scarto;  //scarto order
+                            comando_intero >> scarto; //scarto by
+                            comando_intero >> nome_colonna;   //campo ordinamento
+                            comando_intero >> scarto; //scarto DESC
+                            for(int z=0; z<tabelle[b]->returnData(campi, word2, word3, 1, nome_colonna, 1).size(); z++){
+                                cout << tabelle[b]->returnData(campi, word2, word3, 1, nome_colonna, 1)[z] << endl;
+                            }
+                        }
+                        else if(word2=="<="){
+                            comando_intero >> word3; //in word3 c'è la condizione
+                            comando_intero >> scarto;  //scarto order
+                            comando_intero >> scarto; //scarto by
+                            comando_intero >> nome_colonna;   //campo ordinamento
+                            comando_intero >> scarto; //scarto DESC
+                            for(int z=0; z<tabelle[b]->returnData(campi, word2, word3, 2, nome_colonna, 1).size(); z++){
+                                cout << tabelle[b]->returnData(campi, word2, word3, 2, nome_colonna, 1)[z] << endl;
+                            }
+                        }
+                        else if(word2==">"){
+                            comando_intero >> word3; //in word3 c'è la condizione
+                            comando_intero >> scarto;  //scarto order
+                            comando_intero >> scarto; //scarto by
+                            comando_intero >> nome_colonna;   //campo ordinamento
+                            comando_intero >> scarto; //scarto DESC
+                            for(int z=0; z<tabelle[b]->returnData(campi, word2, word3, 3, nome_colonna, 1).size(); z++){
+                                cout << tabelle[b]->returnData(campi, word2, word3, 3, nome_colonna, 1)[z] << endl;
+                            }
+                        }
+                        else if(word2==">="){
+                            comando_intero >> word3; //in word3 c'è la condizione
+                            comando_intero >> scarto;  //scarto order
+                            comando_intero >> scarto; //scarto by
+                            comando_intero >> nome_colonna;   //campo ordinamento
+                            comando_intero >> scarto; //scarto DESC
+                            for(int z=0; z<tabelle[b]->returnData(campi, word2, word3, 4, nome_colonna, 1).size(); z++){
+                                cout << tabelle[b]->returnData(campi, word2, word3, 4, nome_colonna, 1)[z] << endl;
+                            }
+                        }
+                        else if(word2=="<>"){
+                            comando_intero >> word3; //in word3 c'è la condizione
+                            comando_intero >> scarto;  //scarto order
+                            comando_intero >> scarto; //scarto by
+                            comando_intero >> nome_colonna;   //campo ordinamento
+                            comando_intero >> scarto; //scarto DESC
+                            for(int z=0; z<tabelle[b]->returnData(campi, word2, word3, 5, nome_colonna, 1).size(); z++){
+                                cout << tabelle[b]->returnData(campi, word2, word3, 5, nome_colonna, 1)[z] << endl;
+                            }
+                        }
+                        else if(toUpper(word2)=="BETWEEN"){
+                            comando_intero >> condizione1;
+                            comando_intero >> scarto; //scarto and
+                            comando_intero >> condizione2;
+                            comando_intero >> scarto;  //scarto order
+                            comando_intero >> scarto; //scarto by
+                            comando_intero >> nome_colonna;   //campo ordinamento
+                            comando_intero >> scarto; //scarto DESC
+                            for(int z=0; z<tabelle[b]->returnData(campi, word2, condizione1, condizione2, nome_colonna, 1).size(); z++){
+                                cout << tabelle[b]->returnData(campi, word2, condizione1, condizione2, nome_colonna, 1)[z] << endl;
+                            }
+                        }
+                    }
+                }
                 break;
             case QUIT :
                 break;
