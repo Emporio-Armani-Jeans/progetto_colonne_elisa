@@ -345,8 +345,9 @@ int main() {
                 } else
                     cout << message_error << endl;
             case UPDATE :
+
                 break;
-            case SELECT :      //    IMPORTANTE :  fatto solo stampa con ordinamento, fare stampa normale
+            case SELECT :
                 comando_intero >> word;  //leggo seconda parola
                 campi.clear();
                 if(word=="*"){
@@ -402,6 +403,10 @@ int main() {
                             if (word2 == "=") {
                                 comando_intero >> word3; //in word3 c'è la condizione
                                 if(word3[word3.size()-1]!=';') {   //se non c'è ';' ci sarà ordinamento
+                                    if(word3[0]=='"'){
+                                        word3.erase(0,1);
+                                        word3.pop_back();
+                                    }
                                     comando_intero >> scarto;  //scarto order
                                     comando_intero >> scarto; //scarto by
                                     comando_intero >> nome_colonna;   //campo ordinamento
@@ -413,6 +418,7 @@ int main() {
                                              << endl;
                                     }
                                 }else{
+                                    word3.pop_back();
                                     //stampo campi che rispettando condizione senza ordinamento
                                     for(const auto& elem : tabelle[a]->returnData(campi, word, word3)){
                                         cout << elem << " ";
@@ -422,6 +428,10 @@ int main() {
                             } else if (word2 == "<") {
                                 comando_intero >> word3; //in word3 c'è la condizione
                                 if(word3[word3.size()]!=';') {
+                                    if(word3[0]=='"'){          //se ci sono virgolette le tolgo
+                                        word3.erase(0,1);
+                                        word3.pop_back();
+                                    }
                                     comando_intero >> scarto;  //scarto order
                                     comando_intero >> scarto; //scarto by
                                     comando_intero >> nome_colonna;   //campo ordinamento
@@ -433,6 +443,7 @@ int main() {
                                              << endl;
                                     }
                                 }else{
+                                    word3.pop_back();     //tolgo virgoletta o ';'
                                     //stampo campi che rispettando condizione senza ordinamento
                                     for(const auto& elem : tabelle[a]->returnData(campi, word, word3, 1)){
                                         cout << elem << " ";
@@ -442,6 +453,10 @@ int main() {
                             } else if (word2 == "<=") {
                                 comando_intero >> word3; //in word3 c'è la condizione
                                 if(word3[word3.size()]!=';') {
+                                    if(word3[0]=='"'){          //se ci sono virgolette le tolgo
+                                        word3.erase(0,1);
+                                        word3.pop_back();
+                                    }
                                     comando_intero >> scarto;  //scarto order
                                     comando_intero >> scarto; //scarto by
                                     comando_intero >> nome_colonna;   //campo ordinamento
@@ -453,6 +468,7 @@ int main() {
                                              << endl;
                                     }
                                 }else{
+                                    word3.pop_back();
                                     //stampo campi che rispettando condizione senza ordinamento
                                     for(const auto& elem : tabelle[a]->returnData(campi, word, word3, 2)){
                                         cout << elem << " ";
@@ -462,6 +478,10 @@ int main() {
                             } else if (word2 == ">") {
                                 comando_intero >> word3; //in word3 c'è la condizione
                                 if(word3[word3.size()]!=';') {
+                                    if(word3[0]=='"'){          //se ci sono virgolette le tolgo
+                                        word3.erase(0,1);
+                                        word3.pop_back();
+                                    }
                                     comando_intero >> scarto;  //scarto order
                                     comando_intero >> scarto; //scarto by
                                     comando_intero >> nome_colonna;   //campo ordinamento
@@ -473,6 +493,7 @@ int main() {
                                              << endl;
                                     }
                                 }else {
+                                    word3.pop_back();
                                     //stampo campi che rispettando condizione senza ordinamento
                                     for (const auto &elem : tabelle[a]->returnData(campi, word, word3, 3)) {
                                         cout << elem << " ";
@@ -482,6 +503,10 @@ int main() {
                             } else if (word2 == ">=") {
                                 comando_intero >> word3; //in word3 c'è la condizione
                                 if(word3[word3.size()]!=';') {
+                                    if(word3[0]=='"'){          //se ci sono virgolette le tolgo
+                                        word3.erase(0,1);
+                                        word3.pop_back();
+                                    }
                                     comando_intero >> scarto;  //scarto order
                                     comando_intero >> scarto; //scarto by
                                     comando_intero >> nome_colonna;   //campo ordinamento
@@ -493,6 +518,7 @@ int main() {
                                              << endl;
                                     }
                                 }else {
+                                    word3.pop_back();
                                     //stampo campi che rispettando condizione senza ordinamento
                                     for (const auto &elem : tabelle[a]->returnData(campi, word, word3, 4)) {
                                         cout << elem << " ";
@@ -502,6 +528,10 @@ int main() {
                             } else if (word2 == "<>") {
                                 comando_intero >> word3; //in word3 c'è la condizione
                                 if(word3[word3.size()]!=';') {
+                                    if(word3[0]=='"'){          //se ci sono virgolette le tolgo
+                                        word3.erase(0,1);
+                                        word3.pop_back();
+                                    }
                                     comando_intero >> scarto;  //scarto order
                                     comando_intero >> scarto; //scarto by
                                     comando_intero >> nome_colonna;   //campo ordinamento
@@ -513,6 +543,7 @@ int main() {
                                              << endl;
                                     }
                                 }else {
+                                    word3.pop_back();
                                     //stampo campi che rispettando condizione senza ordinamento
                                     for (const auto &elem : tabelle[a]->returnData(campi, word, word3, 5)) {
                                         cout << elem << " ";
@@ -521,9 +552,17 @@ int main() {
                                 }
                             } else if (toUpper(word2) == "BETWEEN") {
                                 comando_intero >> condizione1;
+                                if(condizione1[0]=='"'){          //se ci sono virgolette le tolgo
+                                    condizione1.erase(0,1);
+                                    condizione1.pop_back();
+                                }
                                 comando_intero >> scarto; //scarto and
                                 comando_intero >> condizione2;
                                 if(condizione2[condizione2.size()]!=';') {
+                                    if(condizione2[0]=='"'){          //se ci sono virgolette le tolgo
+                                        condizione2.erase(0,1);
+                                        condizione2.pop_back();
+                                    }
                                     comando_intero >> scarto;  //scarto order
                                     comando_intero >> scarto; //scarto by
                                     comando_intero >> nome_colonna;   //campo ordinamento
@@ -535,6 +574,7 @@ int main() {
                                                                        1)[z] << endl;
                                     }
                                 }else {
+                                    condizione2.pop_back();
                                     //stampo campi che rispettando condizione senza ordinamento
                                     for (const auto &elem : tabelle[a]->returnData(campi, word, condizione1, condizione2)) {
                                         cout << elem << " ";
