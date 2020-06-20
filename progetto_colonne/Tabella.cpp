@@ -415,10 +415,14 @@ void Tabella::setChiaveEsterna(Tabella* tabella_to_link, const string& colonna_t
                 break;
             }
         }
-        if ( j < _colonne.size()) {
-            _colonne[j]->_foreign_key = tabella_to_link->_colonne[i];
-        } else{
-            throw CampoNonTrovato();
+        if(_colonne[j]->_foreign_key== nullptr) {
+            if (j < _colonne.size()) {
+                _colonne[j]->_foreign_key = tabella_to_link->_colonne[i];
+            } else {
+                throw CampoNonTrovato();
+            }
+        }else{
+            throw SecKeyAlreadyExisting();
         }
     } else {
         throw SecKeyNotFound();

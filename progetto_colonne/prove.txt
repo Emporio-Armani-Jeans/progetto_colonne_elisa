@@ -77,3 +77,22 @@
 
     //fine programma
     deleteOggettoTabella(&tab1);
+
+
+
+
+
+
+
+
+    C:\Users\andry\CLionProjects\progetto_colonne_elisa\progetto_colonne\Memoria.txt
+
+    2
+    Customers 3
+    Age:int,false,true,false#Id:int,true,true,true#Address:text,false,false,false#
+    3
+    10#1#Via Dei Gigli 33#3#2#Via Dal Cazzo 666#12#3#Via Petalosa 77#
+    Countries 2
+    Country:text,false,false,false#Country_Id:int,true,true,true#
+    2
+    Italy#4#Germany#5#

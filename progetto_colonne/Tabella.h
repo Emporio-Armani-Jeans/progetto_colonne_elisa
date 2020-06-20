@@ -22,6 +22,7 @@
 #include "InvalidCondition.h"
 #include <vector>
 #include <string>
+#include "SecKeyAlreadyExisting.h"
 using namespace std;
 class Tabella {
 public:

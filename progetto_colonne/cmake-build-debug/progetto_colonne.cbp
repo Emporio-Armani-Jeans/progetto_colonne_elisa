@@ -152,6 +152,9 @@
 		<Unit filename="C:/Users/andry/CLionProjects/progetto_colonne_elisa/progetto_colonne/PrimaryKeyAlreadyExisting.h">
 			<Option target="progetto_colonne"/>
 		</Unit>
+		<Unit filename="C:/Users/andry/CLionProjects/progetto_colonne_elisa/progetto_colonne/SecKeyAlreadyExisting.h">
+			<Option target="progetto_colonne"/>
+		</Unit>
 		<Unit filename="C:/Users/andry/CLionProjects/progetto_colonne_elisa/progetto_colonne/SecKeyError.h">
 			<Option target="progetto_colonne"/>
 		</Unit>
