@@ -40,18 +40,17 @@ int main() {
     int contatore=0, i=0, a, b;
     bool auto_increm, not_null, key, trovata=false;
     string syntax_err = "Comando non valido, errore di sintassi";
-    string first_word, word, word2, word3, scarto, nome_tabella, nome_colonna, condizione1, condizione2, nome, tipo, auto_increment;
+    string first_word, word, word2, word3, scarto, nome_tabella, nome_colonna, condizione1, condizione2,
+    nome, tipo, auto_increment;
     vector<string> operatori {"=", "<", ">", ">=", "<=", "<>", "BETWEEN"};
     vector<string> first_word_comandi {"CREATE", "DROP", "INSERT", "DELETE", "UPDATE", "SELECT","QUIT"};
     vector<string> campi, valori, words;
 
-   // cout << "Inserire nome file database" << endl;
-   // cin >> nome_file;
-   // tabelle=Avvio(nome_file);
-
+    cout << "Inserire nome file database" << endl;
+    cin >> nome_file;
+    tabelle = Avvio(nome_file);
 
     stringstream riga_temp;
-
 
     string comando;
     bool found_text = false;
@@ -723,14 +722,16 @@ int main() {
                 }
             }
         }
-
-
         cout << comando << endl;
         comando_intero << comando;
         comando_intero >> first_word;
     }
+    cout << "Arresto in corso..." << endl;
 
-   // Arresto(nome_file, tabelle);
+    Arresto(nome_file, tabelle);
+
+    cout << "Arresto eseguito correttamente" << endl;
+
     return 0;
 }
 
