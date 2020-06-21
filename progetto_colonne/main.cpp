@@ -121,10 +121,10 @@ int main() {
     while(compare_first_word_comandi(first_word)!=QUIT) {
         switch (compare_first_word_comandi(first_word)) {
             case CREATE :
-               // if (controllore.controlloCreate(comando_per_controlli, &message_error)) {
+                  if (controllore.controlloCreate(comando_per_controlli, &message_error)) {
                     Create(tabelle, comando_intero, &contatore);
-             //   } else
-              //      cout << message_error << endl;
+                  } else
+                      cout << message_error << endl;
                 break;
             /*case DROP :
                 comando_intero >> word;      //butto via "TABLE"
@@ -335,7 +335,7 @@ int main() {
                     }
                     tabelle[a]->updateRecord(word, condizione1, condizione2, campi, valori);
                 }
-                break;*/
+                break;
             case SELECT :
                 comando_intero >> word;  //leggo seconda parola
                 campi.clear();
@@ -584,7 +584,7 @@ int main() {
                             }
                         }
                     }
-                }
+                }*/
                 break;
             case QUIT :
                 break;

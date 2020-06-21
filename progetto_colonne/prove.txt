@@ -85,7 +85,7 @@
 
 
 
-    C:\Users\andry\CLionProjects\progetto_colonne_elisa\progetto_colonne\Memoria.txt
+    C:/Users/andry/CLionProjects/progetto_colonne_elisa/progetto_colonne/Memoria.txt
 
     2
     Customers 3
