@@ -122,6 +122,7 @@ int main() {
         switch (compare_first_word_comandi(first_word)) {
             case CREATE :
                   if (controllore.controlloCreate(comando_per_controlli, &message_error)) {
+                      //cout << "sono arrivato fin qui" << endl;
                     Create(tabelle, comando_intero, &contatore);
                   } else
                       cout << message_error << endl;
@@ -648,11 +649,11 @@ int main() {
         comando_per_controlli << comando;
         comando_intero >> first_word;
     }
-    cout << "Arresto in corso..." << endl;
+    /*cout << "Arresto in corso..." << endl;
 
     Arresto(nome_file, tabelle);
 
-    cout << "Arresto eseguito correttamente" << endl;
+    cout << "Arresto eseguito correttamente" << endl;*/
 
     return 0;
 }

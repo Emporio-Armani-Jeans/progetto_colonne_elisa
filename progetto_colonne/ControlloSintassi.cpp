@@ -57,15 +57,16 @@ bool ControlloSintassi::belongs_to_keywords(string &to_be_compared) const{
 
 bool ControlloSintassi::controlloCreate(stringstream &comando, string* messaggio) const {
     string word;
+    char c;
     bool comando_corretto = false;
     vector<string> words;
-    comando >> word;
+    comando >> word >> word;
     word = toUp(word);
     if (word == "TABLE"){ //controllo che la seconda parola dopo create sia table
         comando >> word;
-        if (word[word.size()-1] == '('){ //controllo che alla fine del nome della tabella ci sia la (
-            word.pop_back();
-            if (!belongs_to_keywords(word)){ //controllo che il nome assegnato alla tabella non sia una keyword del linguaggio
+        if (!belongs_to_keywords(word)){ //controllo che il nome assegnato alla tabella non sia una keyword del linguaggio
+            comando >> c;
+            if (c == '('){ //controllo la presenza della (
                 while(!comando.eof()){ //finchè non finisce il comando
                     comando_corretto = false;
                     words.clear();
@@ -154,8 +155,8 @@ bool ControlloSintassi::controlloCreate(stringstream &comando, string* messaggio
                                         for (int j = 2; j < words.size(); j++){
                                             words[j] = toUp(words[j]);
                                             if (j != (words.size()-1)){ //se non si è ancora arrivati all'ultima parola
-                                                if ( (toUp(words[j]) == "NOT" && toUp(words[j+1]) == "NULL") || (toUp(words[j]) == "NULL" && toUp(words[j-1]) == "NOT") || (toUp(words[j]) == "AUTO_INCREMENT") ){
-                                                    if (toUp(words[j]) == "AUTO_INCREMENT"){
+                                                if ( (toUp(words[j]) == "NOT" && toUp(words[j+1]) == "NULL") || (toUp(words[j]) == "NULL" && toUp(words[j-1]) == "NOT") || ((toUp(words[j]) == "AUTO") && (toUp(words[j+1]) == "INCREMENT")) || ((toUp(words[j]) == "INCREMENT") && (toUp(words[j-1]) == "AUTO"))){
+                                                    if (((toUp(words[j]) == "AUTO") && (toUp(words[j+1]) == "INCREMENT")) || ((toUp(words[j]) == "INCREMENT") && (toUp(words[j-1]) == "AUTO"))){
                                                         if (compare_tipo(words[1]) != INT){
                                                             messaggio->assign(_wrong_type_auto_increment);
                                                             return false;//_wrong_type_auto_increment;
@@ -168,8 +169,8 @@ bool ControlloSintassi::controlloCreate(stringstream &comando, string* messaggio
                                                 }
                                             }
                                             else { //se invece si è arrivati all'ultima parola
-                                                if ((toUp(words[j]) == "NULL" && toUp(words[j-1]) == "NOT") || (toUp(words[j]) == "AUTO_INCREMENT")){
-                                                    if (toUp(words[j]) == "AUTO_INCREMENT"){
+                                                if ((toUp(words[j]) == "NULL" && toUp(words[j-1]) == "NOT") || ((toUp(words[j]) == "INCREMENT") && (toUp(words[j-1]) == "AUTO"))){
+                                                    if ((toUp(words[j]) == "INCREMENT") && (toUp(words[j-1]) == "AUTO")){
                                                         if (compare_tipo(words[1]) != INT){
                                                             messaggio->assign(_wrong_type_auto_increment);
                                                             return false;//_wrong_type_auto_increment;
@@ -209,12 +210,12 @@ bool ControlloSintassi::controlloCreate(stringstream &comando, string* messaggio
                     return true;
                 }
             } else {
-                messaggio->assign(_message_error_keyword);
+                messaggio->assign(_message_error);
                 return false;
             }
         }
         else{
-            messaggio->assign(_message_error);
+            messaggio->assign(_message_error_keyword);
             return false;
         }
     }
