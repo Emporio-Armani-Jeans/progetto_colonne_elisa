@@ -92,6 +92,7 @@ CMakeFiles/progetto_colonne.dir/Tabella.cpp.obj: ../InvalidOperator.h
 CMakeFiles/progetto_colonne.dir/Tabella.cpp.obj: ../NotNullError.h
 CMakeFiles/progetto_colonne.dir/Tabella.cpp.obj: ../PrimKeyError.h
 CMakeFiles/progetto_colonne.dir/Tabella.cpp.obj: ../PrimaryKeyAlreadyExisting.h
+CMakeFiles/progetto_colonne.dir/Tabella.cpp.obj: ../SecKeyAlreadyExisting.h
 CMakeFiles/progetto_colonne.dir/Tabella.cpp.obj: ../SecKeyError.h
 CMakeFiles/progetto_colonne.dir/Tabella.cpp.obj: ../SecKeyNotFound.h
 CMakeFiles/progetto_colonne.dir/Tabella.cpp.obj: ../Tabella.cpp
@@ -114,6 +115,7 @@ CMakeFiles/progetto_colonne.dir/main.cpp.obj: ../ColonnaFloat.h
 CMakeFiles/progetto_colonne.dir/main.cpp.obj: ../ColonnaInt.h
 CMakeFiles/progetto_colonne.dir/main.cpp.obj: ../ColonnaText.h
 CMakeFiles/progetto_colonne.dir/main.cpp.obj: ../ColonnaTime.h
+CMakeFiles/progetto_colonne.dir/main.cpp.obj: ../Comandi.hpp
 CMakeFiles/progetto_colonne.dir/main.cpp.obj: ../ControlloSintassi.h
 CMakeFiles/progetto_colonne.dir/main.cpp.obj: ../FileError.h
 CMakeFiles/progetto_colonne.dir/main.cpp.obj: ../FormatTypeError.h
@@ -122,6 +124,7 @@ CMakeFiles/progetto_colonne.dir/main.cpp.obj: ../InvalidOperator.h
 CMakeFiles/progetto_colonne.dir/main.cpp.obj: ../NotNullError.h
 CMakeFiles/progetto_colonne.dir/main.cpp.obj: ../PrimKeyError.h
 CMakeFiles/progetto_colonne.dir/main.cpp.obj: ../PrimaryKeyAlreadyExisting.h
+CMakeFiles/progetto_colonne.dir/main.cpp.obj: ../SecKeyAlreadyExisting.h
 CMakeFiles/progetto_colonne.dir/main.cpp.obj: ../SecKeyError.h
 CMakeFiles/progetto_colonne.dir/main.cpp.obj: ../SecKeyNotFound.h
 CMakeFiles/progetto_colonne.dir/main.cpp.obj: ../Tabella.h

@@ -9,6 +9,7 @@
 #include <sstream>
 #include "Avvio_Arresto.hpp"
 #include "ControlloSintassi.h"
+#include "Comandi.hpp"
 #define ERR_COMANDO -1
 
 using namespace std;
@@ -25,7 +26,6 @@ enum comando {CREATE, DROP, INSERT, DELETE, TRUNCATE, UPDATE, SELECT,QUIT};
 
 
 int compare_first_word_comandi(string &first_word);
-string toUpper(string word);
 bool belong_to(const string& elemento, const vector<string>& insieme);
 
 
@@ -107,6 +107,7 @@ int main() {
     cout << comando << endl;
 
     stringstream comando_intero(comando);
+    stringstream comando_per_controlli(comando);
 
     /*while (riga_comando[riga_comando.size() - 1] != ';') {
         if (riga_comando[riga_comando.size() - 1] != ';') {
@@ -120,96 +121,12 @@ int main() {
     while(compare_first_word_comandi(first_word)!=QUIT) {
         switch (compare_first_word_comandi(first_word)) {
             case CREATE :
-                if (controllore.controlloCreate(comando_intero, &message_error)) {
-                    comando_intero >> word >> nome_tabella;
-                    tabelle.emplace_back(new Tabella(nome_tabella));
-                    comando_intero >> word;
-                    getline(comando_intero, riga_comando, ',');
-                    riga_temp << riga_comando;
-                    riga_temp >> nome_colonna >> tipo;
-                    while (tipo != "key") {
-                        if (toUpper(tipo) == "INT") {
-                            //se è auto increment mi servono delle stringhe in più
-                            riga_temp >> word2;
-                            riga_temp >> word3;
-                            word += " " + word2;
-                            if (word == "NOT NULL") not_null = true;
-                            getline(riga_temp, word, ',');
-                            if (word == "AUTO_INCREMENT") auto_increm = true;
-                        } else {
-                            //se non è int controllo solo not null
-                            getline(riga_temp, word, ',');
-                            if (word == "NOT NULL") not_null = true;
-                        }
-                        //aggiungo la colonna
-                        if (tipo == "INT") {
-                            if (!not_null) {
-                                tabelle[tabelle.size() - 1]->aggiungiColonna(new ColonnaInt(nome_colonna));
-                            } else {
-                                if (!auto_increm) {
-                                    tabelle[tabelle.size() - 1]->aggiungiColonna(new ColonnaInt(nome_colonna, false));
-                                } else
-                                    tabelle[tabelle.size() - 1]->aggiungiColonna(
-                                            new ColonnaInt(nome_colonna, false, true, &contatore));
-                            }
-                        } else if (tipo == "TEXT") {
-                            if (!not_null)
-                                tabelle[tabelle.size() - 1]->aggiungiColonna(new ColonnaText(nome_colonna));
-                            else
-                                tabelle[tabelle.size() - 1]->aggiungiColonna(new ColonnaInt(nome_colonna, false));
-                        } else if (tipo == "CHAR") {
-                            if (!not_null)
-                                tabelle[tabelle.size() - 1]->aggiungiColonna(new ColonnaChar(nome_colonna));
-                            else
-                                tabelle[tabelle.size() - 1]->aggiungiColonna(new ColonnaChar(nome_colonna, false));
-                        } else if (tipo == "DATE") {
-                            if (!not_null)
-                                tabelle[tabelle.size() - 1]->aggiungiColonna(new ColonnaDate(nome_colonna));
-                            else
-                                tabelle[tabelle.size() - 1]->aggiungiColonna(new ColonnaDate(nome_colonna, false));
-                        } else if (tipo == "FLOAT") {
-                            if (!not_null)
-                                tabelle[tabelle.size() - 1]->aggiungiColonna(new ColonnaFloat(nome_colonna));
-                            else
-                                tabelle[tabelle.size() - 1]->aggiungiColonna(new ColonnaFloat(nome_colonna, false));
-                        } else if (tipo == "TIME") {
-                            if (!not_null)
-                                tabelle[tabelle.size() - 1]->aggiungiColonna(new ColonnaTime(nome_colonna));
-                            else
-                                tabelle[tabelle.size() - 1]->aggiungiColonna(new ColonnaTime(nome_colonna, false));
-                        }
-                        getline(comando_intero, riga_comando, ',');
-                        riga_temp << riga_comando;
-                        riga_temp >> nome_colonna >> tipo;
-                    }
-                    while (!comando_intero.eof()) {
-                        if (nome_colonna == "PRIMARY") {
-                            getline(riga_temp, word, '(');
-                            getline(riga_temp, word, ')');
-                            tabelle[tabelle.size() - 1]->setChiavePrimaria(word);
-                        } else if (nome_colonna == "FOREIGN") {
-                            //FOREIGN KEY (COUNTRY_ID) REFERENCES COUNTRIES (ID)
-                            getline(riga_temp, word, '(');
-                            getline(riga_temp, nome_colonna, ')');
-                            riga_temp << word;
-                            riga_temp << nome_tabella;
-                            for (i = 0; i < tabelle.size(); i++) {
-                                if (tabelle[i]->getNome() == nome_tabella)
-                                    break;
-                            }
-                            getline(riga_temp, word, '(');
-                            getline(riga_temp, word, ')');
-                            tabelle[tabelle.size() - 1]->setChiaveEsterna(tabelle[i], word, nome_colonna);
-                        }
-                        getline(comando_intero, riga_comando, ',');
-                        riga_temp << riga_comando;
-                        riga_temp >> nome_colonna >> tipo;
-                    }
-
-                } else
-                    cout << message_error << endl;
+               // if (controllore.controlloCreate(comando_per_controlli, &message_error)) {
+                    Create(tabelle, comando_intero, &contatore);
+             //   } else
+              //      cout << message_error << endl;
                 break;
-            case DROP :
+            /*case DROP :
                 comando_intero >> word;      //butto via "TABLE"
                 comando_intero >> word;
                 word.pop_back();            //butto via ';'
@@ -418,7 +335,7 @@ int main() {
                     }
                     tabelle[a]->updateRecord(word, condizione1, condizione2, campi, valori);
                 }
-                break;
+                break;*/
             case SELECT :
                 comando_intero >> word;  //leggo seconda parola
                 campi.clear();
@@ -677,12 +594,16 @@ int main() {
         }
 
         comando.clear();
+        comando_intero.clear();
+        comando_per_controlli.clear();
         comando_intero.str("");
+        comando_per_controlli.str("");
         riga_comando.clear();
 
         cout << "Inserisci comando: " << endl;
         getline(cin,comando);
-        for (int j = 0; j < comando.size(); ++j) {
+        int temp=comando.size();
+        for (int j = 0; j < temp; ++j) {
             if (!found_text){
                 if (comando[j] == '"' && ((int)comando[j-1] != 39 && (int)comando[j+1] != 39)) { //se trovo un " e non è all'interno di un campo char
                     found_text = true;
@@ -724,6 +645,7 @@ int main() {
         }
         cout << comando << endl;
         comando_intero << comando;
+        comando_per_controlli << comando;
         comando_intero >> first_word;
     }
     cout << "Arresto in corso..." << endl;
@@ -760,12 +682,6 @@ int compare_first_word_comandi(string &first_word){
         return ERR_COMANDO;
 }
 
-
-string toUpper(string word){
-    for (auto & c : word)
-        c = toupper(c);
-    return word;
-}
 
 bool belong_to(const string& elemento, const vector<string>& insieme){
     for(const auto & elem : insieme){

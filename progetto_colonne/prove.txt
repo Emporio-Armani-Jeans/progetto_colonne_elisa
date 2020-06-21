@@ -96,3 +96,7 @@
     Country:text,false,false,false#Country_Id:int,true,true,true#
     2
     Italy#4#Germany#5#
+
+    CREATE TABLE SCTUCAZZ ( ID INT NOT NULL AUTO_INCREMENT, NAME TEXT NOT NULL, PRIMARY KEY (ID) );
+
+    PRIMARY KEY (ID), FOREIGN KEY (COUNTRY_ID) REFERENCES COUNTRIES (ID) ,
