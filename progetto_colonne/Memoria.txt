@@ -1,4 +1,4 @@
-4
+2
 Customers 3
 Age:int,false,true,false#Id:int,true,true,true#Address:text,false,false,false#
 3
@@ -7,7 +7,3 @@ Countries 2
 Country:text,false,false,false#Country_Id:int,false,true,true#
 2
 Italy#4#Germany#5#
-SCTUCAZZ 2
-ID:int,true,false,false#NAME:int,false,true,false#
-0
-

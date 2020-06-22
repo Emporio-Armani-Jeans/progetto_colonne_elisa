@@ -136,5 +136,49 @@ void Create(vector<Tabella*> &tabelle, stringstream &stream_comando, int *contat
         }
 }
 
+void deleteOggettoTabella(Tabella **ptr){
+    if (*ptr != nullptr){
+        delete *ptr;
+        *ptr = nullptr;
+    }
+}
+
+void Drop(vector<Tabella*> &tabelle, stringstream &stream_comando){
+    string word;
+    bool trovata;
+    vector<Tabella*>::iterator it=tabelle.begin();
+    stream_comando >> word;      //butto via "TABLE"
+    stream_comando >> word;
+    word.pop_back();            //butto via ';'
+    //ricerco match nome tabella
+    for (trovata = false; it != tabelle.end(); it++) {
+        if (toUpper((*it)->getNome()) == word) {
+            trovata = true;
+            break;
+        }
+    }
+    if (!trovata) {
+        cout << "Tabella non esistente" << endl;
+    } else {
+        tabelle.erase(it);
+    }
+}
+
+
+void Truncate(vector<Tabella*> &tabelle, stringstream &stream_comando){
+    string word;
+    if (!tabelle.empty()) {
+        stream_comando >> word;      //butto via "TABLE"
+        stream_comando >> word;       //in word ho nome_tab
+        word.pop_back();   //rimuovo ';'
+        for (Tabella* &s : tabelle) {
+            if (toUpper(word) == toUpper(s->getNome())) {
+                s->deleteRecord();
+                break;
+            }
+        }
+    } else
+        cout << "Tabella non esistente" << endl;     //se non ho trovato tab con tale nome nel database
+}
 
 #endif //PROGETTO_COLONNE_COMANDI_HPP

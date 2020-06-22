@@ -14,14 +14,6 @@
 
 using namespace std;
 
-
-void deleteOggettoTabella(Tabella **ptr){
-    if (*ptr != nullptr){
-        delete *ptr;
-        *ptr = nullptr;
-    }
-}
-
 enum comando {CREATE, DROP, INSERT, DELETE, TRUNCATE, UPDATE, SELECT,QUIT};
 
 
@@ -122,29 +114,17 @@ int main() {
         switch (compare_first_word_comandi(first_word)) {
             case CREATE :
                   if (controllore.controlloCreate(comando_per_controlli, &message_error)) {
-                      //cout << "sono arrivato fin qui" << endl;
                     Create(tabelle, comando_intero, &contatore);
                   } else
                       cout << message_error << endl;
                 break;
-            /*case DROP :
-                comando_intero >> word;      //butto via "TABLE"
-                comando_intero >> word;
-                word.pop_back();            //butto via ';'
-                //ricerco match nome tabella
-                for (a = 0, trovata = false; a < tabelle.size(); a++) {
-                    if (toUpper(tabelle[a]->getNome()) == word) {
-                        trovata = true;
-                        break;
-                    }
-                }
-                if (!trovata) {
-                    cout << "Tabella non esistente" << endl;
-                } else {
-                    deleteOggettoTabella(&tabelle[a]);
-                }
+            case DROP :
+               // if(controllore.controlloDrop(comando_per_controlli, &message_error)) {
+                    Drop(tabelle, comando_intero);
+              //  } else
+             //       cout << message_error << endl;
                 break;
-            case INSERT :
+            /*case INSERT :
                 break;
             case DELETE :
                 comando_intero >> word;    //butto via "FROM"
@@ -228,25 +208,15 @@ int main() {
                         }
                     }
                 }
-                break;
+                break; */
             case TRUNCATE :
-                if (controllore.controlloTruncate(comando_intero, &message_error)) {
-                    if (!tabelle.empty()) {
-                        comando_intero >> word;      //butto via "TABLE"
-                        comando_intero >> word;       //in word1 ho nome_tab
-                        for (auto &s : tabelle) {
-                            if (word == s->getNome()) {
-                                s->deleteRecord();
-                                break;
-                            }
-                        }
-                    } else
-                        cout << "Tabella non esistente" << endl;     //se non ho trovato tab con tale nome nel database
-                } else {
+                if (controllore.controlloTruncate(comando_per_controlli, &message_error)) {   //controllo sbagliato
+                    // truncate causa segmentation fault quando cancella ultimo elemento dell'ultima colonna
+                    Truncate(tabelle, comando_intero);
+                } else
                     cout << message_error << endl;
-                }
                 break;
-            case UPDATE :
+            /*case UPDATE :
                 campi.clear();
                 valori.clear();
                 comando_intero >> word;
@@ -649,11 +619,11 @@ int main() {
         comando_per_controlli << comando;
         comando_intero >> first_word;
     }
-    /*cout << "Arresto in corso..." << endl;
+    cout << "Arresto in corso..." << endl;
 
     Arresto(nome_file, tabelle);
 
-    cout << "Arresto eseguito correttamente" << endl;*/
+    cout << "Arresto eseguito correttamente" << endl;
 
     return 0;
 }

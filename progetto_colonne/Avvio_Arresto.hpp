@@ -110,7 +110,6 @@ void Arresto(const string& nome_file, const vector<Tabella*>& tabelle){
             //memorizzo prima tabella in coda nella variabile, poi la cancello
             database << endl;
             delete tab;
-            tab = nullptr;
         }
         database.close();
     }

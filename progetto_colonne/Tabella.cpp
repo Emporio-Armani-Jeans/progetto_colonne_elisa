@@ -89,11 +89,12 @@ void Tabella::deleteRecord(const string& campo_condizione, const string &condizi
     bool trovata = false;
     int i = 0, j = 0;
     if(campo_condizione.empty() && condizione.empty()){   //se parametri sono tutti default cancello tutti i record
-        for(int x=0; x<numRecs(); x++){
-            for(int y=0; y<numCampi(); y++){
-                _colonne[y]->deleteVal(x);
+        for(int x=0; x<numCampi(); x++){
+            for(int y=0; y<numRecs(); y++){
+                _colonne[x]->deleteVal(y);
             }
         }
+        _recs=0;
     }else {
         while (i < _colonne.size() && !trovata) {
             if (campo_condizione == _colonne[i]->getNomeColonna()) trovata = true;
