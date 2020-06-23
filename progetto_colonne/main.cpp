@@ -131,6 +131,8 @@ int main() {
                     cout << message_error << endl;
                 break;
             case INSERT :   //fare controllo
+                Insert(tabelle, comando_intero, &status_message);
+                cout << status_message << endl;
                 break;
             case DELETE :   //fare controllo
                 Delete(tabelle, comando_intero, &status_message);

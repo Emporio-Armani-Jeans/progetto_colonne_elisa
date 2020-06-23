@@ -144,7 +144,6 @@ void Create(vector<Tabella*> &tabelle, stringstream &stream_comando, int *contat
     (*message)="Tabella creata e aggiunta al database";
 }
 
-
 void Drop(vector<Tabella*> &tabelle, stringstream &stream_comando, string *message){
     string word;
     bool trovata;
@@ -167,7 +166,6 @@ void Drop(vector<Tabella*> &tabelle, stringstream &stream_comando, string *messa
     }
 }
 
-
 void Truncate(vector<Tabella*> &tabelle, stringstream &stream_comando, string *message){
     string word;
     if (!tabelle.empty()) {
@@ -184,7 +182,6 @@ void Truncate(vector<Tabella*> &tabelle, stringstream &stream_comando, string *m
     } else
         cout << "Tabella non esistente" << endl;     //se non ho trovato tab con tale nome nel database
 }
-
 
 void Delete(vector<Tabella*> &tabelle, stringstream &stream_comando, string *message){
     vector<string> operatori {"=", "<", ">", ">=", "<=", "<>", "BETWEEN"};
@@ -588,5 +585,63 @@ void Select(){
         }
     }*/
 }
+
+void Insert(vector<Tabella*> &tabelle, stringstream &stream_comando, string *message) {
+    //INSERIRE NUOVO RECORD
+    string scarto, word, nome_tabella;
+    vector<string> campi, valori;
+    int a;
+    bool trovata;
+    /*INSERT INTO CUSTOMERS (AGE, ADDRESS, NAME)
+    VALUES (20, “via Roma 10, Torino”, “Francesco Rossi”);*/
+    stream_comando >> scarto;
+    stream_comando >> nome_tabella;
+    for (a = 0, trovata = false; a < tabelle.size(); a++) {
+        if (toUpper(tabelle[a]->getNome()) == nome_tabella) {
+            trovata = true;
+            break;
+        }
+    }
+    if(!trovata){
+        (*message)="Tabella non trovata nel database";
+    }else {
+        getline(stream_comando, scarto, '(');
+        //salvo n-1 campi
+        stream_comando >> word;
+        while (word[word.size()-1] != ')') {
+            word.pop_back();
+            campi.push_back(word);
+            stream_comando >> word;
+        }
+        //leggo salvo l'ultimo campo
+        word.pop_back();
+        campi.push_back(word);
+
+        stream_comando >> scarto;
+        getline(stream_comando, scarto, '(');
+
+        //salvo n-1 valori
+        stream_comando >> word;
+        while (word[word.size()-1] != ')') {
+            word.pop_back();
+            if (word[0] == '"') {
+                word.pop_back();
+                word.erase(0,1);
+            }
+            valori.push_back(word);
+            stream_comando >> word;
+        }
+        word.pop_back();
+        if (word[0] == '"') {
+            word.pop_back();
+            word.erase(0,1);
+        }
+        valori.push_back(word);
+        tabelle[a]->addRecord(campi, valori);
+
+        (*message)="Record aggiunto correttamente alla tabella";
+    }
+}
+
 
 #endif //PROGETTO_COLONNE_COMANDI_HPP
