@@ -8,6 +8,7 @@
 #include <fstream>
 #include "Colonna.h"
 #include "FileError.h"
+#include "Comandi.hpp"
 
 vector<Tabella*> Avvio(const string& nome_file, int* increment){
     ifstream database;
@@ -89,10 +90,11 @@ void Arresto(const string& nome_file, const vector<Tabella*>& tabelle){
         Tabella* tab;
         database << tabelle.size() << endl;
         for(auto & t : tabelle) {
+            database << endl;
             tab = t;
-            database << tab->getNome() << " " << tab->numCampi() << endl;
+            database << toUpper(tab->getNome()) << " " << tab->numCampi() << endl;
             for (int i = 0; i < tab->numCampi(); i++) {
-                database << tab->getCol(i)->getNomeColonna() << ':' << tab->getCol(i)->getTipo() << ",";
+                database << toUpper(tab->getCol(i)->getNomeColonna()) << ':' << tab->getCol(i)->getTipo() << ",";
                 if (tab->getCol(i)->getTipo() == "int" && tab->getCol(i)->isAutoIncrement()) database << "true,";
                 else database << "false,";
                 if (tab->getCol(i)->isNotNull()) database << "true,";

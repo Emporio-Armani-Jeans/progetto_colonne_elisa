@@ -28,16 +28,22 @@ int main() {
     string message_error;
     char c;
     int contatore=0, i=0, a, b;
-    bool auto_increm, not_null, key, trovata=false;
-    string syntax_err = "Comando non valido, errore di sintassi";
-    string first_word, word, word2, word3, scarto, nome_tabella, nome_colonna, condizione1, condizione2,
-    nome, tipo, auto_increment;
-    vector<string> operatori {"=", "<", ">", ">=", "<=", "<>", "BETWEEN"};
+    bool auto_increm, not_null, key, trovata=false, ok=false;
+    string syntax_err = "Comando non valido, errore di sintassi", message, first_word;
     vector<string> first_word_comandi {"CREATE", "DROP", "INSERT", "DELETE", "UPDATE", "SELECT","QUIT"};
     vector<string> campi, valori, words;
 
-    cout << "Inserire nome file database" << endl;
-    cin >> nome_file;
+    while(!ok) {
+        try {
+            cout << "Inserire nome file database" << endl;
+            cin >> nome_file;
+            ok=true;
+        }
+        catch (exception &file) {
+            ok=false;
+            cout << "Eccezione: " << file.what() << endl;
+        }
+    }
     tabelle = Avvio(nome_file, &contatore);
 
     stringstream riga_temp;
@@ -114,199 +120,33 @@ int main() {
         switch (compare_first_word_comandi(first_word)) {
             case CREATE :
                   if (controllore.controlloCreate(comando_per_controlli, &message_error)) {
-                    Create(tabelle, comando_intero, &contatore);
+                    Create(tabelle, comando_intero, &contatore, &message);
                   } else
                       cout << message_error << endl;
                 break;
             case DROP :
-               // if(controllore.controlloDrop(comando_per_controlli, &message_error)) {
-                    Drop(tabelle, comando_intero);
-              //  } else
-             //       cout << message_error << endl;
-                break;
-            /*case INSERT :
-                break;
-            case DELETE :
-                comando_intero >> word;    //butto via "FROM"
-                comando_intero >> word;
-                //cerco match nome tabella
-                for (a = 0, trovata = false; a < tabelle.size(); a++) {
-                    if (toUpper(tabelle[a]->getNome()) == word) {
-                        trovata = true;
-                        break;
-                    }
-                }
-                if (!trovata) {
-                    cout << "Tabella non esistente" << endl;
-                    break;
-                } else {                //a contiene indice della tabella scelta
-                    comando_intero >> word; //butto via "WHERE"
-                    comando_intero >> word;
-                    //cerco match con campo condizione
-                    for (b = 0, trovata = false; b < tabelle.size(); b++) {
-                        if (toUpper(tabelle[a]->getCol(b)->getNomeColonna()) == word) {
-                            trovata = true;
-                            break;
-                        }
-                    }
-                    if (!trovata) {
-                        cout << "Campo non esistente nella tabella" << endl;
-                        break;
-                    } else {
-                        //leggo operatore; assumere che tra operatore e parole adiacenti ci sia almeno uno spazio
-                        comando_intero >> word;
-                        if (!(belong_to(word, operatori))) {
-                            cout << "Operatore non valido" << endl;
-                            break;
-                        } else {
-                            if (word == "=") {
-                                comando_intero >> word;
-                                word.pop_back();
-                                word.pop_back();
-                                word.erase(0, 1);    //rimuovo virgolette e punto e virgola finale
-                                tabelle[a]->deleteRecord(tabelle[a]->getCol(b)->getNomeColonna(), word);
-                            } else if (word == "<") {
-                                comando_intero >> word;
-                                word.pop_back();
-                                word.pop_back();
-                                word.erase(0, 1);    //rimuovo virgolette e punto e virgola finale
-                                tabelle[a]->deleteRecord(tabelle[a]->getCol(b)->getNomeColonna(), word, 1);
-                            } else if (word == "<=") {
-                                comando_intero >> word;
-                                word.pop_back();
-                                word.pop_back();
-                                word.erase(0, 1);    //rimuovo virgolette e punto e virgola finale
-                                tabelle[a]->deleteRecord(tabelle[a]->getCol(b)->getNomeColonna(), word, 2);
-                            } else if (word == ">") {
-                                comando_intero >> word;
-                                word.pop_back();
-                                word.pop_back();
-                                word.erase(0, 1);    //rimuovo virgolette e punto e virgola finale
-                                tabelle[a]->deleteRecord(tabelle[a]->getCol(b)->getNomeColonna(), word, 3);
-                            } else if (word == ">=") {
-                                comando_intero >> word;
-                                word.pop_back();
-                                word.pop_back();
-                                word.erase(0, 1);    //rimuovo virgolette e punto e virgola finale
-                                tabelle[a]->deleteRecord(tabelle[a]->getCol(b)->getNomeColonna(), word, 4);
-                            } else if (word == "<>") {
-                                comando_intero >> word;
-                                word.pop_back();
-                                word.pop_back();
-                                word.erase(0, 1);    //rimuovo virgolette e punto e virgola finale
-                                tabelle[a]->deleteRecord(tabelle[a]->getCol(b)->getNomeColonna(), word, 5);
-                            } else if (toUpper(word) == "BETWEEN") {
-                                comando_intero >> word; //prima condizione
-                                comando_intero >> word2; //butto via "AND"
-                                comando_intero >> word2; //seconda condizione
-                                word.erase(0, 1);
-                                word.pop_back();           //rimuovo le virgolette
-                                word2.erase(0, 1);
-                                word2.pop_back();
-                                tabelle[a]->deleteRecord(tabelle[a]->getCol(b)->getNomeColonna(), word, word2);
-                            }
-                        }
-                    }
-                }
-                break; */
-            case TRUNCATE :
-                if (controllore.controlloTruncate(comando_per_controlli, &message_error)) {   //controllo sbagliato
-                    // truncate causa segmentation fault quando cancella ultimo elemento dell'ultima colonna
-                    Truncate(tabelle, comando_intero);
+                if(controllore.controlloDrop(comando_per_controlli, &message_error)) {
+                    Drop(tabelle, comando_intero, &message);
                 } else
                     cout << message_error << endl;
                 break;
-            /*case UPDATE :
-                campi.clear();
-                valori.clear();
-                comando_intero >> word;
-                for (a = 0, trovata = false; a < tabelle.size(); a++) {
-                    if (toUpper(tabelle[a]->getNome()) == word) {
-                        trovata = true;
-                        break;
-                    }
-                }
-                comando_intero >> scarto; //scarto SET
-                word.clear();
-                word2.clear();
-                while (toUpper(word) != "WHERE") {
-                    comando_intero >> word;
-                    campi.push_back(word);
-                    comando_intero >> scarto;   //operatore è sempre '='
-                    comando_intero >> word2;   //valore
-                    word2.pop_back();   //rimuovo virgola
-                    if (word2[0] == '"') {
-                        word2.pop_back();
-                        word2.erase(0, 1);
-                    }
-                    valori.push_back(word2);
-                }    //ho opportunamente riempito campi e valori
-                comando_intero >> word; //in word c'è campo condizione
-                comando_intero >> word2; //operatore
-                if (word2 == "=") {
-                    comando_intero >> word3; //condizione
-                    word3.pop_back();  //rimuovo ';'
-                    if (word3[0] == '"') {
-                        word3.erase(0, 1);
-                        word3.pop_back();
-                    }
-                    tabelle[a]->updateRecord(word, word3, campi, valori);
-                } else if (word2 == "<") {
-                    comando_intero >> word3; //condizione
-                    word3.pop_back();  //rimuovo ';'
-                    if (word3[0] == '"') {
-                        word3.erase(0, 1);
-                        word3.pop_back();
-                    }
-                    tabelle[a]->updateRecord(word, word3, campi, valori, 1);
-                } else if (word2 == "<=") {
-                    comando_intero >> word3; //condizione
-                    word3.pop_back();  //rimuovo ';'
-                    if (word3[0] == '"') {
-                        word3.erase(0, 1);
-                        word3.pop_back();
-                    }
-                    tabelle[a]->updateRecord(word, word3, campi, valori, 2);
-                } else if (word2 == ">") {
-                    comando_intero >> word3; //condizione
-                    word3.pop_back();  //rimuovo ';'
-                    if (word3[0] == '"') {
-                        word3.erase(0, 1);
-                        word3.pop_back();
-                    }
-                    tabelle[a]->updateRecord(word, word3, campi, valori, 3);
-                } else if (word2 == ">=") {
-                    comando_intero >> word3; //condizione
-                    word3.pop_back();  //rimuovo ';'
-                    if (word3[0] == '"') {
-                        word3.erase(0, 1);
-                        word3.pop_back();
-                    }
-                    tabelle[a]->updateRecord(word, word3, campi, valori, 4);
-                } else if (word2 == "<>") {
-                    comando_intero >> word3; //condizione
-                    word3.pop_back();  //rimuovo ';'
-                    if (word3[0] == '"') {
-                        word3.erase(0, 1);
-                        word3.pop_back();
-                    }
-                    tabelle[a]->updateRecord(word, word3, campi, valori, 5);
-                } else if (toUpper(word2) == "BETWEEN") {
-                    comando_intero >> condizione1;
-                    if (condizione1[0] == '"') {
-                        condizione1.erase(0, 1);
-                        condizione1.pop_back();
-                    }
-                    comando_intero >> scarto; //scarto AND
-                    comando_intero >> condizione2;
-                    condizione2.pop_back();  //rimuovo ';'
-                    if (condizione1[0] == '"') {
-                        condizione1.erase(0, 1);
-                        condizione1.pop_back();
-                    }
-                    tabelle[a]->updateRecord(word, condizione1, condizione2, campi, valori);
-                }
+            case INSERT :   //fare controllo
                 break;
+            case DELETE :   //fare controllo
+                Delete(tabelle, comando_intero, &message);
+                cout << message << endl;
+                break;
+            case TRUNCATE :
+                if (controllore.controlloTruncate(comando_per_controlli, &message_error)) {
+                    Truncate(tabelle, comando_intero, &message);
+                    cout << message << endl;
+                } else
+                    cout << message_error << endl;
+                break;
+            case UPDATE :   //fare controllo
+                Update(tabelle, comando_intero, &message);
+                cout << message << endl;
+                break;/*
             case SELECT :
                 comando_intero >> word;  //leggo seconda parola
                 campi.clear();
@@ -651,12 +491,4 @@ int compare_first_word_comandi(string &first_word){
         return QUIT;
     else
         return ERR_COMANDO;
-}
-
-
-bool belong_to(const string& elemento, const vector<string>& insieme){
-    for(const auto & elem : insieme){
-        if(elemento==elem) return true;
-    }
-    return false;
 }

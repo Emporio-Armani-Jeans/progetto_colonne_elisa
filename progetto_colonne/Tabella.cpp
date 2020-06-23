@@ -91,7 +91,7 @@ void Tabella::deleteRecord(const string& campo_condizione, const string &condizi
     if(campo_condizione.empty() && condizione.empty()){   //se parametri sono tutti default cancello tutti i record
         for(int x=0; x<numCampi(); x++){
             for(int y=0; y<numRecs(); y++){
-                _colonne[x]->deleteVal(y);
+                _colonne[x]->deleteVal(0);
             }
         }
         _recs=0;

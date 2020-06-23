@@ -230,7 +230,6 @@ bool ControlloSintassi::controlloCreate(stringstream &comando, string* messaggio
 bool ControlloSintassi::controlloTruncate(stringstream &comando, string *messaggio) const {
     vector<string> words;
     int i = 0;
-    words.clear();
     words.emplace_back();
     comando >> words[0];
     while(words[i][words[i].size()-1]!=';'){//salvo riga del comando fino al punto e virgola
@@ -238,19 +237,19 @@ bool ControlloSintassi::controlloTruncate(stringstream &comando, string *messagg
         words.emplace_back();
         comando >> words[i];
     }
-    if(words.size()!= 2){ //comando del tipo TRUNCATE TABLE <NOME_TAB>; ma "TRUNCATE" è già stata controllata nel main
+    if(words.size()!= 3){
         messaggio->assign(_message_error);
         return false;
     }
     else{
-        if(toUp(words[0])!= "TABLE"){
+        if(toUp(words[1])!= "TABLE"){
             messaggio->assign(_message_error);
             return false;
         }
         else{
-            if (words[1][words[1].size()-1] == ';') { //controllo che alla fine del nome della tabella ci sia il ;
-                words[1].pop_back(); //se c'è lo tolgo
-                if (!belongs_to_keywords(words[1]))
+            if (words[2][words[2].size()-1] == ';') { //controllo che alla fine del nome della tabella ci sia il ;
+                words[2].pop_back(); //se c'è lo tolgo
+                if (!belongs_to_keywords(words[2]))
                     return true;
                 else {
                     messaggio->assign(_message_error_keyword);
@@ -275,19 +274,19 @@ bool ControlloSintassi::controlloDrop(stringstream &comando, string *messaggio) 
         words.emplace_back();
         comando >> words[i];
     }
-    if(words.size()!= 2 ){ //comando del tipo DROP TABLE <NOMETABELLA>; (DROP già controllato)
+    if(words.size()!= 3 ){ //comando del tipo DROP TABLE <NOMETABELLA>; (DROP già controllato)
         messaggio->assign(_message_error);
         return false;
     }
     else {
-        if(toUp(words[0])!= "TABLE"){
+        if(toUp(words[1])!= "TABLE"){
             messaggio->assign(_message_error);
             return false;
         }
         else{
-            if (words[1][words[1].size()-1] == ';') { //controllo che alla fine del nome della tabella ci sia il ;
-                words[1].pop_back(); //se c'è lo tolgo
-                if (!belongs_to_keywords(words[1]))
+            if (words[2][words[2].size()-1] == ';') { //controllo che alla fine del nome della tabella ci sia il ;
+                words[2].pop_back(); //se c'è lo tolgo
+                if (!belongs_to_keywords(words[2]))
                     return true;
                 else {
                     messaggio->assign(_message_error_keyword);
