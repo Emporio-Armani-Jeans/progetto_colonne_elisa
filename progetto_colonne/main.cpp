@@ -19,7 +19,7 @@ enum comando {CREATE, DROP, INSERT, DELETE, TRUNCATE, UPDATE, SELECT,QUIT};
 
 int compare_first_word_comandi(string &first_word);
 bool belong_to(const string& elemento, const vector<string>& insieme);
-
+void Gestione_caratteri_speciali(string* comando);
 
 int main() {
     ControlloSintassi controllore;
@@ -61,8 +61,8 @@ int main() {
     status_message.clear();
     //leggi comando intero
     getline(cin,comando);
-    //controllo sulle virgolette nei campi di testo
-    for (int j = 1; j < comando.size(); ++j) { //'"'
+    Gestione_caratteri_speciali(&comando);
+    /*for (int j = 1; j < comando.size(); ++j) { //'"'
         if (!found_text){
             if (comando[j] == 34 && ((int)comando[j-1] != 39 && (int)comando[j+1] != 39)) { //se trovo un " e non è all'interno di un campo char
                 found_text = true;
@@ -109,7 +109,7 @@ int main() {
             }
         }
     }
-
+    */
     cout << comando << endl;
 
     stringstream comando_intero(comando);
@@ -168,7 +168,9 @@ int main() {
         cout << "Inserisci comando: " << endl;
         //leggi comando intero
         getline(cin,comando);
+
         //controllo sulle virgolette nei campi di testo
+        /*
         for (int j = 1; j < comando.size(); ++j) { //'"'
             if (!found_text){
                 if (comando[j] == 34 && ((int)comando[j-1] != 39 && (int)comando[j+1] != 39)) { //se trovo un " e non è all'interno di un campo char
@@ -189,7 +191,6 @@ int main() {
                 }
             }
         }
-
         //controllo sui ';' nei campi di testo
         status_message.clear();
         for (int k = 0; k < comando.size(); ++k) {
@@ -217,6 +218,9 @@ int main() {
                 }
             }
         }
+        */
+        Gestione_caratteri_speciali(&comando);
+
         cout << status_message << endl;
         cout << comando << endl;
         comando_intero << comando;
@@ -231,8 +235,6 @@ int main() {
 
     return 0;
 }
-
-
 
 
 int compare_first_word_comandi(string &first_word){
@@ -255,4 +257,64 @@ int compare_first_word_comandi(string &first_word){
         return QUIT;
     else
         return ERR_COMANDO;
+}
+
+void Gestione_caratteri_speciali(string* comando) {
+    bool found_text = false;
+    bool campo_testo_presente = false;
+    bool inside_testo = false;
+    vector <int> pos_first, pos_last; //possono esserci più campi testo
+    getchar();   // per l' "a capo" del cin precedente
+    int contatore_virgolette=0;
+    string status_message;
+
+    for (int j = 1; j < comando->size(); ++j) { //'"'
+        if (!found_text){
+            if ((*comando)[j] == 34 && ((int)(*comando)[j-1] != 39 && (int)(*comando)[j+1] != 39)) { //se trovo un " e non è all'interno di un campo char
+                found_text = true;
+                campo_testo_presente = true;
+                pos_first.push_back(j);
+            }
+        } // numero pari di " --> sono uscito, numero dispari --> non sono uscito
+        else {
+            if((*comando)[j] == 34) {
+                contatore_virgolette++;
+            }else{
+                if(contatore_virgolette % 2 != 0){
+                    found_text=false;
+                    pos_last.push_back(j-1);
+                }
+                contatore_virgolette=0;
+            }
+        }
+    }
+
+    //controllo sui ';' nei campi di testo
+    for (int k = 0; k < comando->size(); ++k) {
+        inside_testo = false;
+        if (!campo_testo_presente){
+            //se trovo ';' e non è un campo char, trascuro il resto del comando perchè devo fermarmi
+            if ( k!= comando->size()-1 && (*comando)[k] == ';' && ((int)(*comando)[k-1] != 39 && (int)(*comando)[k+1] != 39) ){
+                comando->erase(k+1);
+            }
+        }
+        else{
+            if (pos_first.size() != pos_last.size())
+                status_message="Errore: campo di testo non chiuso da apposite virgolette";
+            else{
+                for (int j = 0; j < pos_first.size(); ++j) {
+                    if (k > pos_first[j] && k < pos_last[j]){
+                        inside_testo = true;
+                    }
+                }
+                if (!inside_testo){
+                    if ( k != comando->size()-1 && (*comando)[k] == ';' && ((int)(*comando)[k-1] != 39 && (int)(*comando)[k+1] != 39)){
+                        comando->erase(k+1);
+                    }
+                }
+            }
+        }
+    }
+
+
 }
