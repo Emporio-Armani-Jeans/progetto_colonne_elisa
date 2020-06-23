@@ -337,4 +337,256 @@ void Update(vector<Tabella*> &tabelle, stringstream &stream_comando, string *mes
     }
 }
 
+void Select(){
+    /*
+    comando_intero >> word;  //leggo seconda parola
+    campi.clear();
+    if (word == "*") {
+        comando_intero >> scarto;  //scarto FROM
+        comando_intero >> word;
+        if (word[word.size() - 1] == ';') word.pop_back();
+        for (a = 0, trovata = false; a < tabelle.size(); a++) {
+            if (toUpper(tabelle[a]->getNome()) == word) {
+                trovata = true;
+                break;
+            }
+        }
+        //stampo tutta la tabella
+        for (const string &elem : tabelle[a]->returnData()) {
+            if(elem.empty()) cout << "Riga vuota" << endl;
+            else cout << elem << endl;
+        }
+        cout << endl;
+    } else {
+        while (toUpper(word) ==
+               "FROM") {   //memorizzo campi finchè non incontro from, suppongo spazio dopo la virgola
+            word.pop_back(); //rimuovo virgola
+            campi.push_back(word);
+            comando_intero >> word;
+        }
+
+        comando_intero >> word;
+        //cerco match tabella in questione
+        for (a = 0, trovata = false; a < tabelle.size(); a++) {
+            if (toUpper(tabelle[a]->getNome()) == word) {
+                trovata = true;
+                break;
+            }
+        }
+        if (!trovata) {
+            cout << "Tabella non esistente" << endl;
+            break;
+        } else {
+            if (word[word.size() - 1] == ';') {
+                word.pop_back();
+                //stampo solo campi specificati della tabella
+                for (const auto &elem : tabelle[a]->returnData(campi)) {
+                    cout << elem << " ";
+                }
+                cout << endl;
+            } else {
+                comando_intero >> word; //butto via "WHERE"
+                comando_intero >> word;  //in word c'è il campo condizione
+                comando_intero >> word2;  //in word2 c'è l'operatore
+                if (!belong_to(word2, operatori)) {
+                    cout << "Operatore non valido" << endl;
+                    break;
+                } else {
+                    //casistica operatori
+                    if (word2 == "=") {
+                        comando_intero >> word3; //in word3 c'è la condizione
+                        if (word3[word3.size() - 1] != ';') {   //se non c'è ';' ci sarà ordinamento
+                            if (word3[0] == '"') {
+                                word3.erase(0, 1);
+                                word3.pop_back();
+                            }
+                            comando_intero >> scarto;  //scarto order
+                            comando_intero >> scarto; //scarto by
+                            comando_intero >> nome_colonna;   //campo ordinamento
+                            comando_intero >> scarto; //scarto DESC
+                            for (int z = 0;
+                                 z <
+                                 tabelle[b]->returnData(campi, word2, word3, 0, nome_colonna,
+                                                        1).size(); z++) {
+                                cout << tabelle[b]->returnData(campi, word2, word3, 0, nome_colonna, 1)[z]
+                                     << endl;
+                            }
+                        } else {
+                            word3.pop_back();
+                            //stampo campi che rispettando condizione senza ordinamento
+                            for (const auto &elem : tabelle[a]->returnData(campi, word, word3)) {
+                                cout << elem << " ";
+                            }
+                            cout << endl;
+                        }
+                    } else if (word2 == "<") {
+                        comando_intero >> word3; //in word3 c'è la condizione
+                        if (word3[word3.size()] != ';') {
+                            if (word3[0] == '"') {          //se ci sono virgolette le tolgo
+                                word3.erase(0, 1);
+                                word3.pop_back();
+                            }
+                            comando_intero >> scarto;  //scarto order
+                            comando_intero >> scarto; //scarto by
+                            comando_intero >> nome_colonna;   //campo ordinamento
+                            comando_intero >> scarto; //scarto DESC
+                            for (int z = 0;
+                                 z <
+                                 tabelle[b]->returnData(campi, word2, word3, 1, nome_colonna,
+                                                        1).size(); z++) {
+                                cout << tabelle[b]->returnData(campi, word2, word3, 1, nome_colonna, 1)[z]
+                                     << endl;
+                            }
+                        } else {
+                            word3.pop_back();     //tolgo virgoletta o ';'
+                            //stampo campi che rispettando condizione senza ordinamento
+                            for (const auto &elem : tabelle[a]->returnData(campi, word, word3, 1)) {
+                                cout << elem << " ";
+                            }
+                            cout << endl;
+                        }
+                    } else if (word2 == "<=") {
+                        comando_intero >> word3; //in word3 c'è la condizione
+                        if (word3[word3.size()] != ';') {
+                            if (word3[0] == '"') {          //se ci sono virgolette le tolgo
+                                word3.erase(0, 1);
+                                word3.pop_back();
+                            }
+                            comando_intero >> scarto;  //scarto order
+                            comando_intero >> scarto; //scarto by
+                            comando_intero >> nome_colonna;   //campo ordinamento
+                            comando_intero >> scarto; //scarto DESC
+                            for (int z = 0;
+                                 z <
+                                 tabelle[b]->returnData(campi, word2, word3, 2, nome_colonna,
+                                                        1).size(); z++) {
+                                cout << tabelle[b]->returnData(campi, word2, word3, 2, nome_colonna, 1)[z]
+                                     << endl;
+                            }
+                        } else {
+                            word3.pop_back();
+                            //stampo campi che rispettando condizione senza ordinamento
+                            for (const auto &elem : tabelle[a]->returnData(campi, word, word3, 2)) {
+                                cout << elem << " ";
+                            }
+                            cout << endl;
+                        }
+                    } else if (word2 == ">") {
+                        comando_intero >> word3; //in word3 c'è la condizione
+                        if (word3[word3.size()] != ';') {
+                            if (word3[0] == '"') {          //se ci sono virgolette le tolgo
+                                word3.erase(0, 1);
+                                word3.pop_back();
+                            }
+                            comando_intero >> scarto;  //scarto order
+                            comando_intero >> scarto; //scarto by
+                            comando_intero >> nome_colonna;   //campo ordinamento
+                            comando_intero >> scarto; //scarto DESC
+                            for (int z = 0;
+                                 z <
+                                 tabelle[b]->returnData(campi, word2, word3, 3, nome_colonna,
+                                                        1).size(); z++) {
+                                cout << tabelle[b]->returnData(campi, word2, word3, 3, nome_colonna, 1)[z]
+                                     << endl;
+                            }
+                        } else {
+                            word3.pop_back();
+                            //stampo campi che rispettando condizione senza ordinamento
+                            for (const auto &elem : tabelle[a]->returnData(campi, word, word3, 3)) {
+                                cout << elem << " ";
+                            }
+                            cout << endl;
+                        }
+                    } else if (word2 == ">=") {
+                        comando_intero >> word3; //in word3 c'è la condizione
+                        if (word3[word3.size()] != ';') {
+                            if (word3[0] == '"') {          //se ci sono virgolette le tolgo
+                                word3.erase(0, 1);
+                                word3.pop_back();
+                            }
+                            comando_intero >> scarto;  //scarto order
+                            comando_intero >> scarto; //scarto by
+                            comando_intero >> nome_colonna;   //campo ordinamento
+                            comando_intero >> scarto; //scarto DESC
+                            for (int z = 0;
+                                 z <
+                                 tabelle[b]->returnData(campi, word2, word3, 4, nome_colonna,
+                                                        1).size(); z++) {
+                                cout << tabelle[b]->returnData(campi, word2, word3, 4, nome_colonna, 1)[z]
+                                     << endl;
+                            }
+                        } else {
+                            word3.pop_back();
+                            //stampo campi che rispettando condizione senza ordinamento
+                            for (const auto &elem : tabelle[a]->returnData(campi, word, word3, 4)) {
+                                cout << elem << " ";
+                            }
+                            cout << endl;
+                        }
+                    } else if (word2 == "<>") {
+                        comando_intero >> word3; //in word3 c'è la condizione
+                        if (word3[word3.size()] != ';') {
+                            if (word3[0] == '"') {          //se ci sono virgolette le tolgo
+                                word3.erase(0, 1);
+                                word3.pop_back();
+                            }
+                            comando_intero >> scarto;  //scarto order
+                            comando_intero >> scarto; //scarto by
+                            comando_intero >> nome_colonna;   //campo ordinamento
+                            comando_intero >> scarto; //scarto DESC
+                            for (int z = 0;
+                                 z <
+                                 tabelle[b]->returnData(campi, word2, word3, 5, nome_colonna,
+                                                        1).size(); z++) {
+                                cout << tabelle[b]->returnData(campi, word2, word3, 5, nome_colonna, 1)[z]
+                                     << endl;
+                            }
+                        } else {
+                            word3.pop_back();
+                            //stampo campi che rispettando condizione senza ordinamento
+                            for (const auto &elem : tabelle[a]->returnData(campi, word, word3, 5)) {
+                                cout << elem << " ";
+                            }
+                            cout << endl;
+                        }
+                    } else if (toUpper(word2) == "BETWEEN") {
+                        comando_intero >> condizione1;
+                        if (condizione1[0] == '"') {          //se ci sono virgolette le tolgo
+                            condizione1.erase(0, 1);
+                            condizione1.pop_back();
+                        }
+                        comando_intero >> scarto; //scarto and
+                        comando_intero >> condizione2;
+                        if (condizione2[condizione2.size()] != ';') {
+                            if (condizione2[0] == '"') {          //se ci sono virgolette le tolgo
+                                condizione2.erase(0, 1);
+                                condizione2.pop_back();
+                            }
+                            comando_intero >> scarto;  //scarto order
+                            comando_intero >> scarto; //scarto by
+                            comando_intero >> nome_colonna;   //campo ordinamento
+                            comando_intero >> scarto; //scarto DESC
+                            for (int z = 0;
+                                 z < tabelle[b]->returnData(campi, word2, condizione1, condizione2,
+                                                            nome_colonna, 1).size(); z++) {
+                                cout << tabelle[b]->returnData(campi, word2, condizione1, condizione2,
+                                                               nome_colonna,
+                                                               1)[z] << endl;
+                            }
+                        } else {
+                            condizione2.pop_back();
+                            //stampo campi che rispettando condizione senza ordinamento
+                            for (const auto &elem : tabelle[a]->returnData(campi, word, condizione1,
+                                                                           condizione2)) {
+                                cout << elem << " ";
+                            }
+                            cout << endl;
+                        }
+                    }
+                }
+            }
+        }
+    }*/
+}
+
 #endif //PROGETTO_COLONNE_COMANDI_HPP
