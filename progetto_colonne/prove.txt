@@ -82,6 +82,7 @@
 
 
 
+insert into customers (ciao, ciao, ciao) values (30, "testo", 'c', 23/03/2010, 12:67:89, "campo testo""");
 
 
 

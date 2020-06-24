@@ -301,50 +301,164 @@ bool ControlloSintassi::controlloDrop(stringstream &comando, string *messaggio) 
     }
 }
 
-/*
+
 bool ControlloSintassi::controlloInsert(stringstream &comando, string *messaggio) const{
     string word;
-    char car;
+    char carattere;
+    bool fine_testo = false, flag_fine_comando = false;
+    int contatore_virgolette;
     vector<string> words;
-    comando >> word;
+    comando >> word >> word;
     if (toUp(word) == "INTO"){
         comando >> word;
-        comando >> car;
-        if (car == '('){
-            words.clear();
+        if (!belongs_to_keywords(word)) {
             int i = 0;
             words.emplace_back();
             comando >> words[i];
-            while (words[i][words[i].size()-1] != ')'){
-                if (words[i][words[i].size()-1] != ','){
-                    messaggio->assign(_message_error);
-                    return false;
-                }
-                words[i].pop_back(); //una volta appurato che ci sia la , alla fine, la tolgo.
-                if (belongs_to_keywords(words[i])){
-                    messaggio->assign(_message_error_keyword);
-                    return false;
-                }
-                i++;
-                comando >> words[i];
-            }
-            comando >> word;
-            if (toUp(word) != "VALUES"){
+            if (words[i][0] == '(') { //verifico che ci sia il carattere (
+                words[i].erase(0,1); //tolgo la (
+                    while (words[i][words[i].size() - 1] != ')') {
+                        if (words[i][words[i].size() - 1] != ',' && words[i][words[i].size() - 1] != ')') { //provare anche a togliere seconda condizione
+                            messaggio->assign(_message_error);
+                            return false;
+                        }
+                        words[i].pop_back(); //tolgo la virgola
+                        if (belongs_to_keywords(words[i])) {
+                            messaggio->assign(_message_error_keyword);
+                            return false;
+                        }
+                        i++;
+                        words.emplace_back();
+                        comando >> words[i];
+                    }
+                    comando >> word;
+                    if (toUp(word) != "VALUES") {
+                        messaggio->assign(_message_error);
+                        return false;
+                    } else {
+                        words.clear();
+                        int j = 0;
+                        words.emplace_back();
+                        comando >> words[j];
+                        if (words[j][0] != '(') {
+                            messaggio->assign(_message_error);
+                            return false;
+                        } else {
+                            words[j].erase(0,1); //tolgo (
+                            while (words[j][words[j].size()-1] != ';' && !flag_fine_comando){
+                                if (words[j][words[j].size() - 1] == ',' || words[j][words[j].size() - 1] != ';' || (words[j][0] == 34) || (words[j][0] == 39)) { //togliere seconda condizione magari
+                                    if (words[j][0] == '"') { //caso di un campo di testo
+                                        contatore_virgolette = 0;
+                                        fine_testo = false;
+                                        int k;
+                                        for (k = 1; k < words[j].size(); k++){
+                                            if (words[j][k] == 34) {
+                                                contatore_virgolette++;
+                                            } else {
+                                                if (contatore_virgolette % 2 != 0) {
+                                                    fine_testo = true;
+                                                }
+                                                contatore_virgolette = 0;
+                                            }
+                                        }
+                                        if (!fine_testo) {
+                                            while (!fine_testo) {
+                                                comando >> carattere;
+                                                if (carattere == 34) {
+                                                    contatore_virgolette++;
+                                                } else {
+                                                    if (contatore_virgolette % 2 != 0) {
+                                                        fine_testo = true;
+                                                    }
+                                                    contatore_virgolette = 0;
+                                                }
+                                            }
+                                        } else
+                                            carattere = words[j][k-1];
+                                        if (carattere != ',' && carattere != ')') {
+                                            messaggio->assign(_message_error);
+                                            return false;
+                                        } else if (carattere == ')') {
+                                            comando >> carattere;
+                                            if (carattere == ';') {
+                                                flag_fine_comando = true;
+                                            }
+                                        }
+                                    } else if (words[j][0] == 39) { //caso di un campo char 'c', oppure 'c'); se fine comando
+                                        if (words[j][words[j].size()-1] == ','){
+                                            if (words[j].size() != 4){ //tipo 1: se la dimensione è > 4 vuol dire che ho messo dei caratteri in più es. 'ciao', non va bene
+                                                messaggio->assign(_message_error);
+                                                return false;
+                                            }
+                                            else{
+                                                words[j].pop_back(); //tolgo la ,
+                                                if (words[j][words[j].size()-1] != 39){ //controllo che venga chiuso il campo char
+                                                    messaggio->assign(_message_error);
+                                                    return false;
+                                                }
+                                            }
+                                        }
+                                        else if (words[j][words[j].size()-1] == ';'){ //vuol dire che si è arrivati alla fine del comando
+                                            flag_fine_comando = true;
+                                            if (words[j].size() != 5){ //tipo 1: se la dimensione è > 5 vuol dire che ho messo dei caratteri in più es. 'ciao'); non va bene
+                                                messaggio->assign(_message_error);
+                                                return false;
+                                            }
+                                            words[j].pop_back(); //tolgo il ;
+                                            if (words[j][words[j].size()-1] == ')'){
+                                                words[j].pop_back();
+                                                if (words[j][words[j].size()-1] == 39){
+                                                    flag_fine_comando = true;
+                                                }
+                                                else {
+                                                    messaggio->assign(_message_error);
+                                                    return false;
+                                                }
+                                            }
+                                            else {
+                                                messaggio->assign(_message_error);
+                                                return false;
+                                            }
+                                        }
+                                        else {
+                                            messaggio->assign(_message_error);
+                                            return false;
+                                        }
+                                    } else { //resto casi: 20, o 20);
+                                        if (words[j][words[j].size()-1] != ','){
+                                            if (words[j][words[j].size()-1] != ';'){
+                                                messaggio->assign(_message_error);
+                                                return false;
+                                            }
+                                            else {
+                                                words[j].pop_back(); //tolgo ;
+                                                if (words[j][words[j].size()-1] != ')'){
+                                                    messaggio->assign(_message_error);
+                                                    return false;
+                                                }
+                                                else
+                                                    flag_fine_comando = true;
+                                            }
+                                        }
+                                    }
+                                }
+                                else {
+                                    messaggio->assign(_message_error);
+                                    return false;
+                                }
+                                j++;
+                                words.emplace_back();
+                                comando >> words[j];
+                            }
+                        }
+                    }
+            } else {
                 messaggio->assign(_message_error);
                 return false;
             }
-            else{
-                comando >> car;
-                if(car != '('){
-                    messaggio->assign(_message_error);
-                    return false;
-                }
-                else {
-                    while ()
-                }
-            }
-        }else{
-            messaggio->assign(_message_error);
+        }
+        else{
+            messaggio->assign(_message_error_keyword);
             return false;
         }
     }
@@ -352,7 +466,12 @@ bool ControlloSintassi::controlloInsert(stringstream &comando, string *messaggio
         messaggio->assign(_message_error);
         return false;
     }
-}*/
+    if (!flag_fine_comando){ //ulteriore controllo
+        messaggio->assign(_message_error);
+        return false;
+    }
+    else return true;
+}
 
 
 

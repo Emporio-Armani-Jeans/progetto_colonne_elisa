@@ -61,8 +61,8 @@ int main() {
     status_message.clear();
     //leggi comando intero
     getline(cin,comando);
-    Gestione_caratteri_speciali(&comando);
-    /*for (int j = 1; j < comando.size(); ++j) { //'"'
+    //Gestione_caratteri_speciali(&comando);
+    for (int j = 1; j < comando.size(); ++j) { //'"'
         if (!found_text){
             if (comando[j] == 34 && ((int)comando[j-1] != 39 && (int)comando[j+1] != 39)) { //se trovo un " e non è all'interno di un campo char
                 found_text = true;
@@ -109,7 +109,7 @@ int main() {
             }
         }
     }
-    */
+
     cout << comando << endl;
 
     stringstream comando_intero(comando);
@@ -130,9 +130,12 @@ int main() {
                 } else
                     cout << message_error << endl;
                 break;
-            case INSERT :   //fare controllo
-                Insert(tabelle, comando_intero, &status_message);
-                cout << status_message << endl;
+            case INSERT :   //ricordarsi di controllare nell'implementazione comando che il vector di campi debba avere size uguale al vector di valori!!e controllare anche i tipi
+                if(controllore.controlloInsert(comando_per_controlli, &message_error)) {
+                    Insert(tabelle, comando_intero, &status_message);
+                    cout << status_message << endl;
+                } else
+                    cout << message_error << endl;
                 break;
             case DELETE :   //fare controllo
                 Delete(tabelle, comando_intero, &status_message);
@@ -170,7 +173,7 @@ int main() {
         getline(cin,comando);
 
         //controllo sulle virgolette nei campi di testo
-        /*
+
         for (int j = 1; j < comando.size(); ++j) { //'"'
             if (!found_text){
                 if (comando[j] == 34 && ((int)comando[j-1] != 39 && (int)comando[j+1] != 39)) { //se trovo un " e non è all'interno di un campo char
@@ -218,8 +221,8 @@ int main() {
                 }
             }
         }
-        */
-        Gestione_caratteri_speciali(&comando);
+
+       // Gestione_caratteri_speciali(&comando);
 
         cout << status_message << endl;
         cout << comando << endl;
