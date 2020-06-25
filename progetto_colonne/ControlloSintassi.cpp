@@ -44,6 +44,8 @@ ControlloSintassi::ControlloSintassi() {
     _wrong_type_auto_increment = "ERR: Tipo invalido per l'utilizzo della keyword AUTO_INCREMENT, riprovare!";
     _inexistent_type = "ERR: Tipo assegnato non esistente, riprovare!";
     _invalid_operator = "ERR: Operatore non valido, riprovare!";
+    _message_error_key = "ERR: Specificare tutti i campi prima dell'inserimento delle chiavi, riprovare!";
+    _missing_pk = "ERR: Primary Key non specificata! Riprovare";
 }
 
 bool ControlloSintassi::belongs_to_keywords(string &to_be_compared) const{
@@ -69,7 +71,7 @@ bool ControlloSintassi::belongs_to_operatori(string &to_be_compared) const{
 bool ControlloSintassi::controlloCreate(stringstream &comando, string* messaggio) const {
     string word;
     char c;
-    bool comando_corretto = false;
+    bool comando_corretto = false, chiave_trovata = false, chiave_primaria_trovata = false;
     vector<string> words;
     comando >> word >> word;
     word = toUp(word);
@@ -85,8 +87,9 @@ bool ControlloSintassi::controlloCreate(stringstream &comando, string* messaggio
                     words.emplace_back();
                     comando >> words[i];
 
-
                     if (toUp(words[0]) == "PRIMARY") { //caso in cui la prima parola della riga sia primary
+                        chiave_trovata = true;
+                        chiave_primaria_trovata = true;
                         while(words[i][words[i].size()-1] != ')' && words[i][words[i].size()-1] != ';') { //leggo tutta la riga e salvo le parole lette per ogni riga nel vettore di stringhe words
                             i++;
                             words.emplace_back();
@@ -108,8 +111,8 @@ bool ControlloSintassi::controlloCreate(stringstream &comando, string* messaggio
                         }
                     }
 
-
                     else if (toUp(words[0]) == "FOREIGN"){
+                        chiave_trovata = true;
                         int contatore_parentesi = 0;
                         while(contatore_parentesi < 2 && words[i][words[i].size()-1] != ';') { //leggo tutta la riga e salvo le parole lette per ogni riga nel vettore di stringhe words
                             if (words[i][words[i].size()-1] == ')')
@@ -148,11 +151,8 @@ bool ControlloSintassi::controlloCreate(stringstream &comando, string* messaggio
                         }
                     }
 
-                    else if (words[0] == ");"){ //provare
-                        return true;
-                    }
-
-                    else {//se la prima parola di una riga non è nè foreign nè primary allora è per forza il nome di una colonna
+                    else if (words[0] != ");") {//se la prima parola di una riga non è nè foreign nè primary allora è per forza il nome di una colonna
+                        if (!chiave_trovata){
                         while(words[i][words[i].size()-1] != ',' && words[i][words[i].size()-1] != ';') { //leggo tutta la riga e salvo le parole lette per ogni riga nel vettore di stringhe words
                             i++;
                             words.emplace_back();
@@ -184,9 +184,11 @@ bool ControlloSintassi::controlloCreate(stringstream &comando, string* messaggio
                                             else { //se invece si è arrivati all'ultima parola
                                                 if ((toUp(words[j]) == "NULL" && toUp(words[j-1]) == "NOT") ||
                                                 (toUp(words[j]) == "AUTO_INCREMENT")){
-                                                    if (compare_tipo(words[1]) != INT){
-                                                        messaggio->assign(_wrong_type_auto_increment);
-                                                        return false;//_wrong_type_auto_increment;
+                                                    if ((toUp(words[j]) == "AUTO_INCREMENT")){
+                                                        if (compare_tipo(words[1]) != INT){
+                                                            messaggio->assign(_wrong_type_auto_increment);
+                                                            return false;//_wrong_type_auto_increment;
+                                                        }
                                                     }
                                                     comando_corretto = true;
                                                 }
@@ -214,12 +216,13 @@ bool ControlloSintassi::controlloCreate(stringstream &comando, string* messaggio
                             messaggio->assign(_message_error_keyword);
                             return false;
                         }
+                        } else {
+                            messaggio->assign(_message_error_key);
+                            return false;
+                        }
                     }
                     if (!comando_corretto) //se alla fine di un ciclo di un while (fine di una riga) il comando non è corretto ritorno il messaggio di errore
-                        return false;
-                }
-                if (comando_corretto){ //se dopo aver analizzato tutte le righe il comando è corretto vuol dire che la sintassi è tutta giusta
-                    return true;
+                        break;
                 }
             } else {
                 messaggio->assign(_message_error);
@@ -235,8 +238,19 @@ bool ControlloSintassi::controlloCreate(stringstream &comando, string* messaggio
         messaggio->assign(_message_error);
         return false;
     }
-    messaggio->assign(_message_error);
-    return false;
+    if (chiave_primaria_trovata){
+        if (comando_corretto){
+            return true;
+        }
+        else {
+            messaggio->assign(_message_error);
+            return false;
+        }
+    }
+    else {
+        messaggio->assign(_missing_pk);
+        return false;
+    }
 }
 
 bool ControlloSintassi::controlloTruncate(stringstream &comando, string *messaggio) const {

@@ -405,20 +405,20 @@ vector<int> Tabella::ordinamento(const string &campo, int operatore) const {
 }
 
 void Tabella::setChiaveEsterna(Tabella* tabella_to_link, const string& colonna_this, const string& chiave_esterna) {
-    int i,j;
-    for (i = 0; i < tabella_to_link->_colonne.size(); i++){
+    int pos_colonna_madre = INT_MAX, pos_colonna_figlia = INT_MAX;
+    for (int i = 0; i < tabella_to_link->_colonne.size(); i++){
        if (tabella_to_link->_colonne[i]->_primary_key && tabella_to_link->_colonne[i]->getNomeColonna() == chiave_esterna)
-           break;
+           pos_colonna_madre = i;
     }
-    if (i < tabella_to_link->_colonne.size()){
-        for (j = 0; j < _colonne.size(); j++){
+    if (pos_colonna_madre < tabella_to_link->_colonne.size()){
+        for (int j = 0; j < _colonne.size(); j++){
             if (_colonne[j]->getNomeColonna() == colonna_this) {
-                break;
+                pos_colonna_figlia = j;
             }
         }
-        if(_colonne[j]->_foreign_key== nullptr) {
-            if (j < _colonne.size()) {
-                _colonne[j]->_foreign_key = tabella_to_link->_colonne[i];
+        if(_colonne[pos_colonna_figlia]->_foreign_key== nullptr) {
+            if (pos_colonna_figlia < _colonne.size()) {
+                _colonne[pos_colonna_figlia]->_foreign_key = tabella_to_link->_colonne[pos_colonna_madre];
             } else {
                 throw CampoNonTrovato();
             }

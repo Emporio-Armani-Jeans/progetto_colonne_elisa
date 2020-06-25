@@ -35,7 +35,7 @@ int main() {
         try {
             cout << "Inserire nome file database" << endl;
             cin >> nome_file;
-            tabelle = Avvio(nome_file, &contatore);
+            tabelle = Avvio(nome_file, &contatore); //nella gestione dei file togliere i campi che diventano maiuscoli perchè quelli sono CASE SENSITIVE quindi nelle esecuzioni future servono come l'utente li ha creati!!!
             ok = true;
         }
         catch (FileError &ex) {
@@ -118,6 +118,7 @@ int main() {
             case CREATE :
                   if (controllore.controlloCreate(comando_per_controlli, &message_error)) {
                     Create(tabelle, comando_intero, &contatore, &status_message);
+                    cout << status_message << endl;
                   } else
                       cout << message_error << endl;
                 break;
@@ -148,7 +149,7 @@ int main() {
                 } else
                     cout << message_error << endl;
                 break;
-            case UPDATE :   //fare controllo
+            case UPDATE :
                 if (controllore.controlloUpdate(comando_per_controlli, &message_error)) {
                     Update(tabelle, comando_intero, &status_message);
                     cout << status_message << endl;

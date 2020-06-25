@@ -35,115 +35,121 @@ void Create(vector<Tabella*> &tabelle, stringstream &stream_comando, int *contat
         stream_comando >> scarto;
     }
     tabelle.emplace_back(new Tabella(nome_tabella));
-    getline(stream_comando, riga_comando, ',');
-    riga_temp << riga_comando;
-    riga_temp >> nome_colonna >> tipo;
-    while (tipo != "KEY") {
+
+    stream_comando >> nome_colonna >> tipo;
+    while (toUpper(tipo) != "KEY") {
+        getline(stream_comando, riga_comando, ',');
+        riga_temp << riga_comando;
         if (toUpper(tipo) == "INT") {
             //se è auto increment mi servono delle stringhe in più
             riga_temp >> word2;
-            riga_temp >> word3;
-            word = word2 + " " + word3;        //voglio mantenere word2, quindi non uso +=
-            if (toUpper(word) == "NOT NULL") {
-                not_null = true;
-                getline(riga_temp, word, ',');
-                word.erase(0, 1);
-                if (toUpper(word) == "AUTO_INCREMENT") {
-                    auto_increm = true;
-                    not_null = false;
+            if (toUpper(word2) == "NOT") { //not null
+                riga_temp >> word3;
+                word = word2 + " " + word3;
+                if (toUpper(word) == "NOT NULL") {
+                    not_null = true;
+                    getline(riga_temp, word, ',');
+                    word.erase(0, 1);
+                    if (toUpper(word) == "AUTO_INCREMENT") {
+                        auto_increm = true;
+                        not_null = false;
+                    }
                 }
-            } else if (toUpper(word2) == "AUTO_INCREMENT") {
+            } else {//auto_increment
                 auto_increm = true;
                 not_null = false;
-                if(!riga_temp.eof()){
+                if (!riga_temp.eof()) {
                     riga_temp >> scarto >> scarto; //scarto not null;
                 }
             }
-        } else {
-            //se non è int controllo solo not null
+        } else { //se non è int controllo solo not null
             riga_temp >> word2;
             riga_temp >> word3;
             word2 += " " + word3;
-            if (word2 == "NOT NULL") not_null = true;
+            if (toUpper(word2) == "NOT NULL")
+                not_null = true;
         }
-        //aggiungo la colonna, casistica tipo per tipo
-        if (tipo == "INT") {
-            if (auto_increm) {
-                tabelle[tabelle.size() - 1]->aggiungiColonna(new ColonnaInt(nome_colonna, false, true, contatore));
-            } else {
-                if (not_null) {
-                    tabelle[tabelle.size() - 1]->aggiungiColonna(new ColonnaInt(nome_colonna, true));
-                } else
-                    tabelle[tabelle.size() - 1]->aggiungiColonna(
-                            new ColonnaInt(nome_colonna));
-            }
-        } else if (tipo == "TEXT") {
-            if (!not_null)
-                tabelle[tabelle.size() - 1]->aggiungiColonna(new ColonnaText(nome_colonna));
-            else
-                tabelle[tabelle.size() - 1]->aggiungiColonna(new ColonnaInt(nome_colonna, true));
-        } else if (tipo == "CHAR") {
-            if (!not_null)
-                tabelle[tabelle.size() - 1]->aggiungiColonna(new ColonnaChar(nome_colonna));
-            else
-                tabelle[tabelle.size() - 1]->aggiungiColonna(new ColonnaChar(nome_colonna, true));
-        } else if (tipo == "DATE") {
-            if (!not_null)
-                tabelle[tabelle.size() - 1]->aggiungiColonna(new ColonnaDate(nome_colonna));
-            else
-                tabelle[tabelle.size() - 1]->aggiungiColonna(new ColonnaDate(nome_colonna, true));
-        } else if (tipo == "FLOAT") {
-            if (!not_null)
-                tabelle[tabelle.size() - 1]->aggiungiColonna(new ColonnaFloat(nome_colonna));
-            else
-                tabelle[tabelle.size() - 1]->aggiungiColonna(new ColonnaFloat(nome_colonna, true));
-        } else if (tipo == "TIME") {
-            if (!not_null)
-                tabelle[tabelle.size() - 1]->aggiungiColonna(new ColonnaTime(nome_colonna));
-            else
-                tabelle[tabelle.size() - 1]->aggiungiColonna(new ColonnaTime(nome_colonna, true));
-        }
-        getline(stream_comando, riga_comando, ',');
-        riga_temp.clear();
-        riga_temp << riga_comando;
-        riga_temp >> nome_colonna >> tipo;
+                //aggiungo la colonna, casistica tipo per tipo
+                if (toUpper(tipo) == "INT") {
+                    if (auto_increm) {
+                        tabelle[tabelle.size() - 1]->aggiungiColonna(
+                                new ColonnaInt(nome_colonna, false, true, contatore));
+                    } else {
+                        if (not_null) {
+                            tabelle[tabelle.size() - 1]->aggiungiColonna(new ColonnaInt(nome_colonna, true));
+                        } else
+                            tabelle[tabelle.size() - 1]->aggiungiColonna(
+                                    new ColonnaInt(nome_colonna));
+                    }
+                } else if (toUpper(tipo) == "TEXT") {
+                    if (!not_null)
+                        tabelle[tabelle.size() - 1]->aggiungiColonna(new ColonnaText(nome_colonna));
+                    else
+                        tabelle[tabelle.size() - 1]->aggiungiColonna(new ColonnaText(nome_colonna, true));
+                } else if (toUpper(tipo) == "CHAR") {
+                    if (!not_null)
+                        tabelle[tabelle.size() - 1]->aggiungiColonna(new ColonnaChar(nome_colonna));
+                    else
+                        tabelle[tabelle.size() - 1]->aggiungiColonna(new ColonnaChar(nome_colonna, true));
+                } else if (toUpper(tipo) == "DATE") {
+                    if (!not_null)
+                        tabelle[tabelle.size() - 1]->aggiungiColonna(new ColonnaDate(nome_colonna));
+                    else
+                        tabelle[tabelle.size() - 1]->aggiungiColonna(new ColonnaDate(nome_colonna, true));
+                } else if (toUpper(tipo) == "FLOAT") {
+                    if (!not_null)
+                        tabelle[tabelle.size() - 1]->aggiungiColonna(new ColonnaFloat(nome_colonna));
+                    else
+                        tabelle[tabelle.size() - 1]->aggiungiColonna(new ColonnaFloat(nome_colonna, true));
+                } else if (toUpper(tipo) == "TIME") {
+                    if (!not_null)
+                        tabelle[tabelle.size() - 1]->aggiungiColonna(new ColonnaTime(nome_colonna));
+                    else
+                        tabelle[tabelle.size() - 1]->aggiungiColonna(new ColonnaTime(nome_colonna, true));
+                }
+
+                riga_temp.clear();
+                stream_comando >> nome_colonna >> tipo;
     }
-    //  testo_chiavi += nome_colonna + " " + tipo;
-    getline(stream_comando, riga_comando, ';');
-    testo_chiavi += " " + riga_comando;
-    testo_chiavi.pop_back();  //cancella ;
+
+
+    getline(stream_comando, testo_chiavi, ';');
     testo_chiavi.pop_back();  //cancella )
-    testo_chiavi.push_back(',');
-    stream_comando.clear();
-    stream_comando << testo_chiavi;
-    getline(stream_comando, riga_comando, ',');
-    riga_temp.clear();
-    riga_temp << riga_comando;
-    while (!stream_comando.eof()) {
-        if (nome_colonna == "PRIMARY") {   //PRIMARY KEY (ID) ,
-            getline(riga_temp, scarto, '(');
-            getline(riga_temp, word, ')');
-            tabelle[tabelle.size() - 1]->setChiavePrimaria(word);
-        } else if (nome_colonna == "FOREIGN") {
-            int i;
-            //FOREIGN KEY (COUNTRY_ID) REFERENCES COUNTRIES (ID) ,
-            getline(riga_temp, scarto, '(');
-            getline(riga_temp, word, ')');
-            riga_temp << scarto;
-            riga_temp << nome_tabella;
-            for (i = 0; i < tabelle.size(); i++) {
-                if (tabelle[i]->getNome() == nome_tabella)
-                    break;
-            }
-            getline(riga_temp, scarto, '(');
-            getline(riga_temp, word2, ')');
-            tabelle[tabelle.size() - 1]->setChiaveEsterna(tabelle[i], word2, word);
+    testo_chiavi.pop_back();  //cancella spazio
+    stringstream stream_chiavi(testo_chiavi);
+    riga_comando.clear();
+    getline(stream_chiavi, riga_comando,')');
+    while (!riga_comando.empty()){ //gestione chiavi primaria ed esterna
+        if (toUpper(nome_colonna) == "PRIMARY"){
+            riga_comando.erase(0,2); //tolgo lo spazio all'inizio e la (
+            tabelle[tabelle.size() - 1]->setChiavePrimaria(riga_comando);
         }
-        getline(stream_comando, riga_comando, ',');
-        riga_temp.clear();
-        riga_temp << riga_comando;
-        riga_temp >> nome_colonna >> tipo;
+        else { //foreign key
+            riga_comando.erase(0,2); //tolgo lo spazio e la ( all'inizio
+            //in riga_comando adesso ho il campo della mia tabella
+            stream_chiavi >> scarto >> nome_tabella; //in nome tabella ho la tabella esterna
+            int pos;
+            bool tabella_trovata;
+            for (int i = 0; i < tabelle.size(); i++) {
+                if (tabelle[i]->getNome() == nome_tabella){
+                    tabella_trovata= true;
+                    pos = i;
+                }
+            }
+            if(tabella_trovata){
+                getline(stream_chiavi, scarto, '(');
+                getline(stream_chiavi, word, ')');
+                tabelle[tabelle.size() - 1]->setChiaveEsterna(tabelle[pos], riga_comando, word);
+            }
+            else {
+                //eccezione tabella non esistente!!!!!
+            }
+        }
+        riga_comando.clear();
+        stream_chiavi >> nome_colonna >> tipo;
+        getline(stream_chiavi, riga_comando,')');
     }
+
     (*message)="Tabella creata e aggiunta al database";
 }
 

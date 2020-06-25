@@ -18,6 +18,7 @@ public:
     explicit ColonnaInt(const string &nomecolonna, bool notnull = false, bool autoincrement = false, int* increment_value= nullptr); //costruttore
     ~ColonnaInt()  override = default; //distruttore
 
+
     void setAutoIncrement(){
         _auto_increment=true;
     }

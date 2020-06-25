@@ -103,3 +103,6 @@ update customers set salary = 1200, came = 'c' where age = "cnsja";
     PRIMARY KEY (ID), FOREIGN KEY (COUNTRY_ID) REFERENCES COUNTRIES (ID) ,
 
     DELETE FROM CUSTOMERS WHERE AGE = 12;
+
+    create table countries ( id int not null auto_increment, name text not null, primary key (id) );
+    C:\Users\calog\CLionProjects\progetto_colonne_elisa\progetto_colonne\Memoria.txt
