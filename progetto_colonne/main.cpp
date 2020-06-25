@@ -18,8 +18,6 @@ enum comando {CREATE, DROP, INSERT, DELETE, TRUNCATE, UPDATE, SELECT,QUIT};
 
 
 int compare_first_word_comandi(string &first_word);
-bool belong_to(const string& elemento, const vector<string>& insieme);
-void Gestione_caratteri_speciali(string* comando);
 
 int main() {
     ControlloSintassi controllore;
@@ -58,10 +56,8 @@ int main() {
 
 
 
-    status_message.clear();
     //leggi comando intero
     getline(cin,comando);
-    //Gestione_caratteri_speciali(&comando);
     for (int j = 1; j < comando.size(); ++j) { //'"'
         if (!found_text){
             if (comando[j] == 34 && ((int)comando[j-1] != 39 && (int)comando[j+1] != 39)) { //se trovo un " e non è all'interno di un campo char
@@ -110,12 +106,13 @@ int main() {
         }
     }
 
+    cout << status_message << endl;
     cout << comando << endl;
-
     stringstream comando_intero(comando);
     stringstream comando_per_controlli(comando);
     comando_intero >> first_word;
 
+    //mettere i toUpper ovunque nei confronti con keywords
     while(compare_first_word_comandi(first_word)!=QUIT) {
         switch (compare_first_word_comandi(first_word)) {
             case CREATE :
@@ -178,8 +175,8 @@ int main() {
         //leggi comando intero
         getline(cin,comando);
 
+        status_message.clear();
         //controllo sulle virgolette nei campi di testo
-
         for (int j = 1; j < comando.size(); ++j) { //'"'
             if (!found_text){
                 if (comando[j] == 34 && ((int)comando[j-1] != 39 && (int)comando[j+1] != 39)) { //se trovo un " e non è all'interno di un campo char
@@ -201,7 +198,6 @@ int main() {
             }
         }
         //controllo sui ';' nei campi di testo
-        status_message.clear();
         for (int k = 0; k < comando.size(); ++k) {
             inside_testo = false;
             if (!campo_testo_presente){
@@ -227,8 +223,6 @@ int main() {
                 }
             }
         }
-
-       // Gestione_caratteri_speciali(&comando);
 
         cout << status_message << endl;
         cout << comando << endl;
@@ -269,14 +263,16 @@ int compare_first_word_comandi(string &first_word){
         return ERR_COMANDO;
 }
 
-void Gestione_caratteri_speciali(string* comando) {
+/*
+void Gestione_caratteri_speciali(string* comando, string *status_message) {
     bool found_text = false;
     bool campo_testo_presente = false;
     bool inside_testo = false;
     vector <int> pos_first, pos_last; //possono esserci più campi testo
     getchar();   // per l' "a capo" del cin precedente
     int contatore_virgolette=0;
-    string status_message;
+
+    (*status_message).clear();
 
     for (int j = 1; j < comando->size(); ++j) { //'"'
         if (!found_text){
@@ -310,7 +306,7 @@ void Gestione_caratteri_speciali(string* comando) {
         }
         else{
             if (pos_first.size() != pos_last.size())
-                status_message="Errore: campo di testo non chiuso da apposite virgolette";
+                (*status_message)="Errore: campo di testo non chiuso da apposite virgolette";
             else{
                 for (int j = 0; j < pos_first.size(); ++j) {
                     if (k > pos_first[j] && k < pos_last[j]){
@@ -325,6 +321,4 @@ void Gestione_caratteri_speciali(string* comando) {
             }
         }
     }
-
-
-}
+}*/

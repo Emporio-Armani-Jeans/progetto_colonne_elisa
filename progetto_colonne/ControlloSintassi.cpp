@@ -166,8 +166,10 @@ bool ControlloSintassi::controlloCreate(stringstream &comando, string* messaggio
                                         for (int j = 2; j < words.size(); j++){
                                             words[j] = toUp(words[j]);
                                             if (j != (words.size()-1)){ //se non si è ancora arrivati all'ultima parola
-                                                if ( (toUp(words[j]) == "NOT" && toUp(words[j+1]) == "NULL") || (toUp(words[j]) == "NULL" && toUp(words[j-1]) == "NOT") || ((toUp(words[j]) == "AUTO") && (toUp(words[j+1]) == "INCREMENT")) || ((toUp(words[j]) == "INCREMENT") && (toUp(words[j-1]) == "AUTO"))){
-                                                    if (((toUp(words[j]) == "AUTO") && (toUp(words[j+1]) == "INCREMENT")) || ((toUp(words[j]) == "INCREMENT") && (toUp(words[j-1]) == "AUTO"))){
+                                                if ( (toUp(words[j]) == "NOT" && toUp(words[j+1]) == "NULL")
+                                                || (toUp(words[j]) == "NULL" && toUp(words[j-1]) == "NOT")
+                                                || (toUp(words[j]) == "AUTO_INCREMENT")){
+                                                    if (toUp(words[j]) == "AUTO_INCREMENT"){
                                                         if (compare_tipo(words[1]) != INT){
                                                             messaggio->assign(_wrong_type_auto_increment);
                                                             return false;//_wrong_type_auto_increment;
@@ -180,12 +182,11 @@ bool ControlloSintassi::controlloCreate(stringstream &comando, string* messaggio
                                                 }
                                             }
                                             else { //se invece si è arrivati all'ultima parola
-                                                if ((toUp(words[j]) == "NULL" && toUp(words[j-1]) == "NOT") || ((toUp(words[j]) == "INCREMENT") && (toUp(words[j-1]) == "AUTO"))){
-                                                    if ((toUp(words[j]) == "INCREMENT") && (toUp(words[j-1]) == "AUTO")){
-                                                        if (compare_tipo(words[1]) != INT){
-                                                            messaggio->assign(_wrong_type_auto_increment);
-                                                            return false;//_wrong_type_auto_increment;
-                                                        }
+                                                if ((toUp(words[j]) == "NULL" && toUp(words[j-1]) == "NOT") ||
+                                                (toUp(words[j]) == "AUTO_INCREMENT")){
+                                                    if (compare_tipo(words[1]) != INT){
+                                                        messaggio->assign(_wrong_type_auto_increment);
+                                                        return false;//_wrong_type_auto_increment;
                                                     }
                                                     comando_corretto = true;
                                                 }

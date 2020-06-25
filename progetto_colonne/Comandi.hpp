@@ -44,17 +44,20 @@ void Create(vector<Tabella*> &tabelle, stringstream &stream_comando, int *contat
             riga_temp >> word2;
             riga_temp >> word3;
             word = word2 + " " + word3;        //voglio mantenere word2, quindi non uso +=
-            if (word == "NOT NULL") {
+            if (toUpper(word) == "NOT NULL") {
                 not_null = true;
                 getline(riga_temp, word, ',');
                 word.erase(0, 1);
-                if (word == "AUTO_INCREMENT") {
+                if (toUpper(word) == "AUTO_INCREMENT") {
                     auto_increm = true;
                     not_null = false;
                 }
-            } else if (word2 == "AUTO_INCREMENT") {
+            } else if (toUpper(word2) == "AUTO_INCREMENT") {
                 auto_increm = true;
                 not_null = false;
+                if(!riga_temp.eof()){
+                    riga_temp >> scarto >> scarto; //scarto not null;
+                }
             }
         } else {
             //se non è int controllo solo not null

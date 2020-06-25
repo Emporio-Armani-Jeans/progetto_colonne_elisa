@@ -1,11 +1,6 @@
-2
+1
 
 CUSTOMERS 3
 AGE:int,false,true,false#ID:int,true,true,true#ADDRESS:text,false,false,false#
 2
 10#1#Via Dei Gigli 33#3#2#Via Dal Cazzo 666#
-
-DIOCANE 2
-ID:int,false,true,true#LUNGHEZZA_DEL_CAZZO:float,false,true,false#
-0
-
