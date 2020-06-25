@@ -43,6 +43,7 @@ ControlloSintassi::ControlloSintassi() {
     _message_error_keyword = "ERR: Utilizzo inappropriato di una parola chiave del linguaggio, riprovare!";
     _wrong_type_auto_increment = "ERR: Tipo invalido per l'utilizzo della keyword AUTO_INCREMENT, riprovare!";
     _inexistent_type = "ERR: Tipo assegnato non esistente, riprovare!";
+    _invalid_operator = "ERR: Operatore non valido, riprovare!";
 }
 
 bool ControlloSintassi::belongs_to_keywords(string &to_be_compared) const{
@@ -53,6 +54,16 @@ bool ControlloSintassi::belongs_to_keywords(string &to_be_compared) const{
             _keyword_trovata = true;
     }
     return _keyword_trovata;
+}
+
+bool ControlloSintassi::belongs_to_operatori(string &to_be_compared) const{
+    to_be_compared = toUp(to_be_compared);
+    bool _op_trovato = false;
+    for (const auto & op : operatori){
+        if (to_be_compared == op)
+            _op_trovato = true;
+    }
+    return _op_trovato;
 }
 
 bool ControlloSintassi::controlloCreate(stringstream &comando, string* messaggio) const {
@@ -301,7 +312,6 @@ bool ControlloSintassi::controlloDrop(stringstream &comando, string *messaggio) 
     }
 }
 
-
 bool ControlloSintassi::controlloInsert(stringstream &comando, string *messaggio) const{
     string word;
     char carattere;
@@ -468,6 +478,268 @@ bool ControlloSintassi::controlloInsert(stringstream &comando, string *messaggio
     }
     if (!flag_fine_comando){ //ulteriore controllo
         messaggio->assign(_message_error);
+        return false;
+    }
+    else return true;
+} //ricontrollare questione fine programma
+
+bool ControlloSintassi::controlloDelete(stringstream &comando, string *messaggio) const {
+    string word;
+    char carattere;
+    bool fine_testo = false;
+    int contatore_virgolette;
+    comando >> word >> word;
+    if (toUp(word) == "FROM"){
+        comando >> word;
+        if (!belongs_to_keywords(word)){
+            comando >> word;
+            if (toUp(word) == "WHERE"){ //deve esserci per forza la condizione altrimenti il comando sarebbe truncate
+                comando >> word >> word;
+                if (belongs_to_operatori(word)){
+                    comando >> word;
+                    if (word[0] == '"'){ //caso di un campo testo
+                        contatore_virgolette = 0;
+                        fine_testo = false;
+                        int k;
+                        for (k = 1; k < word.size(); k++){
+                            if (word[k] == 34) {
+                                contatore_virgolette++;
+                            } else {
+                                if (contatore_virgolette % 2 != 0) {
+                                    fine_testo = true;
+                                }
+                                contatore_virgolette = 0;
+                            }
+                        }
+                        if (!fine_testo) {
+                            while (!fine_testo) {
+                                comando >> carattere;
+                                if (carattere == 34) {
+                                    contatore_virgolette++;
+                                } else {
+                                    if (contatore_virgolette % 2 != 0) {
+                                        fine_testo = true;
+                                    }
+                                    contatore_virgolette = 0;
+                                }
+                            }
+                        } else
+                            carattere = word[k-1];
+                        if (carattere != ';') {
+                            messaggio->assign(_message_error);
+                            return false;
+                        } else
+                            return true;
+                    }
+                    else { //campo char o qualsiasi altro: unica parola per forza
+                        if (word[word.size()-1] != ';'){
+                            messaggio->assign(_message_error);
+                            return false;
+                        } else
+                            return true;
+                    }
+                } else {
+                    messaggio->assign(_invalid_operator);
+                    return false;
+                }
+            }
+            else {
+                messaggio->assign(_message_error);
+                return false;
+            }
+        }
+        else {
+            messaggio->assign(_message_error_keyword);
+            return false;
+        }
+    } else {
+        messaggio->assign(_message_error);
+        return false;
+    }
+}
+
+bool ControlloSintassi::controlloUpdate(stringstream &comando, string *messaggio) const {
+    string word;
+    char carattere;
+    bool fine_testo = false, flag_fine_comando = false, flag_condizione = false;
+    int contatore_virgolette;
+    vector<string> words;
+    comando >> word >> word;
+    if (!belongs_to_keywords(word)){
+        comando >> word;
+        if (toUp(word) == "SET"){
+            comando >> word;
+            while (!flag_fine_comando) {
+                if (!flag_condizione){ //non si è ancora arrivati al where
+                    comando >> word;
+                    if (belongs_to_operatori(word)){
+                        comando >> word;
+                        if (word[0] == '"'){ //caso di un campo testo
+                            contatore_virgolette = 0;
+                            fine_testo = false;
+                            int k;
+                            for (k = 1; k < word.size(); k++){
+                                if (word[k] == 34) {
+                                    contatore_virgolette++;
+                                } else {
+                                    if (contatore_virgolette % 2 != 0) {
+                                        fine_testo = true;
+                                    }
+                                    contatore_virgolette = 0;
+                                }
+                            }
+                            if (!fine_testo) {
+                                while (!fine_testo) {
+                                    comando >> carattere;
+                                    if (carattere == 34) {
+                                        contatore_virgolette++;
+                                    } else {
+                                        if (contatore_virgolette % 2 != 0) {
+                                            fine_testo = true;
+                                        }
+                                        contatore_virgolette = 0;
+                                    }
+                                }
+                            } else
+                                carattere = word[k-1];
+                            if (carattere == 'w') {
+                                flag_condizione = true;
+                                comando >> word; //campo o Where
+                                word.insert(0,1,'w');
+                            }
+                            else if (carattere != ',' && carattere != 'w'){
+                                messaggio->assign(_message_error);
+                                return false;
+                            }
+                            else {
+                                comando >> word;
+                            }
+                        }
+                        else { //campo char o qualsiasi altro: unica parola per forza
+                             if (word[word.size()-1] == ',') {
+                                 if (word[0] == 39) { //se è un char controllo la sintassi giusta
+                                     if (word.size() != 4) {
+                                         messaggio->assign(_message_error);
+                                         return false;
+                                     } else {
+                                         word.pop_back(); //tolgo ,
+                                         if (word[word.size() - 1] != 39) {
+                                             messaggio->assign(_message_error);
+                                             return false;
+                                         }
+                                     }
+                                 }
+                             }
+                             else{
+                                 if (word[0] == 39) { //se è un char controllo la sintassi giusta
+                                     if (word.size() != 3) {
+                                         messaggio->assign(_message_error);
+                                         return false;
+                                     } else {
+                                         if (word[word.size() - 1] != 39) {
+                                             messaggio->assign(_message_error);
+                                             return false;
+                                         }
+                                     }
+                                 }
+                                 flag_condizione = true;
+                             }
+                             comando >> word;
+                        }
+                    } else {
+                        messaggio->assign(_invalid_operator);
+                        return false;
+                    }
+                }
+                else { //si è arrivati al where
+                    if (toUp(word) == "WHERE"){
+                        comando >> word >> word;
+                        if (belongs_to_operatori(word)){
+                            comando >> word;
+                            if (word[0] == '"'){ //caso di un campo testo
+                                contatore_virgolette = 0;
+                                fine_testo = false;
+                                int k;
+                                for (k = 1; k < word.size(); k++){
+                                    if (word[k] == 34) {
+                                        contatore_virgolette++;
+                                    } else {
+                                        if (contatore_virgolette % 2 != 0) {
+                                            fine_testo = true;
+                                        }
+                                        contatore_virgolette = 0;
+                                    }
+                                }
+                                if (!fine_testo) {
+                                    while (!fine_testo) {
+                                        comando >> carattere;
+                                        if (carattere == 34) {
+                                            contatore_virgolette++;
+                                        } else {
+                                            if (contatore_virgolette % 2 != 0) {
+                                                fine_testo = true;
+                                            }
+                                            contatore_virgolette = 0;
+                                        }
+                                    }
+                                } else
+                                    carattere = word[k-1];
+                                if (carattere == ';') {
+                                    flag_fine_comando = true;
+                                }
+                                else {
+                                    messaggio->assign(_message_error);
+                                    return false;
+                                }
+                            }
+                            else { //campo char o qualsiasi altro: unica parola per forza
+                                if (word[word.size()-1] != ';'){
+                                    messaggio->assign(_message_error);
+                                    return false;
+                                }
+                                else {
+                                    if (word[0] == 39){ //se è un char controllo he l'utente abbia effettivamente inserito solo un carattere con la sintassi giusta
+                                        if (word.size() != 4){
+                                            messaggio->assign(_message_error);
+                                            return false;
+                                        }
+                                        else {
+                                            word.pop_back(); //tolgo ;
+                                            if (word[word.size()-1] != 39){
+                                                messaggio->assign(_message_error);
+                                                return false;
+                                            }
+                                            else
+                                                flag_fine_comando = true;
+                                        }
+                                    }
+                                    else
+                                        flag_fine_comando = true;
+                                }
+                            }
+                        } else {
+                            messaggio->assign(_invalid_operator);
+                            return false;
+                        }
+                    }
+                    else {
+                        messaggio->assign(_invalid_operator);
+                        return false;
+                    }
+                }
+            }
+        }
+        else {
+            messaggio->assign(_message_error);
+            return false;
+        }
+    } else {
+        messaggio->assign(_message_error_keyword);
+        return false;
+    }
+
+    if (!flag_fine_comando){
+        messaggio->assign(_message_error_keyword);
         return false;
     }
     else return true;

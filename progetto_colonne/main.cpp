@@ -37,14 +37,14 @@ int main() {
         try {
             cout << "Inserire nome file database" << endl;
             cin >> nome_file;
-            ok=true;
+            tabelle = Avvio(nome_file, &contatore);
+            ok = true;
         }
-        catch (exception &file) {
-            ok=false;
-            cout << "Eccezione: " << file.what() << endl;
+        catch (FileError &ex) {
+            cout << "Eccezione: " << ex.what() << endl;
         }
     }
-    tabelle = Avvio(nome_file, &contatore);
+
 
     stringstream riga_temp;
 
@@ -130,16 +130,19 @@ int main() {
                 } else
                     cout << message_error << endl;
                 break;
-            case INSERT :   //ricordarsi di controllare nell'implementazione comando che il vector di campi debba avere size uguale al vector di valori!!e controllare anche i tipi
+            case INSERT :   //ricordarsi di controllare nell'implementazione comando che il vector di campi debba avere size uguale al vector di valori!!e controllare anche i tipi e nelle classi la sintassi corretta delle date
                 if(controllore.controlloInsert(comando_per_controlli, &message_error)) {
                     Insert(tabelle, comando_intero, &status_message);
                     cout << status_message << endl;
                 } else
                     cout << message_error << endl;
                 break;
-            case DELETE :   //fare controllo
-                Delete(tabelle, comando_intero, &status_message);
-                cout << status_message << endl;
+            case DELETE :   //controllo tipi?
+                if(controllore.controlloDelete(comando_per_controlli, &message_error)) {
+                    Delete(tabelle, comando_intero, &status_message);
+                    cout << status_message << endl;
+                } else
+                    cout << message_error << endl;
                 break;
             case TRUNCATE :
                 if (controllore.controlloTruncate(comando_per_controlli, &message_error)) {
@@ -149,8 +152,11 @@ int main() {
                     cout << message_error << endl;
                 break;
             case UPDATE :   //fare controllo
-                Update(tabelle, comando_intero, &status_message);
-                cout << status_message << endl;
+                if (controllore.controlloUpdate(comando_per_controlli, &message_error)) {
+                    Update(tabelle, comando_intero, &status_message);
+                    cout << status_message << endl;
+                } else
+                    cout << message_error << endl;
                 break;
             case SELECT :
                 break;
@@ -230,6 +236,7 @@ int main() {
         comando_per_controlli << comando;
         comando_intero >> first_word;
     }
+
     cout << "Arresto in corso..." << endl;
 
     Arresto(nome_file, tabelle);

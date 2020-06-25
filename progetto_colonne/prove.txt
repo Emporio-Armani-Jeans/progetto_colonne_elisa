@@ -83,7 +83,7 @@
 
 
 insert into customers (ciao, ciao, ciao) values (30, "testo", 'c', 23/03/2010, 12:67:89, "campo testo""");
-
+update customers set salary = 1200, came = 'c' where age = "cnsja";
 
 
     C:/Users/andry/CLionProjects/progetto_colonne_elisa/progetto_colonne/Memoria.txt
