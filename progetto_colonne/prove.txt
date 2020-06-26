@@ -106,3 +106,8 @@ update customers set salary = 1200, came = 'c' where age = "cnsja";
 
     create table countries ( id int not null auto_increment, name text not null, primary key (id) );
     C:\Users\calog\CLionProjects\progetto_colonne_elisa\progetto_colonne\Memoria.txt
+
+    SELECT * FROM CUSTOMERS;
+    SELECT * FROM CUSTOMERS WHERE AGE < 20;
+    SELECT ID, AGE, FROM CUSTOMERS WHERE AGE = 10;
+    SELECT ID, AGE, FROM CUSTOMERS WHERE AGE = 10 ORDER BY AGE DESC;

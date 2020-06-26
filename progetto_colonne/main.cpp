@@ -118,7 +118,7 @@ int main() {
         switch (compare_first_word_comandi(first_word)) {
             case CREATE :
                   if (controllore.controlloCreate(comando_per_controlli, &message_error)) {
-                    Create(tabelle, comando_intero, &contatore, &status_message);
+                      Create(tabelle, comando_intero, &contatore, &status_message);
                     cout << status_message << endl;
                   } else
                       cout << message_error << endl;
@@ -159,6 +159,8 @@ int main() {
                     cout << message_error << endl;
                 break;
             case SELECT :
+                Select(tabelle, comando_intero, &message_error);
+                cout << status_message << endl;
                 break;
             case QUIT :
                 break;
