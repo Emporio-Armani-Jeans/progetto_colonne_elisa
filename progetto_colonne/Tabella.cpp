@@ -97,7 +97,8 @@ void Tabella::deleteRecord(const string& campo_condizione, const string &condizi
         _recs=0;
     }else {
         while (i < _colonne.size() && !trovata) {
-            if (campo_condizione == _colonne[i]->getNomeColonna()) trovata = true;
+            if (campo_condizione == _colonne[i]->getNomeColonna())
+                trovata = true;
             else i++;
         }
         if (trovata) {

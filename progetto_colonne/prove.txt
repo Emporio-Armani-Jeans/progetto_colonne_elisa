@@ -82,7 +82,7 @@
 
 
 
-insert into customers (ciao, ciao, ciao) values (30, "testo", 'c', 23/03/2010, 12:67:89, "campo testo""");
+
 update customers set salary = 1200, came = 'c' where age = "cnsja";
 
 
@@ -108,8 +108,10 @@ update customers set salary = 1200, came = 'c' where age = "cnsja";
     C:\Users\calog\CLionProjects\progetto_colonne_elisa\progetto_colonne\Memoria.txt
 
     SELECT * FROM CUSTOMERS ORDER BY AGE ASC;
+    SELECT * FROM CUSTOMERS WHERE ADDRESS = "via Roma, 32";
     SELECT * FROM CUSTOMERS WHERE AGE <> 10;
     SELECT ID, AGE FROM CUSTOMERS WHERE AGE = 10;
     SELECT ID, AGE FROM CUSTOMERS ORDER BY AGE DESC;
 
-    INSERT INTO CUSTOMERS (AGE, ADDRESS, ID) VALUES (20, "via_Roma", 12324);
+    INSERT INTO CUSTOMERS (AGE, ADDRESS) VALUES (20, "via Roma, 32");
+    insert into customers (ciao, ciao, ciao) values (30, "testo", 'c', 23/03/2010, 12:67:89, "campo testo""");

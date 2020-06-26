@@ -40,6 +40,13 @@ string campoTesto(stringstream *comando, string &word){
             }
         }
     }
+    else
+        carattere = word[k-1];
+    if (carattere == ';')
+        word.pop_back();
+    if (carattere == ')'){
+        word.push_back(carattere);
+    }
     word.pop_back();
     word.erase(0,1);
     return word;
@@ -186,7 +193,7 @@ void Create(vector<Tabella*> &tabelle, stringstream &stream_comando, int *contat
         getline(stream_chiavi, riga_comando,')');
     }
 
-    (*message)="Operazione completata: tabella creata e aggiunta al database.";
+    (*message) = "Operazione completata: tabella creata e aggiunta al database.";
 }
 
 void Drop(vector<Tabella*> &tabelle, stringstream &stream_comando, string *message){
@@ -213,111 +220,117 @@ void Drop(vector<Tabella*> &tabelle, stringstream &stream_comando, string *messa
 
 void Truncate(vector<Tabella*> &tabelle, stringstream &stream_comando, string *message){
     string word;
-    if (!tabelle.empty()) {
-        stream_comando >> word;      //butto via "TABLE"
-        stream_comando >> word;       //in word ho nome_tab
-        word.pop_back();   //rimuovo ';'
-        for (Tabella* &s : tabelle) {
-            if (toUpper(word) == toUpper(s->getNome())) {
-                s->deleteRecord();
-                (*message)="Tabella " + s->getNome() + "svuotata correttamente";
-                break;
-            }
-        }
-    } else
-        cout << "Tabella non esistente" << endl;     //se non ho trovato tab con tale nome nel database
-}
-
-void Delete(vector<Tabella*> &tabelle, stringstream &stream_comando, string *message){
-    vector<string> operatori {"=", "<", ">", ">=", "<=", "<>", "BETWEEN"};
-    string word, word2, operatore;
-    int a, b;
-    bool trovata;
-    stream_comando >> word;    //butto via "FROM"
-    stream_comando >> word;
-    //cerco match nome tabella
-    for (a = 0, trovata = false; a < tabelle.size(); a++) {
-        if (tabelle[a]->getNome() == word) {
-            trovata = true;
+    bool tabella_trovata = false;
+    stream_comando >> word;      //butto via "TABLE"
+    stream_comando >> word;       //in word ho nome_tab
+    word.pop_back();   //rimuovo ';'
+    for (Tabella* &s : tabelle) {
+        if ( word == s->getNome() ) {
+            tabella_trovata = true;
+            s->deleteRecord(); //parametri di default->cancella tutti i record
             break;
         }
     }
-    if (!trovata) {
+    if (tabella_trovata)
+        (*message)="Operazione completata: Tabella svuotata correttamente";
+    else
         throw InexistentTable();
-    } else {   //a contiene indice della tabella scelta
-        stream_comando >> word; //butto via "WHERE"
-        stream_comando >> word;
-        //cerco match con campo condizione
-        for (b = 0, trovata = false; b < tabelle.size(); b++) {
-            if (toUpper(tabelle[a]->getCol(b)->getNomeColonna()) == word) {
-                trovata = true;
-                break;
-            }
+}
+
+void Delete(vector<Tabella*> &tabelle, stringstream &stream_comando, string *message) {
+    vector<string> operatori {"=", "<", ">", ">=", "<=", "<>", "BETWEEN"};
+    string word, word2, operatore, nome_colonna;
+    int pos_table, pos_colonna;
+    bool tabella_trovata = false, colonna_trovata = false;
+    stream_comando >> word;    //butto via "FROM"
+    stream_comando >> word;
+    //cerco match nome tabella
+    for (int a = 0; a < tabelle.size(); a++) {
+        if (tabelle[a]->getNome() == word) {
+            pos_table = a;
+            tabella_trovata = true;
+            break;
         }
-        if (!trovata) {
-            (*message)="Campo condizione non esistente nella tabella scelta";
-        } else {
-            //leggo operatore; assumere che tra operatore e parole adiacenti ci sia almeno uno spazio
+    }
+    if (!tabella_trovata) {
+        throw InexistentTable();
+    } else {   //pos_table contiene indice della tabella scelta
+        stream_comando >> word; //butto via "WHERE"
+        stream_comando >> nome_colonna; //in nome_colonna c'è il campo condizione
             stream_comando >> operatore;
             if (!(belong_to(operatore, operatori))) {
-                (*message)="Operatore nella condizione non valido";
+                throw InvalidOperator();
             } else {
                 if (toUpper(operatore) == "BETWEEN") {
                     stream_comando >> word; //prima condizione
+                    if (word[0] == '"') {
+                        word = campoTesto(&stream_comando, word);
+                    }
+                    else if (word[0] == 39){ //se è un char tolgo le '
+                        word.pop_back();
+                        word.erase(0,1);
+                    }
                     stream_comando >> word2; //butto via "AND"
                     stream_comando >> word2; //seconda condizione
-                    if(word[0]==34 || word[0]==39) {
-                        word.erase(0, 1);
-                        word.pop_back();           //rimuovo le virgolette
+                    if (word2[0] == '"') {
+                        word2 = campoTesto(&stream_comando, word2);
                     }
-                    if(word2[0]==34 || word2[0]==39) {
-                        word2.erase(0, 1);
-                        word2.pop_back();           //rimuovo le virgolette
+                    else if (word2[0] == 39){ //se è un char tolgo le '
+                        if (word2[word2.size()-1] == ';')
+                            word2.pop_back();
+                        word2.pop_back();//'
+                        word2.erase(0,1);//'
+                    } else {
+                        word2.pop_back(); //;
                     }
-                    word2.pop_back();
-                    tabelle[a]->deleteRecord(tabelle[a]->getCol(b)->getNomeColonna(), word, word2);
+                    tabelle[pos_table]->deleteRecord(nome_colonna, word, word2);
                 }else {
                     stream_comando >> word;
-                    if (word[0] == 34 || word[0] == 39) {
-                        word.erase(0, 1);
-                        word.pop_back();
+                    if (word[0] == '"') {
+                        word = campoTesto(&stream_comando, word);
                     }
-                    word.pop_back();
-                    //rimuovo virgolette e punto e virgola finale
+                    else if (word[0] == 39){ //se è un char tolgo le '
+                        word.pop_back();// ;
+                        word.pop_back();// '
+                        word.erase(0,1);// '
+                    } else {
+                        word.pop_back(); // ;
+                    }
                     if (operatore == "=") {
-                        tabelle[a]->deleteRecord(tabelle[a]->getCol(b)->getNomeColonna(), word);
+                        tabelle[pos_table]->deleteRecord(nome_colonna, word);
                     } else if (operatore == "<") {
-                        tabelle[a]->deleteRecord(tabelle[a]->getCol(b)->getNomeColonna(), word, 1);
+                        tabelle[pos_table]->deleteRecord(nome_colonna, word, 1);
                     } else if (operatore == "<=") {
-                        tabelle[a]->deleteRecord(tabelle[a]->getCol(b)->getNomeColonna(), word, 2);
+                        tabelle[pos_table]->deleteRecord(nome_colonna, word, 2);
                     } else if (operatore == ">") {
-                        tabelle[a]->deleteRecord(tabelle[a]->getCol(b)->getNomeColonna(), word, 3);
+                        tabelle[pos_table]->deleteRecord(nome_colonna, word, 3);
                     } else if (operatore == ">=") {
-                        tabelle[a]->deleteRecord(tabelle[a]->getCol(b)->getNomeColonna(), word, 4);
+                        tabelle[pos_table]->deleteRecord(nome_colonna, word, 4);
                     } else if (operatore == "<>") {
-                        tabelle[a]->deleteRecord(tabelle[a]->getCol(b)->getNomeColonna(), word, 5);
+                        tabelle[pos_table]->deleteRecord(nome_colonna, word, 5);
                     }
                 }
-                (*message)="Record eliminati";
+
+                (*message) = "Operazione completata: Record eliminati correttamente.";
             }
-        }
     }
 }
 
 void Update(vector<Tabella*> &tabelle, stringstream &stream_comando, string *message){
     string scarto, word, word2, word3, condizione1, condizione2;
     vector<string> campi, valori, operatori {"=", "<", ">", ">=", "<=", "<>", "BETWEEN"};
-    int a;
-    bool trovata;
+    int pos_table;
+    bool trovata = false;
     stream_comando >> word;
-    for (a = 0, trovata = false; a < tabelle.size(); a++) {
+    for (int a = 0; a < tabelle.size(); a++) {
         if (toUpper(tabelle[a]->getNome()) == word) {
             trovata = true;
+            pos_table = a;
             break;
         }
     }
     if(!trovata){
-        (*message)="Tabella non trovata nel database";
+        throw InexistentTable();
     }else {
         stream_comando >> scarto; //scarto SET
         stream_comando >> word;
@@ -353,7 +366,7 @@ void Update(vector<Tabella*> &tabelle, stringstream &stream_comando, string *mes
                     condizione2.erase(0, 1);
                     condizione2.pop_back();
                 }
-                tabelle[a]->updateRecord(word, condizione1, condizione2, campi, valori);
+                tabelle[pos_table]->updateRecord(word, condizione1, condizione2, campi, valori);
             } else {
                 stream_comando >> word3; //condizione
                 word3.pop_back();  //rimuovo ';'
@@ -362,27 +375,28 @@ void Update(vector<Tabella*> &tabelle, stringstream &stream_comando, string *mes
                     word3.pop_back();
                 }
                 if (word2 == "=") {
-                    tabelle[a]->updateRecord(word, word3, campi, valori);
+                    tabelle[pos_table]->updateRecord(word, word3, campi, valori);
                 } else if (word2 == "<") {
-                    tabelle[a]->updateRecord(word, word3, campi, valori, 1);
+                    tabelle[pos_table]->updateRecord(word, word3, campi, valori, 1);
                 } else if (word2 == "<=") {
-                    tabelle[a]->updateRecord(word, word3, campi, valori, 2);
+                    tabelle[pos_table]->updateRecord(word, word3, campi, valori, 2);
                 } else if (word2 == ">") {
-                    tabelle[a]->updateRecord(word, word3, campi, valori, 3);
+                    tabelle[pos_table]->updateRecord(word, word3, campi, valori, 3);
                 } else if (word2 == ">=") {
-                    tabelle[a]->updateRecord(word, word3, campi, valori, 4);
+                    tabelle[pos_table]->updateRecord(word, word3, campi, valori, 4);
                 } else if (word2 == "<>") {
-                    tabelle[a]->updateRecord(word, word3, campi, valori, 5);
+                    tabelle[pos_table]->updateRecord(word, word3, campi, valori, 5);
                 }
             }
         }
     }
-}
+} //da revisionare
 
 void Select(vector<Tabella*> &tabelle, stringstream &stream_comando, string *message){
     string word, scarto, word2, word3, nome_colonna, condizione1, condizione2, ordine;
-    int a;
-    bool trovata, ordinamento, completo;
+    string valori_inesistenti = "Nella tabella selezionata non risultano valori che rispettano i criteri di ricerca.";
+    int pos_table;
+    bool trovata = false, ordinamento = false, completo = false;
     vector<string> campi, operatori {"=", "<", ">", ">=", "<=", "<>", "BETWEEN"};
     stream_comando >> word;  //leggo seconda parola
     if (word == "*") {
@@ -405,9 +419,10 @@ void Select(vector<Tabella*> &tabelle, stringstream &stream_comando, string *mes
     if(scarto[scarto.size()-1]==';')
         scarto.pop_back();
     //cerco match tabella in questione
-    for (a = 0, trovata = false; a < tabelle.size (); a++) {
+    for (int a = 0; a < tabelle.size (); a++) {
         if (tabelle[a]->getNome () == scarto) {
             trovata = true;
+            pos_table = a;
             break;
         }
     }
@@ -415,16 +430,15 @@ void Select(vector<Tabella*> &tabelle, stringstream &stream_comando, string *mes
         throw InexistentTable();
     } else {
         if(completo){
-            for (int i = 0; i < tabelle[a]->numCampi (); i++) {
-                campi.push_back (tabelle[a]->getCol (i)->getNomeColonna ());
+            for (int i = 0; i < tabelle[pos_table]->numCampi (); i++) {
+                campi.push_back (tabelle[pos_table]->getCol (i)->getNomeColonna ());
             }
         }
         if (word[word.size () - 1] == ';') {   //non c'è WHERE
             word.pop_back ();
             //stampo solo campi specificati della tabella
-            for (const auto &elem : tabelle[a]->returnData (campi)) {
-                if (elem.empty ()) cout << "Riga vuota" << endl;
-                else cout << elem << endl;
+            for (const auto &elem : tabelle[pos_table]->returnData (campi)) {
+                cout << elem << endl;
             }
             cout << endl;
         } else {
@@ -436,93 +450,113 @@ void Select(vector<Tabella*> &tabelle, stringstream &stream_comando, string *mes
                 stream_comando >> ordine; //DESC o ASC
                 ordine.pop_back();
                 if (toUpper(ordine) == "ASC") {
-                    for (int z = 0; z < tabelle[a]->returnData(campi, nome_colonna, 1).size(); z++) {
-                        cout << tabelle[a]->returnData(campi, nome_colonna,1)[z] << endl;
-                        if (tabelle[a]->returnData(campi, nome_colonna,1).empty())
-                            cout << "Non ci sono valori che rispettano i criteri di ricerca" << endl;
+                    for (int z = 0; z < tabelle[pos_table]->returnData(campi, nome_colonna, 1).size(); z++) {
+                        cout << tabelle[pos_table]->returnData(campi, nome_colonna,1)[z] << endl;
+                        if (tabelle[pos_table]->returnData(campi, nome_colonna,1).empty())
+                            message->assign(valori_inesistenti);
                     }
                 } else if (toUpper(ordine) == "DESC") {
-                    for (int z = 0; z < tabelle[a]->returnData(campi, nome_colonna, 3).size(); z++) {
-                        cout << tabelle[a]->returnData(campi, nome_colonna,3)[z] << endl;
-                        if (tabelle[a]->returnData(campi, nome_colonna,3).empty())
-                            cout << "Non ci sono valori che rispettano i criteri di ricerca" << endl;
+                    for (int z = 0; z < tabelle[pos_table]->returnData(campi, nome_colonna, 3).size(); z++) {
+                        cout << tabelle[pos_table]->returnData(campi, nome_colonna,3)[z] << endl;
+                        if (tabelle[pos_table]->returnData(campi, nome_colonna,3).empty())
+                            message->assign(valori_inesistenti);
                     }
                 }
-            }else {
+            } else {
                 stream_comando >> word;  //in word c'è il campo condizione
                 stream_comando >> word2;  //in word2 c'è l'operatore
                 if (!belong_to(word2, operatori)) {
-                    cout << "Operatore non valido" << endl;
+                    throw InvalidOperator();
                 } else {
                     //casistica operatori
                     if (toUpper(word2) == "BETWEEN") {
                         stream_comando >> condizione1;
-                        if (condizione1[0] == '"') {          //se ci sono virgolette le tolgo
-                            condizione1.erase(0, 1);
+                        if (condizione1[0] == '"') {
+                            condizione1 = campoTesto(&stream_comando, condizione1);
+                        }
+                        else if (condizione1[0] == 39){ //se è un char tolgo le '
                             condizione1.pop_back();
+                            condizione1.erase(0,1);
                         }
                         stream_comando >> scarto; //scarto and
                         stream_comando >> condizione2;
-                        if (condizione2[condizione2.size() - 1] != ';') {
-                            if (condizione2[0] == '"') {          //se ci sono virgolette le tolgo
-                                condizione2.erase(0, 1);
+                        if (condizione2[0] == '"') {
+                            condizione2 = campoTesto(&stream_comando, condizione2);
+                        }
+                        else if (condizione2[0] == 39){ //se è un char tolgo le '
+                            if (condizione2[condizione2.size()-1] == ';')
                                 condizione2.pop_back();
-                            }
-                            stream_comando >> scarto;  //scarto order
+                            condizione2.pop_back();//'
+                            condizione2.erase(0,1);//'
+                        } else {
+                            if (condizione2[condizione2.size()-1] == ';')
+                                condizione2.pop_back(); //;
+                        }
+                        stream_comando >> scarto;  //scarto order
+                        if (toUpper(scarto) == "ORDER") {
                             stream_comando >> scarto; //scarto by
                             stream_comando >> nome_colonna;   //campo ordinamento
                             stream_comando >> ordine; //DESC o ASC
                             ordine.pop_back();
                             if (toUpper(ordine) == "ASC") {
                                 for (int z = 0;
-                                     z < tabelle[a]->returnData(campi, word2, condizione1, condizione2,
-                                                                nome_colonna, 1).size(); z++) {
-                                    cout << tabelle[a]->returnData(campi, word2, condizione1, condizione2,
-                                                                   nome_colonna,
-                                                                   1)[z] << endl;
-                                    if (tabelle[a]->returnData(campi, word2, condizione1, condizione2, nome_colonna,
-                                                               1).empty())
-                                        cout << "Non ci sono valori che rispettano i criteri di ricerca" << endl;
+                                     z < tabelle[pos_table]->returnData(campi, word2, condizione1, condizione2,
+                                                                        nome_colonna, 1).size(); z++) {
+                                    cout << tabelle[pos_table]->returnData(campi, word2, condizione1, condizione2,
+                                                                           nome_colonna,
+                                                                           1)[z] << endl;
+                                    if (tabelle[pos_table]->returnData(campi, word2, condizione1, condizione2,
+                                                                       nome_colonna,
+                                                                       1).empty())
+                                        message->assign(valori_inesistenti);
                                 }
                             } else if (toUpper(ordine) == "DESC") {
                                 for (int z = 0;
-                                     z < tabelle[a]->returnData(campi, word2, condizione1, condizione2,
-                                                                nome_colonna, 3).size(); z++) {
-                                    cout << tabelle[a]->returnData(campi, word2, condizione1, condizione2,
-                                                                   nome_colonna,
-                                                                   3)[z] << endl;
-                                    if (tabelle[a]->returnData(campi, word2, condizione1, condizione2, nome_colonna,
-                                                               3).empty())
-                                        cout << "Non ci sono valori che rispettano i criteri di ricerca" << endl;
+                                     z < tabelle[pos_table]->returnData(campi, word2, condizione1, condizione2,
+                                                                        nome_colonna, 3).size(); z++) {
+                                    cout << tabelle[pos_table]->returnData(campi, word2, condizione1, condizione2,
+                                                                           nome_colonna,
+                                                                           3)[z] << endl;
+                                    if (tabelle[pos_table]->returnData(campi, word2, condizione1, condizione2,
+                                                                       nome_colonna,
+                                                                       3).empty())
+                                        message->assign(valori_inesistenti);
                                 }
                             }
-                        } else {
-                            condizione2.pop_back();
+                        }
+                        else {
                             //stampo campi che rispettando condizione senza ordinamento
-                            for (const auto &elem : tabelle[a]->returnData(campi, word, condizione1,
+                            for (const auto &elem : tabelle[pos_table]->returnData(campi, word, condizione1,
                                                                            condizione2)) {
                                 cout << elem << endl;
                             }
-                            if (tabelle[a]->returnData(campi, word, condizione1, condizione2).empty())
-                                cout << "Non ci sono valori che rispettano i criteri di ricerca" << endl;
+                            if (tabelle[pos_table]->returnData(campi, word, condizione1, condizione2).empty())
+                                message->assign(valori_inesistenti);
                             cout << endl;
                         }
                     } else {
                         stream_comando >> word3; //in word3 c'è la condizione
-                        if (word3[word3.size() - 1] != ';') {   //se non c'è ';' ci sarà ordinamento
-                            ordinamento = true;
-                            if (word3[0] == '"') {
-                                word3.erase(0, 1);
+                        if (word3[0] == '"') {
+                            word3 = campoTesto(&stream_comando, word3);
+                        }
+                        else if (word3[0] == 39){ //se è un char tolgo le '
+                            if (word3[word3.size()-1] == ';')
                                 word3.pop_back();
-                            }
-                            stream_comando >> scarto;  //scarto order
+                            word3.pop_back();//'
+                            word3.erase(0,1);//'
+                        } else {
+                            if (word3[word3.size()-1] == ';')
+                                word3.pop_back(); //;
+                        }
+                        stream_comando >> scarto;
+                        if (toUpper(scarto) == "ORDER") {
+                            ordinamento = true;
                             stream_comando >> scarto; //scarto by
-                            stream_comando >> nome_colonna;   //campo ordinamento
+                            stream_comando >> nome_colonna; //campo ordinamento
                             stream_comando >> ordine; //DESC o ASC
                             ordine.pop_back();
                         } else {
                             ordinamento = false;
-                            word3.pop_back();
                             //stampo campi che rispettando condizione senza ordinamento
                         }
                         if (word2 == "=") {
@@ -530,154 +564,150 @@ void Select(vector<Tabella*> &tabelle, stringstream &stream_comando, string *mes
                                 if (toUpper(ordine) == "ASC") {
                                     for (int z = 0;
                                          z <
-                                         tabelle[a]->returnData(campi, word, word3, 0, nome_colonna,
+                                         tabelle[pos_table]->returnData(campi, word, word3, 0, nome_colonna,
                                                                 1).size(); z++) {
-                                        cout << tabelle[a]->returnData(campi, word, word3, 0, nome_colonna, 1)[z]
+                                        cout << tabelle[pos_table]->returnData(campi, word, word3, 0, nome_colonna, 1)[z]
                                              << endl;
-                                        if (tabelle[a]->returnData(campi, word, word3, 0, nome_colonna, 1).empty())
-                                            cout << "Non ci sono valori che rispettano i criteri di ricerca" << endl;
+                                        if (tabelle[pos_table]->returnData(campi, word, word3, 0, nome_colonna, 1).empty())
+                                            message->assign(valori_inesistenti);
                                     }
                                 } else if (toUpper(ordine) == "DESC") {
                                     for (int z = 0;
                                          z <
-                                         tabelle[a]->returnData(campi, word, word3, 0, nome_colonna,
+                                         tabelle[pos_table]->returnData(campi, word, word3, 0, nome_colonna,
                                                                 3).size(); z++) {
-                                        cout << tabelle[a]->returnData(campi, word, word3, 0, nome_colonna, 3)[z]
+                                        cout << tabelle[pos_table]->returnData(campi, word, word3, 0, nome_colonna, 3)[z]
                                              << endl;
-                                        if (tabelle[a]->returnData(campi, word, word3, 0, nome_colonna, 3).empty())
-                                            cout << "Non ci sono valori che rispettano i criteri di ricerca" << endl;
+                                        if (tabelle[pos_table]->returnData(campi, word, word3, 0, nome_colonna, 3).empty())
+                                            message->assign(valori_inesistenti);
                                     }
                                 }
                             } else {
-                                for (const auto &elem : tabelle[a]->returnData(campi, word, word3, 0)) {
+                                for (const auto &elem : tabelle[pos_table]->returnData(campi, word, word3, 0)) {
                                     cout << elem << endl;
                                 }
-                                if (tabelle[a]->returnData(campi, word, word3, 0).empty())
-                                    cout << "Non ci sono valori che rispettano i criteri di ricerca" << endl;
-                                cout << endl;
+                                if (tabelle[pos_table]->returnData(campi, word, word3, 0).empty())
+                                    message->assign(valori_inesistenti);
                             }
                         } else if (word2 == "<") {
                             if (ordinamento) {
                                 if (toUpper(ordine) == "ASC") {
                                     for (int z = 0;
                                          z <
-                                         tabelle[a]->returnData(campi, word, word3, 1, nome_colonna,
+                                         tabelle[pos_table]->returnData(campi, word, word3, 1, nome_colonna,
                                                                 1).size(); z++) {
-                                        cout << tabelle[a]->returnData(campi, word, word3, 1, nome_colonna, 1)[z]
+                                        cout << tabelle[pos_table]->returnData(campi, word, word3, 1, nome_colonna, 1)[z]
                                              << endl;
-                                        if (tabelle[a]->returnData(campi, word2, word3, 1, nome_colonna, 1).empty())
-                                            cout << "Non ci sono valori che rispettano i criteri di ricerca" << endl;
+                                        if (tabelle[pos_table]->returnData(campi, word2, word3, 1, nome_colonna, 1).empty())
+                                            message->assign(valori_inesistenti);
                                     }
                                 } else if (toUpper(ordine) == "DESC") {
                                     for (int z = 0;
                                          z <
-                                         tabelle[a]->returnData(campi, word, word3, 1, nome_colonna,
+                                         tabelle[pos_table]->returnData(campi, word, word3, 1, nome_colonna,
                                                                 3).size(); z++) {
-                                        cout << tabelle[a]->returnData(campi, word, word3, 1, nome_colonna, 3)[z]
+                                        cout << tabelle[pos_table]->returnData(campi, word, word3, 1, nome_colonna, 3)[z]
                                              << endl;
-                                        if (tabelle[a]->returnData(campi, word, word3, 1, nome_colonna, 3).empty())
-                                            cout << "Non ci sono valori che rispettano i criteri di ricerca" << endl;
+                                        if (tabelle[pos_table]->returnData(campi, word, word3, 1, nome_colonna, 3).empty())
+                                            message->assign(valori_inesistenti);
                                     }
                                 }
                             } else {
-                                for (const auto &elem : tabelle[a]->returnData(campi, word, word3, 1)) {
+                                for (const auto &elem : tabelle[pos_table]->returnData(campi, word, word3, 1)) {
                                     cout << elem << endl;
                                 }
-                                if (tabelle[a]->returnData(campi, word, word3, 1).empty())
-                                    cout << "Non ci sono valori che rispettano i criteri di ricerca" << endl;
-                                cout << endl;
+                                if (tabelle[pos_table]->returnData(campi, word, word3, 1).empty())
+                                    message->assign(valori_inesistenti);
                             }
                         } else if (word2 == "<=") {
                             if (ordinamento) {
                                 if (toUpper(ordine) == "ASC") {
                                     for (int z = 0;
                                          z <
-                                         tabelle[a]->returnData(campi, word, word3, 2, nome_colonna,
+                                         tabelle[pos_table]->returnData(campi, word, word3, 2, nome_colonna,
                                                                 1).size(); z++) {
-                                        cout << tabelle[a]->returnData(campi, word, word3, 2, nome_colonna, 1)[z]
+                                        cout << tabelle[pos_table]->returnData(campi, word, word3, 2, nome_colonna, 1)[z]
                                              << endl;
-                                        if (tabelle[a]->returnData(campi, word, word3, 2, nome_colonna, 1).empty())
-                                            cout << "Non ci sono valori che rispettano i criteri di ricerca" << endl;
+                                        if (tabelle[pos_table]->returnData(campi, word, word3, 2, nome_colonna, 1).empty())
+                                            message->assign(valori_inesistenti);
                                     }
                                 } else if (toUpper(ordine) == "DESC") {
                                     for (int z = 0;
                                          z <
-                                         tabelle[a]->returnData(campi, word, word3, 2, nome_colonna,
+                                         tabelle[pos_table]->returnData(campi, word, word3, 2, nome_colonna,
                                                                 3).size(); z++) {
-                                        cout << tabelle[a]->returnData(campi, word, word3, 2, nome_colonna, 3)[z]
+                                        cout << tabelle[pos_table]->returnData(campi, word, word3, 2, nome_colonna, 3)[z]
                                              << endl;
-                                        if (tabelle[a]->returnData(campi, word, word3, 2, nome_colonna, 3).empty())
-                                            cout << "Non ci sono valori che rispettano i criteri di ricerca" << endl;
+                                        if (tabelle[pos_table]->returnData(campi, word, word3, 2, nome_colonna, 3).empty())
+                                            message->assign(valori_inesistenti);
                                     }
                                 }
                             } else {
-                                for (const auto &elem : tabelle[a]->returnData(campi, word, word3,2)) {
+                                for (const auto &elem : tabelle[pos_table]->returnData(campi, word, word3,2)) {
                                     cout << elem << endl;
                                 }
-                                if (tabelle[a]->returnData(campi, word, word3, 2).empty())
-                                    cout << "Non ci sono valori che rispettano i criteri di ricerca" << endl;
-                                cout << endl;
+                                if (tabelle[pos_table]->returnData(campi, word, word3, 2).empty())
+                                    message->assign(valori_inesistenti);
                             }
                         } else if (word2 == ">") {
                             if (ordinamento) {
                                 if (toUpper(ordine) == "ASC") {
                                     for (int z = 0;
                                          z <
-                                         tabelle[a]->returnData(campi, word, word3, 3, nome_colonna,
+                                         tabelle[pos_table]->returnData(campi, word, word3, 3, nome_colonna,
                                                                 1).size(); z++) {
-                                        cout << tabelle[a]->returnData(campi, word, word3, 3, nome_colonna, 1)[z]
+                                        cout << tabelle[pos_table]->returnData(campi, word, word3, 3, nome_colonna, 1)[z]
                                              << endl;
-                                        if (tabelle[a]->returnData(campi, word, word3, 3, nome_colonna, 1).empty())
-                                            cout << "Non ci sono valori che rispettano i criteri di ricerca" << endl;
+                                        if (tabelle[pos_table]->returnData(campi, word, word3, 3, nome_colonna, 1).empty())
+                                            message->assign(valori_inesistenti);
                                     }
                                 } else if (toUpper(ordine) == "DESC") {
                                     for (int z = 0;
                                          z <
-                                         tabelle[a]->returnData(campi, word, word3, 3, nome_colonna,
+                                         tabelle[pos_table]->returnData(campi, word, word3, 3, nome_colonna,
                                                                 3).size(); z++) {
-                                        cout << tabelle[a]->returnData(campi, word, word3, 3, nome_colonna, 3)[z]
+                                        cout << tabelle[pos_table]->returnData(campi, word, word3, 3, nome_colonna, 3)[z]
                                              << endl;
-                                        if (tabelle[a]->returnData(campi, word, word3, 3, nome_colonna, 3).empty())
-                                            cout << "Non ci sono valori che rispettano i criteri di ricerca" << endl;
+                                        if (tabelle[pos_table]->returnData(campi, word, word3, 3, nome_colonna, 3).empty())
+                                            message->assign(valori_inesistenti);
                                     }
                                 }
                             } else {
-                                for (const auto &elem : tabelle[a]->returnData(campi, word, word3, 3)) {
+                                for (const auto &elem : tabelle[pos_table]->returnData(campi, word, word3, 3)) {
                                     cout << elem << endl;
                                 }
-                                if (tabelle[a]->returnData(campi, word, word3, 3).empty())
-                                    cout << "Non ci sono valori che rispettano i criteri di ricerca" << endl;
-                                cout << endl;
+                                if (tabelle[pos_table]->returnData(campi, word, word3, 3).empty())
+                                    message->assign(valori_inesistenti);
                             }
                         } else if (word2 == ">=") {
                             if (ordinamento) {
                                 if (toUpper(ordine) == "ASC") {
                                     for (int z = 0;
                                          z <
-                                         tabelle[a]->returnData(campi, word, word3, 4, nome_colonna,
+                                         tabelle[pos_table]->returnData(campi, word, word3, 4, nome_colonna,
                                                                 1).size(); z++) {
-                                        cout << tabelle[a]->returnData(campi, word, word3, 4, nome_colonna, 1)[z]
+                                        cout << tabelle[pos_table]->returnData(campi, word, word3, 4, nome_colonna, 1)[z]
                                              << endl;
-                                        if (tabelle[a]->returnData(campi, word, word3, 4, nome_colonna, 1).empty())
-                                            cout << "Non ci sono valori che rispettano i criteri di ricerca" << endl;
+                                        if (tabelle[pos_table]->returnData(campi, word, word3, 4, nome_colonna, 1).empty())
+                                            message->assign(valori_inesistenti);;
                                     }
                                 } else if (toUpper(ordine) == "DESC") {
                                     for (int z = 0;
                                          z <
-                                         tabelle[a]->returnData(campi, word, word3, 4, nome_colonna,
+                                         tabelle[pos_table]->returnData(campi, word, word3, 4, nome_colonna,
                                                                 3).size(); z++) {
-                                        cout << tabelle[a]->returnData(campi, word, word3, 4, nome_colonna, 3)[z]
+                                        cout << tabelle[pos_table]->returnData(campi, word, word3, 4, nome_colonna, 3)[z]
                                              << endl;
-                                        if (tabelle[a]->returnData(campi, word, word3, 4, nome_colonna, 3).empty())
-                                            cout << "Non ci sono valori che rispettano i criteri di ricerca" << endl;
+                                        if (tabelle[pos_table]->returnData(campi, word, word3, 4, nome_colonna, 3).empty())
+                                            message->assign(valori_inesistenti);
                                     }
                                 }
                             } else {
-                                for (const auto &elem : tabelle[a]->returnData(campi, word, word3, 4)) {
+                                for (const auto &elem : tabelle[pos_table]->returnData(campi, word, word3, 4)) {
                                     cout << elem << endl;
                                 }
-                                if (tabelle[a]->returnData(campi, word, word3, 4).empty())
-                                    cout << "Non ci sono valori che rispettano i criteri di ricerca" << endl;
+                                if (tabelle[pos_table]->returnData(campi, word, word3, 4).empty())
+                                    message->assign(valori_inesistenti);
                                 cout << endl;
                             }
                         } else if (word2 == "<>") {
@@ -685,30 +715,30 @@ void Select(vector<Tabella*> &tabelle, stringstream &stream_comando, string *mes
                                 if (toUpper(ordine) == "ASC") {
                                     for (int z = 0;
                                          z <
-                                         tabelle[a]->returnData(campi, word, word3, 5, nome_colonna,
+                                         tabelle[pos_table]->returnData(campi, word, word3, 5, nome_colonna,
                                                                 1).size(); z++) {
-                                        cout << tabelle[a]->returnData(campi, word, word3, 5, nome_colonna, 1)[z]
+                                        cout << tabelle[pos_table]->returnData(campi, word, word3, 5, nome_colonna, 1)[z]
                                              << endl;
-                                        if (tabelle[a]->returnData(campi, word, word3, 5, nome_colonna, 1).empty())
-                                            cout << "Non ci sono valori che rispettano i criteri di ricerca" << endl;
+                                        if (tabelle[pos_table]->returnData(campi, word, word3, 5, nome_colonna, 1).empty())
+                                            message->assign(valori_inesistenti);
                                     }
                                 } else if (toUpper(ordine) == "DESC") {
                                     for (int z = 0;
                                          z <
-                                         tabelle[a]->returnData(campi, word, word3, 5, nome_colonna,
+                                         tabelle[pos_table]->returnData(campi, word, word3, 5, nome_colonna,
                                                                 3).size(); z++) {
-                                        cout << tabelle[a]->returnData(campi, word, word3, 5, nome_colonna, 3)[z]
+                                        cout << tabelle[pos_table]->returnData(campi, word, word3, 5, nome_colonna, 3)[z]
                                              << endl;
-                                        if (tabelle[a]->returnData(campi, word, word3, 5, nome_colonna, 3).empty())
-                                            cout << "Non ci sono valori che rispettano i criteri di ricerca" << endl;
+                                        if (tabelle[pos_table]->returnData(campi, word, word3, 5, nome_colonna, 3).empty())
+                                            message->assign(valori_inesistenti);
                                     }
                                 }
                             } else {
-                                for (const auto &elem : tabelle[a]->returnData(campi, word, word3, 5)) {
+                                for (const auto &elem : tabelle[pos_table]->returnData(campi, word, word3, 5)) {
                                     cout << elem << endl;
                                 }
-                                if (tabelle[a]->returnData(campi, word, word3, 5).empty())
-                                    cout << "Non ci sono valori che rispettano i criteri di ricerca" << endl;
+                                if (tabelle[pos_table]->returnData(campi, word, word3, 5).empty())
+                                    message->assign(valori_inesistenti);
                                 cout << endl;
                             }
                         }
@@ -720,24 +750,24 @@ void Select(vector<Tabella*> &tabelle, stringstream &stream_comando, string *mes
 }
 
 void Insert(vector<Tabella*> &tabelle, stringstream &stream_comando, string *message) {
-    //INSERIRE NUOVO RECORD
     string scarto, word, nome_tabella;
     vector<string> campi, valori;
-    int a;
-    bool trovata;
+    int a, pos_table;
+    bool trovata, flag_fine = false;
     /*INSERT INTO CUSTOMERS (AGE, ADDRESS, NAME)
     VALUES (20, “via Roma 10, Torino”, “Francesco Rossi”);*/
     stream_comando >> scarto;  //INTO
     stream_comando >> nome_tabella;
     for (a = 0, trovata = false; a < tabelle.size(); a++) {
-        if (toUpper(tabelle[a]->getNome()) == nome_tabella) {
+        if (tabelle[a]->getNome() == nome_tabella) {
             trovata = true;
+            pos_table = a;
             break;
         }
     }
     if(!trovata){
-        (*message)="Tabella non trovata nel database";
-    }else {
+        throw InexistentTable();
+    } else {
         getline(stream_comando, scarto, '(');
         //salvo n-1 campi
         stream_comando >> word;
@@ -746,27 +776,48 @@ void Insert(vector<Tabella*> &tabelle, stringstream &stream_comando, string *mes
             campi.push_back(word);
             stream_comando >> word;
         }
+
         //leggo e salvo l'ultimo campo
-        word.pop_back();
+        word.pop_back(); //tolgo la )
         campi.push_back(word);
 
         stream_comando >> scarto;   //VALUES
-        getline(stream_comando, scarto, '(');
 
         //salvo n-1 valori
         stream_comando >> word;
-        while (word[word.size()-1] != ')') {
-            word.pop_back();  //virgola
-            if (word[0] == 34) {
-                word.pop_back();
-                word.erase(0,1);
+        word.erase(0,1); //tolgo (
+
+        while (!flag_fine) {
+            if (word[0] == '"'){
+                word = campoTesto(&stream_comando,word);
+                if (word[word.size()-1] == ')'){
+                    flag_fine = true;
+                    word.pop_back(); // )
+                }
+                word.pop_back(); // "
+            }
+            else if (word[0] == 39){
+                if (word[word.size()-1] != ';'){
+                    flag_fine = true;
+                    word.pop_back(); // ;
+                }
+                word.pop_back(); // , o )
+                word.pop_back(); // ' fine
+                word.erase(0,1); // ' inizio
+            }
+            else {
+                if (word[word.size()-1] == ';'){
+                    flag_fine = true;
+                    word.pop_back(); //;
+                }
+                word.pop_back(); // ) o ,
             }
             valori.push_back(word);
             stream_comando >> word;
         }
-        word.pop_back();
-        tabelle[a]->addRecord(campi, valori);
-        (*message)="Record aggiunto correttamente alla tabella";
+        tabelle[pos_table]->addRecord(campi, valori);
+
+        (*message) = "Operazione completata: Record aggiunto correttamente alla tabella";
     }
 }
 

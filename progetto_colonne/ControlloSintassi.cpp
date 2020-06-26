@@ -274,8 +274,12 @@ bool ControlloSintassi::controlloCreate(stringstream &comando, string* messaggio
             return true;
         }
         else {
-            messaggio->assign(_message_error);
-            return false;
+            if (words[0] == ");")
+                return true;
+            else{
+                messaggio->assign(_message_error);
+                return false;
+            }
         }
     }
     else {
@@ -386,7 +390,7 @@ bool ControlloSintassi::controlloInsert(stringstream &comando, string *messaggio
                         i++;
                         words.emplace_back();
                         comando >> words[i];
-                    }
+                    }//fare un ultimo controllo su belongkey
                     comando >> word;
                     if (toUp(word) != "VALUES") {
                         messaggio->assign(_message_error);
@@ -401,36 +405,10 @@ bool ControlloSintassi::controlloInsert(stringstream &comando, string *messaggio
                             return false;
                         } else {
                             words[j].erase(0,1); //tolgo (
-                            while (words[j][words[j].size()-1] != ';' && !flag_fine_comando){
-                                if (words[j][words[j].size() - 1] == ',' || words[j][words[j].size() - 1] != ';' || (words[j][0] == 34) || (words[j][0] == 39)) { //togliere seconda condizione magari
+                            while (!flag_fine_comando){
+                                if (words[j][words[j].size() - 1] == ',' || words[j][words[j].size() - 1] == ';' || (words[j][0] == 34) || (words[j][0] == 39)) { //togliere seconda condizione magari
                                     if (words[j][0] == '"') { //caso di un campo di testo
-                                        contatore_virgolette = 0;
-                                        fine_testo = false;
-                                        int k;
-                                        for (k = 1; k < words[j].size(); k++){
-                                            if (words[j][k] == 34) {
-                                                contatore_virgolette++;
-                                            } else {
-                                                if (contatore_virgolette % 2 != 0) {
-                                                    fine_testo = true;
-                                                }
-                                                contatore_virgolette = 0;
-                                            }
-                                        }
-                                        if (!fine_testo) {
-                                            while (!fine_testo) {
-                                                comando >> carattere;
-                                                if (carattere == 34) {
-                                                    contatore_virgolette++;
-                                                } else {
-                                                    if (contatore_virgolette % 2 != 0) {
-                                                        fine_testo = true;
-                                                    }
-                                                    contatore_virgolette = 0;
-                                                }
-                                            }
-                                        } else
-                                            carattere = words[j][k-1];
+                                        carattere = GestioneTesto(&comando,words[j]);
                                         if (carattere != ',' && carattere != ')') {
                                             messaggio->assign(_message_error);
                                             return false;
@@ -455,15 +433,12 @@ bool ControlloSintassi::controlloInsert(stringstream &comando, string *messaggio
                                             }
                                         }
                                         else if (words[j][words[j].size()-1] == ';'){ //vuol dire che si è arrivati alla fine del comando
-                                            flag_fine_comando = true;
                                             if (words[j].size() != 5){ //tipo 1: se la dimensione è > 5 vuol dire che ho messo dei caratteri in più es. 'ciao'); non va bene
                                                 messaggio->assign(_message_error);
                                                 return false;
                                             }
-                                            words[j].pop_back(); //tolgo il ;
-                                            if (words[j][words[j].size()-1] == ')'){
-                                                words[j].pop_back();
-                                                if (words[j][words[j].size()-1] == 39){
+                                            if (words[j][words[j].size()-2] == ')'){
+                                                if (words[j][words[j].size()-3] == 39){
                                                     flag_fine_comando = true;
                                                 }
                                                 else {
@@ -487,8 +462,7 @@ bool ControlloSintassi::controlloInsert(stringstream &comando, string *messaggio
                                                 return false;
                                             }
                                             else {
-                                                words[j].pop_back(); //tolgo ;
-                                                if (words[j][words[j].size()-1] != ')'){
+                                                if (words[j][words[j].size()-2] != ')'){
                                                     messaggio->assign(_message_error);
                                                     return false;
                                                 }
@@ -502,9 +476,11 @@ bool ControlloSintassi::controlloInsert(stringstream &comando, string *messaggio
                                     messaggio->assign(_message_error);
                                     return false;
                                 }
-                                j++;
-                                words.emplace_back();
-                                comando >> words[j];
+                                if (!flag_fine_comando){
+                                    j++;
+                                    words.emplace_back();
+                                    comando >> words[j];
+                                }
                             }
                         }
                     }
@@ -791,7 +767,6 @@ bool ControlloSintassi::controlloUpdate(stringstream &comando, string *messaggio
     else return true;
 }
 
-
 bool ControlloSintassi::controlloSelect(stringstream &comando, string *messaggio) const {
     string word;
     char carattere;
@@ -861,6 +836,8 @@ bool ControlloSintassi::controlloSelect(stringstream &comando, string *messaggio
                                 }
                                 comando >> word;
                             }
+                            else
+                                comando >> word;
                             if (toUp(word) == "AND") {
                                 comando >> word;
                                 if (word[0] == '"') {//caso di un campo testo
