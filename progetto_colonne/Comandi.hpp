@@ -346,82 +346,78 @@ void Update(vector<Tabella*> &tabelle, stringstream &stream_comando, string *mes
 
 void Select(vector<Tabella*> &tabelle, stringstream &stream_comando, string *message){
     string word, scarto, word2, word3, nome_colonna, condizione1, condizione2, ordine;
-    int a, b;
-    bool trovata, ordinamento;
+    int a;
+    bool trovata, ordinamento, completo;
     vector<string> campi, operatori {"=", "<", ">", ">=", "<=", "<>", "BETWEEN"};
     stream_comando >> word;  //leggo seconda parola
-    if (word == "*") {   //seleziono tutte le colonne
-        stream_comando >> scarto;  //scarto FROM
-        stream_comando >> word;   //nome tab
-        if (word[word.size() - 1] == ';') {
-            word.pop_back();
-            for (a = 0, trovata = false; a < tabelle.size(); a++) {
-                if (toUpper(tabelle[a]->getNome()) == word) {
-                    trovata = true;
-                    break;
-                }
-            }
-            if (trovata) {
-                //stampo tutta la tabella
-                for (const string &elem : tabelle[a]->returnData()) {
-                    if (elem.empty()) cout << "Riga vuota" << endl;
-                    else cout << elem << endl;
-                }
-                cout << endl;
-            }else {
-                (*message) = "Tabella non trovata";
-            }
-        }else{
-            for (a = 0, trovata = false; a < tabelle.size(); a++) {
-                if (toUpper(tabelle[a]->getNome()) == word) {
-                    trovata = true;
-                    break;
-                }
-            }
-            stream_comando >> scarto;  //se il comando non è concluso ci sarà WHERE
-            stream_comando >> word; //campo condizione
-            stream_comando >> word2; //operatore
-            stream_comando >> word3; //condizione1
-            if(word3[word3.size()-1]==';'){     //non c'è ordinamento
-                word3.pop_back();
-            }
-        }
+    if (word == "*") {
+        completo=true;
+        stream_comando >> scarto; //FROM
     } else {
-        while (toUpper(word) !=
+        completo=false;
+        while (toUpper (word) !=
                "FROM") {   //memorizzo campi finchè non incontro from, suppongo spazio dopo la virgola
-            word.pop_back(); //rimuovo virgola
-            campi.push_back(word);
+            word.pop_back (); //rimuovo virgola
+            campi.push_back (word);
             stream_comando >> word;
         }
-
-        stream_comando >> word;
-        //cerco match tabella in questione
-        for (a = 0, trovata = false; a < tabelle.size(); a++) {
-            if (toUpper(tabelle[a]->getNome()) == word) {
-                trovata = true;
-                break;
+    }
+    stream_comando >> word;
+    scarto=word;
+    if(scarto[scarto.size()-1]==';')
+        scarto.pop_back();
+    //cerco match tabella in questione
+    for (a = 0, trovata = false; a < tabelle.size (); a++) {
+        if (tabelle[a]->getNome () == scarto) {
+            trovata = true;
+            break;
+        }
+    }
+    if (!trovata) {
+        (*message) = "Tabella non trovata";
+    } else {
+        if(completo){
+            for (int i = 0; i < tabelle[a]->numCampi (); i++) {
+                campi.push_back (tabelle[a]->getCol (i)->getNomeColonna ());
             }
         }
-        if (!trovata) {
-            (*message)="Tabella non trovata";
+        if (word[word.size () - 1] == ';') {   //non c'è WHERE
+            word.pop_back ();
+            //stampo solo campi specificati della tabella
+            for (const auto &elem : tabelle[a]->returnData (campi)) {
+                if (elem.empty ()) cout << "Riga vuota" << endl;
+                else cout << elem << endl;
+            }
+            cout << endl;
         } else {
-            if (word[word.size() - 1] == ';') {   //non c'è WHERE
-                word.pop_back();
-                //stampo solo campi specificati della tabella
-                for (const auto &elem : tabelle[a]->returnData(campi)) {
-                    if(elem.empty()) cout << "Riga vuota" << endl;
-                    else cout << elem << endl;
+            stream_comando >> scarto; //WHERE o ORDER
+            if(toUpper(scarto)=="ORDER"){
+                ordinamento=true;
+                stream_comando >> scarto; //scarto by
+                stream_comando >> nome_colonna;   //campo ordinamento
+                stream_comando >> ordine; //DESC o ASC
+                ordine.pop_back();
+                if (toUpper(ordine) == "ASC") {
+                    for (int z = 0; z < tabelle[a]->returnData(campi, nome_colonna, 1).size(); z++) {
+                        cout << tabelle[a]->returnData(campi, nome_colonna,1)[z] << endl;
+                        if (tabelle[a]->returnData(campi, nome_colonna,1).empty())
+                            cout << "Non ci sono valori che rispettano i criteri di ricerca" << endl;
+                    }
+                } else if (toUpper(ordine) == "DESC") {
+                    for (int z = 0; z < tabelle[a]->returnData(campi, nome_colonna, 3).size(); z++) {
+                        cout << tabelle[a]->returnData(campi, nome_colonna,3)[z] << endl;
+                        if (tabelle[a]->returnData(campi, nome_colonna,3).empty())
+                            cout << "Non ci sono valori che rispettano i criteri di ricerca" << endl;
+                    }
                 }
-                cout << endl;
-            } else {
-                stream_comando >> scarto; //butto via "WHERE"
+            }else {
                 stream_comando >> word;  //in word c'è il campo condizione
                 stream_comando >> word2;  //in word2 c'è l'operatore
                 if (!belong_to(word2, operatori)) {
                     cout << "Operatore non valido" << endl;
                 } else {
                     //casistica operatori
-                    if(toUpper(word2)=="BETWEEN"){
+                    if (toUpper(word2) == "BETWEEN") {
                         stream_comando >> condizione1;
                         if (condizione1[0] == '"') {          //se ci sono virgolette le tolgo
                             condizione1.erase(0, 1);
@@ -429,7 +425,7 @@ void Select(vector<Tabella*> &tabelle, stringstream &stream_comando, string *mes
                         }
                         stream_comando >> scarto; //scarto and
                         stream_comando >> condizione2;
-                        if (condizione2[condizione2.size()] != ';') {
+                        if (condizione2[condizione2.size() - 1] != ';') {
                             if (condizione2[0] == '"') {          //se ci sono virgolette le tolgo
                                 condizione2.erase(0, 1);
                                 condizione2.pop_back();
@@ -439,25 +435,26 @@ void Select(vector<Tabella*> &tabelle, stringstream &stream_comando, string *mes
                             stream_comando >> nome_colonna;   //campo ordinamento
                             stream_comando >> ordine; //DESC o ASC
                             ordine.pop_back();
-                            if(toUpper(ordine)=="DESC") {
+                            if (toUpper(ordine) == "ASC") {
                                 for (int z = 0;
-                                     z < tabelle[b]->returnData(campi, word2, condizione1, condizione2,
+                                     z < tabelle[a]->returnData(campi, word2, condizione1, condizione2,
                                                                 nome_colonna, 1).size(); z++) {
-                                    cout << tabelle[b]->returnData(campi, word2, condizione1, condizione2,
+                                    cout << tabelle[a]->returnData(campi, word2, condizione1, condizione2,
                                                                    nome_colonna,
                                                                    1)[z] << endl;
-                                    if(tabelle[b]->returnData(campi, word2, condizione1, condizione2, nome_colonna, 1).empty())
+                                    if (tabelle[a]->returnData(campi, word2, condizione1, condizione2, nome_colonna,
+                                                               1).empty())
                                         cout << "Non ci sono valori che rispettano i criteri di ricerca" << endl;
                                 }
-                            }
-                            else if(toUpper(ordine)=="ASC"){
+                            } else if (toUpper(ordine) == "DESC") {
                                 for (int z = 0;
-                                     z < tabelle[b]->returnData(campi, word2, condizione1, condizione2,
-                                                                nome_colonna, 2).size(); z++) {
-                                    cout << tabelle[b]->returnData(campi, word2, condizione1, condizione2,
+                                     z < tabelle[a]->returnData(campi, word2, condizione1, condizione2,
+                                                                nome_colonna, 3).size(); z++) {
+                                    cout << tabelle[a]->returnData(campi, word2, condizione1, condizione2,
                                                                    nome_colonna,
-                                                                   2)[z] << endl;
-                                    if(tabelle[b]->returnData(campi, word2, condizione1, condizione2, nome_colonna, 2).empty())
+                                                                   3)[z] << endl;
+                                    if (tabelle[a]->returnData(campi, word2, condizione1, condizione2, nome_colonna,
+                                                               3).empty())
                                         cout << "Non ci sono valori che rispettano i criteri di ricerca" << endl;
                                 }
                             }
@@ -466,17 +463,16 @@ void Select(vector<Tabella*> &tabelle, stringstream &stream_comando, string *mes
                             //stampo campi che rispettando condizione senza ordinamento
                             for (const auto &elem : tabelle[a]->returnData(campi, word, condizione1,
                                                                            condizione2)) {
-                                cout << elem << " ";
+                                cout << elem << endl;
                             }
-                            if(tabelle[a]->returnData(campi, word, condizione1, condizione2).empty())
+                            if (tabelle[a]->returnData(campi, word, condizione1, condizione2).empty())
                                 cout << "Non ci sono valori che rispettano i criteri di ricerca" << endl;
                             cout << endl;
                         }
-                    }
-                    else{
+                    } else {
                         stream_comando >> word3; //in word3 c'è la condizione
                         if (word3[word3.size() - 1] != ';') {   //se non c'è ';' ci sarà ordinamento
-                            ordinamento=true;
+                            ordinamento = true;
                             if (word3[0] == '"') {
                                 word3.erase(0, 1);
                                 word3.pop_back();
@@ -487,199 +483,193 @@ void Select(vector<Tabella*> &tabelle, stringstream &stream_comando, string *mes
                             stream_comando >> ordine; //DESC o ASC
                             ordine.pop_back();
                         } else {
-                            ordinamento=false;
+                            ordinamento = false;
                             word3.pop_back();
                             //stampo campi che rispettando condizione senza ordinamento
                         }
                         if (word2 == "=") {
-                            if(ordinamento) {
-                                if(toUpper(ordine)=="DESC") {
+                            if (ordinamento) {
+                                if (toUpper(ordine) == "ASC") {
                                     for (int z = 0;
                                          z <
-                                         tabelle[b]->returnData(campi, word, word3, 0, nome_colonna,
+                                         tabelle[a]->returnData(campi, word, word3, 0, nome_colonna,
                                                                 1).size(); z++) {
-                                         cout << tabelle[b]->returnData(campi, word, word3, 0, nome_colonna, 1)[z]
+                                        cout << tabelle[a]->returnData(campi, word, word3, 0, nome_colonna, 1)[z]
                                              << endl;
-                                         if(tabelle[b]->returnData(campi, word, word3, 0, nome_colonna, 1).empty())
-                                             cout << "Non ci sono valori che rispettano i criteri di ricerca" << endl;
-                                    }
-                                }
-                                /*else if(toUpper(ordine)=="ASC"){
-                                    for (int z = 0;
-                                         z <
-                                         tabelle[b]->returnData(campi, word, word3, 0, nome_colonna,
-                                                                2).size(); z++) {
-                                         cout << tabelle[b]->returnData(campi, word, word3, 0, nome_colonna, 2)[z]
-                                             << endl;
-                                        if(tabelle[b]->returnData(campi, word, word3, 0, nome_colonna, 2).empty())
+                                        if (tabelle[a]->returnData(campi, word, word3, 0, nome_colonna, 1).empty())
                                             cout << "Non ci sono valori che rispettano i criteri di ricerca" << endl;
                                     }
-                                }*/
-                            }else{
-                                for (const auto &elem : tabelle[a]->returnData(campi, word, word3)) {
-                                    cout << elem << " ";
+                                } else if (toUpper(ordine) == "DESC") {
+                                    for (int z = 0;
+                                         z <
+                                         tabelle[a]->returnData(campi, word, word3, 0, nome_colonna,
+                                                                3).size(); z++) {
+                                        cout << tabelle[a]->returnData(campi, word, word3, 0, nome_colonna, 3)[z]
+                                             << endl;
+                                        if (tabelle[a]->returnData(campi, word, word3, 0, nome_colonna, 3).empty())
+                                            cout << "Non ci sono valori che rispettano i criteri di ricerca" << endl;
+                                    }
                                 }
-                                if(tabelle[a]->returnData(campi, word, word3).empty())
+                            } else {
+                                for (const auto &elem : tabelle[a]->returnData(campi, word, word3, 0)) {
+                                    cout << elem << endl;
+                                }
+                                if (tabelle[a]->returnData(campi, word, word3, 0).empty())
                                     cout << "Non ci sono valori che rispettano i criteri di ricerca" << endl;
                                 cout << endl;
                             }
                         } else if (word2 == "<") {
-                            if(ordinamento) {
-                                if(toUpper(ordine)=="DESC") {
+                            if (ordinamento) {
+                                if (toUpper(ordine) == "ASC") {
                                     for (int z = 0;
                                          z <
-                                         tabelle[b]->returnData(campi, word, word3, 1, nome_colonna,
+                                         tabelle[a]->returnData(campi, word, word3, 1, nome_colonna,
                                                                 1).size(); z++) {
-                                        cout << tabelle[b]->returnData(campi, word, word3, 1, nome_colonna, 1)[z]
+                                        cout << tabelle[a]->returnData(campi, word, word3, 1, nome_colonna, 1)[z]
                                              << endl;
-                                        if(tabelle[b]->returnData(campi, word2, word3, 1, nome_colonna, 1).empty())
+                                        if (tabelle[a]->returnData(campi, word2, word3, 1, nome_colonna, 1).empty())
                                             cout << "Non ci sono valori che rispettano i criteri di ricerca" << endl;
                                     }
-                                }
-                                /*else if(toUpper(ordine)=="ASC"){
+                                } else if (toUpper(ordine) == "DESC") {
                                     for (int z = 0;
                                          z <
-                                         tabelle[b]->returnData(campi, word, word3, 1, nome_colonna,
-                                                                2).size(); z++) {
-                                        cout << tabelle[b]->returnData(campi, word, word3, 1, nome_colonna, 2)[z]
+                                         tabelle[a]->returnData(campi, word, word3, 1, nome_colonna,
+                                                                3).size(); z++) {
+                                        cout << tabelle[a]->returnData(campi, word, word3, 1, nome_colonna, 3)[z]
                                              << endl;
-                                        if(tabelle[b]->returnData(campi, word, word3, 1, nome_colonna, 2).empty())
+                                        if (tabelle[a]->returnData(campi, word, word3, 1, nome_colonna, 3).empty())
                                             cout << "Non ci sono valori che rispettano i criteri di ricerca" << endl;
                                     }
-                                }*/
-                            }else{
-                                for (const auto &elem : tabelle[a]->returnData(campi, word, word3)) {
-                                    cout << elem << " ";
                                 }
-                                if(tabelle[a]->returnData(campi, word, word3).empty())
+                            } else {
+                                for (const auto &elem : tabelle[a]->returnData(campi, word, word3, 1)) {
+                                    cout << elem << endl;
+                                }
+                                if (tabelle[a]->returnData(campi, word, word3, 1).empty())
                                     cout << "Non ci sono valori che rispettano i criteri di ricerca" << endl;
                                 cout << endl;
                             }
                         } else if (word2 == "<=") {
-                            if(ordinamento) {
-                                if(toUpper(ordine)=="DESC") {
+                            if (ordinamento) {
+                                if (toUpper(ordine) == "ASC") {
                                     for (int z = 0;
                                          z <
-                                         tabelle[b]->returnData(campi, word, word3, 2, nome_colonna,
+                                         tabelle[a]->returnData(campi, word, word3, 2, nome_colonna,
                                                                 1).size(); z++) {
-                                        cout << tabelle[b]->returnData(campi, word, word3, 2, nome_colonna, 1)[z]
+                                        cout << tabelle[a]->returnData(campi, word, word3, 2, nome_colonna, 1)[z]
                                              << endl;
-                                        if(tabelle[b]->returnData(campi, word, word3, 2, nome_colonna, 1).empty())
+                                        if (tabelle[a]->returnData(campi, word, word3, 2, nome_colonna, 1).empty())
                                             cout << "Non ci sono valori che rispettano i criteri di ricerca" << endl;
                                     }
-                                }
-                                /*else if(toUpper(ordine)=="ASC"){
+                                } else if (toUpper(ordine) == "DESC") {
                                     for (int z = 0;
                                          z <
-                                         tabelle[b]->returnData(campi, word, word3, 2, nome_colonna,
-                                                                2).size(); z++) {
-                                        cout << tabelle[b]->returnData(campi, word, word3, 2, nome_colonna, 2)[z]
+                                         tabelle[a]->returnData(campi, word, word3, 2, nome_colonna,
+                                                                3).size(); z++) {
+                                        cout << tabelle[a]->returnData(campi, word, word3, 2, nome_colonna, 3)[z]
                                              << endl;
-                                        if(tabelle[b]->returnData(campi, word, word3, 2, nome_colonna, 2).empty())
+                                        if (tabelle[a]->returnData(campi, word, word3, 2, nome_colonna, 3).empty())
                                             cout << "Non ci sono valori che rispettano i criteri di ricerca" << endl;
                                     }
-                                }*/
-                            }else{
-                                for (const auto &elem : tabelle[a]->returnData(campi, word, word3)) {
-                                    cout << elem << " ";
                                 }
-                                if(tabelle[a]->returnData(campi, word, word3).empty())
+                            } else {
+                                for (const auto &elem : tabelle[a]->returnData(campi, word, word3,2)) {
+                                    cout << elem << endl;
+                                }
+                                if (tabelle[a]->returnData(campi, word, word3, 2).empty())
                                     cout << "Non ci sono valori che rispettano i criteri di ricerca" << endl;
                                 cout << endl;
                             }
                         } else if (word2 == ">") {
-                            if(ordinamento) {
-                                if(toUpper(ordine)=="DESC") {
+                            if (ordinamento) {
+                                if (toUpper(ordine) == "ASC") {
                                     for (int z = 0;
                                          z <
-                                         tabelle[b]->returnData(campi, word, word3, 3, nome_colonna,
+                                         tabelle[a]->returnData(campi, word, word3, 3, nome_colonna,
                                                                 1).size(); z++) {
-                                        cout << tabelle[b]->returnData(campi, word, word3, 3, nome_colonna, 1)[z]
+                                        cout << tabelle[a]->returnData(campi, word, word3, 3, nome_colonna, 1)[z]
                                              << endl;
-                                        if(tabelle[b]->returnData(campi, word, word3, 3, nome_colonna, 1).empty())
+                                        if (tabelle[a]->returnData(campi, word, word3, 3, nome_colonna, 1).empty())
                                             cout << "Non ci sono valori che rispettano i criteri di ricerca" << endl;
                                     }
-                                }
-                                /*else if(toUpper(ordine)=="ASC"){
+                                } else if (toUpper(ordine) == "DESC") {
                                     for (int z = 0;
                                          z <
-                                         tabelle[b]->returnData(campi, word, word3, 3, nome_colonna,
-                                                                2).size(); z++) {
-                                        cout << tabelle[b]->returnData(campi, word, word3, 3, nome_colonna, 2)[z]
+                                         tabelle[a]->returnData(campi, word, word3, 3, nome_colonna,
+                                                                3).size(); z++) {
+                                        cout << tabelle[a]->returnData(campi, word, word3, 3, nome_colonna, 3)[z]
                                              << endl;
-                                        if(tabelle[b]->returnData(campi, word, word3, 3, nome_colonna, 2).empty())
+                                        if (tabelle[a]->returnData(campi, word, word3, 3, nome_colonna, 3).empty())
                                             cout << "Non ci sono valori che rispettano i criteri di ricerca" << endl;
                                     }
-                                }*/
-                            }else{
-                                for (const auto &elem : tabelle[a]->returnData(campi, word, word3)) {
-                                    cout << elem << " ";
                                 }
-                                if(tabelle[a]->returnData(campi, word, word3).empty())
+                            } else {
+                                for (const auto &elem : tabelle[a]->returnData(campi, word, word3, 3)) {
+                                    cout << elem << endl;
+                                }
+                                if (tabelle[a]->returnData(campi, word, word3, 3).empty())
                                     cout << "Non ci sono valori che rispettano i criteri di ricerca" << endl;
                                 cout << endl;
                             }
                         } else if (word2 == ">=") {
-                            if(ordinamento) {
-                                if(toUpper(ordine)=="DESC") {
+                            if (ordinamento) {
+                                if (toUpper(ordine) == "ASC") {
                                     for (int z = 0;
                                          z <
-                                         tabelle[b]->returnData(campi, word, word3, 4, nome_colonna,
+                                         tabelle[a]->returnData(campi, word, word3, 4, nome_colonna,
                                                                 1).size(); z++) {
-                                        cout << tabelle[b]->returnData(campi, word, word3, 4, nome_colonna, 1)[z]
+                                        cout << tabelle[a]->returnData(campi, word, word3, 4, nome_colonna, 1)[z]
                                              << endl;
-                                        if(tabelle[b]->returnData(campi, word, word3, 4, nome_colonna, 1).empty())
+                                        if (tabelle[a]->returnData(campi, word, word3, 4, nome_colonna, 1).empty())
                                             cout << "Non ci sono valori che rispettano i criteri di ricerca" << endl;
                                     }
-                                }
-                                /*else if(toUpper(ordine)=="ASC"){
+                                } else if (toUpper(ordine) == "DESC") {
                                     for (int z = 0;
                                          z <
-                                         tabelle[b]->returnData(campi, word, word3, 4, nome_colonna,
-                                                                2).size(); z++) {
-                                        cout << tabelle[b]->returnData(campi, word, word3, 4, nome_colonna, 2)[z]
+                                         tabelle[a]->returnData(campi, word, word3, 4, nome_colonna,
+                                                                3).size(); z++) {
+                                        cout << tabelle[a]->returnData(campi, word, word3, 4, nome_colonna, 3)[z]
                                              << endl;
-                                        if(tabelle[b]->returnData(campi, word, word3, 4, nome_colonna, 2).empty())
+                                        if (tabelle[a]->returnData(campi, word, word3, 4, nome_colonna, 3).empty())
                                             cout << "Non ci sono valori che rispettano i criteri di ricerca" << endl;
                                     }
-                                }*/
-                            }else{
-                                for (const auto &elem : tabelle[a]->returnData(campi, word, word3)) {
-                                    cout << elem << " ";
                                 }
-                                if(tabelle[a]->returnData(campi, word, word3).empty())
+                            } else {
+                                for (const auto &elem : tabelle[a]->returnData(campi, word, word3, 4)) {
+                                    cout << elem << endl;
+                                }
+                                if (tabelle[a]->returnData(campi, word, word3, 4).empty())
                                     cout << "Non ci sono valori che rispettano i criteri di ricerca" << endl;
                                 cout << endl;
                             }
                         } else if (word2 == "<>") {
-                            if(ordinamento) {
-                                if(toUpper(ordine)=="DESC") {
+                            if (ordinamento) {
+                                if (toUpper(ordine) == "ASC") {
                                     for (int z = 0;
                                          z <
-                                         tabelle[b]->returnData(campi, word, word3, 5, nome_colonna,
+                                         tabelle[a]->returnData(campi, word, word3, 5, nome_colonna,
                                                                 1).size(); z++) {
-                                        cout << tabelle[b]->returnData(campi, word, word3, 5, nome_colonna, 1)[z]
+                                        cout << tabelle[a]->returnData(campi, word, word3, 5, nome_colonna, 1)[z]
                                              << endl;
-                                        if(tabelle[b]->returnData(campi, word, word3, 5, nome_colonna, 1).empty())
+                                        if (tabelle[a]->returnData(campi, word, word3, 5, nome_colonna, 1).empty())
                                             cout << "Non ci sono valori che rispettano i criteri di ricerca" << endl;
                                     }
-                                }
-                                /*else if(toUpper(ordine)=="ASC"){
+                                } else if (toUpper(ordine) == "DESC") {
                                     for (int z = 0;
                                          z <
-                                         tabelle[b]->returnData(campi, word, word3, 5, nome_colonna,
-                                                                2).size(); z++) {
-                                        cout << tabelle[b]->returnData(campi, word, word3, 5, nome_colonna, 2)[z]
+                                         tabelle[a]->returnData(campi, word, word3, 5, nome_colonna,
+                                                                3).size(); z++) {
+                                        cout << tabelle[a]->returnData(campi, word, word3, 5, nome_colonna, 3)[z]
                                              << endl;
-                                        if(tabelle[b]->returnData(campi, word, word3, 5, nome_colonna, 2).empty())
+                                        if (tabelle[a]->returnData(campi, word, word3, 5, nome_colonna, 3).empty())
                                             cout << "Non ci sono valori che rispettano i criteri di ricerca" << endl;
                                     }
-                                }*/
-                            }else{
-                                for (const auto &elem : tabelle[a]->returnData(campi, word, word3)) {
-                                    cout << elem << " ";
                                 }
-                                if(tabelle[a]->returnData(campi, word, word3).empty())
+                            } else {
+                                for (const auto &elem : tabelle[a]->returnData(campi, word, word3, 5)) {
+                                    cout << elem << endl;
+                                }
+                                if (tabelle[a]->returnData(campi, word, word3, 5).empty())
                                     cout << "Non ci sono valori che rispettano i criteri di ricerca" << endl;
                                 cout << endl;
                             }

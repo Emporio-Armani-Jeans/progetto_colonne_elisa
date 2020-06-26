@@ -2,5 +2,5 @@
 
 CUSTOMERS 3
 AGE:int,false,true,false#ID:int,true,true,true#ADDRESS:text,false,false,false#
-2
-10#1#Via Dei Gigli 33#3#2#Via Dal Cazzo 666#
+4
+10#1#Via Dei Gigli 33#3#2#Via Dal Cazzo 666#23#3#ciao#45#4#porcodio#

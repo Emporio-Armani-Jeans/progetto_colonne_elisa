@@ -791,7 +791,7 @@ bool ControlloSintassi::controlloUpdate(stringstream &comando, string *messaggio
     else return true;
 }
 
-
+/*
 bool ControlloSintassi::controlloSelect(stringstream &comando, string *messaggio) const {
     string word;
     char carattere;
@@ -983,16 +983,4 @@ bool ControlloSintassi::controlloSelect(stringstream &comando, string *messaggio
         return false;
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
+*/

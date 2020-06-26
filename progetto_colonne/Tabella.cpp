@@ -281,8 +281,8 @@ vector<string> Tabella::returnData(const vector<string> &campi, const string& ca
                                 }
                             }
                         }
+                        righe_testo.push_back(riga);
                     }
-                    righe_testo.push_back(riga);
                 } else {
                     vector<int> indici_ordinati = ordinamento(campo_ordinamento, operatore_ordinamento);
                     if (_colonne[a]->compareElements(condizione, operatore, indici_ordinati[i])) {
@@ -376,7 +376,7 @@ vector<string> Tabella::returnData(const vector<string> &campi, const string& ca
 }
 
 vector<int> Tabella::ordinamento(const string &campo, int operatore) const {
-    if(operatore==2 || operatore==4) {
+    if(operatore==1 || operatore==3) {
         vector<int> indici(_recs);
         int tmp, c;
         for (int i = 0; i < _recs; i++) {
