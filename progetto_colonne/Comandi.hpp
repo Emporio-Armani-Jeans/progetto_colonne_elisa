@@ -727,7 +727,7 @@ void Insert(vector<Tabella*> &tabelle, stringstream &stream_comando, string *mes
     bool trovata;
     /*INSERT INTO CUSTOMERS (AGE, ADDRESS, NAME)
     VALUES (20, “via Roma 10, Torino”, “Francesco Rossi”);*/
-    stream_comando >> scarto;
+    stream_comando >> scarto;  //INTO
     stream_comando >> nome_tabella;
     for (a = 0, trovata = false; a < tabelle.size(); a++) {
         if (toUpper(tabelle[a]->getNome()) == nome_tabella) {
@@ -746,18 +746,18 @@ void Insert(vector<Tabella*> &tabelle, stringstream &stream_comando, string *mes
             campi.push_back(word);
             stream_comando >> word;
         }
-        //leggo salvo l'ultimo campo
+        //leggo e salvo l'ultimo campo
         word.pop_back();
         campi.push_back(word);
 
-        stream_comando >> scarto;
+        stream_comando >> scarto;   //VALUES
         getline(stream_comando, scarto, '(');
 
         //salvo n-1 valori
         stream_comando >> word;
         while (word[word.size()-1] != ')') {
-            word.pop_back();
-            if (word[0] == '"') {
+            word.pop_back();  //virgola
+            if (word[0] == 34) {
                 word.pop_back();
                 word.erase(0,1);
             }
@@ -765,13 +765,7 @@ void Insert(vector<Tabella*> &tabelle, stringstream &stream_comando, string *mes
             stream_comando >> word;
         }
         word.pop_back();
-        if (word[0] == '"') {
-            word.pop_back();
-            word.erase(0,1);
-        }
-        valori.push_back(word);
         tabelle[a]->addRecord(campi, valori);
-
         (*message)="Record aggiunto correttamente alla tabella";
     }
 }

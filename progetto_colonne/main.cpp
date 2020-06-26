@@ -117,11 +117,11 @@ int main() {
     while(compare_first_word_comandi(first_word)!=QUIT) {
         switch (compare_first_word_comandi(first_word)) {
             case CREATE :
-                  if (controllore.controlloCreate(comando_per_controlli, &message_error)) {
+                  //if (controllore.controlloCreate(comando_per_controlli, &message_error)) {
                       Create(tabelle, comando_intero, &contatore, &status_message);
                     cout << status_message << endl;
-                  } else
-                      cout << message_error << endl;
+                 // } else
+                //      cout << message_error << endl;
                 break;
             case DROP :
                 if(controllore.controlloDrop(comando_per_controlli, &message_error)) {
@@ -131,11 +131,11 @@ int main() {
                     cout << message_error << endl;
                 break;
             case INSERT :   //ricordarsi di controllare nell'implementazione comando che il vector di campi debba avere size uguale al vector di valori!!e controllare anche i tipi e nelle classi la sintassi corretta delle date
-                if(controllore.controlloInsert(comando_per_controlli, &message_error)) {
+               // if(controllore.controlloInsert(comando_per_controlli, &message_error)) {
                     Insert(tabelle, comando_intero, &status_message);
                     cout << status_message << endl;
-                } else
-                    cout << message_error << endl;
+               // } else
+               //     cout << message_error << endl;
                 break;
             case DELETE :   //controllo tipi???
                 if(controllore.controlloDelete(comando_per_controlli, &message_error)) {
