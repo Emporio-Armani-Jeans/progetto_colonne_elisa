@@ -10,6 +10,41 @@
 #include <string>
 using namespace std;
 
+string campoTesto(stringstream *comando, string &word){
+    int contatore_virgolette = 0;
+    bool fine_testo = false;
+    char carattere;
+    int k;
+    for (k = 1; k < word.size(); k++){
+        if (word[k] == 34) {
+            contatore_virgolette++;
+        } else {
+            if (contatore_virgolette % 2 != 0) {
+                fine_testo = true;
+            }
+            contatore_virgolette = 0;
+        }
+    }
+    if (!fine_testo) {
+        while (!fine_testo) {
+            (*comando).get(carattere);
+            if (carattere == 34) {
+                word.push_back(carattere);
+                contatore_virgolette++;
+            } else {
+                word.push_back(carattere);
+                if (contatore_virgolette % 2 != 0) {
+                    fine_testo = true;
+                }
+                contatore_virgolette = 0;
+            }
+        }
+    }
+    word.pop_back();
+    word.erase(0,1);
+    return word;
+}
+
 bool belong_to(const string& elemento, const vector<string>& insieme){
     for(const auto & elem : insieme){
         if(elemento==elem) return true;
@@ -202,13 +237,13 @@ void Delete(vector<Tabella*> &tabelle, stringstream &stream_comando, string *mes
     stream_comando >> word;
     //cerco match nome tabella
     for (a = 0, trovata = false; a < tabelle.size(); a++) {
-        if (toUpper(tabelle[a]->getNome()) == word) {
+        if (tabelle[a]->getNome() == word) {
             trovata = true;
             break;
         }
     }
     if (!trovata) {
-        (*message)="Tabella non trovata";
+        throw InexistentTable();
     } else {   //a contiene indice della tabella scelta
         stream_comando >> word; //butto via "WHERE"
         stream_comando >> word;
@@ -355,12 +390,15 @@ void Select(vector<Tabella*> &tabelle, stringstream &stream_comando, string *mes
         stream_comando >> scarto; //FROM
     } else {
         completo=false;
-        while (toUpper (word) !=
-               "FROM") {   //memorizzo campi finchè non incontro from, suppongo spazio dopo la virgola
+        while (word[word.size()-1] == ',') {   //memorizzo campi finchè non incontro from, suppongo spazio dopo la virgola
             word.pop_back (); //rimuovo virgola
             campi.push_back (word);
             stream_comando >> word;
         }
+    }
+    if (!completo){
+        campi.push_back (word);
+        stream_comando >> word; //FROM
     }
     stream_comando >> word;
     scarto=word;
@@ -374,7 +412,7 @@ void Select(vector<Tabella*> &tabelle, stringstream &stream_comando, string *mes
         }
     }
     if (!trovata) {
-        (*message) = "Tabella non trovata";
+        throw InexistentTable();
     } else {
         if(completo){
             for (int i = 0; i < tabelle[a]->numCampi (); i++) {

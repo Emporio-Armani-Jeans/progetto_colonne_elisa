@@ -791,11 +791,11 @@ bool ControlloSintassi::controlloUpdate(stringstream &comando, string *messaggio
     else return true;
 }
 
-/*
+
 bool ControlloSintassi::controlloSelect(stringstream &comando, string *messaggio) const {
     string word;
     char carattere;
-    bool flag_asterisco = false, flag_fine_comando = false, flag_ordinamento = false;
+    bool flag_asterisco = false, flag_fine_comando = false, flag_ordinamento = false, flag_condizione = false;
     int contatore_virgolette;
     vector<string> words;
     comando >> word >> word;
@@ -819,115 +819,112 @@ bool ControlloSintassi::controlloSelect(stringstream &comando, string *messaggio
     comando >> word;
     if (toUp(word) == "FROM") {
         comando >> word;
-        if (word[word.size()-1] == ';'){ //fine comando del tipo select <colonne> from <tabella>;
+        if (word[word.size() - 1] == ';') { //fine comando del tipo select <colonne> from <tabella>;
             word.pop_back();
-            if (belongs_to_keywords(word)){
+            if (belongs_to_keywords(word)) {
                 messaggio->assign(_message_error_keyword);
                 return false;
-            }
-            else
+            } else
                 flag_fine_comando = true;
-        } else {
-            if (belongs_to_keywords(word)){
+        } else { //se c'è una condizione e/o un ordinamento
+            if (belongs_to_keywords(word)) {
                 messaggio->assign(_message_error_keyword);
                 return false;
-            }
-            else{
+            } else { //se non appartiene alle keywords
                 comando >> word;
-                if (toUp(word) == "WHERE"){
+                if (toUp(word) == "WHERE") {
+                    flag_condizione = true;
+                } else if (toUp(word) == "ORDER") {
+                    flag_ordinamento = true;
+                } else {
+                    messaggio->assign(_message_error);
+                    return false;
+                }
+                if (flag_condizione) {
                     comando >> word >> word;
-                    if (belongs_to_operatori(word)){
-                        if (toUp(word) == "BETWEEN"){ //da completare
+                    if (belongs_to_operatori(word)) {
+                        if (toUp(word) == "BETWEEN") {
                             comando >> word;
-                            if (word[0] == '"'){//caso di un campo testo
+                            if (word[0] == '"') {//caso di un campo testo
                                 carattere = GestioneTesto(&comando, word);
                                 if (toupper(carattere) != 'A') {
                                     messaggio->assign(_message_error);
                                     return false;
+                                } else {
+                                    comando >> word;
+                                    word.insert(0, 1, carattere);
                                 }
-                                else
-                                    word.insert(0,1,carattere);
-                            }
-                            else if (word[0] == 39){ //'c'
-                                if (word.size() != 3){
+                            } else if (word[0] == 39) { //'c'
+                                if (word.size() != 3) {
                                     messaggio->assign(_message_error);
                                     return false;
                                 }
-                            }
-                            comando >> word;
-                            if (toUp(word) == "AND"){
                                 comando >> word;
-                                if (word[0] == '"'){//caso di un campo testo
+                            }
+                            if (toUp(word) == "AND") {
+                                comando >> word;
+                                if (word[0] == '"') {//caso di un campo testo
                                     carattere = GestioneTesto(&comando, word);
-                                    if (carattere == ';'){
+                                    if (carattere == ';') {
                                         flag_fine_comando = true;
-                                    }
-                                    else if (toupper(carattere) == 'O')
-                                        flag_ordinamento = true;
-                                    else
-                                    {
-                                        messaggio->assign(_message_error);
-                                        return false;
-                                    }
-                                } //////////////////SONO ARRIVATA QUA
-                                else if (word[0] == 39){ //'c'
-                                    if (word.size() != 3){
-                                        messaggio->assign(_message_error);
-                                        return false;
-                                    }
-                                }
-
-                                    else {
+                                    } else if (toupper(carattere) == 'O'){
                                         comando >> word;
+                                        word.insert(0,1,carattere);
                                         if (toUp(word) == "ORDER"){
-                                            comando >> word;
-                                            if (toUp(word) == "BY"){
-                                                comando >> word >> word;
-                                                if (word[word.size()-1] == ';'){
-                                                    word.pop_back();
-                                                    if (toUp(word) == "DESC" || toUp(word) == "ASC"){
-                                                        flag_fine_comando = true; //fine comando completo
-                                                    } else {
-                                                        messaggio->assign(_message_error);
-                                                        return false;
-                                                    }
-                                                } else {
-                                                    messaggio->assign(_message_error);
-                                                    return false;
-                                                }
-                                            } else {
-                                                messaggio->assign(_message_error);
-                                                return false;
-                                            }
-                                        } else {
+                                            flag_ordinamento = true;
+                                        }
+                                        else {
                                             messaggio->assign(_message_error);
                                             return false;
                                         }
                                     }
+                                    else {
+                                        messaggio->assign(_message_error);
+                                        return false;
+                                    }
                                 } else {
+                                    if (word[0] == 39) { //'c'
+                                        if (word.size() != 3) {
+                                            messaggio->assign(_message_error);
+                                            return false;
+                                        }
+                                    }
+                                    if (word[word.size()-1] == ';')
+                                        flag_fine_comando = true;
+                                    else {
+                                        comando >> word;
+                                        if (toUp(word) == "ORDER"){
+                                            flag_ordinamento = true;
+                                        }
+                                        else {
+                                            messaggio->assign(_message_error);
+                                            return false;
+                                        }
+                                    }
+                                }
+                            }
+                            else {
+                                messaggio->assign(_message_error);
+                                return false;
+                            }
+                        }
+                        else { //operatore where diverso da between
+                            comando >> word;
+                            if (word[0] == '"') {//caso di un campo testo
+                                carattere = GestioneTesto(&comando, word);
+                                if (carattere == ';') {
+                                    flag_fine_comando = true;
+                                } else if (toupper(carattere) == 'O')
+                                    flag_ordinamento = true;
+                                else {
                                     messaggio->assign(_message_error);
                                     return false;
                                 }
                             } else {
-                                comando >> word;
-                                if (word[0] == '"'){ //caso di un campo testo
-                                    carattere = GestioneTesto(&comando,word);
-                                    if (carattere == ';') {
-                                        flag_fine_comando = true;
-                                    } else {
-                                        if (toupper(carattere) == 'O'){
-                                            comando >> word;
-                                            word.insert(0,1,carattere);
-                                            flag_ordinamento = true;
-                                        } else {
-                                            messaggio->assign(_message_error);
-                                            return false;
-                                        }
-                                    }
-                                }
-                                else { //campo char o qualsiasi altro: unica parola per forza
-                                    if (word[0] == 39) { //se è un char controllo la sintassi giusta
-                                        //////////////////////
+                                if (word[0] == 39) { //'c'
+                                    if (word.size() != 3) {
+                                        messaggio->assign(_message_error);
+                                        return false;
                                     }
                                 }
                                 if (word[word.size()-1] == ';')
@@ -935,52 +932,57 @@ bool ControlloSintassi::controlloSelect(stringstream &comando, string *messaggio
                                 else {
                                     comando >> word;
                                     if (toUp(word) == "ORDER"){
-                                        comando >> word;
-                                        if (toUp(word) == "BY"){
-                                            comando >> word >> word;
-                                            if (word[word.size()-1] == ';'){
-                                                word.pop_back();
-                                                if (toUp(word) == "DESC" || toUp(word) == "ASC"){
-                                                    flag_fine_comando = true;
-                                                } else {
-                                                    messaggio->assign(_message_error);
-                                                    return false;
-                                                }
-                                            } else {
-                                                messaggio->assign(_message_error);
-                                                return false;
-                                            }
-                                        } else {
-                                            messaggio->assign(_message_error);
-                                            return false;
-                                        }
-                                    } else {
+                                        flag_ordinamento = true;
+                                    }
+                                    else {
                                         messaggio->assign(_message_error);
                                         return false;
                                     }
                                 }
                             }
-                        } else {
-                            messaggio->assign(_invalid_operator);
+                        }
+                    }
+                    else {
+                        messaggio->assign(_message_error);
+                        return false;
+                    }
+                }
+                if (flag_ordinamento){
+                    comando >> word;
+                    if (toUp(word) == "BY"){
+                        comando >> word >> word;
+                        if (word[word.size()-1] == ';'){
+                            word.pop_back();
+                            if (toUp(word) == "DESC" || toUp(word) == "ASC"){
+                                flag_fine_comando = true;
+                            }
+                            else {
+                                messaggio->assign(_message_error);
+                                return false;
+                            }
+                        }
+                        else {
+                            messaggio->assign(_message_error);
                             return false;
                         }
-                    } else {
+                    }
+                    else {
                         messaggio->assign(_message_error);
                         return false;
                     }
                 }
             }
         }
-        else {
-            messaggio->assign(_message_error);
-            return false;
-        }
-
-    if (flag_fine_comando)
+    }
+    else {
+        messaggio->assign(_message_error);
+        return false;
+    }
+    if (flag_fine_comando){
         return true;
+    }
     else {
         messaggio->assign(_message_error);
         return false;
     }
 }
-*/

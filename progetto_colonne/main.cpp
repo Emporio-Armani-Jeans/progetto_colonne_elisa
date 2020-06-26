@@ -159,8 +159,11 @@ int main() {
                     cout << message_error << endl;
                 break;
             case SELECT :
-                Select(tabelle, comando_intero, &message_error);
-                cout << status_message << endl;
+                if (controllore.controlloSelect(comando_per_controlli, &message_error)) {
+                    Select(tabelle, comando_intero, &status_message);
+                    cout << status_message << endl;
+                } else
+                    cout << message_error << endl;
                 break;
             case QUIT :
                 break;
