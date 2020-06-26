@@ -44,7 +44,7 @@ public:
     void updateRecord(const string& campo_condizioni, const string& condizione1, const string& condizione2, const vector<string>& campi, const vector<string>& valori);
 
     string getNome()const;
-    Colonna* getCol(int index)const; //boh ahah
+    Colonna* getCol(int index)const;
     int numCampi()const;
     int numRecs()const;
 
