@@ -21,6 +21,7 @@ public:
     bool controlloInsert(stringstream &comando, string *messaggio) const;
     bool controlloDelete(stringstream &comando, string *messaggio) const;
     bool controlloUpdate(stringstream &comando, string *messaggio) const;
+    bool controlloSelect(stringstream &comando, string *messaggio) const;
 
 private:
     string _message_error, _message_error_keyword, _wrong_type_auto_increment, _inexistent_type, _invalid_operator, _message_error_key, _missing_pk;

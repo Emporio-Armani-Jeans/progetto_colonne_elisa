@@ -6,6 +6,7 @@
 #define PROGETTO_COLONNE_COMANDI_HPP
 #include <vector>
 #include "Tabella.h"
+#include "InexistentTable.h"
 #include <string>
 using namespace std;
 
@@ -120,7 +121,7 @@ void Create(vector<Tabella*> &tabelle, stringstream &stream_comando, int *contat
     riga_comando.clear();
     getline(stream_chiavi, riga_comando,')');
     while (!riga_comando.empty()){ //gestione chiavi primaria ed esterna
-        if (toUpper(nome_colonna) == "PRIMARY"){
+        if (toUpper(nome_colonna) == "PRIMARY"){ //primary key
             riga_comando.erase(0,2); //tolgo lo spazio all'inizio e la (
             tabelle[tabelle.size() - 1]->setChiavePrimaria(riga_comando);
         }
@@ -142,7 +143,7 @@ void Create(vector<Tabella*> &tabelle, stringstream &stream_comando, int *contat
                 tabelle[tabelle.size() - 1]->setChiaveEsterna(tabelle[pos], riga_comando, word);
             }
             else {
-                //eccezione tabella non esistente!!!!!
+                throw InexistentTable();
             }
         }
         riga_comando.clear();
@@ -150,28 +151,28 @@ void Create(vector<Tabella*> &tabelle, stringstream &stream_comando, int *contat
         getline(stream_chiavi, riga_comando,')');
     }
 
-    (*message)="Tabella creata e aggiunta al database";
+    (*message)="Operazione completata: tabella creata e aggiunta al database.";
 }
 
 void Drop(vector<Tabella*> &tabelle, stringstream &stream_comando, string *message){
     string word;
     bool trovata;
-    vector<Tabella*>::iterator it=tabelle.begin();
+    vector<Tabella*>::iterator it = tabelle.begin();
     stream_comando >> word;      //butto via "TABLE"
     stream_comando >> word;
     word.pop_back();            //butto via ';'
     //ricerco match nome tabella
     for (trovata = false; it != tabelle.end(); it++) {
-        if (toUpper((*it)->getNome()) == word) {
+        if ((*it)->getNome() == word) {
             trovata = true;
             break;
         }
     }
     if (!trovata) {
-        cout << "Tabella non esistente" << endl;
+        throw InexistentTable();
     } else {
         tabelle.erase(it);
-        (*message)="Tabella eliminata dal database";
+        (*message) = "Operazione completata: tabella eliminata dal database.";
     }
 }
 

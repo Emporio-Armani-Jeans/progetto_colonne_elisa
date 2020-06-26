@@ -27,7 +27,7 @@ int main() {
     char c;
     int contatore=0, i=0, a, b, contatore_virgolette=0;
     bool auto_increm, not_null, key, trovata=false, ok=false;
-    string syntax_err = "Comando non valido, errore di sintassi", status_message, first_word;
+    string syntax_err = "ERR: Errore di sintassi nel comando, riprovare!", status_message, first_word;
     vector<string> first_word_comandi {"CREATE", "DROP", "INSERT", "DELETE", "UPDATE", "SELECT","QUIT"};
     vector<string> campi, valori, words;
 
@@ -36,10 +36,11 @@ int main() {
             cout << "Inserire nome file database" << endl;
             cin >> nome_file;
             tabelle = Avvio(nome_file, &contatore); //nella gestione dei file togliere i campi che diventano maiuscoli perchè quelli sono CASE SENSITIVE quindi nelle esecuzioni future servono come l'utente li ha creati!!!
+                                                    //solo le parole chiave sono CASE INSENSITIVE!!
             ok = true;
         }
         catch (FileError &ex) {
-            cout << "Eccezione: " << ex.what() << endl;
+            cout << "Exception occurred: " << ex.what() << endl;
         }
     }
 
@@ -52,7 +53,7 @@ int main() {
     bool inside_testo = false;
     vector <int> pos_first, pos_last; //possono esserci più campi testo
     getchar();   // per l' "a capo" del cin precedente
-    cout << "Inserisci comando: " << endl;
+    cout << "Inserire il comando: " << endl;
 
 
 
@@ -90,7 +91,7 @@ int main() {
         }
         else{
             if (pos_first.size() != pos_last.size())
-                status_message="Errore: campo di testo non chiuso da apposite virgolette";
+                status_message="ERR: campo di testo non chiuso da apposite virgolette";
             else{
                 for (int j = 0; j < pos_first.size(); ++j) {
                     if (k > pos_first[j] && k < pos_last[j]){
@@ -125,6 +126,7 @@ int main() {
             case DROP :
                 if(controllore.controlloDrop(comando_per_controlli, &message_error)) {
                     Drop(tabelle, comando_intero, &status_message);
+                    cout << status_message << endl;
                 } else
                     cout << message_error << endl;
                 break;
@@ -161,7 +163,7 @@ int main() {
             case QUIT :
                 break;
             default:
-                cerr << syntax_err << endl;
+                cout << syntax_err << endl;
                 break;
         }
 
@@ -209,7 +211,7 @@ int main() {
             }
             else{
                 if (pos_first.size() != pos_last.size())
-                    status_message="Errore: campo di testo non chiuso da apposite virgolette";
+                    status_message="ERR: campo di testo non chiuso da apposite virgolette";
                 else{
                     for (int j = 0; j < pos_first.size(); ++j) {
                         if (k > pos_first[j] && k < pos_last[j]){

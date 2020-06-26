@@ -140,6 +140,9 @@
 		<Unit filename="C:/Users/calog/CLionProjects/progetto_colonne_elisa/progetto_colonne/FormatTypeError.h">
 			<Option target="progetto_colonne"/>
 		</Unit>
+		<Unit filename="C:/Users/calog/CLionProjects/progetto_colonne_elisa/progetto_colonne/InexistentTable.h">
+			<Option target="progetto_colonne"/>
+		</Unit>
 		<Unit filename="C:/Users/calog/CLionProjects/progetto_colonne_elisa/progetto_colonne/InvalidCondition.h">
 			<Option target="progetto_colonne"/>
 		</Unit>

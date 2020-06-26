@@ -119,6 +119,7 @@ CMakeFiles/progetto_colonne.dir/main.cpp.obj: ../Comandi.hpp
 CMakeFiles/progetto_colonne.dir/main.cpp.obj: ../ControlloSintassi.h
 CMakeFiles/progetto_colonne.dir/main.cpp.obj: ../FileError.h
 CMakeFiles/progetto_colonne.dir/main.cpp.obj: ../FormatTypeError.h
+CMakeFiles/progetto_colonne.dir/main.cpp.obj: ../InexistentTable.h
 CMakeFiles/progetto_colonne.dir/main.cpp.obj: ../InvalidCondition.h
 CMakeFiles/progetto_colonne.dir/main.cpp.obj: ../InvalidOperator.h
 CMakeFiles/progetto_colonne.dir/main.cpp.obj: ../NotNullError.h
