@@ -106,7 +106,6 @@ CMakeFiles/progetto_colonne.dir/Time.cpp.obj: ../Time.h
 CMakeFiles/progetto_colonne.dir/data.cpp.obj: ../data.cpp
 CMakeFiles/progetto_colonne.dir/data.cpp.obj: ../data.h
 
-CMakeFiles/progetto_colonne.dir/main.cpp.obj: ../Avvio_Arresto.hpp
 CMakeFiles/progetto_colonne.dir/main.cpp.obj: ../CampoNonTrovato.h
 CMakeFiles/progetto_colonne.dir/main.cpp.obj: ../Colonna.h
 CMakeFiles/progetto_colonne.dir/main.cpp.obj: ../ColonnaChar.h
@@ -125,6 +124,7 @@ CMakeFiles/progetto_colonne.dir/main.cpp.obj: ../InvalidOperator.h
 CMakeFiles/progetto_colonne.dir/main.cpp.obj: ../NotNullError.h
 CMakeFiles/progetto_colonne.dir/main.cpp.obj: ../PrimKeyError.h
 CMakeFiles/progetto_colonne.dir/main.cpp.obj: ../PrimaryKeyAlreadyExisting.h
+CMakeFiles/progetto_colonne.dir/main.cpp.obj: ../SalvataggioCaricamento.hpp
 CMakeFiles/progetto_colonne.dir/main.cpp.obj: ../SecKeyAlreadyExisting.h
 CMakeFiles/progetto_colonne.dir/main.cpp.obj: ../SecKeyError.h
 CMakeFiles/progetto_colonne.dir/main.cpp.obj: ../SecKeyNotFound.h
