@@ -96,9 +96,9 @@ void Salvataggio(const string& nome_file, const vector<Tabella*>& tabelle){
         for(auto & t : tabelle) {
             database << endl;
             tab = t;
-            database << toUpper(tab->getNome()) << " " << tab->numCampi() << endl;
+            database << tab->getNome() << " " << tab->numCampi() << endl;
             for (int i = 0; i < tab->numCampi(); i++) {
-                database << toUpper(tab->getCol(i)->getNomeColonna()) << ':' << tab->getCol(i)->getTipo() << ",";
+                database << tab->getCol(i)->getNomeColonna() << ':' << tab->getCol(i)->getTipo() << ",";
                 if (tab->getCol(i)->getTipo() == "int" && tab->getCol(i)->isAutoIncrement()) database << "true,";
                 else database << "false,";
                 if (tab->getCol(i)->isNotNull() && !tab->getCol(i)->isAutoIncrement()) {

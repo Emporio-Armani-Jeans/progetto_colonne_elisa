@@ -36,7 +36,7 @@ int main() {
         try {
             cout << "Inserire nome file database" << endl;
             cin >> nome_file;
-            tabelle = Caricamento(nome_file, &contatore); //nella gestione dei file togliere i campi che diventano maiuscoli perchè quelli sono CASE SENSITIVE quindi nelle esecuzioni future servono come l'utente li ha creati!!!
+            tabelle = Caricamento(nome_file, &contatore);
                                                     //solo le parole chiave sono CASE INSENSITIVE!!
             ok = true;
         }
