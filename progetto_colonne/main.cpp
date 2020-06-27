@@ -37,7 +37,6 @@ int main() {
             cout << "Inserire nome file database" << endl;
             cin >> nome_file;
             tabelle = Caricamento(nome_file, increment_value);
-                                                    //solo le parole chiave sono CASE INSENSITIVE!!
             ok = true;
         }
         catch (FileError &ex) {
@@ -60,7 +59,6 @@ int main() {
     stringstream comando_per_controlli(comando);
     comando_intero >> first_word;
 
-    //mettere i toUpper ovunque nei confronti con keywords
     while(compare_first_word_comandi(first_word)!=QUIT) {
         try {
             switch (compare_first_word_comandi(first_word)) {

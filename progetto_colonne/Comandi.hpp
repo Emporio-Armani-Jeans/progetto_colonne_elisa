@@ -728,7 +728,7 @@ void Select(vector<Tabella*> &tabelle, stringstream &stream_comando, string *mes
                                         cout << tabelle[pos_table]->returnData(campi, word, word3, 4, nome_colonna, 1)[z]
                                              << endl;
                                         if (tabelle[pos_table]->returnData(campi, word, word3, 4, nome_colonna, 1).empty())
-                                            message->assign(valori_inesistenti);;
+                                            message->assign(valori_inesistenti);
                                     }
                                 } else if (toUpper(ordine) == "DESC") {
                                     for (int z = 0;
