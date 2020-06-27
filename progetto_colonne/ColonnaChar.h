@@ -26,6 +26,7 @@ public:
     bool isAutoIncrement()const override{
         return false;
     }
+    void controlloFormato(const string &value) const override;
 
 private:
     vector <char> _elementi_char;

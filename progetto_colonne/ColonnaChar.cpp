@@ -29,9 +29,7 @@ void ColonnaChar::deleteVal(int index) {
 }
 
 void ColonnaChar::updateVal(const string &val, int index) {
-    if(val[0]>=48 && val[0]<=57)    //controllo sul formato
-        throw FormatTypeError();
-    else {
+    controlloFormato(val);
         char new_value = val[0];
         if (!_primary_key) {
             if (_foreign_key == nullptr)
@@ -59,7 +57,6 @@ void ColonnaChar::updateVal(const string &val, int index) {
             } else //se non ci sono valori uguali presenti, l'aggiornamento è permesso
                 _elementi_char[index] = new_value;
         }
-    }
 }
 
 void ColonnaChar::addDefault() {
@@ -91,4 +88,9 @@ int ColonnaChar::getSize() const {
 
 string ColonnaChar::getTipo() const {
     return "char";
+}
+
+void ColonnaChar::controlloFormato(const string &value) const {
+    if(value[0]>=48 && value[0]<=57)    //controllo sul formato
+        throw FormatTypeError();
 }

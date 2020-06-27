@@ -63,4 +63,6 @@ private:
 
 };
 
+
+
 #endif //PROGETTO_COLONNE_TABELLA_H

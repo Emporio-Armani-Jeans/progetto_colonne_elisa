@@ -28,10 +28,7 @@ void ColonnaInt::deleteVal(int index){
 }
 
 void ColonnaInt::updateVal(const string& val, int index){
-    for(char i : val){                 //controllo formato
-        if(i < 48 || i > 57)
-            throw FormatTypeError();
-    }
+    controlloFormato(val);
     if (!_auto_increment) { //aggiornamento del valore solo se la colonna non è auto increment (se lo è viene già aggiornata precedentemente)
         int new_value = std::stoi(val);
         if (!_primary_key) {
@@ -105,4 +102,11 @@ bool ColonnaInt::isAutoIncrement() const {
 
 string ColonnaInt::getTipo() const {
     return "int";
+}
+
+void ColonnaInt::controlloFormato(const string &value) const {
+    for(char i : value){                 //controllo formato
+        if(i < 48 || i > 57)
+            throw FormatTypeError();
+    }
 }

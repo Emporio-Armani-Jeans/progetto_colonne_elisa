@@ -24,10 +24,7 @@ void ColonnaFloat::deleteVal(int index) {
 }
 
 void ColonnaFloat::updateVal(const string &val, int index) {
-    for(char i : val){          //controllo formato
-        if((i<48 || i>57) && i!='.')
-            throw FormatTypeError();
-    }
+    controlloFormato(val);
     float new_value = std::stof(val);
     if (!_primary_key) {
         if (_foreign_key == nullptr)
@@ -90,4 +87,11 @@ int ColonnaFloat::getSize() const {
 
 string ColonnaFloat::getTipo() const {
     return "float";
+}
+
+void ColonnaFloat::controlloFormato(const string &value) const {
+    for(char i : value){          //controllo formato
+        if((i<48 || i>57) && i!='.')
+            throw FormatTypeError();
+    }
 }

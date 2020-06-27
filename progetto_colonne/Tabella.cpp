@@ -101,6 +101,7 @@ void Tabella::deleteRecord(const string& campo_condizione, const string &condizi
             else i++;
         }
         if (trovata) {
+            _colonne[i]->controlloFormato(condizione); //prima di eliminare verifico che il formato della condizione sia giusto
             while (j < _recs) {
                 if (_colonne[i]->compareElements(condizione, operatore, j)) {
                     _recs--;
@@ -123,6 +124,8 @@ void Tabella::deleteRecord(const string& campo_condizione, const string& condizi
         else i++;
     }
     if(trovata){
+        _colonne[i]->controlloFormato(condizione1);//prima di eliminare verifico che il formato delle condizioni sia giusto
+        _colonne[i]->controlloFormato(condizione2);
         while(j<_recs){
             if (_colonne[i]->compareElements(condizione1, 4, j) && _colonne[i]->compareElements(condizione2, 2, j)) {
                 _recs--;

@@ -87,3 +87,4 @@ int ColonnaText::getSize() const {
 string ColonnaText::getTipo() const {
     return "text";
 }
+

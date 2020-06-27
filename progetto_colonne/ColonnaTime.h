@@ -27,6 +27,7 @@ public:
     bool isAutoIncrement()const override{
         return false;
     }
+    void controlloFormato(const string &value) const override;
 
 private:
     vector <Time> _elementi_time;

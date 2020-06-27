@@ -30,6 +30,7 @@ public:
     bool isAutoIncrement()const override{
         return false;
     }
+    void controlloFormato(const string &value) const override;
 
 private:
     vector<Date> _elementi_date;

@@ -31,6 +31,7 @@ public:
     bool isAutoIncrement()const override;
     int getSize() const override;
     string getTipo()const override;
+    void controlloFormato(const string &value) const override;
 
 private:
     vector <int> _elementi_interi;

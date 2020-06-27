@@ -228,7 +228,7 @@ void Drop(vector<Tabella*> &tabelle, stringstream &stream_comando, string *messa
     }
 }
 
-void Truncate(vector<Tabella*> &tabelle, stringstream &stream_comando, string *message){
+void Truncate(vector<Tabella*> &tabelle, stringstream &stream_comando, string *message) {
     string word;
     bool tabella_trovata = false;
     stream_comando >> word;      //butto via "TABLE"
@@ -242,7 +242,7 @@ void Truncate(vector<Tabella*> &tabelle, stringstream &stream_comando, string *m
         }
     }
     if (tabella_trovata)
-        (*message)="Operazione completata: Tabella svuotata correttamente";
+        (*message) = "Operazione completata: Tabella svuotata correttamente";
     else
         throw InexistentTable();
 }
@@ -320,11 +320,10 @@ void Delete(vector<Tabella*> &tabelle, stringstream &stream_comando, string *mes
                         tabelle[pos_table]->deleteRecord(nome_colonna, word, 5);
                     }
                 }
-
                 (*message) = "Operazione completata: Record eliminati correttamente.";
             }
     }
-}
+} //questione valori non trovati
 
 void Update(vector<Tabella*> &tabelle, stringstream &stream_comando, string *message){
     string scarto, word, word2, word3, condizione1, condizione2;
@@ -430,7 +429,7 @@ void Update(vector<Tabella*> &tabelle, stringstream &stream_comando, string *mes
         }
     }
     message->assign("Operazione completata: Record aggiornato/i correttamente");
-}
+} //questione valori non trovati
 
 void Select(vector<Tabella*> &tabelle, stringstream &stream_comando, string *message){
     string word, scarto, word2, word3, nome_colonna, condizione1, condizione2, ordine;
@@ -859,7 +858,7 @@ void Insert(vector<Tabella*> &tabelle, stringstream &stream_comando, string *mes
 
         (*message) = "Operazione completata: Record aggiunto correttamente alla tabella";
     }
-}
+} //questione valori non trovati
 
 
 #endif //PROGETTO_COLONNE_COMANDI_HPP
