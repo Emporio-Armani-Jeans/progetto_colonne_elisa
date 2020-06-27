@@ -56,7 +56,7 @@ void ColonnaFloat::updateVal(const string &val, int index) {
     }
 }
 
-void ColonnaFloat::addDefault() {
+void ColonnaFloat::addDefault(int val) {
     _elementi_float.push_back(_default_value);
 }
 

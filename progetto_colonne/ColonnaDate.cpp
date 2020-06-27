@@ -64,7 +64,7 @@ void ColonnaDate::updateVal(const string &val, int index) {
     }
 }
 
-void ColonnaDate::addDefault() {
+void ColonnaDate::addDefault(int val) {
     _elementi_date.push_back(_default_value);
 }
 

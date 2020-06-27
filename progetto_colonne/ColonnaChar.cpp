@@ -59,7 +59,7 @@ void ColonnaChar::updateVal(const string &val, int index) {
         }
 }
 
-void ColonnaChar::addDefault() {
+void ColonnaChar::addDefault(int val) {
     _elementi_char.push_back(_default_value);
 }
 

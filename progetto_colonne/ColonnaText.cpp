@@ -57,7 +57,7 @@ void ColonnaText::updateVal(const string &val, int index) {
     }
 }
 
-void ColonnaText::addDefault() {
+void ColonnaText::addDefault(int val) {
     _elementi_di_testo.push_back(_default_value);
 }
 

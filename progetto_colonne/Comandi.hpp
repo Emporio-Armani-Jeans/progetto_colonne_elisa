@@ -102,7 +102,7 @@ void Create(vector<Tabella*> &tabelle, stringstream &stream_comando, int *contat
                         not_null = false;
                     }
                 }
-            } else {//auto_increment
+            } else if(toUpper(word2)=="AUTO_INCREMENT"){//auto_increment
                 auto_increm = true;
                 not_null = false;
                 if (!riga_temp.eof()) {
@@ -120,7 +120,7 @@ void Create(vector<Tabella*> &tabelle, stringstream &stream_comando, int *contat
                 if (toUpper(tipo) == "INT") {
                     if (auto_increm) {
                         tabelle[tabelle.size() - 1]->aggiungiColonna(
-                                new ColonnaInt(nome_colonna, false, true, contatore));
+                                new ColonnaInt(nome_colonna, false, true));
                     } else {
                         if (not_null) {
                             tabelle[tabelle.size() - 1]->aggiungiColonna(new ColonnaInt(nome_colonna, true));
@@ -323,7 +323,7 @@ void Delete(vector<Tabella*> &tabelle, stringstream &stream_comando, string *mes
                 (*message) = "Operazione completata: Record eliminati correttamente.";
             }
     }
-} //questione valori non trovati
+}
 
 void Update(vector<Tabella*> &tabelle, stringstream &stream_comando, string *message){
     string scarto, word, word2, word3, condizione1, condizione2;
@@ -429,7 +429,7 @@ void Update(vector<Tabella*> &tabelle, stringstream &stream_comando, string *mes
         }
     }
     message->assign("Operazione completata: Record aggiornato/i correttamente");
-} //questione valori non trovati
+}
 
 void Select(vector<Tabella*> &tabelle, stringstream &stream_comando, string *message){
     string word, scarto, word2, word3, nome_colonna, condizione1, condizione2, ordine;
@@ -788,7 +788,7 @@ void Select(vector<Tabella*> &tabelle, stringstream &stream_comando, string *mes
     }
 }
 
-void Insert(vector<Tabella*> &tabelle, stringstream &stream_comando, string *message) {
+void Insert(vector<Tabella*> &tabelle, stringstream &stream_comando, string *message, int *increment_value) {
     string scarto, word, nome_tabella;
     vector<string> campi, valori;
     int a, pos_table;
@@ -854,11 +854,10 @@ void Insert(vector<Tabella*> &tabelle, stringstream &stream_comando, string *mes
             valori.push_back(word);
             stream_comando >> word;
         }
-        tabelle[pos_table]->addRecord(campi, valori);
-
+        tabelle[pos_table]->addRecord(campi, valori, increment_value);
         (*message) = "Operazione completata: Record aggiunto correttamente alla tabella";
     }
-} //questione valori non trovati
+}
 
 
 #endif //PROGETTO_COLONNE_COMANDI_HPP

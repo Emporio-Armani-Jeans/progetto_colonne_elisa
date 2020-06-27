@@ -24,20 +24,19 @@ string Gestione_caratteri_speciali(string &comando, string *status_message);
 int main() {
     ControlloSintassi controllore;
     vector<Tabella*> tabelle;
-    string nome_file, riga_comando;
-    string message_error;
-    char c;
-    int contatore=0, i=0, a, b, contatore_virgolette=0;
-    bool auto_increm, not_null, key, trovata=false, ok=false;
-    string syntax_err = "ERR: Errore di sintassi nel comando, riprovare!", status_message, first_word;
-    vector<string> first_word_comandi {"CREATE", "DROP", "INSERT", "DELETE", "UPDATE", "SELECT","QUIT"};
-    vector<string> campi, valori, words;
+    string nome_file, riga_comando, message_error, syntax_err = "ERR: Errore di sintassi nel comando, riprovare!",
+    status_message, first_word;
+    int *increment_value=new int;
+    bool ok=false;
+
+    vector<string> first_word_comandi {"CREATE", "DROP", "INSERT", "DELETE", "UPDATE", "SELECT","QUIT"},
+    campi, valori, words;
 
     while(!ok) {
         try {
             cout << "Inserire nome file database" << endl;
             cin >> nome_file;
-            tabelle = Caricamento(nome_file, &contatore);
+            tabelle = Caricamento(nome_file, increment_value);
                                                     //solo le parole chiave sono CASE INSENSITIVE!!
             ok = true;
         }
@@ -46,15 +45,8 @@ int main() {
         }
     }
 
-
     stringstream riga_temp;
-
     string comando;
-    /*bool found_text = false;
-    bool campo_testo_presente = false;
-    bool inside_testo = false;
-    vector <int> pos_first, pos_last; //possono esserci più campi testo*/
-
 
     getchar();   // per l' "a capo" del cin precedente
     cout << "Inserire il comando: " << endl;
@@ -62,57 +54,8 @@ int main() {
     //leggi comando intero
     getline(cin,comando);
     comando = Gestione_caratteri_speciali(comando,&status_message);
-    /*
-    for (int j = 1; j < comando.size(); ++j) { //'"'
-        if (!found_text){
-            if (comando[j] == 34 && ((int)comando[j-1] != 39 && (int)comando[j+1] != 39)) { //se trovo un " e non è all'interno di un campo char
-                found_text = true;
-                campo_testo_presente = true;
-                pos_first.push_back(j);
-            }
-        } // numero pari di " --> sono uscito, numero dispari --> non sono uscito
-        else {
-            if(comando[j] == 34) {
-                contatore_virgolette++;
-            }else{
-                if(contatore_virgolette % 2 != 0){
-                    found_text=false;
-                    pos_last.push_back(j-1);
-                }
-                contatore_virgolette=0;
-            }
-        }
-    }
-
-    //controllo sui ';' nei campi di testo
-    for (int k = 0; k < comando.size(); ++k) {
-        inside_testo = false;
-        if (!campo_testo_presente){
-            //se trovo ';' e non è un campo char, trascuro il resto del comando perchè devo fermarmi
-            if ( k!= comando.size()-1 && comando[k] == ';' && ((int)comando[k-1] != 39 && (int)comando[k+1] != 39) ){
-                comando.erase(k+1);
-            }
-        }
-        else{
-            if (pos_first.size() != pos_last.size())
-                status_message="ERR: campo di testo non chiuso da apposite virgolette";
-            else{
-                for (int j = 0; j < pos_first.size(); ++j) {
-                    if (k > pos_first[j] && k < pos_last[j]){
-                        inside_testo = true;
-                    }
-                }
-                if (!inside_testo){
-                    if ( k != comando.size()-1 && comando[k] == ';' && ((int)comando[k-1] != 39 && (int)comando[k+1] != 39)){
-                        comando.erase(k+1);
-                    }
-                }
-            }
-        }
-    }*/
 
     cout << status_message << endl;
-    cout << comando << endl;
     stringstream comando_intero(comando);
     stringstream comando_per_controlli(comando);
     comando_intero >> first_word;
@@ -123,8 +66,9 @@ int main() {
             switch (compare_first_word_comandi(first_word)) {
                 case CREATE :
                     if (controllore.controlloCreate(comando_per_controlli, &message_error)) {
-                        Create(tabelle, comando_intero, &contatore, &status_message);
-                       // Salvataggio(nome_file, tabelle);
+                        Create(tabelle, comando_intero, increment_value, &status_message);
+                        Salvataggio(nome_file, tabelle);
+                        tabelle=Caricamento(nome_file, increment_value);
                         cout << status_message << endl;
                     } else
                         cout << message_error << endl;
@@ -132,15 +76,17 @@ int main() {
                 case DROP :
                     if (controllore.controlloDrop(comando_per_controlli, &message_error)) {
                         Drop(tabelle, comando_intero, &status_message);
-                        //Salvataggio(nome_file, tabelle);
+                        Salvataggio(nome_file, tabelle);
+                        tabelle=Caricamento(nome_file, increment_value);
                         cout << status_message << endl;
                     } else
                         cout << message_error << endl;
                     break;
                 case INSERT :   //ricordarsi di controllare nell'implementazione comando che il vector di campi debba avere size uguale al vector di valori!!e controllare anche i tipi e nelle classi la sintassi corretta delle date
                     if (controllore.controlloInsert(comando_per_controlli, &message_error)) {
-                        Insert(tabelle, comando_intero, &status_message);
-                        //Salvataggio(nome_file, tabelle);
+                        Insert(tabelle, comando_intero, &status_message, increment_value);
+                        Salvataggio(nome_file, tabelle);
+                        tabelle=Caricamento(nome_file, increment_value);
                         cout << status_message << endl;
                     } else
                         cout << message_error << endl;
@@ -148,7 +94,8 @@ int main() {
                 case DELETE :
                     if (controllore.controlloDelete(comando_per_controlli, &message_error)) {
                         Delete(tabelle, comando_intero, &status_message);
-                        //Salvataggio(nome_file, tabelle);
+                        Salvataggio(nome_file, tabelle);
+                        tabelle=Caricamento(nome_file, increment_value);
                         cout << status_message << endl;
                     } else
                         cout << message_error << endl;
@@ -156,7 +103,8 @@ int main() {
                 case TRUNCATE :
                     if (controllore.controlloTruncate(comando_per_controlli, &message_error)) {
                         Truncate(tabelle, comando_intero, &status_message);
-                        //Salvataggio(nome_file, tabelle);
+                        Salvataggio(nome_file, tabelle);
+                        tabelle=Caricamento(nome_file, increment_value);
                         cout << status_message << endl;
                     } else
                         cout << message_error << endl;
@@ -164,7 +112,8 @@ int main() {
                 case UPDATE :
                     if (controllore.controlloUpdate(comando_per_controlli, &message_error)) {
                         Update(tabelle, comando_intero, &status_message);
-                        //Salvataggio(nome_file, tabelle);
+                        Salvataggio(nome_file, tabelle);
+                        tabelle=Caricamento(nome_file, increment_value);
                         cout << status_message << endl;
                     } else
                         cout << message_error << endl;
@@ -191,6 +140,9 @@ int main() {
         catch(PrimKeyError &prk){
             cout << "Eccezione: " << prk.what() << endl;
         }
+        catch(TentativoInserimentoAutoIncrement &tiai){
+            cout << "Eccezione: " << tiai.what() << endl;
+        }
         catch(FormatTypeError &type){
             cout << "Eccezione: " << type.what() << endl;
         }
@@ -214,6 +166,9 @@ int main() {
         }
         catch(SecKeyNotFound &skn){
             cout << "Eccezione: " << skn.what() << endl;
+        }
+        catch(ValueNotFound &vnf){
+            cout << "Eccezione: " << vnf.what() << endl;
         }
         catch(exception &unexpected) {
             cout << "Eccezione: " << unexpected.what() << endl;

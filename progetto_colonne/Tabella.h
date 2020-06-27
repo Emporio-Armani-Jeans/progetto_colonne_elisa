@@ -23,6 +23,8 @@
 #include <vector>
 #include <string>
 #include "SecKeyAlreadyExisting.h"
+#include "ValueNotFound.h"
+#include "TentativoInserimentoAutoIncrement.h"
 using namespace std;
 class Tabella {
 public:
@@ -35,7 +37,8 @@ public:
 
     /* Funzione per aggiungere un record: per ogni colonna con nome uguale agli elementi del vettore <campi>,
      * aggiunge un elemento e imposta il corrispettivo valore contenuto nel vettore <valori> */
-    void addRecord(const vector<string>& campi, const vector<string>& valori);
+    void addRecord(const vector<string>& campi, const vector<string>& valori, int *increment_value);
+    void addRecordMemory(const vector<string>& campi, const vector<string>& valori);
 
     void deleteRecord(const string& campo_condizione=std::string(), const string& condizione=std::string(), int operatore=0);
     void deleteRecord(const string& campo_condizione, const string& condizione1, const string& condizione2);  //between operator
@@ -48,7 +51,6 @@ public:
     int numCampi()const;
     int numRecs()const;
 
-    vector<string> returnData(const string& campo_ordinamento=string(), int operatore_ordinamento=0)const;
     vector<string> returnData(const vector<string>& campi, const string& campo_ordinamento=string(), int operatore_ordinamento=0)const;
     vector<string> returnData(const vector<string>& campi, const string& campo_condizione, const string& condizione,
             int operatore=0, const string& campo_ordinamento=string(), int operatore_ordinamento=0)const;
@@ -60,7 +62,6 @@ private:
     string _nome_tabella;
     int _recs;
     vector<int> ordinamento(const string& campo, int operatore)const;
-
 };
 
 

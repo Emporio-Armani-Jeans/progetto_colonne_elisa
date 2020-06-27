@@ -8,18 +8,18 @@
 		<Option virtualFolders="CMake Files\;"/>
 		<Build>
 			<Target title="all">
-				<Option working_dir="C:/Users/calog/CLionProjects/progetto_colonne_elisa/progetto_colonne/cmake-build-debug"/>
+				<Option working_dir="C:/Users/andry/CLionProjects/progetto_colonne_elisa/progetto_colonne/cmake-build-debug"/>
 				<Option type="4"/>
 				<MakeCommands>
-					<Build command="C:/PROGRA~2/MINGW-~1/I686-8~1.0-P/mingw32/bin/mingw32-make.exe -f &quot;C:/Users/calog/CLionProjects/progetto_colonne_elisa/progetto_colonne/cmake-build-debug/Makefile&quot;  VERBOSE=1 all"/>
-					<CompileFile command="C:/PROGRA~2/MINGW-~1/I686-8~1.0-P/mingw32/bin/mingw32-make.exe -f &quot;C:/Users/calog/CLionProjects/progetto_colonne_elisa/progetto_colonne/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="C:/PROGRA~2/MINGW-~1/I686-8~1.0-P/mingw32/bin/mingw32-make.exe -f &quot;C:/Users/calog/CLionProjects/progetto_colonne_elisa/progetto_colonne/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
-					<DistClean command="C:/PROGRA~2/MINGW-~1/I686-8~1.0-P/mingw32/bin/mingw32-make.exe -f &quot;C:/Users/calog/CLionProjects/progetto_colonne_elisa/progetto_colonne/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<Build command="C:/PROGRA~2/MINGW-~1/I686-8~1.0-P/mingw32/bin/mingw32-make.exe -f &quot;C:/Users/andry/CLionProjects/progetto_colonne_elisa/progetto_colonne/cmake-build-debug/Makefile&quot;  VERBOSE=1 all"/>
+					<CompileFile command="C:/PROGRA~2/MINGW-~1/I686-8~1.0-P/mingw32/bin/mingw32-make.exe -f &quot;C:/Users/andry/CLionProjects/progetto_colonne_elisa/progetto_colonne/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="C:/PROGRA~2/MINGW-~1/I686-8~1.0-P/mingw32/bin/mingw32-make.exe -f &quot;C:/Users/andry/CLionProjects/progetto_colonne_elisa/progetto_colonne/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="C:/PROGRA~2/MINGW-~1/I686-8~1.0-P/mingw32/bin/mingw32-make.exe -f &quot;C:/Users/andry/CLionProjects/progetto_colonne_elisa/progetto_colonne/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
 			<Target title="progetto_colonne">
-				<Option output="C:/Users/calog/CLionProjects/progetto_colonne_elisa/progetto_colonne/cmake-build-debug/progetto_colonne.exe" prefix_auto="0" extension_auto="0"/>
-				<Option working_dir="C:/Users/calog/CLionProjects/progetto_colonne_elisa/progetto_colonne/cmake-build-debug"/>
+				<Option output="C:/Users/andry/CLionProjects/progetto_colonne_elisa/progetto_colonne/cmake-build-debug/progetto_colonne.exe" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="C:/Users/andry/CLionProjects/progetto_colonne_elisa/progetto_colonne/cmake-build-debug"/>
 				<Option object_output="./"/>
 				<Option type="1"/>
 				<Option compiler="gcc"/>
@@ -32,15 +32,15 @@
 					<Add directory="C:/Program Files (x86)/mingw-w64/i686-8.1.0-posix-dwarf-rt_v6-rev0/mingw32/bin/../lib/gcc/i686-w64-mingw32/8.1.0/../../../../i686-w64-mingw32/include"/>
 				</Compiler>
 				<MakeCommands>
-					<Build command="C:/PROGRA~2/MINGW-~1/I686-8~1.0-P/mingw32/bin/mingw32-make.exe -f &quot;C:/Users/calog/CLionProjects/progetto_colonne_elisa/progetto_colonne/cmake-build-debug/Makefile&quot;  VERBOSE=1 progetto_colonne"/>
-					<CompileFile command="C:/PROGRA~2/MINGW-~1/I686-8~1.0-P/mingw32/bin/mingw32-make.exe -f &quot;C:/Users/calog/CLionProjects/progetto_colonne_elisa/progetto_colonne/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="C:/PROGRA~2/MINGW-~1/I686-8~1.0-P/mingw32/bin/mingw32-make.exe -f &quot;C:/Users/calog/CLionProjects/progetto_colonne_elisa/progetto_colonne/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
-					<DistClean command="C:/PROGRA~2/MINGW-~1/I686-8~1.0-P/mingw32/bin/mingw32-make.exe -f &quot;C:/Users/calog/CLionProjects/progetto_colonne_elisa/progetto_colonne/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<Build command="C:/PROGRA~2/MINGW-~1/I686-8~1.0-P/mingw32/bin/mingw32-make.exe -f &quot;C:/Users/andry/CLionProjects/progetto_colonne_elisa/progetto_colonne/cmake-build-debug/Makefile&quot;  VERBOSE=1 progetto_colonne"/>
+					<CompileFile command="C:/PROGRA~2/MINGW-~1/I686-8~1.0-P/mingw32/bin/mingw32-make.exe -f &quot;C:/Users/andry/CLionProjects/progetto_colonne_elisa/progetto_colonne/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="C:/PROGRA~2/MINGW-~1/I686-8~1.0-P/mingw32/bin/mingw32-make.exe -f &quot;C:/Users/andry/CLionProjects/progetto_colonne_elisa/progetto_colonne/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="C:/PROGRA~2/MINGW-~1/I686-8~1.0-P/mingw32/bin/mingw32-make.exe -f &quot;C:/Users/andry/CLionProjects/progetto_colonne_elisa/progetto_colonne/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
 			<Target title="progetto_colonne/fast">
-				<Option output="C:/Users/calog/CLionProjects/progetto_colonne_elisa/progetto_colonne/cmake-build-debug/progetto_colonne.exe" prefix_auto="0" extension_auto="0"/>
-				<Option working_dir="C:/Users/calog/CLionProjects/progetto_colonne_elisa/progetto_colonne/cmake-build-debug"/>
+				<Option output="C:/Users/andry/CLionProjects/progetto_colonne_elisa/progetto_colonne/cmake-build-debug/progetto_colonne.exe" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="C:/Users/andry/CLionProjects/progetto_colonne_elisa/progetto_colonne/cmake-build-debug"/>
 				<Option object_output="./"/>
 				<Option type="1"/>
 				<Option compiler="gcc"/>
@@ -53,142 +53,148 @@
 					<Add directory="C:/Program Files (x86)/mingw-w64/i686-8.1.0-posix-dwarf-rt_v6-rev0/mingw32/bin/../lib/gcc/i686-w64-mingw32/8.1.0/../../../../i686-w64-mingw32/include"/>
 				</Compiler>
 				<MakeCommands>
-					<Build command="C:/PROGRA~2/MINGW-~1/I686-8~1.0-P/mingw32/bin/mingw32-make.exe -f &quot;C:/Users/calog/CLionProjects/progetto_colonne_elisa/progetto_colonne/cmake-build-debug/Makefile&quot;  VERBOSE=1 progetto_colonne/fast"/>
-					<CompileFile command="C:/PROGRA~2/MINGW-~1/I686-8~1.0-P/mingw32/bin/mingw32-make.exe -f &quot;C:/Users/calog/CLionProjects/progetto_colonne_elisa/progetto_colonne/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="C:/PROGRA~2/MINGW-~1/I686-8~1.0-P/mingw32/bin/mingw32-make.exe -f &quot;C:/Users/calog/CLionProjects/progetto_colonne_elisa/progetto_colonne/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
-					<DistClean command="C:/PROGRA~2/MINGW-~1/I686-8~1.0-P/mingw32/bin/mingw32-make.exe -f &quot;C:/Users/calog/CLionProjects/progetto_colonne_elisa/progetto_colonne/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<Build command="C:/PROGRA~2/MINGW-~1/I686-8~1.0-P/mingw32/bin/mingw32-make.exe -f &quot;C:/Users/andry/CLionProjects/progetto_colonne_elisa/progetto_colonne/cmake-build-debug/Makefile&quot;  VERBOSE=1 progetto_colonne/fast"/>
+					<CompileFile command="C:/PROGRA~2/MINGW-~1/I686-8~1.0-P/mingw32/bin/mingw32-make.exe -f &quot;C:/Users/andry/CLionProjects/progetto_colonne_elisa/progetto_colonne/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="C:/PROGRA~2/MINGW-~1/I686-8~1.0-P/mingw32/bin/mingw32-make.exe -f &quot;C:/Users/andry/CLionProjects/progetto_colonne_elisa/progetto_colonne/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="C:/PROGRA~2/MINGW-~1/I686-8~1.0-P/mingw32/bin/mingw32-make.exe -f &quot;C:/Users/andry/CLionProjects/progetto_colonne_elisa/progetto_colonne/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
 			<Target title="edit_cache">
-				<Option working_dir="C:/Users/calog/CLionProjects/progetto_colonne_elisa/progetto_colonne/cmake-build-debug"/>
+				<Option working_dir="C:/Users/andry/CLionProjects/progetto_colonne_elisa/progetto_colonne/cmake-build-debug"/>
 				<Option type="4"/>
 				<MakeCommands>
-					<Build command="C:/PROGRA~2/MINGW-~1/I686-8~1.0-P/mingw32/bin/mingw32-make.exe -f &quot;C:/Users/calog/CLionProjects/progetto_colonne_elisa/progetto_colonne/cmake-build-debug/Makefile&quot;  VERBOSE=1 edit_cache"/>
-					<CompileFile command="C:/PROGRA~2/MINGW-~1/I686-8~1.0-P/mingw32/bin/mingw32-make.exe -f &quot;C:/Users/calog/CLionProjects/progetto_colonne_elisa/progetto_colonne/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="C:/PROGRA~2/MINGW-~1/I686-8~1.0-P/mingw32/bin/mingw32-make.exe -f &quot;C:/Users/calog/CLionProjects/progetto_colonne_elisa/progetto_colonne/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
-					<DistClean command="C:/PROGRA~2/MINGW-~1/I686-8~1.0-P/mingw32/bin/mingw32-make.exe -f &quot;C:/Users/calog/CLionProjects/progetto_colonne_elisa/progetto_colonne/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<Build command="C:/PROGRA~2/MINGW-~1/I686-8~1.0-P/mingw32/bin/mingw32-make.exe -f &quot;C:/Users/andry/CLionProjects/progetto_colonne_elisa/progetto_colonne/cmake-build-debug/Makefile&quot;  VERBOSE=1 edit_cache"/>
+					<CompileFile command="C:/PROGRA~2/MINGW-~1/I686-8~1.0-P/mingw32/bin/mingw32-make.exe -f &quot;C:/Users/andry/CLionProjects/progetto_colonne_elisa/progetto_colonne/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="C:/PROGRA~2/MINGW-~1/I686-8~1.0-P/mingw32/bin/mingw32-make.exe -f &quot;C:/Users/andry/CLionProjects/progetto_colonne_elisa/progetto_colonne/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="C:/PROGRA~2/MINGW-~1/I686-8~1.0-P/mingw32/bin/mingw32-make.exe -f &quot;C:/Users/andry/CLionProjects/progetto_colonne_elisa/progetto_colonne/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
 			<Target title="rebuild_cache">
-				<Option working_dir="C:/Users/calog/CLionProjects/progetto_colonne_elisa/progetto_colonne/cmake-build-debug"/>
+				<Option working_dir="C:/Users/andry/CLionProjects/progetto_colonne_elisa/progetto_colonne/cmake-build-debug"/>
 				<Option type="4"/>
 				<MakeCommands>
-					<Build command="C:/PROGRA~2/MINGW-~1/I686-8~1.0-P/mingw32/bin/mingw32-make.exe -f &quot;C:/Users/calog/CLionProjects/progetto_colonne_elisa/progetto_colonne/cmake-build-debug/Makefile&quot;  VERBOSE=1 rebuild_cache"/>
-					<CompileFile command="C:/PROGRA~2/MINGW-~1/I686-8~1.0-P/mingw32/bin/mingw32-make.exe -f &quot;C:/Users/calog/CLionProjects/progetto_colonne_elisa/progetto_colonne/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="C:/PROGRA~2/MINGW-~1/I686-8~1.0-P/mingw32/bin/mingw32-make.exe -f &quot;C:/Users/calog/CLionProjects/progetto_colonne_elisa/progetto_colonne/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
-					<DistClean command="C:/PROGRA~2/MINGW-~1/I686-8~1.0-P/mingw32/bin/mingw32-make.exe -f &quot;C:/Users/calog/CLionProjects/progetto_colonne_elisa/progetto_colonne/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<Build command="C:/PROGRA~2/MINGW-~1/I686-8~1.0-P/mingw32/bin/mingw32-make.exe -f &quot;C:/Users/andry/CLionProjects/progetto_colonne_elisa/progetto_colonne/cmake-build-debug/Makefile&quot;  VERBOSE=1 rebuild_cache"/>
+					<CompileFile command="C:/PROGRA~2/MINGW-~1/I686-8~1.0-P/mingw32/bin/mingw32-make.exe -f &quot;C:/Users/andry/CLionProjects/progetto_colonne_elisa/progetto_colonne/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="C:/PROGRA~2/MINGW-~1/I686-8~1.0-P/mingw32/bin/mingw32-make.exe -f &quot;C:/Users/andry/CLionProjects/progetto_colonne_elisa/progetto_colonne/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="C:/PROGRA~2/MINGW-~1/I686-8~1.0-P/mingw32/bin/mingw32-make.exe -f &quot;C:/Users/andry/CLionProjects/progetto_colonne_elisa/progetto_colonne/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
 		</Build>
-		<Unit filename="C:/Users/calog/CLionProjects/progetto_colonne_elisa/progetto_colonne/CampoNonTrovato.h">
+		<Unit filename="C:/Users/andry/CLionProjects/progetto_colonne_elisa/progetto_colonne/CampoNonTrovato.h">
 			<Option target="progetto_colonne"/>
 		</Unit>
-		<Unit filename="C:/Users/calog/CLionProjects/progetto_colonne_elisa/progetto_colonne/Colonna.h">
+		<Unit filename="C:/Users/andry/CLionProjects/progetto_colonne_elisa/progetto_colonne/Colonna.h">
 			<Option target="progetto_colonne"/>
 		</Unit>
-		<Unit filename="C:/Users/calog/CLionProjects/progetto_colonne_elisa/progetto_colonne/ColonnaChar.cpp">
+		<Unit filename="C:/Users/andry/CLionProjects/progetto_colonne_elisa/progetto_colonne/ColonnaChar.cpp">
 			<Option target="progetto_colonne"/>
 		</Unit>
-		<Unit filename="C:/Users/calog/CLionProjects/progetto_colonne_elisa/progetto_colonne/ColonnaChar.h">
+		<Unit filename="C:/Users/andry/CLionProjects/progetto_colonne_elisa/progetto_colonne/ColonnaChar.h">
 			<Option target="progetto_colonne"/>
 		</Unit>
-		<Unit filename="C:/Users/calog/CLionProjects/progetto_colonne_elisa/progetto_colonne/ColonnaDate.cpp">
+		<Unit filename="C:/Users/andry/CLionProjects/progetto_colonne_elisa/progetto_colonne/ColonnaDate.cpp">
 			<Option target="progetto_colonne"/>
 		</Unit>
-		<Unit filename="C:/Users/calog/CLionProjects/progetto_colonne_elisa/progetto_colonne/ColonnaDate.h">
+		<Unit filename="C:/Users/andry/CLionProjects/progetto_colonne_elisa/progetto_colonne/ColonnaDate.h">
 			<Option target="progetto_colonne"/>
 		</Unit>
-		<Unit filename="C:/Users/calog/CLionProjects/progetto_colonne_elisa/progetto_colonne/ColonnaFloat.cpp">
+		<Unit filename="C:/Users/andry/CLionProjects/progetto_colonne_elisa/progetto_colonne/ColonnaFloat.cpp">
 			<Option target="progetto_colonne"/>
 		</Unit>
-		<Unit filename="C:/Users/calog/CLionProjects/progetto_colonne_elisa/progetto_colonne/ColonnaFloat.h">
+		<Unit filename="C:/Users/andry/CLionProjects/progetto_colonne_elisa/progetto_colonne/ColonnaFloat.h">
 			<Option target="progetto_colonne"/>
 		</Unit>
-		<Unit filename="C:/Users/calog/CLionProjects/progetto_colonne_elisa/progetto_colonne/ColonnaInt.cpp">
+		<Unit filename="C:/Users/andry/CLionProjects/progetto_colonne_elisa/progetto_colonne/ColonnaInt.cpp">
 			<Option target="progetto_colonne"/>
 		</Unit>
-		<Unit filename="C:/Users/calog/CLionProjects/progetto_colonne_elisa/progetto_colonne/ColonnaInt.h">
+		<Unit filename="C:/Users/andry/CLionProjects/progetto_colonne_elisa/progetto_colonne/ColonnaInt.h">
 			<Option target="progetto_colonne"/>
 		</Unit>
-		<Unit filename="C:/Users/calog/CLionProjects/progetto_colonne_elisa/progetto_colonne/ColonnaText.cpp">
+		<Unit filename="C:/Users/andry/CLionProjects/progetto_colonne_elisa/progetto_colonne/ColonnaText.cpp">
 			<Option target="progetto_colonne"/>
 		</Unit>
-		<Unit filename="C:/Users/calog/CLionProjects/progetto_colonne_elisa/progetto_colonne/ColonnaText.h">
+		<Unit filename="C:/Users/andry/CLionProjects/progetto_colonne_elisa/progetto_colonne/ColonnaText.h">
 			<Option target="progetto_colonne"/>
 		</Unit>
-		<Unit filename="C:/Users/calog/CLionProjects/progetto_colonne_elisa/progetto_colonne/ColonnaTime.cpp">
+		<Unit filename="C:/Users/andry/CLionProjects/progetto_colonne_elisa/progetto_colonne/ColonnaTime.cpp">
 			<Option target="progetto_colonne"/>
 		</Unit>
-		<Unit filename="C:/Users/calog/CLionProjects/progetto_colonne_elisa/progetto_colonne/ColonnaTime.h">
+		<Unit filename="C:/Users/andry/CLionProjects/progetto_colonne_elisa/progetto_colonne/ColonnaTime.h">
 			<Option target="progetto_colonne"/>
 		</Unit>
-		<Unit filename="C:/Users/calog/CLionProjects/progetto_colonne_elisa/progetto_colonne/Comandi.hpp">
+		<Unit filename="C:/Users/andry/CLionProjects/progetto_colonne_elisa/progetto_colonne/Comandi.hpp">
 			<Option target="progetto_colonne"/>
 		</Unit>
-		<Unit filename="C:/Users/calog/CLionProjects/progetto_colonne_elisa/progetto_colonne/ControlloSintassi.cpp">
+		<Unit filename="C:/Users/andry/CLionProjects/progetto_colonne_elisa/progetto_colonne/ControlloSintassi.cpp">
 			<Option target="progetto_colonne"/>
 		</Unit>
-		<Unit filename="C:/Users/calog/CLionProjects/progetto_colonne_elisa/progetto_colonne/ControlloSintassi.h">
+		<Unit filename="C:/Users/andry/CLionProjects/progetto_colonne_elisa/progetto_colonne/ControlloSintassi.h">
 			<Option target="progetto_colonne"/>
 		</Unit>
-		<Unit filename="C:/Users/calog/CLionProjects/progetto_colonne_elisa/progetto_colonne/FileError.h">
+		<Unit filename="C:/Users/andry/CLionProjects/progetto_colonne_elisa/progetto_colonne/FileError.h">
 			<Option target="progetto_colonne"/>
 		</Unit>
-		<Unit filename="C:/Users/calog/CLionProjects/progetto_colonne_elisa/progetto_colonne/FormatTypeError.h">
+		<Unit filename="C:/Users/andry/CLionProjects/progetto_colonne_elisa/progetto_colonne/FormatTypeError.h">
 			<Option target="progetto_colonne"/>
 		</Unit>
-		<Unit filename="C:/Users/calog/CLionProjects/progetto_colonne_elisa/progetto_colonne/InexistentTable.h">
+		<Unit filename="C:/Users/andry/CLionProjects/progetto_colonne_elisa/progetto_colonne/InexistentTable.h">
 			<Option target="progetto_colonne"/>
 		</Unit>
-		<Unit filename="C:/Users/calog/CLionProjects/progetto_colonne_elisa/progetto_colonne/InvalidCondition.h">
+		<Unit filename="C:/Users/andry/CLionProjects/progetto_colonne_elisa/progetto_colonne/InvalidCondition.h">
 			<Option target="progetto_colonne"/>
 		</Unit>
-		<Unit filename="C:/Users/calog/CLionProjects/progetto_colonne_elisa/progetto_colonne/InvalidOperator.h">
+		<Unit filename="C:/Users/andry/CLionProjects/progetto_colonne_elisa/progetto_colonne/InvalidOperator.h">
 			<Option target="progetto_colonne"/>
 		</Unit>
-		<Unit filename="C:/Users/calog/CLionProjects/progetto_colonne_elisa/progetto_colonne/NotNullError.h">
+		<Unit filename="C:/Users/andry/CLionProjects/progetto_colonne_elisa/progetto_colonne/NotNullError.h">
 			<Option target="progetto_colonne"/>
 		</Unit>
-		<Unit filename="C:/Users/calog/CLionProjects/progetto_colonne_elisa/progetto_colonne/PrimKeyError.h">
+		<Unit filename="C:/Users/andry/CLionProjects/progetto_colonne_elisa/progetto_colonne/PrimKeyError.h">
 			<Option target="progetto_colonne"/>
 		</Unit>
-		<Unit filename="C:/Users/calog/CLionProjects/progetto_colonne_elisa/progetto_colonne/PrimaryKeyAlreadyExisting.h">
+		<Unit filename="C:/Users/andry/CLionProjects/progetto_colonne_elisa/progetto_colonne/PrimaryKeyAlreadyExisting.h">
 			<Option target="progetto_colonne"/>
 		</Unit>
-		<Unit filename="C:/Users/calog/CLionProjects/progetto_colonne_elisa/progetto_colonne/SalvataggioCaricamento.hpp">
+		<Unit filename="C:/Users/andry/CLionProjects/progetto_colonne_elisa/progetto_colonne/SalvataggioCaricamento.hpp">
 			<Option target="progetto_colonne"/>
 		</Unit>
-		<Unit filename="C:/Users/calog/CLionProjects/progetto_colonne_elisa/progetto_colonne/SecKeyAlreadyExisting.h">
+		<Unit filename="C:/Users/andry/CLionProjects/progetto_colonne_elisa/progetto_colonne/SecKeyAlreadyExisting.h">
 			<Option target="progetto_colonne"/>
 		</Unit>
-		<Unit filename="C:/Users/calog/CLionProjects/progetto_colonne_elisa/progetto_colonne/SecKeyError.h">
+		<Unit filename="C:/Users/andry/CLionProjects/progetto_colonne_elisa/progetto_colonne/SecKeyError.h">
 			<Option target="progetto_colonne"/>
 		</Unit>
-		<Unit filename="C:/Users/calog/CLionProjects/progetto_colonne_elisa/progetto_colonne/SecKeyNotFound.h">
+		<Unit filename="C:/Users/andry/CLionProjects/progetto_colonne_elisa/progetto_colonne/SecKeyNotFound.h">
 			<Option target="progetto_colonne"/>
 		</Unit>
-		<Unit filename="C:/Users/calog/CLionProjects/progetto_colonne_elisa/progetto_colonne/Tabella.cpp">
+		<Unit filename="C:/Users/andry/CLionProjects/progetto_colonne_elisa/progetto_colonne/Tabella.cpp">
 			<Option target="progetto_colonne"/>
 		</Unit>
-		<Unit filename="C:/Users/calog/CLionProjects/progetto_colonne_elisa/progetto_colonne/Tabella.h">
+		<Unit filename="C:/Users/andry/CLionProjects/progetto_colonne_elisa/progetto_colonne/Tabella.h">
 			<Option target="progetto_colonne"/>
 		</Unit>
-		<Unit filename="C:/Users/calog/CLionProjects/progetto_colonne_elisa/progetto_colonne/Time.cpp">
+		<Unit filename="C:/Users/andry/CLionProjects/progetto_colonne_elisa/progetto_colonne/TentativoInserimentoAutoIncrement.h">
 			<Option target="progetto_colonne"/>
 		</Unit>
-		<Unit filename="C:/Users/calog/CLionProjects/progetto_colonne_elisa/progetto_colonne/Time.h">
+		<Unit filename="C:/Users/andry/CLionProjects/progetto_colonne_elisa/progetto_colonne/Time.cpp">
 			<Option target="progetto_colonne"/>
 		</Unit>
-		<Unit filename="C:/Users/calog/CLionProjects/progetto_colonne_elisa/progetto_colonne/data.cpp">
+		<Unit filename="C:/Users/andry/CLionProjects/progetto_colonne_elisa/progetto_colonne/Time.h">
 			<Option target="progetto_colonne"/>
 		</Unit>
-		<Unit filename="C:/Users/calog/CLionProjects/progetto_colonne_elisa/progetto_colonne/data.h">
+		<Unit filename="C:/Users/andry/CLionProjects/progetto_colonne_elisa/progetto_colonne/ValueNotFound.h">
 			<Option target="progetto_colonne"/>
 		</Unit>
-		<Unit filename="C:/Users/calog/CLionProjects/progetto_colonne_elisa/progetto_colonne/main.cpp">
+		<Unit filename="C:/Users/andry/CLionProjects/progetto_colonne_elisa/progetto_colonne/data.cpp">
 			<Option target="progetto_colonne"/>
 		</Unit>
-		<Unit filename="C:/Users/calog/CLionProjects/progetto_colonne_elisa/progetto_colonne/CMakeLists.txt">
+		<Unit filename="C:/Users/andry/CLionProjects/progetto_colonne_elisa/progetto_colonne/data.h">
+			<Option target="progetto_colonne"/>
+		</Unit>
+		<Unit filename="C:/Users/andry/CLionProjects/progetto_colonne_elisa/progetto_colonne/main.cpp">
+			<Option target="progetto_colonne"/>
+		</Unit>
+		<Unit filename="C:/Users/andry/CLionProjects/progetto_colonne_elisa/progetto_colonne/CMakeLists.txt">
 			<Option virtualFolder="CMake Files\"/>
 		</Unit>
 	</Project>

@@ -15,18 +15,14 @@ class ColonnaInt : public Colonna {
 public:
     friend class Tabella;
 
-    explicit ColonnaInt(const string &nomecolonna, bool notnull = false, bool autoincrement = false, int* increment_value= nullptr); //costruttore
+    explicit ColonnaInt(const string &nomecolonna, bool notnull = false, bool autoincrement = false); //costruttore
     ~ColonnaInt()  override = default; //distruttore
 
-
-    void setAutoIncrement(){
-        _auto_increment=true;
-    }
     /* metodi ereditati */
     void updateVal(const string& val, int index) override;
     string getElement(int index) override;
     void deleteVal(int index) override;
-    void addDefault() override;
+    void addDefault(int increment_value=0) override;
     bool compareElements(const string& condizione, int operatore, int index) const override;
     bool isAutoIncrement()const override;
     int getSize() const override;
@@ -36,7 +32,6 @@ public:
 private:
     vector <int> _elementi_interi;
     bool _auto_increment;
-    int *_increment_value;
     int _default_value;
 };
 

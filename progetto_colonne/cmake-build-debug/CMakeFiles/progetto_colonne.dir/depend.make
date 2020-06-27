@@ -97,7 +97,9 @@ CMakeFiles/progetto_colonne.dir/Tabella.cpp.obj: ../SecKeyError.h
 CMakeFiles/progetto_colonne.dir/Tabella.cpp.obj: ../SecKeyNotFound.h
 CMakeFiles/progetto_colonne.dir/Tabella.cpp.obj: ../Tabella.cpp
 CMakeFiles/progetto_colonne.dir/Tabella.cpp.obj: ../Tabella.h
+CMakeFiles/progetto_colonne.dir/Tabella.cpp.obj: ../TentativoInserimentoAutoIncrement.h
 CMakeFiles/progetto_colonne.dir/Tabella.cpp.obj: ../Time.h
+CMakeFiles/progetto_colonne.dir/Tabella.cpp.obj: ../ValueNotFound.h
 CMakeFiles/progetto_colonne.dir/Tabella.cpp.obj: ../data.h
 
 CMakeFiles/progetto_colonne.dir/Time.cpp.obj: ../Time.cpp
@@ -129,7 +131,9 @@ CMakeFiles/progetto_colonne.dir/main.cpp.obj: ../SecKeyAlreadyExisting.h
 CMakeFiles/progetto_colonne.dir/main.cpp.obj: ../SecKeyError.h
 CMakeFiles/progetto_colonne.dir/main.cpp.obj: ../SecKeyNotFound.h
 CMakeFiles/progetto_colonne.dir/main.cpp.obj: ../Tabella.h
+CMakeFiles/progetto_colonne.dir/main.cpp.obj: ../TentativoInserimentoAutoIncrement.h
 CMakeFiles/progetto_colonne.dir/main.cpp.obj: ../Time.h
+CMakeFiles/progetto_colonne.dir/main.cpp.obj: ../ValueNotFound.h
 CMakeFiles/progetto_colonne.dir/main.cpp.obj: ../data.h
 CMakeFiles/progetto_colonne.dir/main.cpp.obj: ../main.cpp
 

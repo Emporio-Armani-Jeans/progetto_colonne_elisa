@@ -64,7 +64,7 @@ void ColonnaTime::updateVal(const string& val, int index){
     }
 }
 
-void ColonnaTime::addDefault() {
+void ColonnaTime::addDefault(int val) {
     _elementi_time.push_back(_default_value);
 }
 

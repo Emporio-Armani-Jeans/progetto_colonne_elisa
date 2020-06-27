@@ -10,18 +10,20 @@
 #include "FileError.h"
 #include "Comandi.hpp"
 
+
+
 vector<Tabella*> Caricamento(const string& nome_file, int* increment){
     ifstream database;
     database.open(nome_file);
     if(!database.is_open()){
         throw FileError();
     }else{
+        (*increment)=1;
         int num_tabs=0, num_cols=0, num_recs=0;
         string word, tipo, auto_increment, not_null, primary_key;
         Colonna *new_col= nullptr;
         vector<Tabella*> tabs;
         vector<string> campi, valori;
-        char c;
         database >> num_tabs;
         for(int i=0; i<num_tabs; i++){
             //salvataggio della i-esima tabella
@@ -37,8 +39,7 @@ vector<Tabella*> Caricamento(const string& nome_file, int* increment){
                 getline(database, primary_key,'#');
                 if(tipo=="int"){
                     if(auto_increment=="true") {
-                        new_col= new ColonnaInt(word, false, true, increment);
-                       // increment++;
+                        new_col= new ColonnaInt(word, false, true);
                     }
                     else new_col= new ColonnaInt(word);
                 }
@@ -74,8 +75,10 @@ vector<Tabella*> Caricamento(const string& nome_file, int* increment){
                     getline(database, word, '#');
                     if(j==0 && t==0) word.erase(0,1);
                     valori.push_back(word);
+                    if(tabs[i]->getCol(t)->isAutoIncrement())
+                        (*increment)++;
                 }
-                tabs[i]->addRecord(campi, valori);
+                tabs[i]->addRecordMemory(campi, valori);  //metodo alternativo per non tener conto di auto_increment
                 valori.clear();
             }
             campi.clear();
@@ -83,6 +86,7 @@ vector<Tabella*> Caricamento(const string& nome_file, int* increment){
         database.close();
         return tabs;
     }
+
 }
 
 void Salvataggio(const string& nome_file, const vector<Tabella*>& tabelle){

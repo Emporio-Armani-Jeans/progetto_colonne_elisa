@@ -4,12 +4,11 @@
 
 #include "ColonnaInt.h"
 
-ColonnaInt::ColonnaInt(const string &nomecolonna, bool notnull, bool autoincrement, int* increment_value) {
+ColonnaInt::ColonnaInt(const string &nomecolonna, bool notnull, bool autoincrement) {
     _nome_colonna = nomecolonna;
     _not_null = notnull;
     _auto_increment = autoincrement;
     _default_value = 0;
-    _increment_value = increment_value;
     _primary_key = false;
     _foreign_key = nullptr;
 }
@@ -62,13 +61,15 @@ void ColonnaInt::updateVal(const string& val, int index){
     }
 }
 
-void ColonnaInt::addDefault() {
+void ColonnaInt::addDefault(int increment_value) {
     if(!_auto_increment) {
         _elementi_interi.push_back(_default_value);
     }
     else {
-        _elementi_interi.push_back((*_increment_value)+1);
-        (*_increment_value)++;
+        if(increment_value==0)         //Per salvare in memoria senza tener conto di increment value
+            _elementi_interi.push_back(_default_value);
+        else
+            _elementi_interi.push_back(increment_value);
     }
 }
 

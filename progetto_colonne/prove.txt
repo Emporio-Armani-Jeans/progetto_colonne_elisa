@@ -2,15 +2,13 @@ update customers set salary = 1200, came = 'c' where age = "cnsja";
 
     C:/Users/andry/CLionProjects/progetto_colonne_elisa/progetto_colonne/Memoria.txt
 
-    2
-    Customers 3
-    Age:int,false,true,false#Id:int,true,true,true#Address:text,false,false,false#
-    3
-    10#1#Via Dei Gigli 33#3#2#Via Dal Cazzo 666#12#3#Via Petalosa 77#
-    Countries 2
-    Country:text,false,false,false#Country_Id:int,true,true,true#
-    2
-    Italy#4#Germany#5#
+    COUNTRIES 4
+    ID:int,true,false,true#ABITANTI:int,false,false,false#NOME:text,false,false,false#CARATTERE:char,false,true,false#
+    0
+
+    CUSTOMERS 3
+    ID:int,true,false,true#NAME:text,false,true,false#AGE:int,false,false,false#
+    0
 
     CREATE TABLE COUNTRIES ( ABITANTI FLOAT, NAME TEXT NOT NULL, PRIMARY KEY (NAME) );
 
@@ -27,10 +25,10 @@ update customers set salary = 1200, came = 'c' where age = "cnsja";
     SELECT ID, AGE FROM CUSTOMERS WHERE AGE = 10;
     SELECT ID, AGE FROM CUSTOMERS ORDER BY AGE DESC;
 
-    INSERT INTO CUSTOMERS (AGE, ADDRESS) VALUES (20, "via Roma, 32");
+    INSERT INTO CUSTOMERS (AGE, NAME) VALUES (21, "Andrea");
     insert into customers (ciao, ciao, ciao) values (30, "testo", 'c', 23/03/2010, 12:67:89, "campo testo""");
 
-    CREATE TABLE COUNTRIES ( ID INT NOT NULL AUTO_INCREMENT, ABITANTI FLOAT, NOME TEXT, CARATTERE CHAR NOT NULL, PRIMARY KEY (ID) );
+    CREATE TABLE COUNTRIES ( ID INT NOT NULL AUTO_INCREMENT, ABITANTI INT, NOME TEXT, CARATTERE CHAR NOT NULL, PRIMARY KEY (ID) );
     INSERT INTO COUNTRIES (ABITANTI, NOME, CARATTERE) VALUES (12000, "Caramellandia", 'C');
 
 
@@ -40,7 +38,10 @@ update customers set salary = 1200, came = 'c' where age = "cnsja";
     SELECT NOME, CARATTERE FROM COUNTRIES WHERE ID = 9;
     SELECT NOME, CARATTERE FROM COUNTRIES WHERE NOME = "Terra dei Mari";
     SELECT ABITANTI, CARATTERE FROM COUNTRIES WHERE NOME = "Terra dei Mari";
-    UPDATE COUNTRIES SET ABITANTI = 23456, ID = 300 WHERE NOME = "Francia";
+    UPDATE COUNTRIES SET ABITANTI = 23456546 WHERE NOME = "Francia";
     DELETE FROM COUNTRIES WHERE NOME = "Francia";
 
-    DELETE FROM CUSTOMERS WHERE ADDRESS = 10; //DOVREBBE DARE ERRORE
+CREATE TABLE CUSTOMERS ( ID INT NOT NULL AUTO_INCREMENT, NAME TEXT NOT NULL, AGE INT, PRIMARY KEY (ID) );
+    DELETE FROM CUSTOMERS WHERE ADDRESS = 10;
+
+    INSERT INTO COUNTRIES (ID, NAME) VALUES ("Italia");
