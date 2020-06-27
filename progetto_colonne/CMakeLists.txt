@@ -7,5 +7,6 @@ add_executable(progetto_colonne main.cpp Tabella.cpp Tabella.h Colonna.h Colonna
         ColonnaFloat.cpp ColonnaFloat.h ColonnaText.cpp ColonnaText.h data.h data.cpp ColonnaDate.cpp
         ColonnaDate.h Time.cpp Time.h ColonnaChar.cpp ColonnaChar.h ColonnaTime.cpp ColonnaTime.h
         CampoNonTrovato.h PrimaryKeyAlreadyExisting.h InvalidOperator.h SecKeyNotFound.h SecKeyError.h
-        PrimKeyError.h NotNullError.h InvalidCondition.h FileError.h Avvio_Arresto.hpp ControlloSintassi.cpp
-        ControlloSintassi.h FormatTypeError.h SecKeyAlreadyExisting.h Comandi.hpp InexistentTable.h)
+        PrimKeyError.h NotNullError.h InvalidCondition.h FileError.h SalvataggioCaricamento.hpp ControlloSintassi.cpp
+        ControlloSintassi.h FormatTypeError.h SecKeyAlreadyExisting.h Comandi.hpp InexistentTable.h
+        )

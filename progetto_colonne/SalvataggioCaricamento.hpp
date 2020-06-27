@@ -2,15 +2,15 @@
 // Created by andry on 14/06/2020.
 //
 
-#ifndef PROGETTO_COLONNE_AVVIO_ARRESTO_HPP
-#define PROGETTO_COLONNE_AVVIO_ARRESTO_HPP
+#ifndef PROGETTO_COLONNE_SALVATAGGIOCARICAMENTO_HPP
+#define PROGETTO_COLONNE_SALVATAGGIOCARICAMENTO_HPP
 #include "Tabella.h"
 #include <fstream>
 #include "Colonna.h"
 #include "FileError.h"
 #include "Comandi.hpp"
 
-vector<Tabella*> Avvio(const string& nome_file, int* increment){
+vector<Tabella*> Caricamento(const string& nome_file, int* increment){
     ifstream database;
     database.open(nome_file);
     if(!database.is_open()){
@@ -81,7 +81,7 @@ vector<Tabella*> Avvio(const string& nome_file, int* increment){
     }
 }
 
-void Arresto(const string& nome_file, const vector<Tabella*>& tabelle){
+void Salvataggio(const string& nome_file, const vector<Tabella*>& tabelle){
     ofstream database;
     database.open(nome_file);
     if(!database.is_open()){
@@ -116,4 +116,4 @@ void Arresto(const string& nome_file, const vector<Tabella*>& tabelle){
         database.close();
     }
 }
-#endif //PROGETTO_COLONNE_AVVIO_ARRESTO_HPP
+#endif //PROGETTO_COLONNE_SALVATAGGIOCARICAMENTO_HPP
