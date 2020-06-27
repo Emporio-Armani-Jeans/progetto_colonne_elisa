@@ -21,6 +21,7 @@ char GestioneTesto(stringstream *comando, string &word) {
         } else {
             if (contatore_virgolette % 2 != 0) {
                 fine_testo = true;
+                break;
             }
             contatore_virgolette = 0;
         }
@@ -38,7 +39,7 @@ char GestioneTesto(stringstream *comando, string &word) {
             }
         }
     } else
-        carattere = word[k-1];
+        carattere = word[k];
     return carattere;
 }
 
@@ -414,7 +415,7 @@ bool ControlloSintassi::controlloInsert(stringstream &comando, string *messaggio
                                             return false;
                                         } else if (carattere == ')') {
                                             comando >> carattere;
-                                            if (carattere == ';') {
+                                            if (carattere == ';' || words[j][words[j].size()-1] == ';') {
                                                 flag_fine_comando = true;
                                             }
                                         }
@@ -597,33 +598,7 @@ bool ControlloSintassi::controlloUpdate(stringstream &comando, string *messaggio
                     if (belongs_to_operatori(word)){
                         comando >> word;
                         if (word[0] == '"'){ //caso di un campo testo
-                            contatore_virgolette = 0;
-                            fine_testo = false;
-                            int k;
-                            for (k = 1; k < word.size(); k++){
-                                if (word[k] == 34) {
-                                    contatore_virgolette++;
-                                } else {
-                                    if (contatore_virgolette % 2 != 0) {
-                                        fine_testo = true;
-                                    }
-                                    contatore_virgolette = 0;
-                                }
-                            }
-                            if (!fine_testo) {
-                                while (!fine_testo) {
-                                    comando >> carattere;
-                                    if (carattere == 34) {
-                                        contatore_virgolette++;
-                                    } else {
-                                        if (contatore_virgolette % 2 != 0) {
-                                            fine_testo = true;
-                                        }
-                                        contatore_virgolette = 0;
-                                    }
-                                }
-                            } else
-                                carattere = word[k-1];
+                            carattere = GestioneTesto(&comando,word);
                             if (carattere == 'w') {
                                 flag_condizione = true;
                                 comando >> word; //campo o Where
@@ -679,33 +654,7 @@ bool ControlloSintassi::controlloUpdate(stringstream &comando, string *messaggio
                         if (belongs_to_operatori(word)){
                             comando >> word;
                             if (word[0] == '"'){ //caso di un campo testo
-                                contatore_virgolette = 0;
-                                fine_testo = false;
-                                int k;
-                                for (k = 1; k < word.size(); k++){
-                                    if (word[k] == 34) {
-                                        contatore_virgolette++;
-                                    } else {
-                                        if (contatore_virgolette % 2 != 0) {
-                                            fine_testo = true;
-                                        }
-                                        contatore_virgolette = 0;
-                                    }
-                                }
-                                if (!fine_testo) {
-                                    while (!fine_testo) {
-                                        comando >> carattere;
-                                        if (carattere == 34) {
-                                            contatore_virgolette++;
-                                        } else {
-                                            if (contatore_virgolette % 2 != 0) {
-                                                fine_testo = true;
-                                            }
-                                            contatore_virgolette = 0;
-                                        }
-                                    }
-                                } else
-                                    carattere = word[k-1];
+                                carattere = GestioneTesto(&comando,word);
                                 if (carattere == ';') {
                                     flag_fine_comando = true;
                                 }

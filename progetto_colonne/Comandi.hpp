@@ -21,6 +21,7 @@ string campoTesto(stringstream *comando, string &word){
         } else {
             if (contatore_virgolette % 2 != 0) {
                 fine_testo = true;
+                break;
             }
             contatore_virgolette = 0;
         }
@@ -41,12 +42,11 @@ string campoTesto(stringstream *comando, string &word){
         }
     }
     else
-        carattere = word[k-1];
+        carattere = word[k];
     if (carattere == ';')
         word.pop_back();
-    if (carattere == ')'){
-        word.push_back(carattere);
-    }
+    if (carattere == ')' && word[word.size()-1] == ')')
+        word.push_back(')');
     word.pop_back();
     word.erase(0,1);
     return word;
@@ -81,7 +81,11 @@ void Create(vector<Tabella*> &tabelle, stringstream &stream_comando, int *contat
 
     stream_comando >> nome_colonna >> tipo;
     while (toUpper(tipo) != "KEY") {
-        getline(stream_comando, riga_comando, ',');
+        if (tipo[tipo.size()-1] == ','){
+            tipo.pop_back();
+        }
+        else
+            getline(stream_comando, riga_comando, ',');
         riga_temp << riga_comando;
         if (toUpper(tipo) == "INT") {
             //se è auto increment mi servono delle stringhe in più
@@ -152,6 +156,12 @@ void Create(vector<Tabella*> &tabelle, stringstream &stream_comando, int *contat
                 }
 
                 riga_temp.clear();
+                riga_comando.clear();
+                word.clear();
+                word2.clear();
+                word3.clear();
+                auto_increm = false;
+                not_null = false;
                 stream_comando >> nome_colonna >> tipo;
     }
 
@@ -338,41 +348,70 @@ void Update(vector<Tabella*> &tabelle, stringstream &stream_comando, string *mes
             campi.push_back(word);
             stream_comando >> scarto;   //operatore è sempre '='
             stream_comando >> word2;   //valore
-            if(word2[word2.size()-1]==',') {
-                word2.pop_back();   //rimuovo virgola
+            if (word2[0] == '"'){ //campo testo
+                word2 = campoTesto(&stream_comando, word2);
+                if (word2[word2.size()-1] == '"'){
+                    word2.pop_back();
+                }
             }
-            if (word2[0] == 34 || word2[0]==39) {
-                word2.pop_back();
-                word2.erase(0, 1);
+            else if (word2[0] == 39){
+                if (word2[word2.size()-1] == ',')
+                    word2.pop_back();
+                word2.pop_back(); // ' alla fine
+                word2.erase(0,1); // ' all'inizio
+            }
+            else {
+                if(word2[word2.size()-1]==',') {
+                    word2.pop_back();   //rimuovo virgola
+                }
             }
             valori.push_back(word2);
             stream_comando >> word;
         }    //ho opportunamente riempito campi e valori
+
+
         stream_comando >> word; //in word c'è campo condizione
         stream_comando >> word2; //operatore
         if(!belong_to(word2, operatori)){
-            (*message)="Operatore non valido";
+            throw InvalidOperator();
         }else {
             if (toUpper(word2) == "BETWEEN") {
                 stream_comando >> condizione1;
-                if (condizione1[0] == 34 || condizione1[0] == 39) {
-                    condizione1.erase(0, 1);
+                if (condizione1[0] == '"') {
+                    condizione1 = campoTesto(&stream_comando, condizione1);
+                }
+                else if (condizione1[0] == 39){ //se è un char tolgo le '
                     condizione1.pop_back();
+                    condizione1.erase(0,1);
                 }
                 stream_comando >> scarto; //scarto AND
                 stream_comando >> condizione2;
-                condizione2.pop_back();  //rimuovo ';'
-                if (condizione2[0] == 34 || condizione2[0] == 39) {
-                    condizione2.erase(0, 1);
-                    condizione2.pop_back();
+                if (condizione2[0] == '"') {
+                    condizione2 = campoTesto(&stream_comando, condizione2);
+                }
+                else if (condizione2[0] == 39){ //se è un char tolgo le '
+                    if (condizione2[condizione2.size()-1] == ';')
+                        condizione2.pop_back();
+                    condizione2.pop_back();//'
+                    condizione2.erase(0,1);//'
+                } else {
+                    if (condizione2[condizione2.size()-1] == ';')
+                        condizione2.pop_back(); //;
                 }
                 tabelle[pos_table]->updateRecord(word, condizione1, condizione2, campi, valori);
             } else {
                 stream_comando >> word3; //condizione
-                word3.pop_back();  //rimuovo ';'
-                if (word3[0] == 34 || word3[0] == 39) {
-                    word3.erase(0, 1);
-                    word3.pop_back();
+                if (word3[0] == '"') {
+                    word3 = campoTesto(&stream_comando, word3);
+                }
+                else if (word3[0] == 39){ //se è un char tolgo le '
+                    if (word3[word3.size()-1] == ';')
+                        word3.pop_back();
+                    word3.pop_back();//'
+                    word3.erase(0,1);//'
+                } else {
+                    if (word3[word3.size()-1] == ';')
+                        word3.pop_back(); //;
                 }
                 if (word2 == "=") {
                     tabelle[pos_table]->updateRecord(word, word3, campi, valori);
@@ -390,7 +429,8 @@ void Update(vector<Tabella*> &tabelle, stringstream &stream_comando, string *mes
             }
         }
     }
-} //da revisionare
+    message->assign("Operazione completata: Record aggiornato/i correttamente");
+}
 
 void Select(vector<Tabella*> &tabelle, stringstream &stream_comando, string *message){
     string word, scarto, word2, word3, nome_colonna, condizione1, condizione2, ordine;
@@ -797,7 +837,7 @@ void Insert(vector<Tabella*> &tabelle, stringstream &stream_comando, string *mes
                 word.pop_back(); // "
             }
             else if (word[0] == 39){
-                if (word[word.size()-1] != ';'){
+                if (word[word.size()-1] == ';'){
                     flag_fine = true;
                     word.pop_back(); // ;
                 }

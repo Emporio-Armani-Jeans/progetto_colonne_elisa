@@ -135,7 +135,7 @@ int main() {
                     Insert(tabelle, comando_intero, &status_message);
                     cout << status_message << endl;
                 } else
-                    cout << message_error << endl;
+                   cout << message_error << endl;
                 break;
             case DELETE :   //controllo tipi???
                 if(controllore.controlloDelete(comando_per_controlli, &message_error)) {

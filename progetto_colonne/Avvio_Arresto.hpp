@@ -57,9 +57,13 @@ vector<Tabella*> Avvio(const string& nome_file, int* increment){
                 else if(tipo=="time"){
                     new_col= new ColonnaTime(word);
                 }
+                if(not_null=="true") {
+                    if (toUpper(tipo) != "INT" || (toUpper(tipo) == "INT" && !new_col->isAutoIncrement())) {
+                        new_col->setNotNull();
+                    }
+                }
                 campi.push_back(new_col->getNomeColonna());
                 tabs[i]->aggiungiColonna(new_col);
-                if(not_null=="true") new_col->setNotNull();
                 if(primary_key=="true") tabs[i]->setChiavePrimaria(new_col->getNomeColonna());
                 new_col= nullptr;
             }
@@ -97,7 +101,9 @@ void Arresto(const string& nome_file, const vector<Tabella*>& tabelle){
                 database << toUpper(tab->getCol(i)->getNomeColonna()) << ':' << tab->getCol(i)->getTipo() << ",";
                 if (tab->getCol(i)->getTipo() == "int" && tab->getCol(i)->isAutoIncrement()) database << "true,";
                 else database << "false,";
-                if (tab->getCol(i)->isNotNull()) database << "true,";
+                if (tab->getCol(i)->isNotNull() && !tab->getCol(i)->isAutoIncrement()) {
+                    database << "true,";
+                }
                 else database << "false,";
                 if (tab->getCol(i)->isKey()) database << "true#";
                 else database << "false#";
