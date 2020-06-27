@@ -31,10 +31,9 @@ void Tabella::setChiavePrimaria(const string& nomecolonna) {
         for(int j = 0; j < _colonne.size() && !flag_colonna_trovata; j++){
             if(_colonne[j]->getNomeColonna() == nomecolonna){
                 _colonne[j]->_primary_key = true;
-                _colonne[j]->_not_null = true;
+                _colonne[j]->_not_null = !(_colonne[j]->getTipo() == "int" && _colonne[j]->isAutoIncrement());
                 flag_colonna_trovata = true;
             }
-
         }if(!flag_colonna_trovata)
             throw CampoNonTrovato();
     }
@@ -97,7 +96,8 @@ void Tabella::deleteRecord(const string& campo_condizione, const string &condizi
         _recs=0;
     }else {
         while (i < _colonne.size() && !trovata) {
-            if (campo_condizione == _colonne[i]->getNomeColonna()) trovata = true;
+            if (campo_condizione == _colonne[i]->getNomeColonna())
+                trovata = true;
             else i++;
         }
         if (trovata) {

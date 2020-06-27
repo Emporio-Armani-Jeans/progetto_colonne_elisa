@@ -7,11 +7,10 @@
 #include <vector>
 #include <string>
 #include <sstream>
-#include "SalvataggioCaricamento.hpp"
+#include "Avvio_Arresto.hpp"
 #include "ControlloSintassi.h"
 #include "Comandi.hpp"
 #define ERR_COMANDO -1
-#define ERRORE_ECCEZIONE 420
 
 using namespace std;
 
@@ -36,7 +35,7 @@ int main() {
         try {
             cout << "Inserire nome file database" << endl;
             cin >> nome_file;
-            tabelle = Caricamento(nome_file, &contatore); //nella gestione dei file togliere i campi che diventano maiuscoli perchè quelli sono CASE SENSITIVE quindi nelle esecuzioni future servono come l'utente li ha creati!!!
+            tabelle = Avvio(nome_file, &contatore); //nella gestione dei file togliere i campi che diventano maiuscoli perchè quelli sono CASE SENSITIVE quindi nelle esecuzioni future servono come l'utente li ha creati!!!
                                                     //solo le parole chiave sono CASE INSENSITIVE!!
             ok = true;
         }
@@ -116,105 +115,61 @@ int main() {
 
     //mettere i toUpper ovunque nei confronti con keywords
     while(compare_first_word_comandi(first_word)!=QUIT) {
-        try {
-            switch (compare_first_word_comandi(first_word)) {
-                case CREATE :
-                    //if (controllore.controlloCreate(comando_per_controlli, &message_error)) {
-                    Create(tabelle, comando_intero, &contatore, &status_message);
-                    Salvataggio(nome_file, tabelle);
+        switch (compare_first_word_comandi(first_word)) {
+            case CREATE :
+                  if (controllore.controlloCreate(comando_per_controlli, &message_error)) {
+                      Create(tabelle, comando_intero, &contatore, &status_message);
                     cout << status_message << endl;
-                    // } else
-                    //      cout << message_error << endl;
-                    break;
-                case DROP :
-                    if (controllore.controlloDrop(comando_per_controlli, &message_error)) {
-                        Drop(tabelle, comando_intero, &status_message);
-                        Salvataggio(nome_file, tabelle);
-                        cout << status_message << endl;
-                    } else
-                        cout << message_error << endl;
-                    break;
-                case INSERT :   //ricordarsi di controllare nell'implementazione comando che il vector di campi debba avere size uguale al vector di valori!!e controllare anche i tipi e nelle classi la sintassi corretta delle date
-                    // if(controllore.controlloInsert(comando_per_controlli, &message_error)) {
+                  } else
+                      cout << message_error << endl;
+                break;
+            case DROP :
+                if(controllore.controlloDrop(comando_per_controlli, &message_error)) {
+                    Drop(tabelle, comando_intero, &status_message);
+                    cout << status_message << endl;
+                } else
+                    cout << message_error << endl;
+                break;
+            case INSERT :   //ricordarsi di controllare nell'implementazione comando che il vector di campi debba avere size uguale al vector di valori!!e controllare anche i tipi e nelle classi la sintassi corretta delle date
+                if(controllore.controlloInsert(comando_per_controlli, &message_error)) {
                     Insert(tabelle, comando_intero, &status_message);
-                    Salvataggio(nome_file, tabelle);
                     cout << status_message << endl;
-                    // } else
-                    //     cout << message_error << endl;
-                    break;
-                case DELETE :   //controllo tipi???
-                    if (controllore.controlloDelete(comando_per_controlli, &message_error)) {
-                        Delete(tabelle, comando_intero, &status_message);
-                        Salvataggio(nome_file, tabelle);
-                        cout << status_message << endl;
-                    } else
-                        cout << message_error << endl;
-                    break;
-                case TRUNCATE :
-                    if (controllore.controlloTruncate(comando_per_controlli, &message_error)) {
-                        Truncate(tabelle, comando_intero, &status_message);
-                        Salvataggio(nome_file, tabelle);
-                        cout << status_message << endl;
-                    } else
-                        cout << message_error << endl;
-                    break;
-                case UPDATE :
-                    if (controllore.controlloUpdate(comando_per_controlli, &message_error)) {
-                        Update(tabelle, comando_intero, &status_message);
-                        Salvataggio(nome_file, tabelle);
-                        cout << status_message << endl;
-                    } else
-                        cout << message_error << endl;
-                    break;
-                case SELECT :
-                    if (controllore.controlloSelect(comando_per_controlli, &message_error)) {
-                        Select(tabelle, comando_intero, &status_message);
-                        cout << status_message << endl;
-                    } else
-                        cout << message_error << endl;
-                    break;
-                case QUIT :
-                    break;
-                default:
-                    cout << syntax_err << endl;
-                    break;
-            }
-        }
-        //eccezioni gestibili --> richiedo il comando
-        //eccezioni inaspettate --> chiudo il programma (non salvo progressi fatti durante ultima run)
-        catch(InexistentTable &tab){
-            cout << "Eccezione: " << tab.what() << endl;
-        }
-        catch(PrimKeyError &prk){
-            cout << "Eccezione: " << prk.what() << endl;
-        }
-        catch(FormatTypeError &type){
-            cout << "Eccezione: " << type.what() << endl;
-        }
-        catch(InvalidCondition &cond){
-            cout << "Eccezione: " << cond.what() << endl;
-        }
-        catch(InvalidOperator &op){
-            cout << "Eccezione: " << op.what() << endl;
-        }
-        catch(NotNullError &nn){
-            cout << "Eccezione: " << nn.what() << endl;
-        }
-        catch(PrimaryKeyAlreadyExisting &pka){
-            cout << "Eccezione: " << pka.what() << endl;
-        }
-        catch(SecKeyAlreadyExisting &ska){
-            cout << "Eccezione: " << ska.what() << endl;
-        }
-        catch(SecKeyError &ske){
-            cout << "Eccezione: " << ske.what() << endl;
-        }
-        catch(SecKeyNotFound &skn){
-            cout << "Eccezione: " << skn.what() << endl;
-        }
-        catch(exception &unexpected){
-            cout << "Eccezione: " << unexpected.what() << endl;
-            exit(ERRORE_ECCEZIONE);
+                } else
+                   cout << message_error << endl;
+                break;
+            case DELETE :   //controllo tipi???
+                if(controllore.controlloDelete(comando_per_controlli, &message_error)) {
+                    Delete(tabelle, comando_intero, &status_message);
+                    cout << status_message << endl;
+                } else
+                    cout << message_error << endl;
+                break;
+            case TRUNCATE :
+                if (controllore.controlloTruncate(comando_per_controlli, &message_error)) {
+                    Truncate(tabelle, comando_intero, &status_message);
+                    cout << status_message << endl;
+                } else
+                    cout << message_error << endl;
+                break;
+            case UPDATE :
+                if (controllore.controlloUpdate(comando_per_controlli, &message_error)) {
+                    Update(tabelle, comando_intero, &status_message);
+                    cout << status_message << endl;
+                } else
+                    cout << message_error << endl;
+                break;
+            case SELECT :
+                if (controllore.controlloSelect(comando_per_controlli, &message_error)) {
+                    Select(tabelle, comando_intero, &status_message);
+                    cout << status_message << endl;
+                } else
+                    cout << message_error << endl;
+                break;
+            case QUIT :
+                break;
+            default:
+                cout << syntax_err << endl;
+                break;
         }
 
         comando.clear();
@@ -286,7 +241,7 @@ int main() {
 
     cout << "Arresto in corso..." << endl;
 
-    Salvataggio(nome_file, tabelle);
+    Arresto(nome_file, tabelle);
 
     cout << "Arresto eseguito correttamente" << endl;
 
