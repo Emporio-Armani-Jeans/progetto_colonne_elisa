@@ -65,7 +65,7 @@ string toUpper(string word){
     return word;
 }
 
-void Create(vector<Tabella*> &tabelle, stringstream &stream_comando, int *contatore, string *message) {
+void Create(vector<Tabella*> &tabelle, stringstream &stream_comando, string *message) {
     string scarto, word, word2, word3, nome_tabella, nome_colonna, tipo, riga_comando, testo_chiavi;
     bool not_null = false, auto_increm = false;
     stringstream riga_temp;
@@ -792,7 +792,7 @@ void Select(vector<Tabella*> &tabelle, stringstream &stream_comando, string *mes
     }
 }
 
-void Insert(vector<Tabella*> &tabelle, stringstream &stream_comando, string *message, int *increment_value) {
+void Insert(vector<Tabella*> &tabelle, stringstream &stream_comando, string *message) {
     string scarto, word, nome_tabella;
     vector<string> campi, valori;
     int a, pos_table;
@@ -858,7 +858,7 @@ void Insert(vector<Tabella*> &tabelle, stringstream &stream_comando, string *mes
             valori.push_back(word);
             stream_comando >> word;
         }
-        tabelle[pos_table]->addRecord(campi, valori, increment_value);
+        tabelle[pos_table]->addRecord(campi, valori);
         (*message) = "Operazione completata: Record aggiunto correttamente alla tabella";
     }
 }

@@ -53,7 +53,7 @@ int Tabella::numRecs() const {
     return _recs;
 }
 
-void Tabella::addRecord(const vector<string>& campi, const vector<string>& valori, int *increment_value) {
+void Tabella::addRecord(const vector<string>& campi, const vector<string>& valori) {
     bool flag_campo_non_trovato = false, flag_colonna_trovata = false;
     for(int i = 0; i < _colonne.size() && !flag_campo_non_trovato; i++){
         flag_colonna_trovata = false;

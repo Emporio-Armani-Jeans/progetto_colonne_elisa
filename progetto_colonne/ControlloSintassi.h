@@ -13,6 +13,10 @@ using namespace std;
 class ControlloSintassi {
 public:
     ControlloSintassi();
+    ~ControlloSintassi() = default; //?
+
+    //controllo iniziale che gestisce i caratteri speciali
+    string Gestione_caratteri_speciali(string &comando, string *status_message);
 
     //controlli tornano true se il formato è corretto e modificano il messaggio di errore caso per caso
     bool controlloCreate(stringstream &comando, string *messaggio);

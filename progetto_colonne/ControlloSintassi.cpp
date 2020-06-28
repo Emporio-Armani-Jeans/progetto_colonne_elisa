@@ -801,3 +801,57 @@ bool ControlloSintassi::controlloSelect(stringstream &comando, string *messaggio
     }
 }
 
+string ControlloSintassi::Gestione_caratteri_speciali(string &comando, string *status_message) {
+    bool found_text = false, campo_testo_presente = false, inside_testo = false;
+    int contatore_virgolette = 0;
+    vector<int> pos_first, pos_last;
+    for (int j = 1; j < comando.size(); ++j) { //'"'
+        if (!found_text){
+            if (comando[j] == 34 && ((int)comando[j-1] != 39 && (int)comando[j+1] != 39)) { //se trovo un " e non è all'interno di un campo char
+                found_text = true;
+                campo_testo_presente = true;
+                pos_first.push_back(j);
+            }
+        } // numero pari di " --> sono uscito, numero dispari --> non sono uscito
+        else {
+            if(comando[j] == 34) {
+                contatore_virgolette++;
+            }else{
+                if(contatore_virgolette % 2 != 0){
+                    found_text=false;
+                    pos_last.push_back(j-1);
+                }
+                contatore_virgolette=0;
+            }
+        }
+    }
+
+    //controllo sui ';' nei campi di testo
+    for (int k = 0; k < comando.size(); ++k) {
+        inside_testo = false;
+        if (!campo_testo_presente){
+            //se trovo ';' e non è un campo char, trascuro il resto del comando perchè devo fermarmi
+            if ( k!= comando.size()-1 && comando[k] == ';' && ((int)comando[k-1] != 39 && (int)comando[k+1] != 39) ){
+                comando.erase(k+1);
+            }
+        }
+        else{
+            if (pos_first.size() != pos_last.size())
+                (*status_message)="ERR: campo di testo non chiuso da apposite virgolette";
+            else{
+                for (int j = 0; j < pos_first.size(); ++j) {
+                    if (k > pos_first[j] && k < pos_last[j]){
+                        inside_testo = true;
+                    }
+                }
+                if (!inside_testo){
+                    if ( k != comando.size()-1 && comando[k] == ';' && ((int)comando[k-1] != 39 && (int)comando[k+1] != 39)){
+                        comando.erase(k+1);
+                    }
+                }
+            }
+        }
+    }
+    return comando;
+}
+

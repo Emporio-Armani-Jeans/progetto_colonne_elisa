@@ -40,7 +40,7 @@ public:
 
     /* Funzione per aggiungere un record: per ogni colonna con nome uguale agli elementi del vettore <campi>,
      * aggiunge un elemento e imposta il corrispettivo valore contenuto nel vettore <valori> */
-    void addRecord(const vector<string>& campi, const vector<string>& valori, int *increment_value);
+    void addRecord(const vector<string>& campi, const vector<string>& valori);
     void addRecordMemory(const vector<string>& campi, const vector<string>& valori);
     bool isLinked();
 
@@ -54,7 +54,6 @@ public:
     Colonna* getCol(int index)const;
     int numCampi()const;
     int numRecs()const;
-    void setIncrementValue(int increment); ///
 
     vector<string> returnData(const vector<string>& campi, const string& campo_ordinamento=string(), int operatore_ordinamento=0)const;
     vector<string> returnData(const vector<string>& campi, const string& campo_condizione, const string& condizione,
