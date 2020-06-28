@@ -64,62 +64,62 @@ int main() {
             switch (compare_first_word_comandi(first_word)) {
                 case CREATE :
                     if (controllore.controlloCreate(comando_per_controlli, &message_error)) {
-                        Create(tabelle, comando_intero, increment_value, &status_message);
+                        /*Create(tabelle, comando_intero, increment_value, &status_message);
                         Salvataggio(nome_file, tabelle);
                         tabelle=Caricamento(nome_file);
-                        cout << status_message << endl;
+                        cout << status_message << endl;*/
                     } else
                         cout << message_error << endl;
                     break;
                 case DROP :
                     if (controllore.controlloDrop(comando_per_controlli, &message_error)) {
-                        Drop(tabelle, comando_intero, &status_message);
+                        /*Drop(tabelle, comando_intero, &status_message);
                         Salvataggio(nome_file, tabelle);
                         tabelle=Caricamento(nome_file);
-                        cout << status_message << endl;
+                        cout << status_message << endl;*/
                     } else
                         cout << message_error << endl;
                     break;
-                case INSERT :   //ricordarsi di controllare nell'implementazione comando che il vector di campi debba avere size uguale al vector di valori!!e controllare anche i tipi e nelle classi la sintassi corretta delle date
+                case INSERT :   //ricordarsi di controllare nell'implementazione comando che il vector di campi debba avere size uguale al vector di valori!!e controllare anche i _tipi e nelle classi la sintassi corretta delle date
                     if (controllore.controlloInsert(comando_per_controlli, &message_error)) {
-                        Insert(tabelle, comando_intero, &status_message, increment_value);
+                        /*Insert(tabelle, comando_intero, &status_message, increment_value);
                         Salvataggio(nome_file, tabelle);
                         tabelle=Caricamento(nome_file);
-                        cout << status_message << endl;
+                        cout << status_message << endl;*/
                     } else
                         cout << message_error << endl;
                     break;
                 case DELETE :
                     if (controllore.controlloDelete(comando_per_controlli, &message_error)) {
-                        Delete(tabelle, comando_intero, &status_message);
+                        /*Delete(tabelle, comando_intero, &status_message);
                         Salvataggio(nome_file, tabelle);
                         tabelle=Caricamento(nome_file);
-                        cout << status_message << endl;
+                        cout << status_message << endl;*/
                     } else
                         cout << message_error << endl;
                     break;
                 case TRUNCATE :
                     if (controllore.controlloTruncate(comando_per_controlli, &message_error)) {
-                        Truncate(tabelle, comando_intero, &status_message);
+                        /*Truncate(tabelle, comando_intero, &status_message);
                         Salvataggio(nome_file, tabelle);
                         tabelle=Caricamento(nome_file);
-                        cout << status_message << endl;
+                        cout << status_message << endl;*/
                     } else
                         cout << message_error << endl;
                     break;
                 case UPDATE :
                     if (controllore.controlloUpdate(comando_per_controlli, &message_error)) {
-                        Update(tabelle, comando_intero, &status_message);
+                        /*Update(tabelle, comando_intero, &status_message);
                         Salvataggio(nome_file, tabelle);
                         tabelle=Caricamento(nome_file);
-                        cout << status_message << endl;
+                        cout << status_message << endl;*/
                     } else
                         cout << message_error << endl;
                     break;
                 case SELECT :
                     if (controllore.controlloSelect(comando_per_controlli, &message_error)) {
-                        Select(tabelle, comando_intero, &status_message);
-                        cout << status_message << endl;
+                        /*Select(tabelle, comando_intero, &status_message);
+                        cout << status_message << endl;*/
                     } else
                         cout << message_error << endl;
                     break;

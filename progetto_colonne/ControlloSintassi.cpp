@@ -10,7 +10,7 @@
 enum comando {CREATE, DROP, INSERT, DELETE, TRUNCATE, UPDATE, SELECT,QUIT};
 enum tipo {INT, FLOAT, CHAR, TEXT, DATE, TIME};
 
-char GestioneTesto(stringstream *comando, string &word) {
+char ControlloSintassi::GestioneTesto(stringstream *comando, string &word) {
     int contatore_virgolette = 0;
     bool fine_testo = false;
     char carattere;
@@ -43,31 +43,19 @@ char GestioneTesto(stringstream *comando, string &word) {
     return carattere;
 }
 
-string toUp(string word) {
+string ControlloSintassi::toUp(string word) {
     for (auto & c : word)
         c = toupper(c);
     return word;
 }
 
-int compare_tipo(string &tipo){
-    tipo = toUp(tipo);
-    if(tipo == "INT")
-        return INT;
-    else if (tipo == "FLOAT")
-        return FLOAT;
-    else if (tipo == "CHAR")
-        return CHAR;
-    else if (tipo == "TEXT")
-        return TEXT;
-    else if (tipo == "DATE")
-        return DATE;
-    else if (tipo == "TIME")
-        return TIME;
-    else
-        return ERR_COMANDO;
+bool ControlloSintassi::belongs_to(string &to_be_compared, const vector<string>& insieme) {
+    for(const auto & elem : insieme){
+        if(toUp(to_be_compared) == elem)
+            return true;
+    }
+    return false;
 }
-
-
 
 
 ControlloSintassi::ControlloSintassi() {
@@ -78,38 +66,21 @@ ControlloSintassi::ControlloSintassi() {
     _invalid_operator = "ERR: Operatore non valido, riprovare!";
     _message_error_key = "ERR: Specificare tutti i campi prima dell'inserimento delle chiavi, riprovare!";
     _missing_pk = "ERR: Primary Key non specificata! Riprovare";
+    _duplicate_col = "ERR: Due colonne di una stessa tabella non possono avere lo stesso nome, riprovare!";
 }
 
-bool ControlloSintassi::belongs_to_keywords(string &to_be_compared) const{
-    to_be_compared = toUp(to_be_compared);
-    bool _keyword_trovata = false;
-    for (const auto & _keyword : _keywords){
-        if (to_be_compared == _keyword)
-            _keyword_trovata = true;
-    }
-    return _keyword_trovata;
-}
 
-bool ControlloSintassi::belongs_to_operatori(string &to_be_compared) const{
-    to_be_compared = toUp(to_be_compared);
-    bool _op_trovato = false;
-    for (const auto & op : operatori){
-        if (to_be_compared == op)
-            _op_trovato = true;
-    }
-    return _op_trovato;
-}
 
-bool ControlloSintassi::controlloCreate(stringstream &comando, string* messaggio) const {
+bool ControlloSintassi::controlloCreate(stringstream &comando, string* messaggio) {
     string word;
     char c;
     bool comando_corretto = false, chiave_trovata = false, chiave_primaria_trovata = false;
-    vector<string> words;
+    vector<string> words, nomi_colonne;
     comando >> word >> word;
     word = toUp(word);
     if (word == "TABLE"){ //controllo che la seconda parola dopo create sia table
         comando >> word;
-        if (!belongs_to_keywords(word)){ //controllo che il nome assegnato alla tabella non sia una keyword del linguaggio
+        if (!belongs_to(word,_keywords)){ //controllo che il nome assegnato alla tabella non sia una keyword del linguaggio
             comando >> c;
             if (c == '('){ //controllo la presenza della (
                 while(!comando.eof()){ //finchè non finisce il comando
@@ -190,65 +161,70 @@ bool ControlloSintassi::controlloCreate(stringstream &comando, string* messaggio
                             words.emplace_back();
                             comando >> words[i];
                         }
-                        if (!belongs_to_keywords(words[0])){ //controllo che non sia una keyword
-                            if (words[words.size()-1][words[words.size()-1].size()-1] == ','){ //controllo che ci sia la virgola a fine riga
-                                words[words.size()-1].pop_back(); //una volta appurato che la virgola c'è la tolgo
-                                if (compare_tipo(words[1]) != -1){ //controllo che il tipo della colonna sia fra quelli permessi
-                                    if (words[1] != words[words.size()-1]){ //se il tipo non è l'ultima parola della riga vado avanti
-                                        for (int j = 2; j < words.size(); j++){
-                                            words[j] = toUp(words[j]);
-                                            if (j != (words.size()-1)){ //se non si è ancora arrivati all'ultima parola
-                                                if ( (toUp(words[j]) == "NOT" && toUp(words[j+1]) == "NULL")
-                                                || (toUp(words[j]) == "NULL" && toUp(words[j-1]) == "NOT")
-                                                || (toUp(words[j]) == "AUTO_INCREMENT")){
-                                                    if (toUp(words[j]) == "AUTO_INCREMENT"){
-                                                        if (compare_tipo(words[1]) != INT){
-                                                            messaggio->assign(_wrong_type_auto_increment);
-                                                            return false;//_wrong_type_auto_increment;
+                        if (!belongs_to(words[0], _keywords)) { //controllo che non sia una keyword
+                            if (!belongs_to(words[0], nomi_colonne)) {
+                                nomi_colonne.push_back(words[0]);
+                                if (words[words.size() - 1][words[words.size() - 1].size() - 1] ==
+                                    ',') { //controllo che ci sia la virgola a fine riga
+                                    words[words.size() - 1].pop_back(); //una volta appurato che la virgola c'è la tolgo
+                                    if (belongs_to(words[1],
+                                                   _tipi)) { //controllo che il tipo della colonna sia fra quelli permessi
+                                        if (words[1] != words[words.size() -
+                                                              1]) { //se il tipo non è l'ultima parola della riga vado avanti
+                                            for (int j = 2; j < words.size(); j++) {
+                                                words[j] = toUp(words[j]);
+                                                if (j != (words.size() -
+                                                          1)) { //se non si è ancora arrivati all'ultima parola
+                                                    if ((toUp(words[j]) == "NOT" && toUp(words[j + 1]) == "NULL")
+                                                        || (toUp(words[j]) == "NULL" && toUp(words[j - 1]) == "NOT")
+                                                        || (toUp(words[j]) == "AUTO_INCREMENT")) {
+                                                        if (toUp(words[j]) == "AUTO_INCREMENT") {
+                                                            if (words[1] != "INT") {
+                                                                messaggio->assign(_wrong_type_auto_increment);
+                                                                return false;//_wrong_type_auto_increment;
+                                                            }
                                                         }
+                                                    } else {
+                                                        messaggio->assign(_message_error);
+                                                        return false;
+                                                    }
+                                                } else { //se invece si è arrivati all'ultima parola
+                                                    if ((toUp(words[j]) == "NULL" && toUp(words[j - 1]) == "NOT") ||
+                                                        (toUp(words[j]) == "AUTO_INCREMENT")) {
+                                                        if ((toUp(words[j]) == "AUTO_INCREMENT")) {
+                                                            if (words[1] != "INT") {
+                                                                messaggio->assign(_wrong_type_auto_increment);
+                                                                return false;//_wrong_type_auto_increment;
+                                                            }
+                                                        }
+                                                        comando_corretto = true;
+                                                    } else {
+                                                        messaggio->assign(_message_error);
+                                                        return false;
                                                     }
                                                 }
-                                                else{
-                                                    messaggio->assign(_message_error);
-                                                    return false;
-                                                }
                                             }
-                                            else { //se invece si è arrivati all'ultima parola
-                                                if ((toUp(words[j]) == "NULL" && toUp(words[j-1]) == "NOT") ||
-                                                (toUp(words[j]) == "AUTO_INCREMENT")){
-                                                    if ((toUp(words[j]) == "AUTO_INCREMENT")){
-                                                        if (compare_tipo(words[1]) != INT){
-                                                            messaggio->assign(_wrong_type_auto_increment);
-                                                            return false;//_wrong_type_auto_increment;
-                                                        }
-                                                    }
-                                                    comando_corretto = true;
-                                                }
-                                                else{
-                                                    messaggio->assign(_message_error);
-                                                    return false;
-                                                }
-                                            }
-                                        }
+                                        } else
+                                            comando_corretto = true;
+                                    } else {
+                                        messaggio->assign(_inexistent_type);
+                                        return false;
                                     }
-                                    else
-                                        comando_corretto = true;
-                                }
-                                else{
-                                    messaggio->assign(_inexistent_type);
+                                } else {
+                                    messaggio->assign(_message_error);
                                     return false;
                                 }
                             }
-                            else{
-                                messaggio->assign(_message_error);
+                            else {
+                                messaggio->assign(_duplicate_col);
                                 return false;
                             }
                         }
-                        else{
+                        else {
                             messaggio->assign(_message_error_keyword);
                             return false;
                         }
-                        } else {
+                        }else {
                             messaggio->assign(_message_error_key);
                             return false;
                         }
@@ -289,7 +265,7 @@ bool ControlloSintassi::controlloCreate(stringstream &comando, string* messaggio
     }
 }
 
-bool ControlloSintassi::controlloTruncate(stringstream &comando, string *messaggio) const {
+bool ControlloSintassi::controlloTruncate(stringstream &comando, string *messaggio){
     vector<string> words;
     int i = 0;
     words.emplace_back();
@@ -309,24 +285,17 @@ bool ControlloSintassi::controlloTruncate(stringstream &comando, string *messagg
             return false;
         }
         else{
-            if (words[2][words[2].size()-1] == ';') { //controllo che alla fine del nome della tabella ci sia il ;
-                words[2].pop_back(); //se c'è lo tolgo
-                if (!belongs_to_keywords(words[2]))
-                    return true;
-                else {
-                    messaggio->assign(_message_error_keyword);
-                    return false;
-                }
-            }
-            else {
+            if (words[2][words[2].size()-1] != ';') { //controllo che alla fine del nome della tabella ci sia il ;
                 messaggio->assign(_message_error);
                 return false;
             }
+            else
+                return true;
         }
     }
 }
 
-bool ControlloSintassi::controlloDrop(stringstream &comando, string *messaggio) const {
+bool ControlloSintassi::controlloDrop(stringstream &comando, string *messaggio){
     vector<string> words;
     int i = 0;
     words.emplace_back();
@@ -347,13 +316,7 @@ bool ControlloSintassi::controlloDrop(stringstream &comando, string *messaggio) 
         }
         else{
             if (words[2][words[2].size()-1] == ';') { //controllo che alla fine del nome della tabella ci sia il ;
-                words[2].pop_back(); //se c'è lo tolgo
-                if (!belongs_to_keywords(words[2]))
-                    return true;
-                else {
-                    messaggio->assign(_message_error_keyword);
-                    return false;
-                }
+                return true;
             }
             else {
                 messaggio->assign(_message_error);
@@ -363,150 +326,137 @@ bool ControlloSintassi::controlloDrop(stringstream &comando, string *messaggio) 
     }
 }
 
-bool ControlloSintassi::controlloInsert(stringstream &comando, string *messaggio) const{ //aggiungere BETWEEN
+bool ControlloSintassi::controlloInsert (stringstream &comando, string *messaggio) { //aggiungere BETWEEN
     string word;
     char carattere;
     bool fine_testo = false, flag_fine_comando = false;
     int contatore_virgolette;
     vector<string> words;
     comando >> word >> word;
-    if (toUp(word) == "INTO"){
+    if (toUp (word) == "INTO") {
         comando >> word;
-        if (!belongs_to_keywords(word)) {
-            int i = 0;
-            words.emplace_back();
-            comando >> words[i];
-            if (words[i][0] == '(') { //verifico che ci sia il carattere (
-                words[i].erase(0,1); //tolgo la (
-                    while (words[i][words[i].size() - 1] != ')') {
-                        if (words[i][words[i].size() - 1] != ',' && words[i][words[i].size() - 1] != ')') { //provare anche a togliere seconda condizione
-                            messaggio->assign(_message_error);
-                            return false;
-                        }
-                        words[i].pop_back(); //tolgo la virgola
-                        if (belongs_to_keywords(words[i])) {
-                            messaggio->assign(_message_error_keyword);
-                            return false;
-                        }
-                        i++;
-                        words.emplace_back();
-                        comando >> words[i];
-                    }//fare un ultimo controllo su belongkey
-                    comando >> word;
-                    if (toUp(word) != "VALUES") {
-                        messaggio->assign(_message_error);
-                        return false;
-                    } else {
-                        words.clear();
-                        int j = 0;
-                        words.emplace_back();
-                        comando >> words[j];
-                        if (words[j][0] != '(') {
-                            messaggio->assign(_message_error);
-                            return false;
-                        } else {
-                            words[j].erase(0,1); //tolgo (
-                            while (!flag_fine_comando){
-                                if (words[j][words[j].size() - 1] == ',' || words[j][words[j].size() - 1] == ';' || (words[j][0] == 34) || (words[j][0] == 39)) { //togliere seconda condizione magari
-                                    if (words[j][0] == '"') { //caso di un campo di testo
-                                        carattere = GestioneTesto(&comando,words[j]);
-                                        if (carattere != ',' && carattere != ')') {
-                                            messaggio->assign(_message_error);
-                                            return false;
-                                        } else if (carattere == ')') {
-                                            comando >> carattere;
-                                            if (carattere == ';' || words[j][words[j].size()-1] == ';') {
-                                                flag_fine_comando = true;
-                                            }
-                                        }
-                                    } else if (words[j][0] == 39) { //caso di un campo char 'c', oppure 'c'); se fine comando
-                                        if (words[j][words[j].size()-1] == ','){
-                                            if (words[j].size() != 4){ //tipo 1: se la dimensione è > 4 vuol dire che ho messo dei caratteri in più es. 'ciao', non va bene
-                                                messaggio->assign(_message_error);
-                                                return false;
-                                            }
-                                            else{
-                                                words[j].pop_back(); //tolgo la ,
-                                                if (words[j][words[j].size()-1] != 39){ //controllo che venga chiuso il campo char
-                                                    messaggio->assign(_message_error);
-                                                    return false;
-                                                }
-                                            }
-                                        }
-                                        else if (words[j][words[j].size()-1] == ';'){ //vuol dire che si è arrivati alla fine del comando
-                                            if (words[j].size() != 5){ //tipo 1: se la dimensione è > 5 vuol dire che ho messo dei caratteri in più es. 'ciao'); non va bene
-                                                messaggio->assign(_message_error);
-                                                return false;
-                                            }
-                                            if (words[j][words[j].size()-2] == ')'){
-                                                if (words[j][words[j].size()-3] == 39){
-                                                    flag_fine_comando = true;
-                                                }
-                                                else {
-                                                    messaggio->assign(_message_error);
-                                                    return false;
-                                                }
-                                            }
-                                            else {
-                                                messaggio->assign(_message_error);
-                                                return false;
-                                            }
-                                        }
-                                        else {
-                                            messaggio->assign(_message_error);
-                                            return false;
-                                        }
-                                    } else { //resto casi: 20, o 20);
-                                        if (words[j][words[j].size()-1] != ','){
-                                            if (words[j][words[j].size()-1] != ';'){
-                                                messaggio->assign(_message_error);
-                                                return false;
-                                            }
-                                            else {
-                                                if (words[j][words[j].size()-2] != ')'){
-                                                    messaggio->assign(_message_error);
-                                                    return false;
-                                                }
-                                                else
-                                                    flag_fine_comando = true;
-                                            }
-                                        }
+        int i = 0;
+        words.emplace_back ();
+        comando >> words[i];
+        if (words[i][0] == '(') { //verifico che ci sia il carattere (
+            words[i].erase (0, 1); //tolgo la (
+            while (words[i][words[i].size () - 1] != ')') {
+                if (words[i][words[i].size () - 1] != ',' &&
+                    words[i][words[i].size () - 1] != ')') { //provare anche a togliere seconda condizione
+                    messaggio -> assign (_message_error);
+                    return false;
+                } else {
+                    words[i].pop_back (); //tolgo la virgola
+                    i ++;
+                    words.emplace_back ();
+                    comando >> words[i];
+                }
+            }
+            comando >> word;
+            if (toUp (word) != "VALUES") {
+                messaggio -> assign (_message_error);
+                return false;
+            } else {
+                words.clear ();
+                int j = 0;
+                words . emplace_back ();
+                comando >> words[j];
+                if (words[j][0] != '(') {
+                    messaggio -> assign (_message_error);
+                    return false;
+                } else {
+                    words[j] . erase (0, 1); //tolgo (
+                    while (! flag_fine_comando) {
+                        if (words[j][words[j] . size () - 1] == ',' || words[j][words[j] . size () - 1] == ';' ||
+                            (words[j][0] == 34) || (words[j][0] == 39)) { //togliere seconda condizione magari
+                            if (words[j][0] == '"') { //caso di un campo di testo
+                                carattere = GestioneTesto (&comando, words[j]);
+                                if (carattere != ',' && carattere != ')') {
+                                    messaggio -> assign (_message_error);
+                                    return false;
+                                } else if (carattere == ')') {
+                                    comando >> carattere;
+                                    if (carattere == ';' || words[j][words[j] . size () - 1] == ';') {
+                                        flag_fine_comando = true;
                                     }
                                 }
-                                else {
-                                    messaggio->assign(_message_error);
+                            } else if (words[j][0] == 39) { //caso di un campo char 'c', oppure 'c'); se fine comando
+                                if (words[j][words[j] . size () - 1] == ',') {
+                                    if (words[j] . size () !=
+                                        4) { //tipo 1: se la dimensione è > 4 vuol dire che ho messo dei caratteri in più es. 'ciao', non va bene
+                                        messaggio -> assign (_message_error);
+                                        return false;
+                                    } else {
+                                        words[j] . pop_back (); //tolgo la ,
+                                        if (words[j][words[j] . size () - 1] !=
+                                            39) { //controllo che venga chiuso il campo char
+                                            messaggio -> assign (_message_error);
+                                            return false;
+                                        }
+                                    }
+                                } else if (words[j][words[j] . size () - 1] ==
+                                           ';') { //vuol dire che si è arrivati alla fine del comando
+                                    if (words[j] . size () !=
+                                        5) { //tipo 1: se la dimensione è > 5 vuol dire che ho messo dei caratteri in più es. 'ciao'); non va bene
+                                        messaggio -> assign (_message_error);
+                                        return false;
+                                    }
+                                    if (words[j][words[j] . size () - 2] == ')') {
+                                        if (words[j][words[j] . size () - 3] == 39) {
+                                            flag_fine_comando = true;
+                                        } else {
+                                            messaggio -> assign (_message_error);
+                                            return false;
+                                        }
+                                    } else {
+                                        messaggio -> assign (_message_error);
+                                        return false;
+                                    }
+                                } else {
+                                    messaggio -> assign (_message_error);
                                     return false;
                                 }
-                                if (!flag_fine_comando){
-                                    j++;
-                                    words.emplace_back();
-                                    comando >> words[j];
+                            } else { //resto casi: 20, o 20);
+                                if (words[j][words[j] . size () - 1] != ',') {
+                                    if (words[j][words[j] . size () - 1] != ';') {
+                                        messaggio -> assign (_message_error);
+                                        return false;
+                                    } else {
+                                        if (words[j][words[j] . size () - 2] != ')') {
+                                            messaggio -> assign (_message_error);
+                                            return false;
+                                        } else
+                                            flag_fine_comando = true;
+                                    }
                                 }
                             }
+                        } else {
+                            messaggio -> assign (_message_error);
+                            return false;
+                        }
+                        if (! flag_fine_comando) {
+                            j ++;
+                            words . emplace_back ();
+                            comando >> words[j];
                         }
                     }
-            } else {
-                messaggio->assign(_message_error);
-                return false;
+                }
             }
-        }
-        else{
-            messaggio->assign(_message_error_keyword);
+        } else {
+            messaggio -> assign (_message_error);
             return false;
         }
-    }
-    else{
-        messaggio->assign(_message_error);
+    } else {
+        messaggio -> assign (_message_error);
         return false;
     }
-    if (!flag_fine_comando){ //ulteriore controllo
-        messaggio->assign(_message_error);
+    if (! flag_fine_comando) { //ulteriore controllo
+        messaggio -> assign (_message_error);
         return false;
-    }
-    else return true;
-} //ricontrollare questione fine programma
+    } else return true;
+}
 
-bool ControlloSintassi::controlloDelete(stringstream &comando, string *messaggio) const { //aggiungere BETWEEN
+bool ControlloSintassi::controlloDelete(stringstream &comando, string *messaggio){ //aggiungere BETWEEN
     string word;
     char carattere;
     bool fine_testo = false;
@@ -514,40 +464,12 @@ bool ControlloSintassi::controlloDelete(stringstream &comando, string *messaggio
     comando >> word >> word;
     if (toUp(word) == "FROM"){
         comando >> word;
-        if (!belongs_to_keywords(word)){
             comando >> word;
             if (toUp(word) == "WHERE"){ //deve esserci per forza la condizione altrimenti il comando sarebbe truncate
                 comando >> word >> word;
-                if (belongs_to_operatori(word)){
                     comando >> word;
                     if (word[0] == '"'){ //caso di un campo testo
-                        contatore_virgolette = 0;
-                        fine_testo = false;
-                        int k;
-                        for (k = 1; k < word.size(); k++){
-                            if (word[k] == 34) {
-                                contatore_virgolette++;
-                            } else {
-                                if (contatore_virgolette % 2 != 0) {
-                                    fine_testo = true;
-                                }
-                                contatore_virgolette = 0;
-                            }
-                        }
-                        if (!fine_testo) {
-                            while (!fine_testo) {
-                                comando >> carattere;
-                                if (carattere == 34) {
-                                    contatore_virgolette++;
-                                } else {
-                                    if (contatore_virgolette % 2 != 0) {
-                                        fine_testo = true;
-                                    }
-                                    contatore_virgolette = 0;
-                                }
-                            }
-                        } else
-                            carattere = word[k-1];
+                        carattere = GestioneTesto(&comando,word);
                         if (carattere != ';') {
                             messaggio->assign(_message_error);
                             return false;
@@ -561,41 +483,31 @@ bool ControlloSintassi::controlloDelete(stringstream &comando, string *messaggio
                         } else
                             return true;
                     }
-                } else {
-                    messaggio->assign(_invalid_operator);
-                    return false;
-                }
             }
             else {
                 messaggio->assign(_message_error);
                 return false;
             }
-        }
-        else {
-            messaggio->assign(_message_error_keyword);
-            return false;
-        }
     } else {
         messaggio->assign(_message_error);
         return false;
     }
 }
 
-bool ControlloSintassi::controlloUpdate(stringstream &comando, string *messaggio) const { //aggiungere BETWEEN
+bool ControlloSintassi::controlloUpdate(stringstream &comando, string *messaggio)  { //aggiungere BETWEEN
     string word;
     char carattere;
     bool fine_testo = false, flag_fine_comando = false, flag_condizione = false;
     int contatore_virgolette;
     vector<string> words;
     comando >> word >> word;
-    if (!belongs_to_keywords(word)){
         comando >> word;
         if (toUp(word) == "SET"){
             comando >> word;
             while (!flag_fine_comando) {
                 if (!flag_condizione){ //non si è ancora arrivati al where
                     comando >> word;
-                    if (belongs_to_operatori(word)){
+                    if (word == "="){ //la set può avere solo l'=
                         comando >> word;
                         if (word[0] == '"'){ //caso di un campo testo
                             carattere = GestioneTesto(&comando,word);
@@ -651,7 +563,7 @@ bool ControlloSintassi::controlloUpdate(stringstream &comando, string *messaggio
                 else { //si è arrivati al where
                     if (toUp(word) == "WHERE"){
                         comando >> word >> word;
-                        if (belongs_to_operatori(word)){
+                        if (belongs_to(word, _operatori)){
                             comando >> word;
                             if (word[0] == '"'){ //caso di un campo testo
                                 carattere = GestioneTesto(&comando,word);
@@ -704,11 +616,6 @@ bool ControlloSintassi::controlloUpdate(stringstream &comando, string *messaggio
             messaggio->assign(_message_error);
             return false;
         }
-    } else {
-        messaggio->assign(_message_error_keyword);
-        return false;
-    }
-
     if (!flag_fine_comando){
         messaggio->assign(_message_error_keyword);
         return false;
@@ -716,7 +623,7 @@ bool ControlloSintassi::controlloUpdate(stringstream &comando, string *messaggio
     else return true;
 }
 
-bool ControlloSintassi::controlloSelect(stringstream &comando, string *messaggio) const {
+bool ControlloSintassi::controlloSelect(stringstream &comando, string *messaggio) {
     string word;
     char carattere;
     bool flag_asterisco = false, flag_fine_comando = false, flag_ordinamento = false, flag_condizione = false;
@@ -728,33 +635,15 @@ bool ControlloSintassi::controlloSelect(stringstream &comando, string *messaggio
     }
     else { //caso in cui vengono specificati solo alcuni campi
         while (word[word.size() - 1] == ',') {
-            word.pop_back();
-            if (belongs_to_keywords(word)) {
-                messaggio->assign(_message_error_keyword);
-                return false;
-            }
             comando >> word;
-        }
-        if (belongs_to_keywords(word)) {
-            messaggio->assign(_message_error_keyword);
-            return false;
         }
     }
     comando >> word;
     if (toUp(word) == "FROM") {
         comando >> word;
         if (word[word.size() - 1] == ';') { //fine comando del tipo select <colonne> from <tabella>;
-            word.pop_back();
-            if (belongs_to_keywords(word)) {
-                messaggio->assign(_message_error_keyword);
-                return false;
-            } else
-                flag_fine_comando = true;
+            flag_fine_comando = true;
         } else { //se c'è una condizione e/o un ordinamento
-            if (belongs_to_keywords(word)) {
-                messaggio->assign(_message_error_keyword);
-                return false;
-            } else { //se non appartiene alle keywords
                 comando >> word;
                 if (toUp(word) == "WHERE") {
                     flag_condizione = true;
@@ -766,7 +655,7 @@ bool ControlloSintassi::controlloSelect(stringstream &comando, string *messaggio
                 }
                 if (flag_condizione) {
                     comando >> word >> word;
-                    if (belongs_to_operatori(word)) {
+                    if (belongs_to(word, _operatori)) {
                         if (toUp(word) == "BETWEEN") {
                             comando >> word;
                             if (word[0] == '"') {//caso di un campo testo
@@ -897,7 +786,6 @@ bool ControlloSintassi::controlloSelect(stringstream &comando, string *messaggio
                         return false;
                     }
                 }
-            }
         }
     }
     else {
@@ -912,3 +800,4 @@ bool ControlloSintassi::controlloSelect(stringstream &comando, string *messaggio
         return false;
     }
 }
+

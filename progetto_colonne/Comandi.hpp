@@ -511,7 +511,7 @@ void Select(vector<Tabella*> &tabelle, stringstream &stream_comando, string *mes
                 if (!belong_to(word2, operatori)) {
                     throw InvalidOperator();
                 } else {
-                    //casistica operatori
+                    //casistica _operatori
                     if (toUpper(word2) == "BETWEEN") {
                         stream_comando >> condizione1;
                         if (condizione1[0] == '"') {

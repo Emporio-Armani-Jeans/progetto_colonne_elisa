@@ -15,23 +15,27 @@ public:
     ControlloSintassi();
 
     //controlli tornano true se il formato è corretto e modificano il messaggio di errore caso per caso
-    bool controlloCreate(stringstream &comando, string *messaggio) const;
-    bool controlloTruncate(stringstream &comando, string *messaggio) const;
-    bool controlloDrop(stringstream &comando, string *messaggio) const;
-    bool controlloInsert(stringstream &comando, string *messaggio) const;
-    bool controlloDelete(stringstream &comando, string *messaggio) const;
-    bool controlloUpdate(stringstream &comando, string *messaggio) const;
-    bool controlloSelect(stringstream &comando, string *messaggio) const;
+    bool controlloCreate(stringstream &comando, string *messaggio);
+    bool controlloTruncate(stringstream &comando, string *messaggio);
+    bool controlloDrop(stringstream &comando, string *messaggio);
+    bool controlloInsert(stringstream &comando, string *messaggio);
+    bool controlloDelete(stringstream &comando, string *messaggio);
+    bool controlloUpdate(stringstream &comando, string *messaggio);
+    bool controlloSelect(stringstream &comando, string *messaggio);
 
 private:
-    string _message_error, _message_error_keyword, _wrong_type_auto_increment, _inexistent_type, _invalid_operator, _message_error_key, _missing_pk;
-    vector <string> _keywords{"CREATE", "TABLE", "INT", "FLOAT", "CHAR", "TEXT", "DATE", "TIME", "NOT", "NULL",
+    string _message_error, _message_error_keyword, _wrong_type_auto_increment, _inexistent_type, _invalid_operator,
+           _message_error_key, _missing_pk, _duplicate_col;
+    vector <string> _keywords {"CREATE", "TABLE", "INT", "FLOAT", "CHAR", "TEXT", "DATE", "TIME", "NOT", "NULL",
                               "AUTO_INCREMENT", "PRIMARY", "KEY", "DROP", "INSERT", "VALUES", "INTO", "DELETE",
                               "FROM", "WHERE", "TRUNCATE", "UPDATE", "SET", "SELECT", "ORDER", "BY", "DESC",
                               "ASC", "FOREIGN", "REFERENCES", "BETWEEN", "AND"};
-    vector<string> operatori {"=", "<", ">", ">=", "<=", "<>", "BETWEEN"};
-    bool belongs_to_operatori(string &to_be_compared) const;
-    bool belongs_to_keywords(string &to_be_compared) const;
+    vector<string> _operatori {"=", "<", ">", ">=", "<=", "<>", "BETWEEN"};
+    vector<string> _tipi {"INT", "FLOAT", "CHAR", "TEXT", "DATE", "TIME"};
+    static bool belongs_to(string &to_be_compared, const vector<string>& insieme);
+    static string toUp(string word);
+    static char GestioneTesto(stringstream *comando, string &word);
+
 };
 
 
