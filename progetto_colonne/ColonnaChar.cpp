@@ -30,8 +30,31 @@ void ColonnaChar::deleteVal(int index) {
 
 void ColonnaChar::updateVal(const string &val, int index) {
     controlloFormato(val);
-        char new_value = val[0];
-        if (!_primary_key) {
+    char new_value = val[0];
+    if (!_primary_key) {
+        if (_foreign_key == nullptr)
+            _elementi_char[index] = new_value;
+        else {
+            bool valore_trovato = false;
+            for (int i = 0; i < _foreign_key->getSize(); i++) {
+                if (_foreign_key->getElement(i) == val) {
+                    valore_trovato = true;
+                    _elementi_char[index] = new_value;
+                }
+            }
+            if (!valore_trovato) {
+                throw SecKeyError();
+            }
+        }
+    } else { //se la colonna è una chiave primaria, controllo che il valore che si sta cercando di aggiornare non sia già presente in un altro record
+        bool flag_duplicate_found = false;
+        for (int i = 0; i < _elementi_char.size() && !flag_duplicate_found; i++) {
+            if (_elementi_char[i] == new_value)
+                flag_duplicate_found = true;
+        }
+        if (flag_duplicate_found) {
+            throw PrimKeyError();
+        } else {//se non ci sono valori uguali presenti, l'aggiornamento è permesso
             if (_foreign_key == nullptr)
                 _elementi_char[index] = new_value;
             else {
@@ -46,17 +69,8 @@ void ColonnaChar::updateVal(const string &val, int index) {
                     throw SecKeyError();
                 }
             }
-        } else { //se la colonna è una chiave primaria, controllo che il valore che si sta cercando di aggiornare non sia già presente in un altro record
-            bool flag_duplicate_found = false;
-            for (int i = 0; i < _elementi_char.size() && !flag_duplicate_found; i++) {
-                if (_elementi_char[i] == new_value)
-                    flag_duplicate_found = true;
-            }
-            if (flag_duplicate_found) {
-                throw PrimKeyError();
-            } else //se non ci sono valori uguali presenti, l'aggiornamento è permesso
-                _elementi_char[index] = new_value;
         }
+    }
 }
 
 void ColonnaChar::addDefault(int val) {

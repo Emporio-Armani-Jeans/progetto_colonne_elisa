@@ -112,14 +112,17 @@ void Tabella::deleteRecord(const string& campo_condizione, const string &condizi
             while (j < _recs) {
                 if (_colonne[i]->compareElements(condizione, operatore, j)) {
                     condizione_trovata = true;
-                    _recs--;
-                    for (auto &elem : _colonne) {
-                        elem->deleteVal(j);
+                    if(!erroreSecKey(j)) {
+                        _recs--;
+                        for (auto &elem : _colonne) {
+                            elem->deleteVal(j);
+                        }
                     }
                 } else j++;
             }
             if(!condizione_trovata)
                 throw ValueNotFound();
+            // inserire eccezione se nessun record viene modificato per la secondary key
         } else {
             throw InvalidCondition();
         }
@@ -139,14 +142,17 @@ void Tabella::deleteRecord(const string& campo_condizione, const string& condizi
         while(j<_recs){
             if (_colonne[i]->compareElements(condizione1, 4, j) && _colonne[i]->compareElements(condizione2, 2, j)) {
                 trovata2 = true;
-                _recs--;
-                for (auto &elem : _colonne) {
-                    elem->deleteVal(j);
+                if(!erroreSecKey(j)) {
+                    _recs--;
+                    for (auto &elem : _colonne) {
+                        elem->deleteVal(j);
+                    }
                 }
             }else j++;
         }
         if(!trovata2)
             throw ValueNotFound();
+        // inserire eccezione se nessun record viene cancellato per la secondary key
     }else{
         throw InvalidCondition();
     }
@@ -163,13 +169,15 @@ void Tabella::updateRecord(const string& campo_condizione,const string& condizio
         for(j=0; j<_recs; j++){
             if(_colonne[i]->compareElements(condizione, operatore, j)) {
                 trovata2 = true;
-                for(int y=0; y<campi.size(); y++){
-                    for(auto & g : _colonne){
-                        if(campi[y]==g->getNomeColonna()){
-                            if(g->isAutoIncrement())
-                                throw TentativoInserimentoAutoIncrement();
-                            else
-                                g->updateVal(valori[y],j);
+                if(!erroreSecKey(j)) {
+                    for (int y = 0; y < campi.size(); y++) {
+                        for (auto &g : _colonne) {
+                            if (campi[y] == g->getNomeColonna()) {
+                                if (g->isAutoIncrement())
+                                    throw TentativoInserimentoAutoIncrement();
+                                else
+                                    g->updateVal(valori[y], j);
+                            }
                         }
                     }
                 }
@@ -177,6 +185,7 @@ void Tabella::updateRecord(const string& campo_condizione,const string& condizio
         }
         if(!trovata2)
             throw ValueNotFound();
+        // inserire eccezione se nessun record viene modificato per la secondary key
     }else{
         throw InvalidCondition();
     }
@@ -193,13 +202,15 @@ void Tabella::updateRecord(const string& campo_condizioni, const string& condizi
         for(j=0; j<_recs; j++){
             if(_colonne[i]->compareElements(condizione1, 4, j) && _colonne[i]->compareElements(condizione2, 2, j)) {
                 trovata2 = true;
-                for(int y=0; y<campi.size(); y++){
-                    for(auto & g : _colonne){
-                        if(campi[y]==g->getNomeColonna()){
-                            if(g->isAutoIncrement())
-                                throw TentativoInserimentoAutoIncrement();
-                            else
-                                g->updateVal(valori[y],j);
+                if(!erroreSecKey(j)) {
+                    for (int y = 0; y < campi.size(); y++) {
+                        for (auto &g : _colonne) {
+                            if (campi[y] == g->getNomeColonna()) {
+                                if (g->isAutoIncrement())
+                                    throw TentativoInserimentoAutoIncrement();
+                                else
+                                    g->updateVal(valori[y], j);
+                            }
                         }
                     }
                 }
@@ -207,6 +218,7 @@ void Tabella::updateRecord(const string& campo_condizioni, const string& condizi
         }
         if(!trovata2)
             throw ValueNotFound();
+        // inserire eccezione se nessun record viene modificato per la secondary key
     }else{
         throw InvalidCondition();
     }
@@ -415,6 +427,7 @@ void Tabella::setChiaveEsterna(Tabella* tabella_to_link, const string& colonna_t
         if(_colonne[pos_colonna_figlia]->_foreign_key== nullptr) {
             if (pos_colonna_figlia < _colonne.size()) {
                 _colonne[pos_colonna_figlia]->_foreign_key = tabella_to_link->_colonne[pos_colonna_madre];
+                tabella_to_link->_colonne[pos_colonna_madre]->_colonna_figlio = _colonne[pos_colonna_figlia];
             } else {
                 throw CampoNonTrovato();
             }
@@ -469,4 +482,27 @@ void Tabella::addRecordMemory(const vector<string> &campi, const vector<string> 
     }else{
         throw NotNullError(); //campo che doveva essere obbligatorio non inserito
     }
+}
+
+bool Tabella::erroreSecKey(int indice) {
+    for (auto item: _colonne) {
+        if (item->isKey()) {
+            if (item->_colonna_figlio != nullptr) {
+                bool already_used = false;
+                for (int i = 0; i < (*item->_colonna_figlio).getSize(); i++) {
+                    if ((item->compareElements((*item->_colonna_figlio).getElement(i), 0, indice))) already_used = true;
+                }
+                return already_used;
+            }
+        }
+    }
+    return false;
+}
+
+bool Tabella::isLinked() {
+    for (auto item: _colonne) {
+        if (item->isKey()) {
+            return item->_colonna_figlio!= nullptr;
+        }
+    } return false;
 }

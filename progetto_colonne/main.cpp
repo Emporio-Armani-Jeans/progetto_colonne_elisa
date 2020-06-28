@@ -168,6 +168,9 @@ int main() {
         catch(ValueNotFound &vnf){
             cout << "Eccezione: " << vnf.what() << endl;
         }
+        catch (UsedValueInSecKey &uvsk) {
+            cout << "Eccezione: " << uvsk.what() << endl;
+        }
         catch(exception &unexpected) {
             cout << "Eccezione: " << unexpected.what() << endl;
             exit(ERRORE_ECCEZIONE);

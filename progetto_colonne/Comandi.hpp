@@ -206,7 +206,7 @@ void Create(vector<Tabella*> &tabelle, stringstream &stream_comando, int *contat
     (*message) = "Operazione completata: tabella creata e aggiunta al database.";
 }
 
-void Drop(vector<Tabella*> &tabelle, stringstream &stream_comando, string *message){
+void Drop(vector<Tabella*> &tabelle, stringstream &stream_comando, string *message){        //elimina completamente
     string word;
     bool trovata;
     vector<Tabella*>::iterator it = tabelle.begin();
@@ -223,8 +223,10 @@ void Drop(vector<Tabella*> &tabelle, stringstream &stream_comando, string *messa
     if (!trovata) {
         throw InexistentTable();
     } else {
-        tabelle.erase(it);
-        (*message) = "Operazione completata: tabella eliminata dal database.";
+        if(!(*it)->isLinked()) {
+            tabelle.erase(it);
+            (*message) = "Operazione completata: tabella eliminata dal database.";
+        } else throw LinkedError();
     }
 }
 
@@ -237,7 +239,9 @@ void Truncate(vector<Tabella*> &tabelle, stringstream &stream_comando, string *m
     for (Tabella* &s : tabelle) {
         if ( word == s->getNome() ) {
             tabella_trovata = true;
-            s->deleteRecord(); //parametri di default->cancella tutti i record
+            if(!(s)->isLinked()) {
+                s->deleteRecord();
+            } else throw LinkedError();
             break;
         }
     }

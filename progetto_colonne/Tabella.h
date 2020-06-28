@@ -25,6 +25,9 @@
 #include "SecKeyAlreadyExisting.h"
 #include "ValueNotFound.h"
 #include "TentativoInserimentoAutoIncrement.h"
+#include "UsedValueInSecKey.h"
+#include "LinkedError.h"
+
 using namespace std;
 class Tabella {
 public:
@@ -39,6 +42,7 @@ public:
      * aggiunge un elemento e imposta il corrispettivo valore contenuto nel vettore <valori> */
     void addRecord(const vector<string>& campi, const vector<string>& valori, int *increment_value);
     void addRecordMemory(const vector<string>& campi, const vector<string>& valori);
+    bool isLinked();
 
     void deleteRecord(const string& campo_condizione=std::string(), const string& condizione=std::string(), int operatore=0);
     void deleteRecord(const string& campo_condizione, const string& condizione1, const string& condizione2);  //between operator
@@ -62,6 +66,7 @@ private:
     string _nome_tabella;
     int _recs;
     vector<int> ordinamento(const string& campo, int operatore)const;
+    bool erroreSecKey(int index);
 };
 
 

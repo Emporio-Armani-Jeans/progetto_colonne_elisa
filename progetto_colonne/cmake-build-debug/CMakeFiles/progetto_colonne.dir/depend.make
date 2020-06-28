@@ -12,6 +12,7 @@ CMakeFiles/progetto_colonne.dir/ColonnaChar.cpp.obj: ../PrimKeyError.h
 CMakeFiles/progetto_colonne.dir/ColonnaChar.cpp.obj: ../PrimaryKeyAlreadyExisting.h
 CMakeFiles/progetto_colonne.dir/ColonnaChar.cpp.obj: ../SecKeyError.h
 CMakeFiles/progetto_colonne.dir/ColonnaChar.cpp.obj: ../SecKeyNotFound.h
+CMakeFiles/progetto_colonne.dir/ColonnaChar.cpp.obj: ../UsedValueInSecKey.h
 
 CMakeFiles/progetto_colonne.dir/ColonnaDate.cpp.obj: ../CampoNonTrovato.h
 CMakeFiles/progetto_colonne.dir/ColonnaDate.cpp.obj: ../Colonna.h
@@ -24,6 +25,7 @@ CMakeFiles/progetto_colonne.dir/ColonnaDate.cpp.obj: ../PrimKeyError.h
 CMakeFiles/progetto_colonne.dir/ColonnaDate.cpp.obj: ../PrimaryKeyAlreadyExisting.h
 CMakeFiles/progetto_colonne.dir/ColonnaDate.cpp.obj: ../SecKeyError.h
 CMakeFiles/progetto_colonne.dir/ColonnaDate.cpp.obj: ../SecKeyNotFound.h
+CMakeFiles/progetto_colonne.dir/ColonnaDate.cpp.obj: ../UsedValueInSecKey.h
 CMakeFiles/progetto_colonne.dir/ColonnaDate.cpp.obj: ../data.h
 
 CMakeFiles/progetto_colonne.dir/ColonnaFloat.cpp.obj: ../CampoNonTrovato.h
@@ -37,6 +39,7 @@ CMakeFiles/progetto_colonne.dir/ColonnaFloat.cpp.obj: ../PrimKeyError.h
 CMakeFiles/progetto_colonne.dir/ColonnaFloat.cpp.obj: ../PrimaryKeyAlreadyExisting.h
 CMakeFiles/progetto_colonne.dir/ColonnaFloat.cpp.obj: ../SecKeyError.h
 CMakeFiles/progetto_colonne.dir/ColonnaFloat.cpp.obj: ../SecKeyNotFound.h
+CMakeFiles/progetto_colonne.dir/ColonnaFloat.cpp.obj: ../UsedValueInSecKey.h
 
 CMakeFiles/progetto_colonne.dir/ColonnaInt.cpp.obj: ../CampoNonTrovato.h
 CMakeFiles/progetto_colonne.dir/ColonnaInt.cpp.obj: ../Colonna.h
@@ -49,6 +52,7 @@ CMakeFiles/progetto_colonne.dir/ColonnaInt.cpp.obj: ../PrimKeyError.h
 CMakeFiles/progetto_colonne.dir/ColonnaInt.cpp.obj: ../PrimaryKeyAlreadyExisting.h
 CMakeFiles/progetto_colonne.dir/ColonnaInt.cpp.obj: ../SecKeyError.h
 CMakeFiles/progetto_colonne.dir/ColonnaInt.cpp.obj: ../SecKeyNotFound.h
+CMakeFiles/progetto_colonne.dir/ColonnaInt.cpp.obj: ../UsedValueInSecKey.h
 
 CMakeFiles/progetto_colonne.dir/ColonnaText.cpp.obj: ../CampoNonTrovato.h
 CMakeFiles/progetto_colonne.dir/ColonnaText.cpp.obj: ../Colonna.h
@@ -61,6 +65,7 @@ CMakeFiles/progetto_colonne.dir/ColonnaText.cpp.obj: ../PrimKeyError.h
 CMakeFiles/progetto_colonne.dir/ColonnaText.cpp.obj: ../PrimaryKeyAlreadyExisting.h
 CMakeFiles/progetto_colonne.dir/ColonnaText.cpp.obj: ../SecKeyError.h
 CMakeFiles/progetto_colonne.dir/ColonnaText.cpp.obj: ../SecKeyNotFound.h
+CMakeFiles/progetto_colonne.dir/ColonnaText.cpp.obj: ../UsedValueInSecKey.h
 
 CMakeFiles/progetto_colonne.dir/ColonnaTime.cpp.obj: ../CampoNonTrovato.h
 CMakeFiles/progetto_colonne.dir/ColonnaTime.cpp.obj: ../Colonna.h
@@ -74,6 +79,7 @@ CMakeFiles/progetto_colonne.dir/ColonnaTime.cpp.obj: ../PrimaryKeyAlreadyExistin
 CMakeFiles/progetto_colonne.dir/ColonnaTime.cpp.obj: ../SecKeyError.h
 CMakeFiles/progetto_colonne.dir/ColonnaTime.cpp.obj: ../SecKeyNotFound.h
 CMakeFiles/progetto_colonne.dir/ColonnaTime.cpp.obj: ../Time.h
+CMakeFiles/progetto_colonne.dir/ColonnaTime.cpp.obj: ../UsedValueInSecKey.h
 
 CMakeFiles/progetto_colonne.dir/ControlloSintassi.cpp.obj: ../ControlloSintassi.cpp
 CMakeFiles/progetto_colonne.dir/ControlloSintassi.cpp.obj: ../ControlloSintassi.h
@@ -99,6 +105,7 @@ CMakeFiles/progetto_colonne.dir/Tabella.cpp.obj: ../Tabella.cpp
 CMakeFiles/progetto_colonne.dir/Tabella.cpp.obj: ../Tabella.h
 CMakeFiles/progetto_colonne.dir/Tabella.cpp.obj: ../TentativoInserimentoAutoIncrement.h
 CMakeFiles/progetto_colonne.dir/Tabella.cpp.obj: ../Time.h
+CMakeFiles/progetto_colonne.dir/Tabella.cpp.obj: ../UsedValueInSecKey.h
 CMakeFiles/progetto_colonne.dir/Tabella.cpp.obj: ../ValueNotFound.h
 CMakeFiles/progetto_colonne.dir/Tabella.cpp.obj: ../data.h
 
@@ -133,6 +140,7 @@ CMakeFiles/progetto_colonne.dir/main.cpp.obj: ../SecKeyNotFound.h
 CMakeFiles/progetto_colonne.dir/main.cpp.obj: ../Tabella.h
 CMakeFiles/progetto_colonne.dir/main.cpp.obj: ../TentativoInserimentoAutoIncrement.h
 CMakeFiles/progetto_colonne.dir/main.cpp.obj: ../Time.h
+CMakeFiles/progetto_colonne.dir/main.cpp.obj: ../UsedValueInSecKey.h
 CMakeFiles/progetto_colonne.dir/main.cpp.obj: ../ValueNotFound.h
 CMakeFiles/progetto_colonne.dir/main.cpp.obj: ../data.h
 CMakeFiles/progetto_colonne.dir/main.cpp.obj: ../main.cpp

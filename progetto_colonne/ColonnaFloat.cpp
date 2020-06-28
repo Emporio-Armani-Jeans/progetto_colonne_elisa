@@ -51,8 +51,22 @@ void ColonnaFloat::updateVal(const string &val, int index) {
         if(flag_duplicate_found) {
             throw PrimKeyError();
         }
-        else //se non ci sono valori uguali presenti, l'aggiornamento è permesso
-            _elementi_float[index] = new_value;
+        else { //se non ci sono valori uguali presenti, l'aggiornamento è permesso
+            if (_foreign_key == nullptr)
+                _elementi_float[index] = new_value;
+            else {
+                bool valore_trovato = false;
+                for (int i = 0; i < _foreign_key->getSize(); i++){
+                    if (_foreign_key->getElement(i) == val){
+                        valore_trovato = true;
+                        _elementi_float[index] = new_value;
+                    }
+                }
+                if (!valore_trovato) {
+                    throw SecKeyError();
+                }
+            }
+        }
     }
 }
 

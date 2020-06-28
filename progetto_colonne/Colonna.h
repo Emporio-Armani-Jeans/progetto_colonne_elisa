@@ -47,6 +47,7 @@ protected:
     bool _not_null;
     bool _primary_key;
     Colonna* _foreign_key;
+    Colonna* _colonna_figlio;
 };
 
 

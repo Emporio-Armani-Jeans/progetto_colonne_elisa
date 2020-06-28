@@ -52,8 +52,22 @@ void ColonnaText::updateVal(const string &val, int index) {
         if(flag_duplicate_found) {
             throw PrimKeyError();
         }
-        else //se non ci sono valori uguali presenti, l'aggiornamento è permesso
-            _elementi_di_testo[index] = val;
+        else { //se non ci sono valori uguali presenti, l'aggiornamento è permesso
+            if (_foreign_key == nullptr)
+                _elementi_di_testo[index] = val;
+            else {
+                bool valore_trovato = false;
+                for (int i = 0; i < _foreign_key->getSize(); i++){
+                    if (_foreign_key->getElement(i) == val){
+                        valore_trovato = true;
+                        _elementi_di_testo[index] = val;
+                    }
+                }
+                if (!valore_trovato) {
+                    throw SecKeyError();
+                }
+            }
+        }
     }
 }
 
