@@ -22,16 +22,18 @@ public:
     void updateVal(const string& val, int index) override;
     string getElement(int index) override;
     void deleteVal(int index) override;
-    void addDefault(int increment_value=0) override;
+    void addDefault(int val) override;
     bool compareElements(const string& condizione, int operatore, int index) const override;
     bool isAutoIncrement()const override;
     int getSize() const override;
     string getTipo()const override;
     void controlloFormato(const string &value) const override;
 
+
 private:
     vector <int> _elementi_interi;
     bool _auto_increment;
+    int _increment_value; ///
     int _default_value;
 };
 

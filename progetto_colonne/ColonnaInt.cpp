@@ -1,6 +1,3 @@
-//
-// Created by Elisa Messina on 01/06/2020.
-//
 
 #include "ColonnaInt.h"
 
@@ -11,6 +8,7 @@ ColonnaInt::ColonnaInt(const string &nomecolonna, bool notnull, bool autoincreme
     _default_value = 0;
     _primary_key = false;
     _foreign_key = nullptr;
+    _increment_value = 0;
 }
 
 string ColonnaInt::getElement(int index) {
@@ -73,15 +71,20 @@ void ColonnaInt::updateVal(const string& val, int index){
     }
 }
 
-void ColonnaInt::addDefault(int increment_value) {
+void ColonnaInt::addDefault(int val) {
     if(!_auto_increment) {
         _elementi_interi.push_back(_default_value);
     }
     else {
-        if(increment_value==0)         //Per salvare in memoria senza tener conto di increment value
-            _elementi_interi.push_back(_default_value);
-        else
-            _elementi_interi.push_back(increment_value);
+        if (val==0){
+            _increment_value++;
+            _elementi_interi.push_back(_increment_value);
+        }
+        else {
+            _elementi_interi.push_back(val);
+            if (val > _increment_value)
+                _increment_value = val;
+        }
     }
 }
 

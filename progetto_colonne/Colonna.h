@@ -26,7 +26,7 @@ public:
     virtual void updateVal(const string& val, int index) = 0; //aggiorna a <val> il valore dell'elemento di indice <index> di una colonna
     virtual string getElement(int index) = 0; //ritorna sottoforma di stringa l'elemento di indice <index> di una colonna
     virtual void deleteVal(int index) = 0; //cancella l'elemento di indice <index> della colonna
-    virtual void addDefault(int val=0) = 0;
+    virtual void addDefault(int val) = 0;
     virtual bool compareElements(const string& condizione, int operatore, int index) const = 0; /*confronta il valore dell'elemento di indice <index>con <condizione>, secondo l'operatore <operatore>*/
     virtual int getSize() const = 0;
     virtual void controlloFormato(const string &value) const = 0;

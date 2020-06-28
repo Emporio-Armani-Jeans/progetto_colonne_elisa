@@ -54,6 +54,7 @@ public:
     Colonna* getCol(int index)const;
     int numCampi()const;
     int numRecs()const;
+    void setIncrementValue(int increment); ///
 
     vector<string> returnData(const vector<string>& campi, const string& campo_ordinamento=string(), int operatore_ordinamento=0)const;
     vector<string> returnData(const vector<string>& campi, const string& campo_condizione, const string& condizione,

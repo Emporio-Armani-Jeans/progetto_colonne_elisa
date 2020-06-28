@@ -36,7 +36,7 @@ int main() {
         try {
             cout << "Inserire nome file database" << endl;
             cin >> nome_file;
-            tabelle = Caricamento(nome_file, increment_value);
+            tabelle = Caricamento(nome_file);
             ok = true;
         }
         catch (FileError &ex) {
@@ -66,7 +66,7 @@ int main() {
                     if (controllore.controlloCreate(comando_per_controlli, &message_error)) {
                         Create(tabelle, comando_intero, increment_value, &status_message);
                         Salvataggio(nome_file, tabelle);
-                        tabelle=Caricamento(nome_file, increment_value);
+                        tabelle=Caricamento(nome_file);
                         cout << status_message << endl;
                     } else
                         cout << message_error << endl;
@@ -75,7 +75,7 @@ int main() {
                     if (controllore.controlloDrop(comando_per_controlli, &message_error)) {
                         Drop(tabelle, comando_intero, &status_message);
                         Salvataggio(nome_file, tabelle);
-                        tabelle=Caricamento(nome_file, increment_value);
+                        tabelle=Caricamento(nome_file);
                         cout << status_message << endl;
                     } else
                         cout << message_error << endl;
@@ -84,7 +84,7 @@ int main() {
                     if (controllore.controlloInsert(comando_per_controlli, &message_error)) {
                         Insert(tabelle, comando_intero, &status_message, increment_value);
                         Salvataggio(nome_file, tabelle);
-                        tabelle=Caricamento(nome_file, increment_value);
+                        tabelle=Caricamento(nome_file);
                         cout << status_message << endl;
                     } else
                         cout << message_error << endl;
@@ -93,7 +93,7 @@ int main() {
                     if (controllore.controlloDelete(comando_per_controlli, &message_error)) {
                         Delete(tabelle, comando_intero, &status_message);
                         Salvataggio(nome_file, tabelle);
-                        tabelle=Caricamento(nome_file, increment_value);
+                        tabelle=Caricamento(nome_file);
                         cout << status_message << endl;
                     } else
                         cout << message_error << endl;
@@ -102,7 +102,7 @@ int main() {
                     if (controllore.controlloTruncate(comando_per_controlli, &message_error)) {
                         Truncate(tabelle, comando_intero, &status_message);
                         Salvataggio(nome_file, tabelle);
-                        tabelle=Caricamento(nome_file, increment_value);
+                        tabelle=Caricamento(nome_file);
                         cout << status_message << endl;
                     } else
                         cout << message_error << endl;
@@ -111,7 +111,7 @@ int main() {
                     if (controllore.controlloUpdate(comando_per_controlli, &message_error)) {
                         Update(tabelle, comando_intero, &status_message);
                         Salvataggio(nome_file, tabelle);
-                        tabelle=Caricamento(nome_file, increment_value);
+                        tabelle=Caricamento(nome_file);
                         cout << status_message << endl;
                     } else
                         cout << message_error << endl;

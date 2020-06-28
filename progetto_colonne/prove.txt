@@ -17,7 +17,7 @@ update customers set salary = 1200, came = 'c' where age = "cnsja";
     DELETE FROM CUSTOMERS WHERE ADDRESS = "Via Dei Gigli 33";
 
     create table countries ( id int not null auto_increment, name text not null, primary key (id) );
-    C:\Users\calog\CLionProjects\progetto_colonne_elisa\progetto_colonne\Memoria.txt
+
 
     SELECT * FROM CUSTOMERS ORDER BY AGE ASC;
     SELECT * FROM CUSTOMERS WHERE ADDRESS = "via Roma, 32";
@@ -41,7 +41,7 @@ update customers set salary = 1200, came = 'c' where age = "cnsja";
     UPDATE COUNTRIES SET ABITANTI = 23456546 WHERE NOME = "Francia";
     DELETE FROM COUNTRIES WHERE NOME = "Francia";
 
-CREATE TABLE CUSTOMERS ( ID INT NOT NULL AUTO_INCREMENT, NAME TEXT NOT NULL, AGE INT, PRIMARY KEY (ID) );
+    CREATE TABLE CUSTOMERS ( ID INT NOT NULL AUTO_INCREMENT, NAME TEXT NOT NULL, AGE INT, PRIMARY KEY (ID) );
     DELETE FROM CUSTOMERS WHERE ADDRESS = 10;
 
-    INSERT INTO COUNTRIES (ID, NAME) VALUES ("Italia");
+    INSERT INTO COUNTRIES (NAME) VALUES ("Italia");

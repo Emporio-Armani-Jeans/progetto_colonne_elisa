@@ -12,7 +12,6 @@ CMakeFiles/progetto_colonne.dir/ColonnaChar.cpp.obj: ../PrimKeyError.h
 CMakeFiles/progetto_colonne.dir/ColonnaChar.cpp.obj: ../PrimaryKeyAlreadyExisting.h
 CMakeFiles/progetto_colonne.dir/ColonnaChar.cpp.obj: ../SecKeyError.h
 CMakeFiles/progetto_colonne.dir/ColonnaChar.cpp.obj: ../SecKeyNotFound.h
-CMakeFiles/progetto_colonne.dir/ColonnaChar.cpp.obj: ../UsedValueInSecKey.h
 
 CMakeFiles/progetto_colonne.dir/ColonnaDate.cpp.obj: ../CampoNonTrovato.h
 CMakeFiles/progetto_colonne.dir/ColonnaDate.cpp.obj: ../Colonna.h
@@ -25,7 +24,6 @@ CMakeFiles/progetto_colonne.dir/ColonnaDate.cpp.obj: ../PrimKeyError.h
 CMakeFiles/progetto_colonne.dir/ColonnaDate.cpp.obj: ../PrimaryKeyAlreadyExisting.h
 CMakeFiles/progetto_colonne.dir/ColonnaDate.cpp.obj: ../SecKeyError.h
 CMakeFiles/progetto_colonne.dir/ColonnaDate.cpp.obj: ../SecKeyNotFound.h
-CMakeFiles/progetto_colonne.dir/ColonnaDate.cpp.obj: ../UsedValueInSecKey.h
 CMakeFiles/progetto_colonne.dir/ColonnaDate.cpp.obj: ../data.h
 
 CMakeFiles/progetto_colonne.dir/ColonnaFloat.cpp.obj: ../CampoNonTrovato.h
@@ -39,7 +37,6 @@ CMakeFiles/progetto_colonne.dir/ColonnaFloat.cpp.obj: ../PrimKeyError.h
 CMakeFiles/progetto_colonne.dir/ColonnaFloat.cpp.obj: ../PrimaryKeyAlreadyExisting.h
 CMakeFiles/progetto_colonne.dir/ColonnaFloat.cpp.obj: ../SecKeyError.h
 CMakeFiles/progetto_colonne.dir/ColonnaFloat.cpp.obj: ../SecKeyNotFound.h
-CMakeFiles/progetto_colonne.dir/ColonnaFloat.cpp.obj: ../UsedValueInSecKey.h
 
 CMakeFiles/progetto_colonne.dir/ColonnaInt.cpp.obj: ../CampoNonTrovato.h
 CMakeFiles/progetto_colonne.dir/ColonnaInt.cpp.obj: ../Colonna.h
@@ -52,7 +49,6 @@ CMakeFiles/progetto_colonne.dir/ColonnaInt.cpp.obj: ../PrimKeyError.h
 CMakeFiles/progetto_colonne.dir/ColonnaInt.cpp.obj: ../PrimaryKeyAlreadyExisting.h
 CMakeFiles/progetto_colonne.dir/ColonnaInt.cpp.obj: ../SecKeyError.h
 CMakeFiles/progetto_colonne.dir/ColonnaInt.cpp.obj: ../SecKeyNotFound.h
-CMakeFiles/progetto_colonne.dir/ColonnaInt.cpp.obj: ../UsedValueInSecKey.h
 
 CMakeFiles/progetto_colonne.dir/ColonnaText.cpp.obj: ../CampoNonTrovato.h
 CMakeFiles/progetto_colonne.dir/ColonnaText.cpp.obj: ../Colonna.h
@@ -65,7 +61,6 @@ CMakeFiles/progetto_colonne.dir/ColonnaText.cpp.obj: ../PrimKeyError.h
 CMakeFiles/progetto_colonne.dir/ColonnaText.cpp.obj: ../PrimaryKeyAlreadyExisting.h
 CMakeFiles/progetto_colonne.dir/ColonnaText.cpp.obj: ../SecKeyError.h
 CMakeFiles/progetto_colonne.dir/ColonnaText.cpp.obj: ../SecKeyNotFound.h
-CMakeFiles/progetto_colonne.dir/ColonnaText.cpp.obj: ../UsedValueInSecKey.h
 
 CMakeFiles/progetto_colonne.dir/ColonnaTime.cpp.obj: ../CampoNonTrovato.h
 CMakeFiles/progetto_colonne.dir/ColonnaTime.cpp.obj: ../Colonna.h
@@ -79,7 +74,6 @@ CMakeFiles/progetto_colonne.dir/ColonnaTime.cpp.obj: ../PrimaryKeyAlreadyExistin
 CMakeFiles/progetto_colonne.dir/ColonnaTime.cpp.obj: ../SecKeyError.h
 CMakeFiles/progetto_colonne.dir/ColonnaTime.cpp.obj: ../SecKeyNotFound.h
 CMakeFiles/progetto_colonne.dir/ColonnaTime.cpp.obj: ../Time.h
-CMakeFiles/progetto_colonne.dir/ColonnaTime.cpp.obj: ../UsedValueInSecKey.h
 
 CMakeFiles/progetto_colonne.dir/ControlloSintassi.cpp.obj: ../ControlloSintassi.cpp
 CMakeFiles/progetto_colonne.dir/ControlloSintassi.cpp.obj: ../ControlloSintassi.h
@@ -95,6 +89,7 @@ CMakeFiles/progetto_colonne.dir/Tabella.cpp.obj: ../ColonnaTime.h
 CMakeFiles/progetto_colonne.dir/Tabella.cpp.obj: ../FormatTypeError.h
 CMakeFiles/progetto_colonne.dir/Tabella.cpp.obj: ../InvalidCondition.h
 CMakeFiles/progetto_colonne.dir/Tabella.cpp.obj: ../InvalidOperator.h
+CMakeFiles/progetto_colonne.dir/Tabella.cpp.obj: ../LinkedError.h
 CMakeFiles/progetto_colonne.dir/Tabella.cpp.obj: ../NotNullError.h
 CMakeFiles/progetto_colonne.dir/Tabella.cpp.obj: ../PrimKeyError.h
 CMakeFiles/progetto_colonne.dir/Tabella.cpp.obj: ../PrimaryKeyAlreadyExisting.h
@@ -130,6 +125,7 @@ CMakeFiles/progetto_colonne.dir/main.cpp.obj: ../FormatTypeError.h
 CMakeFiles/progetto_colonne.dir/main.cpp.obj: ../InexistentTable.h
 CMakeFiles/progetto_colonne.dir/main.cpp.obj: ../InvalidCondition.h
 CMakeFiles/progetto_colonne.dir/main.cpp.obj: ../InvalidOperator.h
+CMakeFiles/progetto_colonne.dir/main.cpp.obj: ../LinkedError.h
 CMakeFiles/progetto_colonne.dir/main.cpp.obj: ../NotNullError.h
 CMakeFiles/progetto_colonne.dir/main.cpp.obj: ../PrimKeyError.h
 CMakeFiles/progetto_colonne.dir/main.cpp.obj: ../PrimaryKeyAlreadyExisting.h

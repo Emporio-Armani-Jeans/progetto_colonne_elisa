@@ -22,7 +22,7 @@ public:
     void updateVal(const string& val, int index) override;
     string getElement(int i) override;
     void deleteVal(int index) override;
-    void addDefault(int val=0) override;
+    void addDefault(int val) override;
     bool compareElements(const string& condizione, int operatore, int index) const override;
     int getSize() const override;
     string getTipo()const override;

@@ -12,13 +12,13 @@
 
 
 
-vector<Tabella*> Caricamento(const string& nome_file, int* increment){
+vector<Tabella*> Caricamento(const string& nome_file){
     ifstream database;
     database.open(nome_file);
     if(!database.is_open()){
         throw FileError();
     }else{
-        (*increment)=1;
+        //(*increment)=1;
         int num_tabs=0, num_cols=0, num_recs=0;
         string word, tipo, auto_increment, not_null, primary_key;
         Colonna *new_col= nullptr;
@@ -75,8 +75,8 @@ vector<Tabella*> Caricamento(const string& nome_file, int* increment){
                     getline(database, word, '#');
                     if(j==0 && t==0) word.erase(0,1);
                     valori.push_back(word);
-                    if(tabs[i]->getCol(t)->isAutoIncrement())
-                        (*increment)++;
+                    //if(tabs[i]->getCol(t)->isAutoIncrement())
+                        //(*increment)++;
                 }
                 tabs[i]->addRecordMemory(campi, valori);  //metodo alternativo per non tener conto di auto_increment
                 valori.clear();
@@ -101,6 +101,7 @@ void Salvataggio(const string& nome_file, const vector<Tabella*>& tabelle){
             database << endl;
             tab = t;
             database << tab->getNome() << " " << tab->numCampi() << endl;
+            }
             for (int i = 0; i < tab->numCampi(); i++) {
                 database << tab->getCol(i)->getNomeColonna() << ':' << tab->getCol(i)->getTipo() << ",";
                 if (tab->getCol(i)->getTipo() == "int" && tab->getCol(i)->isAutoIncrement()) database << "true,";

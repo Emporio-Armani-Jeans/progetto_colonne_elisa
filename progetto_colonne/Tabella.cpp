@@ -72,17 +72,11 @@ void Tabella::addRecord(const vector<string>& campi, const vector<string>& valor
     if(!flag_campo_non_trovato) { //se tutte le colonne marcate come not null sono presenti nei campi, posso procedere con l'aggiunta del record
         _recs++;
         for (auto &i : _colonne) {
-            if(i->isAutoIncrement()) {
-                i->addDefault((*increment_value));
-                (*increment_value)++;
-            }
-            else
-                i->addDefault();
+            i->addDefault(0);
         }
         for (int i = 0; i < campi.size(); i++) {
             for (auto &j : _colonne) {
                 if (campi[i] == j->getNomeColonna())
-
                     j->updateVal(valori[i], int(_recs - 1));
             }
         }
@@ -195,7 +189,8 @@ void Tabella::updateRecord(const string& campo_condizioni, const string& condizi
     bool trovata=false, trovata2 = false;
     int i=0, j;
     while(i<_colonne.size() && !trovata){
-        if(campo_condizioni == _colonne[i]->getNomeColonna()) trovata=true;
+        if(campo_condizioni == _colonne[i]->getNomeColonna())
+            trovata=true;
         else i++;
     }
     if(trovata){
@@ -255,7 +250,7 @@ vector<string> Tabella::returnData(const vector<string>& campi, const string& ca
             righe_testo.push_back(riga);
         }
     }else{
-        righe_testo.emplace_back("Tabella vuota");
+        righe_testo.emplace_back("La tabella è vuota.");
     }
     return righe_testo;
 }
@@ -446,51 +441,34 @@ string Tabella::getNome() const {
 void Tabella::addRecordMemory(const vector<string> &campi, const vector<string> &valori) {
     int a;
     bool flag_campo_non_trovato = false, flag_colonna_trovata = false;
-    for(int i = 0; i < _colonne.size() && !flag_campo_non_trovato; i++){
-        flag_colonna_trovata = false;
-        if(_colonne[i]->_not_null){ //se la colonna è marcata come not null, all'interno dei campi da modificare deve esserci il suo nome
-            for(int j=0; j<campi.size() && !flag_colonna_trovata; j++){
-                if(_colonne[i]->getNomeColonna() == campi[j]) {
-                    flag_colonna_trovata = true;
-                    if (_colonne[i]->isAutoIncrement())
-                        throw TentativoInserimentoAutoIncrement();
-                }
-            }
-            if(!flag_colonna_trovata)
-                flag_campo_non_trovato = true;
-        }
-    }
-    if(!flag_campo_non_trovato) { //se tutte le colonne marcate come not null sono presenti nei campi, posso procedere con l'aggiunta del record
         _recs++;
-        for(a=0; a< campi.size(); a++){
+        for(a=0; a < campi.size(); a++){
             for (auto &i : _colonne) {
                 if (campi[a] == i->getNomeColonna()) {
                     if (i->isAutoIncrement())
                         i->addDefault(stoi(valori[a]));
                     else
-                        i->addDefault();
+                        i->addDefault(0);
                 }
             }
         }
         for (int i = 0; i < campi.size(); i++) {
             for (auto &j : _colonne) {
                 if (campi[i] == j->getNomeColonna()) {
-                    j->updateVal(valori[i], int(_recs - 1));
+                   j->updateVal(valori[i], int(_recs - 1));
                 }
             }
         }
-    }else{
-        throw NotNullError(); //campo che doveva essere obbligatorio non inserito
-    }
 }
 
 bool Tabella::erroreSecKey(int indice) {
-    for (auto item: _colonne) {
+    for (auto item : _colonne) {
         if (item->isKey()) {
             if (item->_colonna_figlio != nullptr) {
                 bool already_used = false;
-                for (int i = 0; i < (*item->_colonna_figlio).getSize(); i++) {
-                    if ((item->compareElements((*item->_colonna_figlio).getElement(i), 0, indice))) already_used = true;
+                for (int i = 0; i < (item->_colonna_figlio)->getSize(); i++) { //scorro la colonna figlia
+                    if ((item->compareElements((item->_colonna_figlio)->getElement(i), 0, indice)))
+                        already_used = true;
                 }
                 return already_used;
             }
@@ -506,3 +484,5 @@ bool Tabella::isLinked() {
         }
     } return false;
 }
+
+
