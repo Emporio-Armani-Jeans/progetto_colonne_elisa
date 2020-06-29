@@ -511,12 +511,12 @@ bool ControlloSintassi::controlloUpdate(stringstream &comando, string *messaggio
                         comando >> word;
                         if (word[0] == '"'){ //caso di un campo testo
                             carattere = GestioneTesto(&comando,word);
-                            if (carattere == 'w') {
+                            if (toupper(carattere) == 'W') {
                                 flag_condizione = true;
                                 comando >> word; //campo o Where
-                                word.insert(0,1,'w');
+                                word.insert(0,1,carattere);
                             }
-                            else if (carattere != ',' && carattere != 'w'){
+                            else if (carattere != ',' && toupper(carattere) != 'W'){
                                 messaggio->assign(_message_error);
                                 return false;
                             }
@@ -564,40 +564,83 @@ bool ControlloSintassi::controlloUpdate(stringstream &comando, string *messaggio
                     if (toUp(word) == "WHERE"){
                         comando >> word >> word;
                         if (belongs_to(word, _operatori)){
-                            comando >> word;
-                            if (word[0] == '"'){ //caso di un campo testo
-                                carattere = GestioneTesto(&comando,word);
-                                if (carattere == ';') {
-                                    flag_fine_comando = true;
+                            if (toUp(word) == "BETWEEN") {
+                                comando >> word;
+                                if (word[0] == '"') {//caso di un campo testo
+                                    carattere = GestioneTesto(&comando, word);
+                                    if (toupper(carattere) != 'A') {
+                                        messaggio->assign(_message_error);
+                                        return false;
+                                    } else {
+                                        comando >> word;
+                                        word.insert(0, 1, carattere);
+                                    }
+                                } else if (word[0] == 39) { //'c'
+                                    if (word.size() != 3) {
+                                        messaggio->assign(_message_error);
+                                        return false;
+                                    }
+                                    comando >> word;
                                 }
-                                else {
-                                    messaggio->assign(_message_error);
-                                    return false;
-                                }
-                            }
-                            else { //campo char o qualsiasi altro: unica parola per forza
-                                if (word[word.size()-1] != ';'){
-                                    messaggio->assign(_message_error);
-                                    return false;
-                                }
-                                else {
-                                    if (word[0] == 39){ //se è un char controllo he l'utente abbia effettivamente inserito solo un carattere con la sintassi giusta
-                                        if (word.size() != 4){
+                                else
+                                    comando >> word;
+                                if (toUp(word) == "AND") {
+                                    comando >> word;
+                                    if (word[0] == '"') {//caso di un campo testo
+                                        carattere = GestioneTesto(&comando, word);
+                                        if (carattere == ';')
+                                            flag_fine_comando = true;
+                                        else {
                                             messaggio->assign(_message_error);
                                             return false;
                                         }
-                                        else {
-                                            word.pop_back(); //tolgo ;
-                                            if (word[word.size()-1] != 39){
+                                    } else {
+                                        if (word[0] == 39) {
+                                            if (word.size() != 3) {
                                                 messaggio->assign(_message_error);
                                                 return false;
                                             }
-                                            else
-                                                flag_fine_comando = true;
+                                        }
+                                        if (word[word.size()-1] == ';')
+                                            flag_fine_comando = true;
+                                        else {
+                                            messaggio->assign(_message_error);
+                                            return false;
                                         }
                                     }
-                                    else
+                                }
+                            }
+                            else {
+                                comando >> word;
+                                if (word[0] == '"') { //caso di un campo testo
+                                    carattere = GestioneTesto(&comando, word);
+                                    if (carattere == ';') {
                                         flag_fine_comando = true;
+                                    } else {
+                                        messaggio->assign(_message_error);
+                                        return false;
+                                    }
+                                } else { //campo char o qualsiasi altro: unica parola per forza
+                                    if (word[word.size() - 1] != ';') {
+                                        messaggio->assign(_message_error);
+                                        return false;
+                                    } else {
+                                        if (word[0] ==
+                                            39) { //se è un char controllo he l'utente abbia effettivamente inserito solo un carattere con la sintassi giusta
+                                            if (word.size() != 4) {
+                                                messaggio->assign(_message_error);
+                                                return false;
+                                            } else {
+                                                word.pop_back(); //tolgo ;
+                                                if (word[word.size() - 1] != 39) {
+                                                    messaggio->assign(_message_error);
+                                                    return false;
+                                                } else
+                                                    flag_fine_comando = true;
+                                            }
+                                        } else
+                                            flag_fine_comando = true;
+                                    }
                                 }
                             }
                         } else {

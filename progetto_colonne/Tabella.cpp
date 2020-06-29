@@ -421,9 +421,12 @@ void Tabella::setChiaveEsterna(Tabella* tabella_to_link, const string& colonna_t
         }
         if(_colonne[pos_colonna_figlia]->_foreign_key== nullptr) {
             if (pos_colonna_figlia < _colonne.size()) {
-                _colonne[pos_colonna_figlia]->_foreign_key = tabella_to_link->_colonne[pos_colonna_madre];
-                tabella_to_link->_colonne[pos_colonna_madre]->_colonna_figlio = _colonne[pos_colonna_figlia];
-                _colonne[pos_colonna_figlia]->_tab_madre=tabella_to_link->getNome();
+                if (_colonne[pos_colonna_figlia]->getTipo() == tabella_to_link->_colonne[pos_colonna_madre]->getTipo()){
+                    _colonne[pos_colonna_figlia]->_foreign_key = tabella_to_link->_colonne[pos_colonna_madre];
+                    tabella_to_link->_colonne[pos_colonna_madre]->_colonna_figlio = _colonne[pos_colonna_figlia];
+                    _colonne[pos_colonna_figlia]->_tab_madre=tabella_to_link->getNome();
+                } else
+                    throw FormatTypeError();
             } else {
                 throw CampoNonTrovato();
             }
@@ -485,5 +488,6 @@ bool Tabella::isLinked() {
         }
     } return false;
 }
+
 
 

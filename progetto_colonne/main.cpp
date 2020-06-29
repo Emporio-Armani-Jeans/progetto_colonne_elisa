@@ -9,6 +9,7 @@
 #include <sstream>
 #include "SalvataggioCaricamento.hpp"
 #include "ControlloSintassi.h"
+#include "TableAlreadyExisting.h"
 #include "Comandi.hpp"
 #define ERR_COMANDO -1
 
@@ -64,7 +65,7 @@ int main() {
             switch (compare_first_word_comandi(first_word)) {
                 case CREATE :
                     if (controllore.controlloCreate(comando_per_controlli, &message_error)) {
-                        Create(tabelle, comando_intero, &status_message);
+                       tabelle = Create(tabelle, comando_intero, &status_message);
                         Salvataggio(nome_file, tabelle);
                         cout << status_message << endl;
                     } else
@@ -72,7 +73,7 @@ int main() {
                     break;
                 case DROP :
                     if (controllore.controlloDrop(comando_per_controlli, &message_error)) {
-                        Drop(tabelle, comando_intero, &status_message);
+                        tabelle = Drop(tabelle, comando_intero, &status_message);
                         Salvataggio(nome_file, tabelle);
                         cout << status_message << endl;
                     } else
@@ -80,7 +81,7 @@ int main() {
                     break;
                 case INSERT :
                     if (controllore.controlloInsert(comando_per_controlli, &message_error)) {
-                        Insert(tabelle, comando_intero, &status_message);
+                        tabelle = Insert(tabelle, comando_intero, &status_message);
                         Salvataggio(nome_file, tabelle);
                         cout << status_message << endl;
                     } else
@@ -88,7 +89,7 @@ int main() {
                     break;
                 case DELETE :
                     if (controllore.controlloDelete(comando_per_controlli, &message_error)) {
-                        Delete(tabelle, comando_intero, &status_message);
+                        //tabelle = Delete(tabelle, comando_intero, &status_message);
                         Salvataggio(nome_file, tabelle);
                         cout << status_message << endl;
                     } else
@@ -96,19 +97,19 @@ int main() {
                     break;
                 case TRUNCATE :
                     if (controllore.controlloTruncate(comando_per_controlli, &message_error)) {
-                        Truncate(tabelle, comando_intero, &status_message);
+                        tabelle = Truncate(tabelle, comando_intero, &status_message);
                         Salvataggio(nome_file, tabelle);
                         cout << status_message << endl;
                     } else
                         cout << message_error << endl;
                     break;
                 case UPDATE :
-                  //  if (controllore.controlloUpdate(comando_per_controlli, &message_error)) {   //Errore se c'è testo in mezzo, fare between nei controlli
-                        Update(tabelle, comando_intero, &status_message);
+                    if (controllore.controlloUpdate(comando_per_controlli, &message_error)) {   //Errore se c'è testo in mezzo, fare between nei controlli
+                        tabelle = Update(tabelle, comando_intero, &status_message);
                         Salvataggio(nome_file, tabelle);
                         cout << status_message << endl;
-                   // } else
-                   //     cout << message_error << endl;
+                    } else
+                        cout << message_error << endl;
                     break;
                 case SELECT :
                     if (controllore.controlloSelect(comando_per_controlli, &message_error)) {
@@ -126,20 +127,64 @@ int main() {
         }
             //eccezioni gestibili --> richiedo il comando
             //eccezioni inaspettate --> chiudo il programma (non salvo progressi fatti durante ultimo comando)
-        catch(InexistentTable &tab){cout << "Eccezione: " << tab.what() << endl;}
-        catch(PrimKeyError &prk){cout << "Eccezione: " << prk.what() << endl;}
-        catch(TentativoInserimentoAutoIncrement &tiai){cout << "Eccezione: " << tiai.what() << endl;}
-        catch(FormatTypeError &type){cout << "Eccezione: " << type.what() << endl;}
-        catch(InvalidCondition &cond){cout << "Eccezione: " << cond.what() << endl;}
-        catch(InvalidOperator &op){cout << "Eccezione: " << op.what() << endl;}
-        catch(NotNullError &nn){cout << "Eccezione: " << nn.what() << endl;}
-        catch(PrimaryKeyAlreadyExisting &pka){cout << "Eccezione: " << pka.what() << endl;}
-        catch(SecKeyAlreadyExisting &ska){cout << "Eccezione: " << ska.what() << endl;}
-        catch(SecKeyError &ske){cout << "Eccezione: " << ske.what() << endl;}
-        catch(SecKeyNotFound &skn){cout << "Eccezione: " << skn.what() << endl;}
-        catch(ValueNotFound &vnf){cout << "Eccezione: " << vnf.what() << endl;}
-        catch (UsedValueInSecKey &uvsk) {cout << "Eccezione: " << uvsk.what() << endl;}
+        catch(InexistentTable &tab){
+            tabelle = Caricamento(nome_file);
+            cout << "Eccezione: " << tab.what() << endl;
+        }
+        catch(PrimKeyError &prk){
+            tabelle = Caricamento(nome_file);
+            cout << "Eccezione: " << prk.what() << endl;
+        }
+        catch(TentativoInserimentoAutoIncrement &tiai){
+            tabelle = Caricamento(nome_file);
+            cout << "Eccezione: " << tiai.what() << endl;
+        }
+        catch(FormatTypeError &type){
+            tabelle = Caricamento(nome_file);
+            cout << "Eccezione: " << type.what() << endl;
+        }
+        catch(InvalidCondition &cond){
+            tabelle = Caricamento(nome_file);
+            cout << "Eccezione: " << cond.what() << endl;
+        }
+        catch(InvalidOperator &op){
+            tabelle = Caricamento(nome_file);
+            cout << "Eccezione: " << op.what() << endl;
+        }
+        catch(NotNullError &nn){
+            tabelle = Caricamento(nome_file);
+            cout << "Eccezione: " << nn.what() << endl;
+        }
+        catch(PrimaryKeyAlreadyExisting &pka){
+            tabelle = Caricamento(nome_file);
+            cout << "Eccezione: " << pka.what() << endl;
+        }
+        catch(SecKeyAlreadyExisting &ska){
+            tabelle = Caricamento(nome_file);
+            cout << "Eccezione: " << ska.what() << endl;
+        }
+        catch(SecKeyError &ske){
+            tabelle = Caricamento(nome_file);
+            cout << "Eccezione: " << ske.what() << endl;
+        }
+        catch(SecKeyNotFound &skn){
+            tabelle = Caricamento(nome_file);
+            cout << "Eccezione: " << skn.what() << endl;
+        }
+        catch(ValueNotFound &vnf){
+            tabelle = Caricamento(nome_file);
+            cout << "Eccezione: " << vnf.what() << endl;
+        }
+        catch (UsedValueInSecKey &uvsk) {
+            tabelle = Caricamento(nome_file);
+            cout << "Eccezione: " << uvsk.what() << endl;
+        }
+        catch (TableAlreadyExisting &tae) {
+            tabelle = Caricamento(nome_file);
+            cout << "Eccezione: " << tae.what() << endl;
+        }
         catch(exception &unexpected) {
+            tabelle = Caricamento(nome_file);
             cout << "Eccezione: " << unexpected.what() << endl;
             exit(EXIT_FAILURE);
         }
@@ -167,9 +212,7 @@ int main() {
 
     Salvataggio(nome_file, tabelle); //salvo i dati sul file di testo
 
-    for (auto & i : tabelle){ //elimino tabelle
-        delete i;
-    }
+    tabelle.clear();
 
     cout << "Arresto eseguito correttamente." << endl;
 

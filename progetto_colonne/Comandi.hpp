@@ -7,6 +7,7 @@
 #include <vector>
 #include "Tabella.h"
 #include "InexistentTable.h"
+#include "TableAlreadyExisting.h"
 #include <string>
 using namespace std;
 
@@ -65,11 +66,15 @@ string toUpper(string word){
     return word;
 }
 
-void Create(vector<Tabella*> &tabelle, stringstream &stream_comando, string *message) {
+vector<Tabella*> Create(vector<Tabella*> &tabelle, stringstream &stream_comando, string *message) {
+    vector <Tabella> tabelle_temporanee;
+    for (auto & j : tabelle){
+        tabelle_temporanee.push_back((*j));
+    }
     string scarto, word, word2, word3, nome_tabella, nome_colonna, tipo, riga_comando, testo_chiavi;
     bool not_null = false, auto_increm = false;
     stringstream riga_temp;
-    bool c;
+    bool c, tabella_already_existing = false;
 
     stream_comando >> scarto >> nome_tabella;
     if (nome_tabella[nome_tabella.size() - 1] == '(') {
@@ -77,7 +82,14 @@ void Create(vector<Tabella*> &tabelle, stringstream &stream_comando, string *mes
     } else {
         stream_comando >> scarto;
     }
-    tabelle.emplace_back(new Tabella(nome_tabella));
+    for (auto & j : tabelle){
+        if (j->getNome() == nome_tabella)
+            tabella_already_existing = true;
+    }
+    if (!tabella_already_existing)
+        tabelle.emplace_back(new Tabella(nome_tabella));
+    else
+        throw TableAlreadyExisting();
 
     stream_comando >> nome_colonna >> tipo;
     while (toUpper(tipo) != "KEY") {
@@ -204,9 +216,10 @@ void Create(vector<Tabella*> &tabelle, stringstream &stream_comando, string *mes
     }
 
     (*message) = "Operazione completata: tabella creata e aggiunta al database.";
+    return tabelle;
 }
 
-void Drop(vector<Tabella*> &tabelle, stringstream &stream_comando, string *message){        //elimina completamente
+vector<Tabella*> Drop(vector<Tabella*> &tabelle, stringstream &stream_comando, string *message){        //elimina completamente
     string word;
     bool trovata;
     vector<Tabella*>::iterator it = tabelle.begin();
@@ -226,11 +239,12 @@ void Drop(vector<Tabella*> &tabelle, stringstream &stream_comando, string *messa
         if(!(*it)->isLinked()) {
             tabelle.erase(it);
             (*message) = "Operazione completata: tabella eliminata dal database.";
+            return tabelle;
         } else throw LinkedError();
     }
 }
 
-void Truncate(vector<Tabella*> &tabelle, stringstream &stream_comando, string *message) {
+vector<Tabella*> Truncate(vector<Tabella*> &tabelle, stringstream &stream_comando, string *message) {
     string word;
     bool tabella_trovata = false;
     stream_comando >> word;      //butto via "TABLE"
@@ -245,13 +259,15 @@ void Truncate(vector<Tabella*> &tabelle, stringstream &stream_comando, string *m
             break;
         }
     }
-    if (tabella_trovata)
+    if (tabella_trovata){
         (*message) = "Operazione completata: Tabella svuotata correttamente";
+        return tabelle;
+    }
     else
         throw InexistentTable();
 }
 
-void Delete(vector<Tabella*> &tabelle, stringstream &stream_comando, string *message) {
+vector<Tabella*> Delete(vector<Tabella*> &tabelle, stringstream &stream_comando, string *message) {
     vector<string> operatori {"=", "<", ">", ">=", "<=", "<>", "BETWEEN"};
     string word, word2, operatore, nome_colonna;
     int pos_table, pos_colonna;
@@ -325,11 +341,12 @@ void Delete(vector<Tabella*> &tabelle, stringstream &stream_comando, string *mes
                     }
                 }
                 (*message) = "I record che non erano collegati a chiavi esterne sono stati eliminati.";
+                return tabelle;
             }
     }
 }
 
-void Update(vector<Tabella*> &tabelle, stringstream &stream_comando, string *message){
+vector<Tabella*> Update(vector<Tabella*> &tabelle, stringstream &stream_comando, string *message){
     string scarto, word, word2, word3, condizione1, condizione2;
     vector<string> campi, valori, operatori {"=", "<", ">", ">=", "<=", "<>", "BETWEEN"};
     int pos_table;
@@ -433,6 +450,7 @@ void Update(vector<Tabella*> &tabelle, stringstream &stream_comando, string *mes
         }
     }
     message->assign("I campi dei record non collegati ad altre tabelle sono stati aggiornati.");
+    return tabelle;
 }
 
 void Select(vector<Tabella*> &tabelle, stringstream &stream_comando, string *message){
@@ -800,17 +818,15 @@ void Select(vector<Tabella*> &tabelle, stringstream &stream_comando, string *mes
     }
 }
 
-void Insert(vector<Tabella*> &tabelle, stringstream &stream_comando, string *message) {
+vector<Tabella*> Insert(vector<Tabella*> &tabelle, stringstream &stream_comando, string *message) {
     string scarto, word, nome_tabella;
     vector<string> campi, valori;
     int a, pos_table;
     bool trovata, flag_fine = false;
-    /*INSERT INTO CUSTOMERS (AGE, ADDRESS, NAME)
-    VALUES (20, “via Roma 10, Torino”, “Francesco Rossi”);*/
     stream_comando >> scarto;  //INTO
     stream_comando >> nome_tabella;
     for (a = 0, trovata = false; a < tabelle.size(); a++) {
-        if (tabelle[a]->getNome() == nome_tabella) {
+        if (tabelle[a]->getNome() == nome_tabella) { ///
             trovata = true;
             pos_table = a;
             break;
@@ -866,8 +882,9 @@ void Insert(vector<Tabella*> &tabelle, stringstream &stream_comando, string *mes
             valori.push_back(word);
             stream_comando >> word;
         }
-        tabelle[pos_table]->addRecord(campi, valori);
+        tabelle[pos_table]->addRecord(campi, valori); ///segmentation fault
         (*message) = "Operazione completata: Record aggiunto correttamente alla tabella";
+        return tabelle;
     }
 }
 

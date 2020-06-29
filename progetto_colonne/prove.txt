@@ -16,7 +16,7 @@ update customers set salary = 1200, came = 'c' where age = "cnsja";
 
     DELETE FROM CUSTOMERS WHERE ADDRESS = "Via Dei Gigli 33";
 
-    create table countries ( id int not null auto_increment, name text not null, primary key (id) );
+    create table COUNTRIES ( ID int not null auto_increment, NAME text not null, ABITANTI INT, primary key (ID) );
 
 
     SELECT * FROM CUSTOMERS ORDER BY AGE ASC;
@@ -45,3 +45,12 @@ update customers set salary = 1200, came = 'c' where age = "cnsja";
     DELETE FROM COUNTRIES WHERE ABITANTI = 12000;
 
     INSERT INTO COUNTRIES (NAME) VALUES ("Italia");
+
+    create table CUSTOMERS ( ID INT NOT NULL AUTO_INCREMENT, COUNTRY_ID INT, NAME TEXT, PRIMARY KEY (ID) FOREIGN KEY (COUNTRY_ID) REFERENCES COUNTRIES (ID) );
+
+    insert INTO CUSTOMERS (COUNTRY_ID, NAME) VALUES ("Andrea", 1);
+    insert INTO CUSTOMERS (COUNTRY_ID, NAME) VALUES (1, "Andrea");
+
+    insert INTO CUSTOMERS (COUNTRY_ID, NAME) VALUES (7, "Andrea");
+    insert INTO CUSTOMERS (COUNTRY_ID, NAME) VALUES (3, 5);
+    insert INTO CUSTOMERS (COUNTRY_ID, NAME) VALUES ("elisa", 7);
