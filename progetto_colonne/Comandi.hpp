@@ -353,7 +353,7 @@ vector<Tabella*> Update(vector<Tabella*> &tabelle, stringstream &stream_comando,
     bool trovata = false;
     stream_comando >> word;
     for (int a = 0; a < tabelle.size(); a++) {
-        if (toUpper(tabelle[a]->getNome()) == word) {
+        if (tabelle[a]->getNome() == word) {
             trovata = true;
             pos_table = a;
             break;

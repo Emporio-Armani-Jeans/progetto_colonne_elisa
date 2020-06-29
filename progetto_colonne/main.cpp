@@ -89,7 +89,7 @@ int main() {
                     break;
                 case DELETE :
                     if (controllore.controlloDelete(comando_per_controlli, &message_error)) {
-                        //tabelle = Delete(tabelle, comando_intero, &status_message);
+                        tabelle = Delete(tabelle, comando_intero, &status_message);
                         Salvataggio(nome_file, tabelle);
                         cout << status_message << endl;
                     } else

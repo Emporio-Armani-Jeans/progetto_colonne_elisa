@@ -54,3 +54,18 @@ update customers set salary = 1200, came = 'c' where age = "cnsja";
     insert INTO CUSTOMERS (COUNTRY_ID, NAME) VALUES (7, "Andrea");
     insert INTO CUSTOMERS (COUNTRY_ID, NAME) VALUES (3, 5);
     insert INTO CUSTOMERS (COUNTRY_ID, NAME) VALUES ("elisa", 7);
+
+
+    C:\Users\jccx1\CLionProjects\progetto_colonne_elisa\progetto_colonne\Memoria.txt
+
+    CREATE table antonio ( ID int NOT NULL AUTO_INCREMENT, NAME date NOT NULL, AGE int NOT NULL, ADDRESS text, SALARY time, PRIMARY KEY (AGE) );
+    insert INTO antonio (NAME, AGE, ADDRESS, SALARY) VALUES ("23/01/2004", 1, "CIAONE", "15:54:30");
+    insert INTO antonio (NAME, AGE, ADDRESS, SALARY) VALUES ("23/01/2005", 5, "CIAONE", "15:54:00");
+    insert INTO antonio (NAME, AGE, ADDRESS, SALARY) VALUES ("23/01/2004", 50, "CIAONE", "15:54:20");
+
+    POSSIBILE PROBLEMA CON LE VIRGOLETTE
+    SELECT NOME, AGE FROM antonio WHERE SALARY = "15:54:20";            stampa solo un campo dei due
+    SELECT ADDRESS, AGE FROM antonio WHERE SALARY = "15:54:20";         stampa Tutto correttamente
+
+    SELECT ADDRESS, AGE FROM antonio ORDER BY SALARY DESC;
+    SELECT ADDRESS, AGE FROM antonio ORDER BY ADDRESS ASC;

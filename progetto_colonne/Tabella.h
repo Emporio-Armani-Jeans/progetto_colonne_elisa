@@ -27,6 +27,7 @@
 #include "TentativoInserimentoAutoIncrement.h"
 #include "UsedValueInSecKey.h"
 #include "LinkedError.h"
+#include <memory.h>
 
 using namespace std;
 class Tabella {
@@ -63,6 +64,7 @@ public:
 
 private:
     vector<Colonna*> _colonne;
+    //vector<unique_ptr<Colonna>> _colonne;
     string _nome_tabella;
     int _recs;
     vector<int> ordinamento(const string& campo, int operatore)const;

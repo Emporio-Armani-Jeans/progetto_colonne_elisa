@@ -55,8 +55,8 @@ protected:
     string _nome_colonna, _tab_madre;
     bool _not_null;
     bool _primary_key;
-    Colonna* _foreign_key;
-    Colonna* _colonna_figlio;
+    Colonna* _foreign_key;      //puntatore alla colonna madre, ovvero la colonna che vincola i valori di this.elementi
+    Colonna* _colonna_figlio;   //puntatore inverso, punta alla colonna vincolata da this.elementi
 };
 
 
