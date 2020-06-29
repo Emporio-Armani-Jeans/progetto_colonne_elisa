@@ -11,6 +11,8 @@ ColonnaDate::ColonnaDate(const string &nomecolonna, bool notnull){
     _default_value = d;
     _primary_key = false;
     _foreign_key = nullptr;
+    _tab_madre="";
+    _colonna_figlio= nullptr;
 }
 
 string ColonnaDate::getElement(int index){

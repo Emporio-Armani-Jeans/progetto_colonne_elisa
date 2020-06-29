@@ -32,8 +32,8 @@ public:
 
 private:
     vector <int> _elementi_interi;
-    bool _auto_increment;
-    int _increment_value; ///
+    bool _is_auto_increment;
+    int _increment_value;
     int _default_value;
 };
 

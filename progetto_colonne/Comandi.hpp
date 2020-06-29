@@ -180,7 +180,7 @@ void Create(vector<Tabella*> &tabelle, stringstream &stream_comando, string *mes
         else { //foreign key
             riga_comando.erase(0,2); //tolgo lo spazio e la ( all'inizio
             //in riga_comando adesso ho il campo della mia tabella
-            stream_chiavi >> scarto >> nome_tabella; //in nome tabella ho la tabella esterna
+            stream_chiavi >> scarto >> nome_tabella; //in nome tabella ho la tabella esterna (madre)
             int pos;
             bool tabella_trovata;
             for (int i = 0; i < tabelle.size(); i++) {
@@ -191,7 +191,7 @@ void Create(vector<Tabella*> &tabelle, stringstream &stream_comando, string *mes
             }
             if(tabella_trovata){
                 getline(stream_chiavi, scarto, '(');
-                getline(stream_chiavi, word, ')');
+                getline(stream_chiavi, word, ')');  //colonna madre
                 tabelle[tabelle.size() - 1]->setChiaveEsterna(tabelle[pos], riga_comando, word);
             }
             else {
@@ -324,7 +324,7 @@ void Delete(vector<Tabella*> &tabelle, stringstream &stream_comando, string *mes
                         tabelle[pos_table]->deleteRecord(nome_colonna, word, 5);
                     }
                 }
-                (*message) = "Operazione completata: Record eliminati correttamente.";
+                (*message) = "I record che non erano collegati a chiavi esterne sono stati eliminati.";
             }
     }
 }
@@ -432,7 +432,7 @@ void Update(vector<Tabella*> &tabelle, stringstream &stream_comando, string *mes
             }
         }
     }
-    message->assign("Operazione completata: Record aggiornato/i correttamente");
+    message->assign("I campi dei record non collegati ad altre tabelle sono stati aggiornati.");
 }
 
 void Select(vector<Tabella*> &tabelle, stringstream &stream_comando, string *message){
@@ -457,6 +457,10 @@ void Select(vector<Tabella*> &tabelle, stringstream &stream_comando, string *mes
         campi.push_back (word);
         stream_comando >> word; //FROM
     }
+    for(string & elem : campi){
+        cout << elem << "   ";
+    }
+    cout << endl;
     stream_comando >> word;
     scarto=word;
     if(scarto[scarto.size()-1]==';')
@@ -476,6 +480,10 @@ void Select(vector<Tabella*> &tabelle, stringstream &stream_comando, string *mes
             for (int i = 0; i < tabelle[pos_table]->numCampi (); i++) {
                 campi.push_back (tabelle[pos_table]->getCol (i)->getNomeColonna ());
             }
+            for(string & elem : campi){
+                cout << elem << "   ";
+            }
+            cout << endl;
         }
         if (word[word.size () - 1] == ';') {   //non c'è WHERE
             word.pop_back ();

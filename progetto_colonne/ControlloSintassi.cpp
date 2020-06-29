@@ -179,7 +179,7 @@ bool ControlloSintassi::controlloCreate(stringstream &comando, string* messaggio
                                                         || (toUp(words[j]) == "NULL" && toUp(words[j - 1]) == "NOT")
                                                         || (toUp(words[j]) == "AUTO_INCREMENT")) {
                                                         if (toUp(words[j]) == "AUTO_INCREMENT") {
-                                                            if (words[1] != "INT") {
+                                                            if (toUp(words[1]) != "INT") {
                                                                 messaggio->assign(_wrong_type_auto_increment);
                                                                 return false;//_wrong_type_auto_increment;
                                                             }
@@ -192,7 +192,7 @@ bool ControlloSintassi::controlloCreate(stringstream &comando, string* messaggio
                                                     if ((toUp(words[j]) == "NULL" && toUp(words[j - 1]) == "NOT") ||
                                                         (toUp(words[j]) == "AUTO_INCREMENT")) {
                                                         if ((toUp(words[j]) == "AUTO_INCREMENT")) {
-                                                            if (words[1] != "INT") {
+                                                            if (toUp(words[1]) != "INT") {
                                                                 messaggio->assign(_wrong_type_auto_increment);
                                                                 return false;//_wrong_type_auto_increment;
                                                             }

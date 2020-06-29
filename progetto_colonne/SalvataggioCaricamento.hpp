@@ -19,9 +19,15 @@ vector<Tabella*> Caricamento(const string& nome_file){
         throw FileError();
     }else{
         //(*increment)=1;
+        typedef struct infoKEsterna{
+            vector<string> colonne_madri, tabelle_madri;  //indicizzazione riferita alla colonna figlia
+        }infoKEsterna;
+        infoKEsterna tmp;
+        vector<infoKEsterna> infos;
         int num_tabs=0, num_cols=0, num_recs=0;
-        string word, tipo, auto_increment, not_null, primary_key;
+        string word, tipo, auto_increment, not_null, primary_key, tabella_madre, colonna_madre, colonna_figlia;
         Colonna *new_col= nullptr;
+        Tabella *temp = nullptr;
         vector<Tabella*> tabs;
         vector<string> campi, valori;
         database >> num_tabs;
@@ -31,8 +37,12 @@ vector<Tabella*> Caricamento(const string& nome_file){
             tabs.emplace_back(new Tabella(word));
             database >> num_cols;
             for(int i_col=0; i_col<num_cols; i_col++){
-                getline(database, word, ':');
+                getline(database, word, '<');
                 if(i_col==0) word.erase(0,1);      // cancello il '\n'
+                getline(database, tabella_madre, '<');   /////
+                getline(database, colonna_madre, ':');  ////
+                tmp.colonne_madri.push_back(colonna_madre);
+                tmp.tabelle_madri.push_back(tabella_madre);
                 getline(database, tipo, ',');
                 getline(database, auto_increment,',');
                 getline(database, not_null,',');
@@ -68,6 +78,9 @@ vector<Tabella*> Caricamento(const string& nome_file){
                 if(primary_key=="true") tabs[i]->setChiavePrimaria(new_col->getNomeColonna());
                 new_col= nullptr;
             }
+            infos.push_back(tmp);
+            tmp.tabelle_madri.clear();
+            tmp.colonne_madri.clear();
             //add records
             database >> num_recs;
             for(int j=0;j<num_recs; j++){
@@ -82,6 +95,22 @@ vector<Tabella*> Caricamento(const string& nome_file){
                 valori.clear();
             }
             campi.clear();
+        }
+        //ho in infos in ogni elemento informazioni su link esterni per ogni colonna della tabella
+        //fare i set chiave esterna
+        for(int i=0; i< num_tabs; i++){
+            for(int j=0; j< tabs[i]->numCampi(); j++){
+                if(infos[i].tabelle_madri[j]!="#" && infos[i].colonne_madri[j]!="#") {
+                    //mi serve un puntatore alla tabella che matcha col nome presente nelle infos
+                    for (int a = 0; a < num_tabs; a++) {
+                        if (infos[i].tabelle_madri[j] == tabs[a]->getNome()) {
+                            temp = tabs[a];
+                            break;
+                        }
+                    }
+                    tabs[i]->setChiaveEsterna(temp, tabs[i]->getCol(j)->getNomeColonna(), infos[i].colonne_madri[j]);
+                }
+            }
         }
         database.close();
         return tabs;
@@ -102,7 +131,14 @@ void Salvataggio(const string& nome_file, const vector<Tabella*>& tabelle){
             tab = t;
             database << tab->getNome() << " " << tab->numCampi() << endl;
             for (int i = 0; i < tab->numCampi(); i++) {
-                database << tab->getCol(i)->getNomeColonna() << ':' << tab->getCol(i)->getTipo() << ",";
+                database << tab->getCol(i)->getNomeColonna() << '<';
+                if(!tab->getCol(i)->getTabMadre().empty())
+                    database << tab->getCol(i)->getTabMadre() << '<';
+                else database << "#<";
+                if(!tab->getCol(i)->getForeignKey().empty())
+                    database << tab->getCol(i)->getForeignKey() << ':';
+                else database << "#:";
+                database << tab->getCol(i)->getTipo() << ",";
                 if (tab->getCol(i)->getTipo() == "int" && tab->getCol(i)->isAutoIncrement()) database << "true,";
                 else database << "false,";
                 if (tab->getCol(i)->isNotNull() && !tab->getCol(i)->isAutoIncrement()) {

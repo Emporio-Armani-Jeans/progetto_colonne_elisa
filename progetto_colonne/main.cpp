@@ -32,8 +32,10 @@ int main() {
 
     while(!correct_file) {
         try {
-            cout << "Inserire nome file database" << endl;
+            cout << "Inserire nome file database o digitare 1 per uscire:" << endl;
             cin >> nome_file;
+            if(nome_file=="1")
+                return 0;
             tabelle = Caricamento(nome_file);
             correct_file = true;
         }
@@ -101,12 +103,12 @@ int main() {
                         cout << message_error << endl;
                     break;
                 case UPDATE :
-                    if (controllore.controlloUpdate(comando_per_controlli, &message_error)) {
+                  //  if (controllore.controlloUpdate(comando_per_controlli, &message_error)) {   //Errore se c'è testo in mezzo, fare between nei controlli
                         Update(tabelle, comando_intero, &status_message);
                         Salvataggio(nome_file, tabelle);
                         cout << status_message << endl;
-                    } else
-                        cout << message_error << endl;
+                   // } else
+                   //     cout << message_error << endl;
                     break;
                 case SELECT :
                     if (controllore.controlloSelect(comando_per_controlli, &message_error)) {

@@ -4,11 +4,13 @@
 ColonnaInt::ColonnaInt(const string &nomecolonna, bool notnull, bool autoincrement) {
     _nome_colonna = nomecolonna;
     _not_null = notnull;
-    _auto_increment = autoincrement;
+    _is_auto_increment = autoincrement;
     _default_value = 0;
     _primary_key = false;
     _foreign_key = nullptr;
     _increment_value = 0;
+    _tab_madre="";
+    _colonna_figlio= nullptr;
 }
 
 string ColonnaInt::getElement(int index) {
@@ -26,7 +28,7 @@ void ColonnaInt::deleteVal(int index){
 
 void ColonnaInt::updateVal(const string& val, int index){
     controlloFormato(val);
-    if (!_auto_increment) { //aggiornamento del valore solo se la colonna non è auto increment (se lo è viene già aggiornata precedentemente)
+    if (!_is_auto_increment) { //aggiornamento del valore solo se la colonna non è auto increment (se lo è viene già aggiornata precedentemente)
         int new_value = std::stoi(val);
         if (!_primary_key) {
             if (_foreign_key == nullptr)
@@ -72,7 +74,7 @@ void ColonnaInt::updateVal(const string& val, int index){
 }
 
 void ColonnaInt::addDefault(int val) {
-    if(!_auto_increment) {
+    if(!_is_auto_increment) {
         _elementi_interi.push_back(_default_value);
     }
     else {
@@ -113,7 +115,7 @@ int ColonnaInt::getSize() const {
 }
 
 bool ColonnaInt::isAutoIncrement() const {
-    return _auto_increment;
+    return _is_auto_increment;
 }
 
 string ColonnaInt::getTipo() const {

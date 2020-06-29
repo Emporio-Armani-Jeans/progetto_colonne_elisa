@@ -22,7 +22,16 @@ public:
     virtual ~Colonna() = default;
     
     string getNomeColonna() const { return _nome_colonna; }
-    
+
+    string getForeignKey()const{
+        if(_foreign_key!= nullptr)
+            return _foreign_key->getNomeColonna();
+        else return "";
+    }
+    string getTabMadre()const{
+        return _tab_madre;
+    }
+
     virtual void updateVal(const string& val, int index) = 0; //aggiorna a <val> il valore dell'elemento di indice <index> di una colonna
     virtual string getElement(int index) = 0; //ritorna sottoforma di stringa l'elemento di indice <index> di una colonna
     virtual void deleteVal(int index) = 0; //cancella l'elemento di indice <index> della colonna
@@ -43,7 +52,7 @@ public:
     virtual string getTipo()const=0;
     
 protected:
-    string _nome_colonna;
+    string _nome_colonna, _tab_madre;
     bool _not_null;
     bool _primary_key;
     Colonna* _foreign_key;

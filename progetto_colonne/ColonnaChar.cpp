@@ -10,6 +10,8 @@ ColonnaChar::ColonnaChar(const string &nomecolonna, bool notnull) {
     _default_value = '\0';
     _primary_key = false;
     _foreign_key = nullptr;
+    _tab_madre="";
+    _colonna_figlio= nullptr;
 }
 
 string ColonnaChar::getElement(int index) {

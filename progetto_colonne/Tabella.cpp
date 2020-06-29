@@ -111,7 +111,7 @@ void Tabella::deleteRecord(const string& campo_condizione, const string &condizi
                         for (auto &elem : _colonne) {
                             elem->deleteVal(j);
                         }
-                    }
+                    } else j++;
                 } else j++;
             }
             if(!condizione_trovata)
@@ -141,7 +141,7 @@ void Tabella::deleteRecord(const string& campo_condizione, const string& condizi
                     for (auto &elem : _colonne) {
                         elem->deleteVal(j);
                     }
-                }
+                } else j++;
             }else j++;
         }
         if(!trovata2)
@@ -163,18 +163,18 @@ void Tabella::updateRecord(const string& campo_condizione,const string& condizio
         for(j=0; j<_recs; j++){
             if(_colonne[i]->compareElements(condizione, operatore, j)) {
                 trovata2 = true;
-                if(!erroreSecKey(j)) {
-                    for (int y = 0; y < campi.size(); y++) {
-                        for (auto &g : _colonne) {
-                            if (campi[y] == g->getNomeColonna()) {
-                                if (g->isAutoIncrement())
-                                    throw TentativoInserimentoAutoIncrement();
-                                else
-                                    g->updateVal(valori[y], j);
+                        for (int y = 0; y < campi.size(); y++) {
+                            for (auto &g : _colonne) {
+                                if (campi[y] == g->getNomeColonna()) {
+                                    if(!erroreSecKey(j) || !g->isKey()) {
+                                        if (g->isAutoIncrement())
+                                            throw TentativoInserimentoAutoIncrement();
+                                        else
+                                            g->updateVal(valori[y], j);
+                                    }
+                                }
                             }
                         }
-                    }
-                }
             }
         }
         if(!trovata2)
@@ -197,18 +197,18 @@ void Tabella::updateRecord(const string& campo_condizioni, const string& condizi
         for(j=0; j<_recs; j++){
             if(_colonne[i]->compareElements(condizione1, 4, j) && _colonne[i]->compareElements(condizione2, 2, j)) {
                 trovata2 = true;
-                if(!erroreSecKey(j)) {
                     for (int y = 0; y < campi.size(); y++) {
                         for (auto &g : _colonne) {
                             if (campi[y] == g->getNomeColonna()) {
-                                if (g->isAutoIncrement())
-                                    throw TentativoInserimentoAutoIncrement();
-                                else
-                                    g->updateVal(valori[y], j);
+                                if(!erroreSecKey(j) || !_colonne[i]->isKey()) {
+                                    if (g->isAutoIncrement())
+                                        throw TentativoInserimentoAutoIncrement();
+                                    else
+                                        g->updateVal(valori[y], j);
+                                }
                             }
                         }
                     }
-                }
             }
         }
         if(!trovata2)
@@ -423,6 +423,7 @@ void Tabella::setChiaveEsterna(Tabella* tabella_to_link, const string& colonna_t
             if (pos_colonna_figlia < _colonne.size()) {
                 _colonne[pos_colonna_figlia]->_foreign_key = tabella_to_link->_colonne[pos_colonna_madre];
                 tabella_to_link->_colonne[pos_colonna_madre]->_colonna_figlio = _colonne[pos_colonna_figlia];
+                _colonne[pos_colonna_figlia]->_tab_madre=tabella_to_link->getNome();
             } else {
                 throw CampoNonTrovato();
             }

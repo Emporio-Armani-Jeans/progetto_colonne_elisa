@@ -12,6 +12,8 @@ ColonnaTime::ColonnaTime(const string &nomecolonna, bool notnull) {
     _default_value = s;
     _primary_key = false;
     _foreign_key = nullptr;
+    _tab_madre="";
+    _colonna_figlio= nullptr;
 }
 
 string ColonnaTime::getElement(int index) {
