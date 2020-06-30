@@ -1,7 +1,5 @@
 #include <iostream>
 #include "ColonnaText.h"
-#include "ColonnaFloat.h"
-#include "ColonnaInt.h"
 #include "Tabella.h"
 #include "FileError.h"
 #include <vector>
@@ -9,7 +7,6 @@
 #include <sstream>
 #include "SalvataggioCaricamento.hpp"
 #include "ControlloSintassi.h"
-#include "TableAlreadyExisting.h"
 #include "Comandi.hpp"
 #define ERR_COMANDO -1
 
@@ -28,8 +25,7 @@ int main() {
     status_message, first_word;
     bool correct_file = false;
 
-    vector<string> first_word_comandi {"CREATE", "DROP", "INSERT", "DELETE", "UPDATE", "SELECT","QUIT"},
-    campi, valori, words;
+    vector<string> first_word_comandi {"CREATE", "DROP", "INSERT", "DELETE", "UPDATE", "SELECT","QUIT"},campi, valori, words;
 
     while(!correct_file) {
         try {
@@ -186,6 +182,10 @@ int main() {
         catch (TableAlreadyExisting &tae) {
             tabelle = Caricamento(nome_file);
             cout << "Eccezione: " << tae.what() << endl;
+        }
+        catch (CampoNonTrovato &cnt){
+            tabelle = Caricamento(nome_file);
+            cout << "Eccezione: " << cnt.what() << endl;
         }
         catch(exception &unexpected) {
             tabelle = Caricamento(nome_file);

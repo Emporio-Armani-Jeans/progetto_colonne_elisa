@@ -70,19 +70,19 @@ vector<Tabella*> Create(vector<Tabella*> &tabelle, stringstream &stream_comando,
     string scarto, word, word2, word3, nome_tabella, nome_colonna, tipo, riga_comando, testo_chiavi;
     bool not_null = false, auto_increm = false;
     stringstream riga_temp;
-    bool c, tabella_already_existing = false;
+    bool tabella_already_existing = false;
     stream_comando >> scarto >> nome_tabella;
     if (nome_tabella[nome_tabella.size() - 1] == '(') {
         nome_tabella.pop_back();
     } else {
         stream_comando >> scarto;
     }
-    for (auto & j : tabelle){
+    for (auto & j : tabelle){ //verifico che non ci siano tabelle con lo stesso nome nel database
         if (j->getNome() == nome_tabella)
             tabella_already_existing = true;
     }
     if (!tabella_already_existing)
-        tabelle.emplace_back(new Tabella(nome_tabella));
+        tabelle.emplace_back(new Tabella(nome_tabella)); //se il nome non è già presente creo una nuova tabelle
     else
         throw TableAlreadyExisting();
 
@@ -355,7 +355,7 @@ vector<Tabella*> Update(vector<Tabella*> &tabelle, stringstream &stream_comando,
     int pos_table;
     bool trovata = false;
     stream_comando >> word;
-    for (int a = 0; a < tabelle.size(); a++) {
+    for (int a = 0; a < tabelle.size(); a++) { //controllo che la tabella sia inserita nel database
         if (tabelle[a]->getNome() == word) {
             trovata = true;
             pos_table = a;

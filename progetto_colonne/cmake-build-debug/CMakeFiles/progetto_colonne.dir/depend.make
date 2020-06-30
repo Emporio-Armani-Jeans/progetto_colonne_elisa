@@ -77,7 +77,7 @@ CMakeFiles/progetto_colonne.dir/ColonnaTime.cpp.obj: ../Time.h
 
 CMakeFiles/progetto_colonne.dir/ControlloSintassi.cpp.obj: ../ControlloSintassi.cpp
 CMakeFiles/progetto_colonne.dir/ControlloSintassi.cpp.obj: ../ControlloSintassi.h
-CMakeFiles/progetto_colonne.dir/ControlloSintassi.cpp.obj: ../InvalidOperator.h
+CMakeFiles/progetto_colonne.dir/ControlloSintassi.cpp.obj: ../FormatTypeError.h
 
 CMakeFiles/progetto_colonne.dir/Tabella.cpp.obj: ../CampoNonTrovato.h
 CMakeFiles/progetto_colonne.dir/Tabella.cpp.obj: ../Colonna.h
@@ -88,6 +88,7 @@ CMakeFiles/progetto_colonne.dir/Tabella.cpp.obj: ../ColonnaInt.h
 CMakeFiles/progetto_colonne.dir/Tabella.cpp.obj: ../ColonnaText.h
 CMakeFiles/progetto_colonne.dir/Tabella.cpp.obj: ../ColonnaTime.h
 CMakeFiles/progetto_colonne.dir/Tabella.cpp.obj: ../FormatTypeError.h
+CMakeFiles/progetto_colonne.dir/Tabella.cpp.obj: ../InsertAutoIncrement.h
 CMakeFiles/progetto_colonne.dir/Tabella.cpp.obj: ../InvalidCondition.h
 CMakeFiles/progetto_colonne.dir/Tabella.cpp.obj: ../InvalidOperator.h
 CMakeFiles/progetto_colonne.dir/Tabella.cpp.obj: ../LinkedError.h
@@ -99,7 +100,6 @@ CMakeFiles/progetto_colonne.dir/Tabella.cpp.obj: ../SecKeyError.h
 CMakeFiles/progetto_colonne.dir/Tabella.cpp.obj: ../SecKeyNotFound.h
 CMakeFiles/progetto_colonne.dir/Tabella.cpp.obj: ../Tabella.cpp
 CMakeFiles/progetto_colonne.dir/Tabella.cpp.obj: ../Tabella.h
-CMakeFiles/progetto_colonne.dir/Tabella.cpp.obj: ../TentativoInserimentoAutoIncrement.h
 CMakeFiles/progetto_colonne.dir/Tabella.cpp.obj: ../Time.h
 CMakeFiles/progetto_colonne.dir/Tabella.cpp.obj: ../UsedValueInSecKey.h
 CMakeFiles/progetto_colonne.dir/Tabella.cpp.obj: ../ValueNotFound.h
@@ -124,6 +124,7 @@ CMakeFiles/progetto_colonne.dir/main.cpp.obj: ../ControlloSintassi.h
 CMakeFiles/progetto_colonne.dir/main.cpp.obj: ../FileError.h
 CMakeFiles/progetto_colonne.dir/main.cpp.obj: ../FormatTypeError.h
 CMakeFiles/progetto_colonne.dir/main.cpp.obj: ../InexistentTable.h
+CMakeFiles/progetto_colonne.dir/main.cpp.obj: ../InsertAutoIncrement.h
 CMakeFiles/progetto_colonne.dir/main.cpp.obj: ../InvalidCondition.h
 CMakeFiles/progetto_colonne.dir/main.cpp.obj: ../InvalidOperator.h
 CMakeFiles/progetto_colonne.dir/main.cpp.obj: ../LinkedError.h
@@ -136,7 +137,6 @@ CMakeFiles/progetto_colonne.dir/main.cpp.obj: ../SecKeyError.h
 CMakeFiles/progetto_colonne.dir/main.cpp.obj: ../SecKeyNotFound.h
 CMakeFiles/progetto_colonne.dir/main.cpp.obj: ../Tabella.h
 CMakeFiles/progetto_colonne.dir/main.cpp.obj: ../TableAlreadyExisting.h
-CMakeFiles/progetto_colonne.dir/main.cpp.obj: ../TentativoInserimentoAutoIncrement.h
 CMakeFiles/progetto_colonne.dir/main.cpp.obj: ../Time.h
 CMakeFiles/progetto_colonne.dir/main.cpp.obj: ../UsedValueInSecKey.h
 CMakeFiles/progetto_colonne.dir/main.cpp.obj: ../ValueNotFound.h

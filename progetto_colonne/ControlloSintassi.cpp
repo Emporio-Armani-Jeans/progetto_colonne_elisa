@@ -77,8 +77,11 @@ bool ControlloSintassi::controlloCreate(stringstream &comando, string* messaggio
     word = toUp(word);
     if (word == "TABLE"){ //controllo che la seconda parola dopo create sia table
         comando >> word;
+        if (word[word.size()-1] == '(') //caso create table nome(
+            word.pop_back();
+        else
+            comando >> c; //caso create table nome (
         if (!belongs_to(word,_keywords)){ //controllo che il nome assegnato alla tabella non sia una keyword del linguaggio
-            comando >> c;
             if (c == '('){ //controllo la presenza della (
                 while(!comando.eof()){ //finchè non finisce il comando
                     comando_corretto = false;
