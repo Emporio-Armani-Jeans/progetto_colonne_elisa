@@ -18,7 +18,6 @@ vector<Tabella*> Caricamento(const string& nome_file){
     if(!database.is_open()){
         throw FileError();
     }else{
-        //(*increment)=1;
         typedef struct infoKEsterna{
             vector<string> colonne_madri, tabelle_madri;  //indicizzazione riferita alla colonna figlia
         }infoKEsterna;
@@ -89,8 +88,6 @@ vector<Tabella*> Caricamento(const string& nome_file){
                     getline(database, word, '#');
                     if(j==0 && t==0) word.erase(0,1);
                     valori.push_back(word);
-                    //if(tabs[i]->getCol(t)->isAutoIncrement())
-                        //(*increment)++;
                 }
                 tabs[i]->addRecordMemory(campi, valori);  //metodo alternativo per non tener conto di auto_increment ///
                 valori.clear();

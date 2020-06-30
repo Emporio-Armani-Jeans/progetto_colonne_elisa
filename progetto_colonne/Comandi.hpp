@@ -474,7 +474,7 @@ void Select(vector<Tabella*> &tabelle, stringstream &stream_comando, string *mes
     /*for(string & elem : campi){
         cout << elem << "   ";
     }*/
-    cout << endl;
+   // cout << endl;
     stream_comando >> word;
     scarto=word;
     if(scarto[scarto.size()-1]==';')
@@ -511,7 +511,7 @@ void Select(vector<Tabella*> &tabelle, stringstream &stream_comando, string *mes
             if(toUpper(scarto)=="ORDER"){
                 ordinamento=true;
                 stream_comando >> scarto; //scarto by
-                stream_comando >> nome_colonna;   //campo ordinamento
+                stream_comando >> nome_colonna;//campo ordinamento
                 stream_comando >> ordine; //DESC o ASC
                 ordine.pop_back();
                 if (toUpper(ordine) == "ASC") {

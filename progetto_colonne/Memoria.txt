@@ -1,0 +1,26 @@
+5
+
+COUNTRIES 2
+ID<#<#:int,true,false,true#NAME<#<#:text,false,true,false#
+1
+1#Italia#
+
+CUSTOMERS 5
+ID<#<#:int,true,false,true#NAME<#<#:text,false,true,false#AGE<#<#:int,false,true,false#ADDRESS<#<#:text,false,false,false#COUNTRY_ID<COUNTRIES<ID:int,false,false,false#
+1
+1#Andrea#21#Via dei Gigli, 33#0#
+
+SUPPLIERS 4
+NAME<#<#:text,false,true,false#COUNTRY_ID<COUNTRIES<ID:int,false,false,false#CONTRACT_EXPIRATION<#<#:data,false,false,false#CODE<#<#:int,true,false,true#
+1
+FruttaVerdura&Co#1#02/11/2022#1#
+
+PRODUCTS 4
+NAME<#<#:text,false,true,true#EXPIRY<#<#:data,false,false,false#PRICE<#<#:float,false,true,false#SUPPLIER_CODE<SUPPLIERS<CODE:int,false,false,false#
+1
+Papaya Africana#00/00/0000#3.140000#0#
+
+TRANSACTIONS 5
+CODE<#<#:int,true,false,true#TRANSACT_DATE<#<#:data,false,true,false#TRANSACT_TIME<#<#:time,false,false,false#PROFIT<#<#:float,false,false,false#PRODUCT_NAME<PRODUCTS<NAME:text,false,true,false#
+1
+1#07/07/2007#12:37:43#0.000000#Papaya Africana#

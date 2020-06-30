@@ -223,6 +223,10 @@ vector<string> Tabella::returnData(const vector<string>& campi, const string& ca
     vector<string> righe_testo;
     string riga;
     if(_recs!=0) {
+        for(const string & a : campi){
+            riga += a + " ";
+        }
+        righe_testo.push_back(riga);
         for (int i = 0; i < _recs; i++) {
             riga.clear();
             for (auto j : _colonne) {
@@ -269,6 +273,10 @@ vector<string> Tabella::returnData(const vector<string> &campi, const string& ca
             else a++;
         }
         if (trovata) {
+            for(const string & b : campi){
+                riga += b + " ";
+            }
+            righe_testo.push_back(riga);
             for (int i = 0; i < _recs; i++) {
                 if (operatore_ordinamento == 0) {
                     if (_colonne[a]->compareElements(condizione, operatore, i)) {
@@ -330,6 +338,10 @@ vector<string> Tabella::returnData(const vector<string> &campi, const string& ca
             else a++;
         }
         if (trovata) {
+            for(const string & z : campi){
+                riga += z + " ";
+            }
+            righe_testo.push_back(riga);
             for (int i = 0; i < _recs; i++) {
                 if (operatore_ordinamento == 0) {
                     if (_colonne[a]->compareElements(condizione1, 4, i) &&

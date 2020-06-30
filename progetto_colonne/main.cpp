@@ -126,7 +126,7 @@ int main() {
             }
         }
             //eccezioni gestibili --> richiedo il comando
-            //eccezioni inaspettate --> chiudo il programma (non salvo progressi fatti durante ultimo comando)
+            //eccezioni inaspettate --> chiudo il programma (non salvo in ogni caso progressi fatti durante ultimo comando)
         catch(InexistentTable &tab){
             tabelle = Caricamento(nome_file);
             cout << "Eccezione: " << tab.what() << endl;
@@ -210,7 +210,7 @@ int main() {
 
     cout << "Salvataggio in corso..." << endl;
 
-    Salvataggio(nome_file, tabelle); //salvo i dati sul file di testo
+    Salvataggio(nome_file, tabelle);
 
     tabelle.clear();
 
@@ -236,7 +236,7 @@ int compare_first_word_comandi(string &first_word) {
         return UPDATE;
     else if (first_word == "SELECT")
         return SELECT;
-    else if (first_word == "QUIT;")
+    else if (first_word == "QUIT()")
         return QUIT;
     else
         return ERR_COMANDO;
