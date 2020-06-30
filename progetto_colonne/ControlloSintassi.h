@@ -8,7 +8,8 @@
 #include <string>
 #include <vector>
 #include <sstream>
-#include "InvalidOperator.h"
+#include "FormatTypeError.h"
+
 using namespace std;
 
 class ControlloSintassi {
@@ -17,7 +18,7 @@ public:
     ~ControlloSintassi() = default; //?
 
     //controllo iniziale che gestisce i caratteri speciali
-    string Gestione_caratteri_speciali(string &comando, string *status_message);
+    static string Gestione_caratteri_speciali(string &comando, string *status_message);
 
     //controlli tornano true se il formato è corretto e modificano il messaggio di errore caso per caso
     bool controlloCreate(stringstream &comando, string *messaggio);
@@ -29,18 +30,16 @@ public:
     bool controlloSelect(stringstream &comando, string *messaggio);
 
 private:
-    string _message_error, _message_error_keyword, _wrong_type_auto_increment, _inexistent_type, _invalid_operator,
+    string _message_error, _message_error_keyword, _inexistent_type,
            _message_error_key, _missing_pk, _duplicate_col;
     vector <string> _keywords {"CREATE", "TABLE", "INT", "FLOAT", "CHAR", "TEXT", "DATE", "TIME", "NOT", "NULL",
                               "AUTO_INCREMENT", "PRIMARY", "KEY", "DROP", "INSERT", "VALUES", "INTO", "DELETE",
                               "FROM", "WHERE", "TRUNCATE", "UPDATE", "SET", "SELECT", "ORDER", "BY", "DESC",
                               "ASC", "FOREIGN", "REFERENCES", "BETWEEN", "AND"};
-    vector<string> _operatori {"=", "<", ">", ">=", "<=", "<>", "BETWEEN"};
     vector<string> _tipi {"INT", "FLOAT", "CHAR", "TEXT", "DATE", "TIME"};
     static bool belongs_to(string &to_be_compared, const vector<string>& insieme);
     static string toUp(string word);
     static char GestioneTesto(stringstream *comando, string &word);
-
 };
 
 

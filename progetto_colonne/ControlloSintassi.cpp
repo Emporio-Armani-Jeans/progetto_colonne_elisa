@@ -8,7 +8,6 @@
 #define ERR_COMANDO -1
 
 enum comando {CREATE, DROP, INSERT, DELETE, TRUNCATE, UPDATE, SELECT,QUIT};
-enum tipo {INT, FLOAT, CHAR, TEXT, DATE, TIME};
 
 char ControlloSintassi::GestioneTesto(stringstream *comando, string &word) {
     int contatore_virgolette = 0;
@@ -59,14 +58,12 @@ bool ControlloSintassi::belongs_to(string &to_be_compared, const vector<string>&
 
 
 ControlloSintassi::ControlloSintassi() {
-    _message_error = "ERR: Errore di sintassi nel comando, riprovare!";
-    _message_error_keyword = "ERR: Utilizzo inappropriato di una parola chiave del linguaggio, riprovare!";
-    _wrong_type_auto_increment = "ERR: Tipo invalido per l'utilizzo della keyword AUTO_INCREMENT, riprovare!";
-    _inexistent_type = "ERR: Tipo assegnato non esistente, riprovare!";
-    _invalid_operator = "ERR: Operatore non valido, riprovare!";
-    _message_error_key = "ERR: Specificare tutti i campi prima dell'inserimento delle chiavi, riprovare!";
-    _missing_pk = "ERR: Primary Key non specificata! Riprovare";
-    _duplicate_col = "ERR: Due colonne di una stessa tabella non possono avere lo stesso nome, riprovare!";
+    _message_error = "Error: Errore di sintassi nel comando, riprovare!";
+    _message_error_keyword = "Error: Utilizzo inappropriato di una parola chiave del linguaggio, riprovare!";
+    _inexistent_type = "Error: Tipo assegnato non esistente, riprovare!";
+    _message_error_key = "Error: Specificare tutti i campi prima dell'inserimento delle chiavi, riprovare!";
+    _missing_pk = "Error: Primary Key non specificata! Riprovare";
+    _duplicate_col = "Error: Due colonne di una stessa tabella non possono avere lo stesso nome, riprovare!";
 }
 
 
@@ -180,8 +177,7 @@ bool ControlloSintassi::controlloCreate(stringstream &comando, string* messaggio
                                                         || (toUp(words[j]) == "AUTO_INCREMENT")) {
                                                         if (toUp(words[j]) == "AUTO_INCREMENT") {
                                                             if (toUp(words[1]) != "INT") {
-                                                                messaggio->assign(_wrong_type_auto_increment);
-                                                                return false;//_wrong_type_auto_increment;
+                                                                throw FormatTypeError();
                                                             }
                                                         }
                                                     } else {
@@ -193,8 +189,7 @@ bool ControlloSintassi::controlloCreate(stringstream &comando, string* messaggio
                                                         (toUp(words[j]) == "AUTO_INCREMENT")) {
                                                         if ((toUp(words[j]) == "AUTO_INCREMENT")) {
                                                             if (toUp(words[1]) != "INT") {
-                                                                messaggio->assign(_wrong_type_auto_increment);
-                                                                return false;//_wrong_type_auto_increment;
+                                                                throw FormatTypeError();
                                                             }
                                                         }
                                                         comando_corretto = true;
@@ -326,7 +321,7 @@ bool ControlloSintassi::controlloDrop(stringstream &comando, string *messaggio){
     }
 }
 
-bool ControlloSintassi::controlloInsert (stringstream &comando, string *messaggio) { //aggiungere BETWEEN
+bool ControlloSintassi::controlloInsert (stringstream &comando, string *messaggio) {
     string word;
     char carattere;
     bool fine_testo = false, flag_fine_comando = false;
@@ -342,7 +337,7 @@ bool ControlloSintassi::controlloInsert (stringstream &comando, string *messaggi
             words[i].erase (0, 1); //tolgo la (
             while (words[i][words[i].size () - 1] != ')') {
                 if (words[i][words[i].size () - 1] != ',' &&
-                    words[i][words[i].size () - 1] != ')') { //provare anche a togliere seconda condizione
+                    words[i][words[i].size () - 1] != ')') {
                     messaggio -> assign (_message_error);
                     return false;
                 } else {
@@ -456,7 +451,7 @@ bool ControlloSintassi::controlloInsert (stringstream &comando, string *messaggi
     } else return true;
 }
 
-bool ControlloSintassi::controlloDelete(stringstream &comando, string *messaggio){ //aggiungere BETWEEN
+bool ControlloSintassi::controlloDelete(stringstream &comando, string *messaggio){
     string word;
     char carattere;
     comando >> word >> word;
@@ -465,7 +460,6 @@ bool ControlloSintassi::controlloDelete(stringstream &comando, string *messaggio
             comando >> word;
             if (toUp(word) == "WHERE"){ //deve esserci per forza la condizione altrimenti il comando sarebbe truncate
                 comando >> word >> word;
-                if (belongs_to(word,_operatori)) {
                     if (toUp(word) == "BETWEEN") {
                         comando >> word;
                         if (word[0] == '"') {//caso di un campo testo
@@ -529,10 +523,6 @@ bool ControlloSintassi::controlloDelete(stringstream &comando, string *messaggio
                                 return true;
                         }
                     }
-                } else {
-                    messaggio->assign(_invalid_operator);
-                    return false;
-                }
             }
             else {
                 messaggio->assign(_message_error);
@@ -558,9 +548,7 @@ bool ControlloSintassi::controlloUpdate(stringstream &comando, string *messaggio
             comando >> word;
             while (!flag_fine_comando) {
                 if (!flag_condizione){ //non si è ancora arrivati al where
-                    comando >> word;
-                    if (word == "="){ //la set può avere solo l'=
-                        comando >> word;
+                    comando >> word >> word; //operatore =, dato da inserire
                         if (word[0] == '"'){ //caso di un campo testo
                             carattere = GestioneTesto(&comando,word);
                             if (toupper(carattere) == 'W') {
@@ -607,15 +595,10 @@ bool ControlloSintassi::controlloUpdate(stringstream &comando, string *messaggio
                              }
                              comando >> word;
                         }
-                    } else {
-                        messaggio->assign(_invalid_operator);
-                        return false;
-                    }
                 }
                 else { //si è arrivati al where
                     if (toUp(word) == "WHERE"){
                         comando >> word >> word;
-                        if (belongs_to(word, _operatori)){
                             if (toUp(word) == "BETWEEN") {
                                 comando >> word;
                                 if (word[0] == '"') {//caso di un campo testo
@@ -695,13 +678,9 @@ bool ControlloSintassi::controlloUpdate(stringstream &comando, string *messaggio
                                     }
                                 }
                             }
-                        } else {
-                            messaggio->assign(_invalid_operator);
-                            return false;
-                        }
                     }
                     else {
-                        messaggio->assign(_invalid_operator);
+                        messaggio->assign(_message_error);
                         return false;
                     }
                 }
@@ -750,7 +729,6 @@ bool ControlloSintassi::controlloSelect(stringstream &comando, string *messaggio
                 }
                 if (flag_condizione) {
                     comando >> word >> word;
-                    if (belongs_to(word, _operatori)) {
                         if (toUp(word) == "BETWEEN") {
                             comando >> word;
                             if (word[0] == '"') {//caso di un campo testo
@@ -851,11 +829,6 @@ bool ControlloSintassi::controlloSelect(stringstream &comando, string *messaggio
                                 }
                             }
                         }
-                    }
-                    else {
-                        messaggio->assign(_message_error);
-                        return false;
-                    }
                 }
                 if (flag_ordinamento){
                     comando >> word;

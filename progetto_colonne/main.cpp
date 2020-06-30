@@ -53,7 +53,7 @@ int main() {
 
     //leggi comando intero
     getline(cin,comando);
-    comando = controllore.Gestione_caratteri_speciali(comando,&status_message);
+    comando = ControlloSintassi::Gestione_caratteri_speciali(comando,&status_message);
 
     cout << status_message << endl;
     stringstream comando_intero(comando);
@@ -205,7 +205,7 @@ int main() {
         getline(cin,comando);
 
         status_message.clear();
-        comando = controllore.Gestione_caratteri_speciali(comando,&status_message);
+        comando = ControlloSintassi::Gestione_caratteri_speciali(comando,&status_message);
         cout << status_message << endl;
         comando_intero << comando;
         comando_per_controlli << comando;
