@@ -236,7 +236,15 @@ vector<string> Tabella::returnData(const vector<string>& campi, const string& ca
                             if (j->getElement(i) == j->getElement(-1)) {
                                 riga += "___ ";
                             } else {
-                                riga += j->getElement(i);
+                                int q = 0;
+                                string temp = j->getElement(i);
+                                while (q < temp.size()){
+                                    if (temp[q] == '"' && temp[q+1] == '"')
+                                        temp.erase(q,1);
+                                    else
+                                        q++;
+                                }
+                                riga += temp;
                                 riga += " ";
                             }
                         } else {
@@ -287,7 +295,15 @@ vector<string> Tabella::returnData(const vector<string> &campi, const string& ca
                                     if (j->getElement(i) == j->getElement(-1)) {
                                         riga += "___ ";
                                     } else {
-                                        riga += j->getElement(i);
+                                        int q = 0;
+                                        string temp = j->getElement(i);
+                                        while (q < temp.size()){
+                                            if (temp[q] == '"' && temp[q+1] == '"')
+                                                temp.erase(q,1);
+                                            else
+                                                q++;
+                                        }
+                                        riga += temp;
                                         riga += " ";
                                     }
                                 }
@@ -305,7 +321,15 @@ vector<string> Tabella::returnData(const vector<string> &campi, const string& ca
                                     if (j->getElement(indici_ordinati[i]) == j->getElement(-1)) {
                                         riga += "___ ";
                                     } else {
-                                        riga += j->getElement(indici_ordinati[i]);
+                                        int q = 0;
+                                        string temp = j->getElement(indici_ordinati[i]);
+                                        while (q < temp.size()){
+                                            if (temp[q] == '"' && temp[q+1] == '"')
+                                                temp.erase(q,1);
+                                            else
+                                                q++;
+                                        }
+                                        riga += temp;
                                         riga += " ";
                                     }
                                 }
@@ -353,7 +377,15 @@ vector<string> Tabella::returnData(const vector<string> &campi, const string& ca
                                     if (j->getElement(i) == j->getElement(-1)) {
                                         riga += "___ ";
                                     } else {
-                                        riga += j->getElement(i);
+                                        int q = 0;
+                                        string temp = j->getElement(i);
+                                        while (q < temp.size()){
+                                            if (temp[q] == '"' && temp[q+1] == '"')
+                                                temp.erase(q,1);
+                                            else
+                                                q++;
+                                        }
+                                        riga += temp;
                                         riga += " ";
                                     }
                                 }
@@ -372,7 +404,15 @@ vector<string> Tabella::returnData(const vector<string> &campi, const string& ca
                                     if (j->getElement(indici_ordinati[i]) == j->getElement(-1)) {
                                         riga += "___ ";
                                     } else {
-                                        riga += j->getElement(indici_ordinati[i]);
+                                        int q = 0;
+                                        string temp = j->getElement(indici_ordinati[i]);
+                                        while (q < temp.size()){
+                                            if (temp[q] == '"' && temp[q+1] == '"')
+                                                temp.erase(q,1);
+                                            else
+                                                q++;
+                                        }
+                                        riga += temp;
                                         riga += " ";
                                     }
                                 }

@@ -139,6 +139,10 @@ int main() {
             tabelle = Caricamento(nome_file);
             cout << "Eccezione: " << tiai.what() << endl;
         }
+        catch (LinkedError &le){
+            tabelle = Caricamento(nome_file);
+            cout << "Eccezione: " << le.what() << endl;
+        }
         catch(FormatTypeError &type){
             tabelle = Caricamento(nome_file);
             cout << "Eccezione: " << type.what() << endl;

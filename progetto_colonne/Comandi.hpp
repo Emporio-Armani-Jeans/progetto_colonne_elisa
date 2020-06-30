@@ -291,6 +291,13 @@ vector<Tabella*> Delete(vector<Tabella*> &tabelle, stringstream &stream_comando,
                     stream_comando >> word; //prima condizione
                     if (word[0] == '"') {
                         word = campoTesto(&stream_comando, word);
+                        int j = 0;
+                        while (j < word.size()){
+                            if (word[j] == '"' && word[j+1] == '"')
+                                word.erase(j,1);
+                            else
+                                j++;
+                        }
                     }
                     else if (word[0] == 39){ //se è un char tolgo le '
                         word.pop_back();

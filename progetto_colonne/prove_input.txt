@@ -1,4 +1,5 @@
 C:\Users\andry\CLionProjects\progetto_colonne_elisa\progetto_colonne\Memoria.txt
+C:\Users\calog\CLionProjects\progetto_colonne_elisa\progetto_colonne\Memoria.txt
 
 Prove giuste per ogni comando:
 
@@ -8,10 +9,40 @@ CREATE TABLE SUPPLIERS ( NAME TEXT NOT NULL, COUNTRY_ID INT, CONTRACT_EXPIRATION
 CREATE TABLE PRODUCTS ( NAME TEXT NOT NULL, EXPIRY DATE, PRICE FLOAT NOT NULL, SUPPLIER_CODE INT, PRIMARY KEY (NAME) FOREIGN KEY (SUPPLIER_CODE) REFERENCES SUPPLIERS (CODE) );
 CREATE TABLE TRANSACTIONS ( CODE INT NOT NULL AUTO_INCREMENT, TRANSACT_DATE DATE NOT NULL, TRANSACT_TIME TIME, PROFIT FLOAT, PRODUCT_NAME TEXT NOT NULL, PRIMARY KEY (CODE) FOREIGN KEY (PRODUCT_NAME) REFERENCES PRODUCTS (NAME) );
 
-INSERT INTO CUSTOMERS (NAME, AGE, ADDRESS) VALUES ("Andrea", 21, "Via dei Gigli, 33");
+CREATE TABLE customers ( ID INT AUTO_INCREMENT NOT NULL, NAME TEXT NOT NULL, AGE INT NOT NULL, ADDRESS TEXT, COUNTRY_ID INT, PRIMARY KEY (ID) FOREIGN KEY (COUNTRY_ID) REFERENCES COUNTRIES (ID) );
+drop table customers;
+
+
+
 INSERT INTO COUNTRIES (NAME) VALUES ("Italia");
+INSERT INTO COUNTRIES (NAME) VALUES ("Germania");
+INSERT INTO COUNTRIES (NAME) VALUES ("Stati Uniti");
+INSERT INTO COUNTRIES (NAME) VALUES ("Irlanda del Nord");
+INSERT INTO COUNTRIES (NAME) VALUES ("Francia");
+delete from COUNTRIES where NAME = "Stati Uniti";
+INSERT INTO COUNTRIES (NAME) VALUES ("Spagna");
+
+INSERT INTO CUSTOMERS (NAME, AGE, ADDRESS) VALUES ("Andrea", 21, "Via dei Gigli, 33");
+INSERT INTO CUSTOMERS (AGE, ADRRESS, NAME, COUNTRY_ID) VALUES (34, "Via Roma, 34", "Francesca", 4);
+
+
 INSERT INTO SUPPLIERS (NAME, COUNTRY_ID, CONTRACT_EXPIRATION) VALUES ("FruttaVerdura&Co", 1, "02/11/2022");
 INSERT INTO PRODUCTS (NAME, PRICE) VALUES ("Papaya Africana", 3.14);
 INSERT INTO TRANSACTIONS (TRANSACT_DATE, TRANSACT_TIME, PRODUCT_NAME) VALUES (07/07/2007, 12:37:43, "Papaya Africana");
 
+update TRANSACTIONS SET PROFIT = 7.40 WHERE TRANSACT_DATE = 07/07/2007;
+update COUNTRIES set NAME = "Montene**o" WHERE NAME = "Francia";
+
+select * from CUSTOMERS ORDER BY NAME ASC;
+select NAME, ADDRESS from CUSTOMERS ORDER BY ADDRESS DESC; spazi vuoti alla fine
+select NAME, ADDRESS from CUSTOMERS where AGE > 30 ORDER BY ID DESC;
+
 prove che scatenano eccezioni:
+
+insert into CUSTOMERS (AGE, ADDRESS) values (12, "Via dei Campi, 89"); campo not null non specificato
+INSERT INTO CUSTOMERS (NAME, ADDRESS, COUNTRY_ID) VALUES ("Orlando", "Via dei colli rossi", 6);
+insert into SUPPLIERS (NAME, COUNTRY_ID) values ("Vestiti blu", 4); valore chiave esterna non presente nella tabella madre
+CREATE TABLE customers ( ID INT AUTO_INCREMENT NOT NULL, NAME TEXT NOT NULL, COUNTRY_ID INT, PRIMARY KEY (ID) FOREIGN KEY (COUNTRY_ID) REFERENCES COUNTRIES (NAME) ); Campo chiave esterna non esistente o non marcato come chiave primaria
+INSERT INTO CUSTOMERS (NAME, ADDRESS, COUNTRY_ID, AGE) VALUES ("Orlando", "Via dei colli rossi", 10, 67);  INSERIMENTO di un valore non corrispendente con la chiave esterna
+
+truncate table PRODUCTS; eccezione modificare tabella con collegamenti esterni
