@@ -33,19 +33,19 @@ cmake_force:
 SHELL = cmd.exe
 
 # The CMake executable.
-CMAKE_COMMAND = "C:\Program Files\JetBrains\CLion 2019.3.4\bin\cmake\win\bin\cmake.exe"
+CMAKE_COMMAND = "C:\Program Files\JetBrains\CLion 2020.1.2\bin\cmake\win\bin\cmake.exe"
 
 # The command to remove a file.
-RM = "C:\Program Files\JetBrains\CLion 2019.3.4\bin\cmake\win\bin\cmake.exe" -E remove -f
+RM = "C:\Program Files\JetBrains\CLion 2020.1.2\bin\cmake\win\bin\cmake.exe" -E remove -f
 
 # Escaping for special characters.
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = C:\Users\jccx1\CLionProjects\progetto_colonne_elisa\progetto_colonne
+CMAKE_SOURCE_DIR = C:\Users\calog\CLionProjects\progetto_colonne_elisa\progetto_colonne
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = C:\Users\jccx1\CLionProjects\progetto_colonne_elisa\progetto_colonne\cmake-build-debug
+CMAKE_BINARY_DIR = C:\Users\calog\CLionProjects\progetto_colonne_elisa\progetto_colonne\cmake-build-debug
 
 # Include any dependencies generated for this target.
 include CMakeFiles/progetto_colonne.dir/depend.make
@@ -58,146 +58,146 @@ include CMakeFiles/progetto_colonne.dir/flags.make
 
 CMakeFiles/progetto_colonne.dir/main.cpp.obj: CMakeFiles/progetto_colonne.dir/flags.make
 CMakeFiles/progetto_colonne.dir/main.cpp.obj: ../main.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=C:\Users\jccx1\CLionProjects\progetto_colonne_elisa\progetto_colonne\cmake-build-debug\CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/progetto_colonne.dir/main.cpp.obj"
-	C:\PROGRA~2\MINGW-~1\I686-8~1.0-P\mingw32\bin\G__~1.EXE  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles\progetto_colonne.dir\main.cpp.obj -c C:\Users\jccx1\CLionProjects\progetto_colonne_elisa\progetto_colonne\main.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=C:\Users\calog\CLionProjects\progetto_colonne_elisa\progetto_colonne\cmake-build-debug\CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/progetto_colonne.dir/main.cpp.obj"
+	C:\PROGRA~2\MINGW-~1\I686-8~1.0-P\mingw32\bin\G__~1.EXE  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles\progetto_colonne.dir\main.cpp.obj -c C:\Users\calog\CLionProjects\progetto_colonne_elisa\progetto_colonne\main.cpp
 
 CMakeFiles/progetto_colonne.dir/main.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/progetto_colonne.dir/main.cpp.i"
-	C:\PROGRA~2\MINGW-~1\I686-8~1.0-P\mingw32\bin\G__~1.EXE $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E C:\Users\jccx1\CLionProjects\progetto_colonne_elisa\progetto_colonne\main.cpp > CMakeFiles\progetto_colonne.dir\main.cpp.i
+	C:\PROGRA~2\MINGW-~1\I686-8~1.0-P\mingw32\bin\G__~1.EXE $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E C:\Users\calog\CLionProjects\progetto_colonne_elisa\progetto_colonne\main.cpp > CMakeFiles\progetto_colonne.dir\main.cpp.i
 
 CMakeFiles/progetto_colonne.dir/main.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/progetto_colonne.dir/main.cpp.s"
-	C:\PROGRA~2\MINGW-~1\I686-8~1.0-P\mingw32\bin\G__~1.EXE $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S C:\Users\jccx1\CLionProjects\progetto_colonne_elisa\progetto_colonne\main.cpp -o CMakeFiles\progetto_colonne.dir\main.cpp.s
+	C:\PROGRA~2\MINGW-~1\I686-8~1.0-P\mingw32\bin\G__~1.EXE $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S C:\Users\calog\CLionProjects\progetto_colonne_elisa\progetto_colonne\main.cpp -o CMakeFiles\progetto_colonne.dir\main.cpp.s
 
 CMakeFiles/progetto_colonne.dir/Tabella.cpp.obj: CMakeFiles/progetto_colonne.dir/flags.make
 CMakeFiles/progetto_colonne.dir/Tabella.cpp.obj: ../Tabella.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=C:\Users\jccx1\CLionProjects\progetto_colonne_elisa\progetto_colonne\cmake-build-debug\CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/progetto_colonne.dir/Tabella.cpp.obj"
-	C:\PROGRA~2\MINGW-~1\I686-8~1.0-P\mingw32\bin\G__~1.EXE  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles\progetto_colonne.dir\Tabella.cpp.obj -c C:\Users\jccx1\CLionProjects\progetto_colonne_elisa\progetto_colonne\Tabella.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=C:\Users\calog\CLionProjects\progetto_colonne_elisa\progetto_colonne\cmake-build-debug\CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/progetto_colonne.dir/Tabella.cpp.obj"
+	C:\PROGRA~2\MINGW-~1\I686-8~1.0-P\mingw32\bin\G__~1.EXE  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles\progetto_colonne.dir\Tabella.cpp.obj -c C:\Users\calog\CLionProjects\progetto_colonne_elisa\progetto_colonne\Tabella.cpp
 
 CMakeFiles/progetto_colonne.dir/Tabella.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/progetto_colonne.dir/Tabella.cpp.i"
-	C:\PROGRA~2\MINGW-~1\I686-8~1.0-P\mingw32\bin\G__~1.EXE $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E C:\Users\jccx1\CLionProjects\progetto_colonne_elisa\progetto_colonne\Tabella.cpp > CMakeFiles\progetto_colonne.dir\Tabella.cpp.i
+	C:\PROGRA~2\MINGW-~1\I686-8~1.0-P\mingw32\bin\G__~1.EXE $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E C:\Users\calog\CLionProjects\progetto_colonne_elisa\progetto_colonne\Tabella.cpp > CMakeFiles\progetto_colonne.dir\Tabella.cpp.i
 
 CMakeFiles/progetto_colonne.dir/Tabella.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/progetto_colonne.dir/Tabella.cpp.s"
-	C:\PROGRA~2\MINGW-~1\I686-8~1.0-P\mingw32\bin\G__~1.EXE $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S C:\Users\jccx1\CLionProjects\progetto_colonne_elisa\progetto_colonne\Tabella.cpp -o CMakeFiles\progetto_colonne.dir\Tabella.cpp.s
+	C:\PROGRA~2\MINGW-~1\I686-8~1.0-P\mingw32\bin\G__~1.EXE $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S C:\Users\calog\CLionProjects\progetto_colonne_elisa\progetto_colonne\Tabella.cpp -o CMakeFiles\progetto_colonne.dir\Tabella.cpp.s
 
 CMakeFiles/progetto_colonne.dir/ColonnaInt.cpp.obj: CMakeFiles/progetto_colonne.dir/flags.make
 CMakeFiles/progetto_colonne.dir/ColonnaInt.cpp.obj: ../ColonnaInt.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=C:\Users\jccx1\CLionProjects\progetto_colonne_elisa\progetto_colonne\cmake-build-debug\CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object CMakeFiles/progetto_colonne.dir/ColonnaInt.cpp.obj"
-	C:\PROGRA~2\MINGW-~1\I686-8~1.0-P\mingw32\bin\G__~1.EXE  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles\progetto_colonne.dir\ColonnaInt.cpp.obj -c C:\Users\jccx1\CLionProjects\progetto_colonne_elisa\progetto_colonne\ColonnaInt.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=C:\Users\calog\CLionProjects\progetto_colonne_elisa\progetto_colonne\cmake-build-debug\CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object CMakeFiles/progetto_colonne.dir/ColonnaInt.cpp.obj"
+	C:\PROGRA~2\MINGW-~1\I686-8~1.0-P\mingw32\bin\G__~1.EXE  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles\progetto_colonne.dir\ColonnaInt.cpp.obj -c C:\Users\calog\CLionProjects\progetto_colonne_elisa\progetto_colonne\ColonnaInt.cpp
 
 CMakeFiles/progetto_colonne.dir/ColonnaInt.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/progetto_colonne.dir/ColonnaInt.cpp.i"
-	C:\PROGRA~2\MINGW-~1\I686-8~1.0-P\mingw32\bin\G__~1.EXE $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E C:\Users\jccx1\CLionProjects\progetto_colonne_elisa\progetto_colonne\ColonnaInt.cpp > CMakeFiles\progetto_colonne.dir\ColonnaInt.cpp.i
+	C:\PROGRA~2\MINGW-~1\I686-8~1.0-P\mingw32\bin\G__~1.EXE $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E C:\Users\calog\CLionProjects\progetto_colonne_elisa\progetto_colonne\ColonnaInt.cpp > CMakeFiles\progetto_colonne.dir\ColonnaInt.cpp.i
 
 CMakeFiles/progetto_colonne.dir/ColonnaInt.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/progetto_colonne.dir/ColonnaInt.cpp.s"
-	C:\PROGRA~2\MINGW-~1\I686-8~1.0-P\mingw32\bin\G__~1.EXE $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S C:\Users\jccx1\CLionProjects\progetto_colonne_elisa\progetto_colonne\ColonnaInt.cpp -o CMakeFiles\progetto_colonne.dir\ColonnaInt.cpp.s
+	C:\PROGRA~2\MINGW-~1\I686-8~1.0-P\mingw32\bin\G__~1.EXE $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S C:\Users\calog\CLionProjects\progetto_colonne_elisa\progetto_colonne\ColonnaInt.cpp -o CMakeFiles\progetto_colonne.dir\ColonnaInt.cpp.s
 
 CMakeFiles/progetto_colonne.dir/ColonnaFloat.cpp.obj: CMakeFiles/progetto_colonne.dir/flags.make
 CMakeFiles/progetto_colonne.dir/ColonnaFloat.cpp.obj: ../ColonnaFloat.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=C:\Users\jccx1\CLionProjects\progetto_colonne_elisa\progetto_colonne\cmake-build-debug\CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object CMakeFiles/progetto_colonne.dir/ColonnaFloat.cpp.obj"
-	C:\PROGRA~2\MINGW-~1\I686-8~1.0-P\mingw32\bin\G__~1.EXE  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles\progetto_colonne.dir\ColonnaFloat.cpp.obj -c C:\Users\jccx1\CLionProjects\progetto_colonne_elisa\progetto_colonne\ColonnaFloat.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=C:\Users\calog\CLionProjects\progetto_colonne_elisa\progetto_colonne\cmake-build-debug\CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object CMakeFiles/progetto_colonne.dir/ColonnaFloat.cpp.obj"
+	C:\PROGRA~2\MINGW-~1\I686-8~1.0-P\mingw32\bin\G__~1.EXE  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles\progetto_colonne.dir\ColonnaFloat.cpp.obj -c C:\Users\calog\CLionProjects\progetto_colonne_elisa\progetto_colonne\ColonnaFloat.cpp
 
 CMakeFiles/progetto_colonne.dir/ColonnaFloat.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/progetto_colonne.dir/ColonnaFloat.cpp.i"
-	C:\PROGRA~2\MINGW-~1\I686-8~1.0-P\mingw32\bin\G__~1.EXE $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E C:\Users\jccx1\CLionProjects\progetto_colonne_elisa\progetto_colonne\ColonnaFloat.cpp > CMakeFiles\progetto_colonne.dir\ColonnaFloat.cpp.i
+	C:\PROGRA~2\MINGW-~1\I686-8~1.0-P\mingw32\bin\G__~1.EXE $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E C:\Users\calog\CLionProjects\progetto_colonne_elisa\progetto_colonne\ColonnaFloat.cpp > CMakeFiles\progetto_colonne.dir\ColonnaFloat.cpp.i
 
 CMakeFiles/progetto_colonne.dir/ColonnaFloat.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/progetto_colonne.dir/ColonnaFloat.cpp.s"
-	C:\PROGRA~2\MINGW-~1\I686-8~1.0-P\mingw32\bin\G__~1.EXE $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S C:\Users\jccx1\CLionProjects\progetto_colonne_elisa\progetto_colonne\ColonnaFloat.cpp -o CMakeFiles\progetto_colonne.dir\ColonnaFloat.cpp.s
+	C:\PROGRA~2\MINGW-~1\I686-8~1.0-P\mingw32\bin\G__~1.EXE $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S C:\Users\calog\CLionProjects\progetto_colonne_elisa\progetto_colonne\ColonnaFloat.cpp -o CMakeFiles\progetto_colonne.dir\ColonnaFloat.cpp.s
 
 CMakeFiles/progetto_colonne.dir/ColonnaText.cpp.obj: CMakeFiles/progetto_colonne.dir/flags.make
 CMakeFiles/progetto_colonne.dir/ColonnaText.cpp.obj: ../ColonnaText.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=C:\Users\jccx1\CLionProjects\progetto_colonne_elisa\progetto_colonne\cmake-build-debug\CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building CXX object CMakeFiles/progetto_colonne.dir/ColonnaText.cpp.obj"
-	C:\PROGRA~2\MINGW-~1\I686-8~1.0-P\mingw32\bin\G__~1.EXE  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles\progetto_colonne.dir\ColonnaText.cpp.obj -c C:\Users\jccx1\CLionProjects\progetto_colonne_elisa\progetto_colonne\ColonnaText.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=C:\Users\calog\CLionProjects\progetto_colonne_elisa\progetto_colonne\cmake-build-debug\CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building CXX object CMakeFiles/progetto_colonne.dir/ColonnaText.cpp.obj"
+	C:\PROGRA~2\MINGW-~1\I686-8~1.0-P\mingw32\bin\G__~1.EXE  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles\progetto_colonne.dir\ColonnaText.cpp.obj -c C:\Users\calog\CLionProjects\progetto_colonne_elisa\progetto_colonne\ColonnaText.cpp
 
 CMakeFiles/progetto_colonne.dir/ColonnaText.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/progetto_colonne.dir/ColonnaText.cpp.i"
-	C:\PROGRA~2\MINGW-~1\I686-8~1.0-P\mingw32\bin\G__~1.EXE $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E C:\Users\jccx1\CLionProjects\progetto_colonne_elisa\progetto_colonne\ColonnaText.cpp > CMakeFiles\progetto_colonne.dir\ColonnaText.cpp.i
+	C:\PROGRA~2\MINGW-~1\I686-8~1.0-P\mingw32\bin\G__~1.EXE $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E C:\Users\calog\CLionProjects\progetto_colonne_elisa\progetto_colonne\ColonnaText.cpp > CMakeFiles\progetto_colonne.dir\ColonnaText.cpp.i
 
 CMakeFiles/progetto_colonne.dir/ColonnaText.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/progetto_colonne.dir/ColonnaText.cpp.s"
-	C:\PROGRA~2\MINGW-~1\I686-8~1.0-P\mingw32\bin\G__~1.EXE $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S C:\Users\jccx1\CLionProjects\progetto_colonne_elisa\progetto_colonne\ColonnaText.cpp -o CMakeFiles\progetto_colonne.dir\ColonnaText.cpp.s
+	C:\PROGRA~2\MINGW-~1\I686-8~1.0-P\mingw32\bin\G__~1.EXE $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S C:\Users\calog\CLionProjects\progetto_colonne_elisa\progetto_colonne\ColonnaText.cpp -o CMakeFiles\progetto_colonne.dir\ColonnaText.cpp.s
 
 CMakeFiles/progetto_colonne.dir/data.cpp.obj: CMakeFiles/progetto_colonne.dir/flags.make
 CMakeFiles/progetto_colonne.dir/data.cpp.obj: ../data.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=C:\Users\jccx1\CLionProjects\progetto_colonne_elisa\progetto_colonne\cmake-build-debug\CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Building CXX object CMakeFiles/progetto_colonne.dir/data.cpp.obj"
-	C:\PROGRA~2\MINGW-~1\I686-8~1.0-P\mingw32\bin\G__~1.EXE  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles\progetto_colonne.dir\data.cpp.obj -c C:\Users\jccx1\CLionProjects\progetto_colonne_elisa\progetto_colonne\data.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=C:\Users\calog\CLionProjects\progetto_colonne_elisa\progetto_colonne\cmake-build-debug\CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Building CXX object CMakeFiles/progetto_colonne.dir/data.cpp.obj"
+	C:\PROGRA~2\MINGW-~1\I686-8~1.0-P\mingw32\bin\G__~1.EXE  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles\progetto_colonne.dir\data.cpp.obj -c C:\Users\calog\CLionProjects\progetto_colonne_elisa\progetto_colonne\data.cpp
 
 CMakeFiles/progetto_colonne.dir/data.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/progetto_colonne.dir/data.cpp.i"
-	C:\PROGRA~2\MINGW-~1\I686-8~1.0-P\mingw32\bin\G__~1.EXE $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E C:\Users\jccx1\CLionProjects\progetto_colonne_elisa\progetto_colonne\data.cpp > CMakeFiles\progetto_colonne.dir\data.cpp.i
+	C:\PROGRA~2\MINGW-~1\I686-8~1.0-P\mingw32\bin\G__~1.EXE $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E C:\Users\calog\CLionProjects\progetto_colonne_elisa\progetto_colonne\data.cpp > CMakeFiles\progetto_colonne.dir\data.cpp.i
 
 CMakeFiles/progetto_colonne.dir/data.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/progetto_colonne.dir/data.cpp.s"
-	C:\PROGRA~2\MINGW-~1\I686-8~1.0-P\mingw32\bin\G__~1.EXE $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S C:\Users\jccx1\CLionProjects\progetto_colonne_elisa\progetto_colonne\data.cpp -o CMakeFiles\progetto_colonne.dir\data.cpp.s
+	C:\PROGRA~2\MINGW-~1\I686-8~1.0-P\mingw32\bin\G__~1.EXE $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S C:\Users\calog\CLionProjects\progetto_colonne_elisa\progetto_colonne\data.cpp -o CMakeFiles\progetto_colonne.dir\data.cpp.s
 
 CMakeFiles/progetto_colonne.dir/ColonnaDate.cpp.obj: CMakeFiles/progetto_colonne.dir/flags.make
 CMakeFiles/progetto_colonne.dir/ColonnaDate.cpp.obj: ../ColonnaDate.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=C:\Users\jccx1\CLionProjects\progetto_colonne_elisa\progetto_colonne\cmake-build-debug\CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Building CXX object CMakeFiles/progetto_colonne.dir/ColonnaDate.cpp.obj"
-	C:\PROGRA~2\MINGW-~1\I686-8~1.0-P\mingw32\bin\G__~1.EXE  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles\progetto_colonne.dir\ColonnaDate.cpp.obj -c C:\Users\jccx1\CLionProjects\progetto_colonne_elisa\progetto_colonne\ColonnaDate.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=C:\Users\calog\CLionProjects\progetto_colonne_elisa\progetto_colonne\cmake-build-debug\CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Building CXX object CMakeFiles/progetto_colonne.dir/ColonnaDate.cpp.obj"
+	C:\PROGRA~2\MINGW-~1\I686-8~1.0-P\mingw32\bin\G__~1.EXE  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles\progetto_colonne.dir\ColonnaDate.cpp.obj -c C:\Users\calog\CLionProjects\progetto_colonne_elisa\progetto_colonne\ColonnaDate.cpp
 
 CMakeFiles/progetto_colonne.dir/ColonnaDate.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/progetto_colonne.dir/ColonnaDate.cpp.i"
-	C:\PROGRA~2\MINGW-~1\I686-8~1.0-P\mingw32\bin\G__~1.EXE $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E C:\Users\jccx1\CLionProjects\progetto_colonne_elisa\progetto_colonne\ColonnaDate.cpp > CMakeFiles\progetto_colonne.dir\ColonnaDate.cpp.i
+	C:\PROGRA~2\MINGW-~1\I686-8~1.0-P\mingw32\bin\G__~1.EXE $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E C:\Users\calog\CLionProjects\progetto_colonne_elisa\progetto_colonne\ColonnaDate.cpp > CMakeFiles\progetto_colonne.dir\ColonnaDate.cpp.i
 
 CMakeFiles/progetto_colonne.dir/ColonnaDate.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/progetto_colonne.dir/ColonnaDate.cpp.s"
-	C:\PROGRA~2\MINGW-~1\I686-8~1.0-P\mingw32\bin\G__~1.EXE $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S C:\Users\jccx1\CLionProjects\progetto_colonne_elisa\progetto_colonne\ColonnaDate.cpp -o CMakeFiles\progetto_colonne.dir\ColonnaDate.cpp.s
+	C:\PROGRA~2\MINGW-~1\I686-8~1.0-P\mingw32\bin\G__~1.EXE $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S C:\Users\calog\CLionProjects\progetto_colonne_elisa\progetto_colonne\ColonnaDate.cpp -o CMakeFiles\progetto_colonne.dir\ColonnaDate.cpp.s
 
 CMakeFiles/progetto_colonne.dir/Time.cpp.obj: CMakeFiles/progetto_colonne.dir/flags.make
 CMakeFiles/progetto_colonne.dir/Time.cpp.obj: ../Time.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=C:\Users\jccx1\CLionProjects\progetto_colonne_elisa\progetto_colonne\cmake-build-debug\CMakeFiles --progress-num=$(CMAKE_PROGRESS_8) "Building CXX object CMakeFiles/progetto_colonne.dir/Time.cpp.obj"
-	C:\PROGRA~2\MINGW-~1\I686-8~1.0-P\mingw32\bin\G__~1.EXE  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles\progetto_colonne.dir\Time.cpp.obj -c C:\Users\jccx1\CLionProjects\progetto_colonne_elisa\progetto_colonne\Time.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=C:\Users\calog\CLionProjects\progetto_colonne_elisa\progetto_colonne\cmake-build-debug\CMakeFiles --progress-num=$(CMAKE_PROGRESS_8) "Building CXX object CMakeFiles/progetto_colonne.dir/Time.cpp.obj"
+	C:\PROGRA~2\MINGW-~1\I686-8~1.0-P\mingw32\bin\G__~1.EXE  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles\progetto_colonne.dir\Time.cpp.obj -c C:\Users\calog\CLionProjects\progetto_colonne_elisa\progetto_colonne\Time.cpp
 
 CMakeFiles/progetto_colonne.dir/Time.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/progetto_colonne.dir/Time.cpp.i"
-	C:\PROGRA~2\MINGW-~1\I686-8~1.0-P\mingw32\bin\G__~1.EXE $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E C:\Users\jccx1\CLionProjects\progetto_colonne_elisa\progetto_colonne\Time.cpp > CMakeFiles\progetto_colonne.dir\Time.cpp.i
+	C:\PROGRA~2\MINGW-~1\I686-8~1.0-P\mingw32\bin\G__~1.EXE $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E C:\Users\calog\CLionProjects\progetto_colonne_elisa\progetto_colonne\Time.cpp > CMakeFiles\progetto_colonne.dir\Time.cpp.i
 
 CMakeFiles/progetto_colonne.dir/Time.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/progetto_colonne.dir/Time.cpp.s"
-	C:\PROGRA~2\MINGW-~1\I686-8~1.0-P\mingw32\bin\G__~1.EXE $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S C:\Users\jccx1\CLionProjects\progetto_colonne_elisa\progetto_colonne\Time.cpp -o CMakeFiles\progetto_colonne.dir\Time.cpp.s
+	C:\PROGRA~2\MINGW-~1\I686-8~1.0-P\mingw32\bin\G__~1.EXE $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S C:\Users\calog\CLionProjects\progetto_colonne_elisa\progetto_colonne\Time.cpp -o CMakeFiles\progetto_colonne.dir\Time.cpp.s
 
 CMakeFiles/progetto_colonne.dir/ColonnaChar.cpp.obj: CMakeFiles/progetto_colonne.dir/flags.make
 CMakeFiles/progetto_colonne.dir/ColonnaChar.cpp.obj: ../ColonnaChar.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=C:\Users\jccx1\CLionProjects\progetto_colonne_elisa\progetto_colonne\cmake-build-debug\CMakeFiles --progress-num=$(CMAKE_PROGRESS_9) "Building CXX object CMakeFiles/progetto_colonne.dir/ColonnaChar.cpp.obj"
-	C:\PROGRA~2\MINGW-~1\I686-8~1.0-P\mingw32\bin\G__~1.EXE  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles\progetto_colonne.dir\ColonnaChar.cpp.obj -c C:\Users\jccx1\CLionProjects\progetto_colonne_elisa\progetto_colonne\ColonnaChar.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=C:\Users\calog\CLionProjects\progetto_colonne_elisa\progetto_colonne\cmake-build-debug\CMakeFiles --progress-num=$(CMAKE_PROGRESS_9) "Building CXX object CMakeFiles/progetto_colonne.dir/ColonnaChar.cpp.obj"
+	C:\PROGRA~2\MINGW-~1\I686-8~1.0-P\mingw32\bin\G__~1.EXE  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles\progetto_colonne.dir\ColonnaChar.cpp.obj -c C:\Users\calog\CLionProjects\progetto_colonne_elisa\progetto_colonne\ColonnaChar.cpp
 
 CMakeFiles/progetto_colonne.dir/ColonnaChar.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/progetto_colonne.dir/ColonnaChar.cpp.i"
-	C:\PROGRA~2\MINGW-~1\I686-8~1.0-P\mingw32\bin\G__~1.EXE $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E C:\Users\jccx1\CLionProjects\progetto_colonne_elisa\progetto_colonne\ColonnaChar.cpp > CMakeFiles\progetto_colonne.dir\ColonnaChar.cpp.i
+	C:\PROGRA~2\MINGW-~1\I686-8~1.0-P\mingw32\bin\G__~1.EXE $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E C:\Users\calog\CLionProjects\progetto_colonne_elisa\progetto_colonne\ColonnaChar.cpp > CMakeFiles\progetto_colonne.dir\ColonnaChar.cpp.i
 
 CMakeFiles/progetto_colonne.dir/ColonnaChar.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/progetto_colonne.dir/ColonnaChar.cpp.s"
-	C:\PROGRA~2\MINGW-~1\I686-8~1.0-P\mingw32\bin\G__~1.EXE $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S C:\Users\jccx1\CLionProjects\progetto_colonne_elisa\progetto_colonne\ColonnaChar.cpp -o CMakeFiles\progetto_colonne.dir\ColonnaChar.cpp.s
+	C:\PROGRA~2\MINGW-~1\I686-8~1.0-P\mingw32\bin\G__~1.EXE $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S C:\Users\calog\CLionProjects\progetto_colonne_elisa\progetto_colonne\ColonnaChar.cpp -o CMakeFiles\progetto_colonne.dir\ColonnaChar.cpp.s
 
 CMakeFiles/progetto_colonne.dir/ColonnaTime.cpp.obj: CMakeFiles/progetto_colonne.dir/flags.make
 CMakeFiles/progetto_colonne.dir/ColonnaTime.cpp.obj: ../ColonnaTime.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=C:\Users\jccx1\CLionProjects\progetto_colonne_elisa\progetto_colonne\cmake-build-debug\CMakeFiles --progress-num=$(CMAKE_PROGRESS_10) "Building CXX object CMakeFiles/progetto_colonne.dir/ColonnaTime.cpp.obj"
-	C:\PROGRA~2\MINGW-~1\I686-8~1.0-P\mingw32\bin\G__~1.EXE  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles\progetto_colonne.dir\ColonnaTime.cpp.obj -c C:\Users\jccx1\CLionProjects\progetto_colonne_elisa\progetto_colonne\ColonnaTime.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=C:\Users\calog\CLionProjects\progetto_colonne_elisa\progetto_colonne\cmake-build-debug\CMakeFiles --progress-num=$(CMAKE_PROGRESS_10) "Building CXX object CMakeFiles/progetto_colonne.dir/ColonnaTime.cpp.obj"
+	C:\PROGRA~2\MINGW-~1\I686-8~1.0-P\mingw32\bin\G__~1.EXE  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles\progetto_colonne.dir\ColonnaTime.cpp.obj -c C:\Users\calog\CLionProjects\progetto_colonne_elisa\progetto_colonne\ColonnaTime.cpp
 
 CMakeFiles/progetto_colonne.dir/ColonnaTime.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/progetto_colonne.dir/ColonnaTime.cpp.i"
-	C:\PROGRA~2\MINGW-~1\I686-8~1.0-P\mingw32\bin\G__~1.EXE $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E C:\Users\jccx1\CLionProjects\progetto_colonne_elisa\progetto_colonne\ColonnaTime.cpp > CMakeFiles\progetto_colonne.dir\ColonnaTime.cpp.i
+	C:\PROGRA~2\MINGW-~1\I686-8~1.0-P\mingw32\bin\G__~1.EXE $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E C:\Users\calog\CLionProjects\progetto_colonne_elisa\progetto_colonne\ColonnaTime.cpp > CMakeFiles\progetto_colonne.dir\ColonnaTime.cpp.i
 
 CMakeFiles/progetto_colonne.dir/ColonnaTime.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/progetto_colonne.dir/ColonnaTime.cpp.s"
-	C:\PROGRA~2\MINGW-~1\I686-8~1.0-P\mingw32\bin\G__~1.EXE $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S C:\Users\jccx1\CLionProjects\progetto_colonne_elisa\progetto_colonne\ColonnaTime.cpp -o CMakeFiles\progetto_colonne.dir\ColonnaTime.cpp.s
+	C:\PROGRA~2\MINGW-~1\I686-8~1.0-P\mingw32\bin\G__~1.EXE $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S C:\Users\calog\CLionProjects\progetto_colonne_elisa\progetto_colonne\ColonnaTime.cpp -o CMakeFiles\progetto_colonne.dir\ColonnaTime.cpp.s
 
 CMakeFiles/progetto_colonne.dir/ControlloSintassi.cpp.obj: CMakeFiles/progetto_colonne.dir/flags.make
 CMakeFiles/progetto_colonne.dir/ControlloSintassi.cpp.obj: ../ControlloSintassi.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=C:\Users\jccx1\CLionProjects\progetto_colonne_elisa\progetto_colonne\cmake-build-debug\CMakeFiles --progress-num=$(CMAKE_PROGRESS_11) "Building CXX object CMakeFiles/progetto_colonne.dir/ControlloSintassi.cpp.obj"
-	C:\PROGRA~2\MINGW-~1\I686-8~1.0-P\mingw32\bin\G__~1.EXE  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles\progetto_colonne.dir\ControlloSintassi.cpp.obj -c C:\Users\jccx1\CLionProjects\progetto_colonne_elisa\progetto_colonne\ControlloSintassi.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=C:\Users\calog\CLionProjects\progetto_colonne_elisa\progetto_colonne\cmake-build-debug\CMakeFiles --progress-num=$(CMAKE_PROGRESS_11) "Building CXX object CMakeFiles/progetto_colonne.dir/ControlloSintassi.cpp.obj"
+	C:\PROGRA~2\MINGW-~1\I686-8~1.0-P\mingw32\bin\G__~1.EXE  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles\progetto_colonne.dir\ControlloSintassi.cpp.obj -c C:\Users\calog\CLionProjects\progetto_colonne_elisa\progetto_colonne\ControlloSintassi.cpp
 
 CMakeFiles/progetto_colonne.dir/ControlloSintassi.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/progetto_colonne.dir/ControlloSintassi.cpp.i"
-	C:\PROGRA~2\MINGW-~1\I686-8~1.0-P\mingw32\bin\G__~1.EXE $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E C:\Users\jccx1\CLionProjects\progetto_colonne_elisa\progetto_colonne\ControlloSintassi.cpp > CMakeFiles\progetto_colonne.dir\ControlloSintassi.cpp.i
+	C:\PROGRA~2\MINGW-~1\I686-8~1.0-P\mingw32\bin\G__~1.EXE $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E C:\Users\calog\CLionProjects\progetto_colonne_elisa\progetto_colonne\ControlloSintassi.cpp > CMakeFiles\progetto_colonne.dir\ControlloSintassi.cpp.i
 
 CMakeFiles/progetto_colonne.dir/ControlloSintassi.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/progetto_colonne.dir/ControlloSintassi.cpp.s"
-	C:\PROGRA~2\MINGW-~1\I686-8~1.0-P\mingw32\bin\G__~1.EXE $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S C:\Users\jccx1\CLionProjects\progetto_colonne_elisa\progetto_colonne\ControlloSintassi.cpp -o CMakeFiles\progetto_colonne.dir\ControlloSintassi.cpp.s
+	C:\PROGRA~2\MINGW-~1\I686-8~1.0-P\mingw32\bin\G__~1.EXE $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S C:\Users\calog\CLionProjects\progetto_colonne_elisa\progetto_colonne\ControlloSintassi.cpp -o CMakeFiles\progetto_colonne.dir\ControlloSintassi.cpp.s
 
 # Object files for target progetto_colonne
 progetto_colonne_OBJECTS = \
@@ -231,7 +231,7 @@ progetto_colonne.exe: CMakeFiles/progetto_colonne.dir/build.make
 progetto_colonne.exe: CMakeFiles/progetto_colonne.dir/linklibs.rsp
 progetto_colonne.exe: CMakeFiles/progetto_colonne.dir/objects1.rsp
 progetto_colonne.exe: CMakeFiles/progetto_colonne.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=C:\Users\jccx1\CLionProjects\progetto_colonne_elisa\progetto_colonne\cmake-build-debug\CMakeFiles --progress-num=$(CMAKE_PROGRESS_12) "Linking CXX executable progetto_colonne.exe"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=C:\Users\calog\CLionProjects\progetto_colonne_elisa\progetto_colonne\cmake-build-debug\CMakeFiles --progress-num=$(CMAKE_PROGRESS_12) "Linking CXX executable progetto_colonne.exe"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles\progetto_colonne.dir\link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.
@@ -244,6 +244,6 @@ CMakeFiles/progetto_colonne.dir/clean:
 .PHONY : CMakeFiles/progetto_colonne.dir/clean
 
 CMakeFiles/progetto_colonne.dir/depend:
-	$(CMAKE_COMMAND) -E cmake_depends "MinGW Makefiles" C:\Users\jccx1\CLionProjects\progetto_colonne_elisa\progetto_colonne C:\Users\jccx1\CLionProjects\progetto_colonne_elisa\progetto_colonne C:\Users\jccx1\CLionProjects\progetto_colonne_elisa\progetto_colonne\cmake-build-debug C:\Users\jccx1\CLionProjects\progetto_colonne_elisa\progetto_colonne\cmake-build-debug C:\Users\jccx1\CLionProjects\progetto_colonne_elisa\progetto_colonne\cmake-build-debug\CMakeFiles\progetto_colonne.dir\DependInfo.cmake --color=$(COLOR)
+	$(CMAKE_COMMAND) -E cmake_depends "MinGW Makefiles" C:\Users\calog\CLionProjects\progetto_colonne_elisa\progetto_colonne C:\Users\calog\CLionProjects\progetto_colonne_elisa\progetto_colonne C:\Users\calog\CLionProjects\progetto_colonne_elisa\progetto_colonne\cmake-build-debug C:\Users\calog\CLionProjects\progetto_colonne_elisa\progetto_colonne\cmake-build-debug C:\Users\calog\CLionProjects\progetto_colonne_elisa\progetto_colonne\cmake-build-debug\CMakeFiles\progetto_colonne.dir\DependInfo.cmake --color=$(COLOR)
 .PHONY : CMakeFiles/progetto_colonne.dir/depend
 

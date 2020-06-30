@@ -67,15 +67,10 @@ string toUpper(string word){
 }
 
 vector<Tabella*> Create(vector<Tabella*> &tabelle, stringstream &stream_comando, string *message) {
-    vector <Tabella> tabelle_temporanee;
-    for (auto & j : tabelle){
-        tabelle_temporanee.push_back((*j));
-    }
     string scarto, word, word2, word3, nome_tabella, nome_colonna, tipo, riga_comando, testo_chiavi;
     bool not_null = false, auto_increm = false;
     stringstream riga_temp;
     bool c, tabella_already_existing = false;
-
     stream_comando >> scarto >> nome_tabella;
     if (nome_tabella[nome_tabella.size() - 1] == '(') {
         nome_tabella.pop_back();
@@ -199,6 +194,7 @@ vector<Tabella*> Create(vector<Tabella*> &tabelle, stringstream &stream_comando,
                 if (tabelle[i]->getNome() == nome_tabella){
                     tabella_trovata= true;
                     pos = i;
+                    break;
                 }
             }
             if(tabella_trovata){
@@ -475,9 +471,9 @@ void Select(vector<Tabella*> &tabelle, stringstream &stream_comando, string *mes
         campi.push_back (word);
         stream_comando >> word; //FROM
     }
-    for(string & elem : campi){
+    /*for(string & elem : campi){
         cout << elem << "   ";
-    }
+    }*/
     cout << endl;
     stream_comando >> word;
     scarto=word;

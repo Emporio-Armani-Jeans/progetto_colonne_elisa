@@ -252,6 +252,7 @@ vector<string> Tabella::returnData(const vector<string>& campi, const string& ca
     }else{
         righe_testo.emplace_back("La tabella è vuota.");
     }
+
     return righe_testo;
 }
 

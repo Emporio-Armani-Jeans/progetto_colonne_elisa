@@ -77,6 +77,7 @@ CMakeFiles/progetto_colonne.dir/ColonnaTime.cpp.obj: ../Time.h
 
 CMakeFiles/progetto_colonne.dir/ControlloSintassi.cpp.obj: ../ControlloSintassi.cpp
 CMakeFiles/progetto_colonne.dir/ControlloSintassi.cpp.obj: ../ControlloSintassi.h
+CMakeFiles/progetto_colonne.dir/ControlloSintassi.cpp.obj: ../InvalidOperator.h
 
 CMakeFiles/progetto_colonne.dir/Tabella.cpp.obj: ../CampoNonTrovato.h
 CMakeFiles/progetto_colonne.dir/Tabella.cpp.obj: ../Colonna.h

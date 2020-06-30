@@ -459,30 +459,80 @@ bool ControlloSintassi::controlloInsert (stringstream &comando, string *messaggi
 bool ControlloSintassi::controlloDelete(stringstream &comando, string *messaggio){ //aggiungere BETWEEN
     string word;
     char carattere;
-    bool fine_testo = false;
-    int contatore_virgolette;
     comando >> word >> word;
     if (toUp(word) == "FROM"){
         comando >> word;
             comando >> word;
             if (toUp(word) == "WHERE"){ //deve esserci per forza la condizione altrimenti il comando sarebbe truncate
                 comando >> word >> word;
-                    comando >> word;
-                    if (word[0] == '"'){ //caso di un campo testo
-                        carattere = GestioneTesto(&comando,word);
-                        if (carattere != ';') {
-                            messaggio->assign(_message_error);
-                            return false;
-                        } else
-                            return true;
+                if (belongs_to(word,_operatori)) {
+                    if (toUp(word) == "BETWEEN") {
+                        comando >> word;
+                        if (word[0] == '"') {//caso di un campo testo
+                            carattere = GestioneTesto(&comando, word);
+                            if (toupper(carattere) != 'A') {
+                                messaggio->assign(_message_error);
+                                return false;
+                            } else {
+                                comando >> word;
+                                word.insert(0, 1, carattere);
+                            }
+                        } else if (word[0] == 39) { //'c'
+                            if (word.size() != 3) {
+                                messaggio->assign(_message_error);
+                                return false;
+                            }
+                            comando >> word;
+                        }
+                        else
+                            comando >> word;
+                        if (toUp(word) == "AND") {
+                            comando >> word;
+                            if (word[0] == '"') {//caso di un campo testo
+                                carattere = GestioneTesto(&comando, word);
+                                if (carattere == ';')
+                                    return true;
+                                else {
+                                    messaggio->assign(_message_error);
+                                    return false;
+                                }
+                            } else {
+                                if (word[0] == 39) {
+                                    if (word.size() != 3) {
+                                        messaggio->assign(_message_error);
+                                        return false;
+                                    }
+                                }
+                                if (word[word.size()-1] == ';')
+                                    return true;
+                                else {
+                                    messaggio->assign(_message_error);
+                                    return false;
+                                }
+                            }
+                        }
                     }
-                    else { //campo char o qualsiasi altro: unica parola per forza
-                        if (word[word.size()-1] != ';'){
-                            messaggio->assign(_message_error);
-                            return false;
-                        } else
-                            return true;
+                    else {
+                        comando >> word;
+                        if (word[0] == '"') { //caso di un campo testo
+                            carattere = GestioneTesto(&comando, word);
+                            if (carattere != ';') {
+                                messaggio->assign(_message_error);
+                                return false;
+                            } else
+                                return true;
+                        } else { //campo char o qualsiasi altro: unica parola per forza
+                            if (word[word.size() - 1] != ';') {
+                                messaggio->assign(_message_error);
+                                return false;
+                            } else
+                                return true;
+                        }
                     }
+                } else {
+                    messaggio->assign(_invalid_operator);
+                    return false;
+                }
             }
             else {
                 messaggio->assign(_message_error);
@@ -492,9 +542,11 @@ bool ControlloSintassi::controlloDelete(stringstream &comando, string *messaggio
         messaggio->assign(_message_error);
         return false;
     }
+    messaggio->assign(_message_error);
+    return false;
 }
 
-bool ControlloSintassi::controlloUpdate(stringstream &comando, string *messaggio)  { //aggiungere BETWEEN
+bool ControlloSintassi::controlloUpdate(stringstream &comando, string *messaggio)  {
     string word;
     char carattere;
     bool fine_testo = false, flag_fine_comando = false, flag_condizione = false;

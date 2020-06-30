@@ -9,7 +9,7 @@
 class SecKeyNotFound : public std::exception{
 public:
     SecKeyNotFound()
-            : _message ("Campo chiave esterna non trovato") {}
+            : _message ("Campo chiave esterna non esistente o non marcato come chiave primaria") {}
     const char* what()const noexcept override { return _message; }
 private:
     const char* _message;

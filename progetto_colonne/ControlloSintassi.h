@@ -8,6 +8,7 @@
 #include <string>
 #include <vector>
 #include <sstream>
+#include "InvalidOperator.h"
 using namespace std;
 
 class ControlloSintassi {
