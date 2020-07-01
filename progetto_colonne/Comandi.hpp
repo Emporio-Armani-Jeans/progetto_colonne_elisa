@@ -469,23 +469,19 @@ void Select(vector<Tabella*> &tabelle, stringstream &stream_comando, string *mes
     } else {
         completo=false;
         while (word[word.size()-1] == ',') {   //memorizzo campi finchè non incontro from, suppongo spazio dopo la virgola
-            word.pop_back (); //rimuovo virgola
+            word.pop_back (); //rimuovo virgola. In word c'è il campo da aggiungere
             campi.push_back (word);
             stream_comando >> word;
         }
     }
     if (!completo){
-        campi.push_back (word);
+        campi.push_back (word); //nel caso in cui non sia presente l'* faccio un'ultima iterazione
         stream_comando >> word; //FROM
     }
-    /*for(string & elem : campi){
-        cout << elem << "   ";
-    }*/
-   // cout << endl;
-    stream_comando >> word;
+    stream_comando >> word; //nome tabella
     scarto=word;
     if(scarto[scarto.size()-1]==';')
-        scarto.pop_back();
+        scarto.pop_back(); //tolgo la virgola solo per cercare il match
     //cerco match tabella in questione
     for (int a = 0; a < tabelle.size (); a++) {
         if (tabelle[a]->getNome () == scarto) {
@@ -496,17 +492,17 @@ void Select(vector<Tabella*> &tabelle, stringstream &stream_comando, string *mes
     }
     if (!trovata) {
         throw InexistentTable();
-    } else {
+    } else { //tabella trovata in tabelle[pos_table]
         if(completo){
             for (int i = 0; i < tabelle[pos_table]->numCampi (); i++) {
-                campi.push_back (tabelle[pos_table]->getCol (i)->getNomeColonna ());
+                campi.push_back (tabelle[pos_table]->getCol (i)->getNomeColonna ()); //caso * : riempio i campi con i nomi di tutte le colonne della tabella
             }
-            for(string & elem : campi){
+            for(string & elem : campi){ //stampo i campi
                 cout << elem << "   ";
             }
             cout << endl;
         }
-        if (word[word.size () - 1] == ';') {   //non c'è WHERE
+        if (word[word.size () - 1] == ';') {   //non c'è WHERE e nemmeno ORDER
             word.pop_back ();
             //stampo solo campi specificati della tabella
             for (const auto &elem : tabelle[pos_table]->returnData (campi)) {
@@ -534,7 +530,7 @@ void Select(vector<Tabella*> &tabelle, stringstream &stream_comando, string *mes
                             message->assign(valori_inesistenti);
                     }
                 }
-            } else {
+            } else { //WHERE
                 stream_comando >> word;  //in word c'è il campo condizione
                 stream_comando >> word2;  //in word2 c'è l'operatore
                 if (!belong_to(word2, operatori)) {
@@ -829,7 +825,7 @@ vector<Tabella*> Insert(vector<Tabella*> &tabelle, stringstream &stream_comando,
     stream_comando >> scarto;  //INTO
     stream_comando >> nome_tabella;
     for (a = 0, trovata = false; a < tabelle.size(); a++) {
-        if (tabelle[a]->getNome() == nome_tabella) { ///
+        if (tabelle[a]->getNome() == nome_tabella) {
             trovata = true;
             pos_table = a;
             break;
@@ -885,7 +881,7 @@ vector<Tabella*> Insert(vector<Tabella*> &tabelle, stringstream &stream_comando,
             valori.push_back(word);
             stream_comando >> word;
         }
-        tabelle[pos_table]->addRecord(campi, valori); ///segmentation fault
+        tabelle[pos_table]->addRecord(campi, valori);
         (*message) = "Operazione completata: Record aggiunto correttamente alla tabella";
         return tabelle;
     }

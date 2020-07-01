@@ -18,9 +18,30 @@ using namespace std;
 class Colonna {
 public:
     friend class Tabella;
-    
     virtual ~Colonna() = default;
-    
+
+    //metodi virtual
+    virtual void updateVal(const string& val, int index) = 0; //aggiorna a <val> il valore dell'elemento di indice <index> di una colonna
+    virtual string getElement(int index) = 0; //ritorna sottoforma di stringa l'elemento di indice <index> di una colonna
+    virtual void deleteVal(int index) = 0; //cancella l'elemento di indice <index> della colonna
+    virtual void addDefault(int val) = 0;
+    virtual bool compareElements(const string& condizione, int operatore, int index) const = 0; /*confronta il valore dell'elemento di indice <index>con <condizione>, secondo l'operatore <operatore>*/
+    virtual int getSize() const = 0;
+    virtual void controlloFormato(const string &value) const = 0;
+    virtual bool isAutoIncrement()const=0;
+    virtual string getTipo()const=0;
+
+    //metodi comuni a tutte le colonne
+    bool isNotNull()const{
+        return _not_null;
+    }
+    bool isKey()const{
+        return _primary_key;
+    }
+
+    void setNotNull(){
+        _not_null=true;
+    }
     string getNomeColonna() const { return _nome_colonna; }
 
     string getForeignKey()const{
@@ -32,24 +53,6 @@ public:
         return _tab_madre;
     }
 
-    virtual void updateVal(const string& val, int index) = 0; //aggiorna a <val> il valore dell'elemento di indice <index> di una colonna
-    virtual string getElement(int index) = 0; //ritorna sottoforma di stringa l'elemento di indice <index> di una colonna
-    virtual void deleteVal(int index) = 0; //cancella l'elemento di indice <index> della colonna
-    virtual void addDefault(int val) = 0;
-    virtual bool compareElements(const string& condizione, int operatore, int index) const = 0; /*confronta il valore dell'elemento di indice <index>con <condizione>, secondo l'operatore <operatore>*/
-    virtual int getSize() const = 0;
-    virtual void controlloFormato(const string &value) const = 0;
-    bool isNotNull()const{
-        return _not_null;
-    }
-    bool isKey()const{
-        return _primary_key;
-    }
-    virtual bool isAutoIncrement()const=0;
-    void setNotNull(){
-        _not_null=true;
-    }
-    virtual string getTipo()const=0;
     
 protected:
     string _nome_colonna, _tab_madre;

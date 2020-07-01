@@ -14,14 +14,11 @@
 class Date {
 
 public:
-// Dafault Constructor, set the date to the actual date
 	Date();
-// Constructor, pass the date in the form of dd,mm,yyyy
-// Note that the program crashes if the date is not valid...
 	Date(const int &d, const int &m, const int &y);
-// Copy Constructor
+    // Copy Constructor
 	Date(const Date & to_copy);
-// Getters
+    // Getters
 	int year() const;
 	int month() const;
 	int day() const;
