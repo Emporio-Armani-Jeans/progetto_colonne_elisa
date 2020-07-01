@@ -22,14 +22,10 @@ public:
 	int year() const;
 	int month() const;
 	int day() const;
-// return the year from the date d, if d it not passed, it returns the year from now.
-// Usefull to compute the age of a person, where this is the person’s birth date
-	int yearsFrom(const Date &d = Date()) const;
-// return the date as a string in the form dd/mm/yyyy
-// Useful to print on the screen
-	std::string str() const;
-// overload of the << operator for the Data class.
-// the fried keyword is mandatory to define the overload
+
+	std::string str() const; //ritorna la data come una stringa di testo nel formato gg/mm/yyyy
+
+	//overload degli operatori
 	Date& operator= (const Date & to_assign);
 	Date operator+(const Date & to_add) const;
 	bool operator==(const Date & to_compare) const;
@@ -41,6 +37,7 @@ public:
 
     friend std::ostream& operator<< (std::ostream& stream, const Date& d);
 	friend std::istream& operator>> (std::istream& stream, Date d);
+
 private:
 	int _year; int _month;
 	int _day;

@@ -43,7 +43,6 @@ public:
      * aggiunge un elemento e imposta il corrispettivo valore contenuto nel vettore <valori> */
     void addRecord(const vector<string>& campi, const vector<string>& valori);
     void addRecordMemory(const vector<string>& campi, const vector<string>& valori);
-    bool isLinked();
 
     void deleteRecord(const string& campo_condizione=std::string(), const string& condizione=std::string(), int operatore=0);
     void deleteRecord(const string& campo_condizione, const string& condizione1, const string& condizione2);  //between operator
@@ -51,16 +50,18 @@ public:
     void updateRecord(const string& campo_condizione, const string& condizione, const vector<string>& campi, const vector<string>& valori, int operatore=0);
     void updateRecord(const string& campo_condizioni, const string& condizione1, const string& condizione2, const vector<string>& campi, const vector<string>& valori);
 
-    string getNome()const;
-    Colonna* getCol(int index)const;
-    int numCampi()const;
-    int numRecs()const;
-
     vector<string> returnData(const vector<string>& campi, const string& campo_ordinamento=string(), int operatore_ordinamento=0)const;
     vector<string> returnData(const vector<string>& campi, const string& campo_condizione, const string& condizione,
             int operatore=0, const string& campo_ordinamento=string(), int operatore_ordinamento=0)const;
     vector<string> returnData(const vector<string>& campi, const string& campo_condizione, const string& condizione1,
             const string& condizione2, const string& campo_ordinamento=string(), int operatore_ordinamento=0)const;
+
+    string getNome()const;
+    Colonna* getCol(int index)const;
+    int numCampi()const;
+    int numRecs()const;
+    bool isLinked();
+
 
 private:
     vector<Colonna*> _colonne;

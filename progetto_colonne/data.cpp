@@ -32,9 +32,7 @@ int Date::month() const {
 int Date::year() const {
 	return _year;
 }
-int Date::yearsFrom(const Date &d) const {
-	return _year - d._year;
-}
+
 
 std::string Date::str() const {
 	std::ostringstream stream;
