@@ -28,7 +28,7 @@ void Tabella::setChiavePrimaria(const string& nomecolonna) {
     }
     if(!flag_another_pk_found){ //se effettivamente non è ancora stata aggiunta una colonna marcata come primary key, posso impostarla
         for(int j = 0; j < _colonne.size() && !flag_colonna_trovata; j++){
-            if(_colonne[j]->getNomeColonna() == nomecolonna){
+            if(_colonne[j]->getNomeColonna() == nomecolonna){ //match nomecolonna con colonne della tabella
                 _colonne[j]->_primary_key = true;
                 _colonne[j]->_not_null = !(_colonne[j]->getTipo() == "int" && _colonne[j]->isAutoIncrement());
                 flag_colonna_trovata = true;
@@ -61,11 +61,9 @@ void Tabella::addRecord(const vector<string>& campi, const vector<string>& valor
             for(int j=0; j<campi.size() && !flag_colonna_trovata; j++){
                 if(_colonne[i]->getNomeColonna() == campi[j]) {
                     flag_colonna_trovata = true;
-                    if (_colonne[i]->isAutoIncrement())
-                        throw TentativoInserimentoAutoIncrement();
                 }
             }
-            if(!flag_colonna_trovata)
+            if(!flag_colonna_trovata) //se alla fine di un ciclo
                 flag_campo_non_trovato = true;
         }
     }
@@ -77,7 +75,13 @@ void Tabella::addRecord(const vector<string>& campi, const vector<string>& valor
         for (int i = 0; i < campi.size(); i++) {
             for (auto &j : _colonne) {
                 if (campi[i] == j->getNomeColonna())
-                    j->updateVal(valori[i], int(_recs - 1));
+                {
+                    if (_colonne[i]->isAutoIncrement())
+                        throw TentativoInserimentoAutoIncrement();
+                    else
+                        j->updateVal(valori[i], int(_recs - 1));
+                }
+
             }
         }
     }else{
@@ -156,7 +160,8 @@ void Tabella::updateRecord(const string& campo_condizione,const string& condizio
     bool trovata=false, trovata2 = false;
     int i=0, j;
     while(i<_colonne.size() && !trovata){
-        if(campo_condizione == _colonne[i]->getNomeColonna()) trovata=true;
+        if(campo_condizione == _colonne[i]->getNomeColonna())
+            trovata=true;
         else i++;
     }
     if(trovata){
@@ -179,7 +184,6 @@ void Tabella::updateRecord(const string& campo_condizione,const string& condizio
         }
         if(!trovata2)
             throw ValueNotFound();
-        // inserire eccezione se nessun record viene modificato per la secondary key
     }else{
         throw InvalidCondition();
     }
