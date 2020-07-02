@@ -1,5 +1,6 @@
 C:\Users\andry\CLionProjects\progetto_colonne_elisa\progetto_colonne\Memoria.txt
 C:\Users\calog\CLionProjects\progetto_colonne_elisa\progetto_colonne\Memoria.txt
+C:\Users\jccx1\CLionProjects\progetto_colonne_elisa\progetto_colonne\Memoria.txt
 
 Prove giuste per ogni comando:
 
@@ -46,3 +47,8 @@ CREATE TABLE customers ( ID INT AUTO_INCREMENT NOT NULL, NAME TEXT NOT NULL, COU
 INSERT INTO CUSTOMERS (NAME, ADDRESS, COUNTRY_ID, AGE) VALUES ("Orlando", "Via dei colli rossi", 10, 67);  INSERIMENTO di un valore non corrispendente con la chiave esterna
 
 truncate table PRODUCTS; eccezione modificare tabella con collegamenti esterni
+
+SELECT * FROM CUSTOMERS;
+select * from CUSTOMERS;
+SELECT AGE, COUNTRY_ID FROM CUSTOMERS ORDER BY ID DESC;
+SELECT NAME FROM CUSTOMERS WHERE AGE = 23 ORDER BY ID ASC;

@@ -224,44 +224,56 @@ vector<string> Tabella::returnData(const vector<string>& campi, const string& ca
     vector<string> righe_testo;
     string riga;
     if(_recs!=0) {
-        for(const string & a : campi){
-            riga += a + " ";
+        bool trovata = false;
+        bool valido = true;
+        for(int i=0; i< campi.size(); i++ && valido){
+            trovata = false;
+            for (int j=0; j < _colonne.size(); j++ && !trovata) {
+                if (campi[i] == _colonne[j]->getNomeColonna()) {
+                    trovata = true;
+                    riga += campi[i] + " ";
+                }
+            }
+            if (!trovata) valido = false;
         }
-        righe_testo.push_back(riga);
-        for (int i = 0; i < _recs; i++) {
-            riga.clear();
-            for (auto j : _colonne) {
-                for (const auto &s : campi) {
-                    if (j->getNomeColonna() == s) {
-                        if (operatore_ordinamento == 0) {
-                            if (j->getElement(i) == j->getElement(-1)) {
-                                riga += "___ ";
-                            } else {
-                                int q = 0;
-                                string temp = j->getElement(i);
-                                while (q < temp.size()){
-                                    if (temp[q] == '"' && temp[q+1] == '"')
-                                        temp.erase(q,1);
-                                    else
-                                        q++;
+        if (valido) {
+            righe_testo.push_back(riga);
+            for (int i = 0; i < _recs; i++) {
+                riga.clear();
+                for (auto j : _colonne) {
+                    for (const auto &s : campi) {
+                        if (j->getNomeColonna() == s) {
+                            if (operatore_ordinamento == 0) {
+                                if (j->getElement(i) == j->getElement(-1)) {
+                                    riga += "___ ";
+                                } else {
+                                    int q = 0;
+                                    string temp = j->getElement(i);
+                                    while (q < temp.size()) {
+                                        if (temp[q] == '"' && temp[q + 1] == '"')
+                                            temp.erase(q, 1);
+                                        else
+                                            q++;
+                                    }
+                                    riga += temp;
+                                    riga += " ";
                                 }
-                                riga += temp;
-                                riga += " ";
-                            }
-                        } else {
-                            vector<int> indici_ordinati = ordinamento(campo_ordinamento, operatore_ordinamento);
-                            if (j->getElement(indici_ordinati[i]) == j->getElement(-1)) {
-                                riga += "___ ";
                             } else {
-                                riga += j->getElement(indici_ordinati[i]);
-                                riga += " ";
+                                vector<int> indici_ordinati = ordinamento(campo_ordinamento, operatore_ordinamento);
+                                if (j->getElement(indici_ordinati[i]) == j->getElement(-1)) {
+                                    riga += "___ ";
+                                } else {
+                                    riga += j->getElement(indici_ordinati[i]);
+                                    riga += " ";
+                                }
                             }
                         }
                     }
                 }
+                righe_testo.push_back(riga);
             }
-            righe_testo.push_back(riga);
         }
+        else throw CampoNonTrovato();
     }else{
         righe_testo.emplace_back("La tabella è vuota.");
     }
@@ -276,73 +288,87 @@ vector<string> Tabella::returnData(const vector<string> &campi, const string& ca
     string riga;
     if(_recs!=0) {
         bool trovata = false;
-        int a = 0;
-        while (a < _colonne.size() && !trovata) {
-            if (campo_condizione == _colonne[a]->getNomeColonna()) trovata = true;
-            else a++;
-        }
-        if (trovata) {
-            for(const string & b : campi){
-                riga += b + " ";
-            }
-            righe_testo.push_back(riga);
-            for (int i = 0; i < _recs; i++) {
-                if (operatore_ordinamento == 0) {
-                    if (_colonne[a]->compareElements(condizione, operatore, i)) {
-                        riga.clear();
-                        for (auto j : _colonne) {
-                            for (const auto &s : campi) {
-                                if (j->getNomeColonna() == s) {
-                                    if (j->getElement(i) == j->getElement(-1)) {
-                                        riga += "___ ";
-                                    } else {
-                                        int q = 0;
-                                        string temp = j->getElement(i);
-                                        while (q < temp.size()){
-                                            if (temp[q] == '"' && temp[q+1] == '"')
-                                                temp.erase(q,1);
-                                            else
-                                                q++;
-                                        }
-                                        riga += temp;
-                                        riga += " ";
-                                    }
-                                }
-                            }
-                        }
-                        righe_testo.push_back(riga);
-                    }
-                } else {
-                    vector<int> indici_ordinati = ordinamento(campo_ordinamento, operatore_ordinamento);
-                    if (_colonne[a]->compareElements(condizione, operatore, indici_ordinati[i])) {
-                        riga.clear();
-                        for (auto j : _colonne) {
-                            for (const auto &s : campi) {
-                                if (j->getNomeColonna() == s) {
-                                    if (j->getElement(indici_ordinati[i]) == j->getElement(-1)) {
-                                        riga += "___ ";
-                                    } else {
-                                        int q = 0;
-                                        string temp = j->getElement(indici_ordinati[i]);
-                                        while (q < temp.size()){
-                                            if (temp[q] == '"' && temp[q+1] == '"')
-                                                temp.erase(q,1);
-                                            else
-                                                q++;
-                                        }
-                                        riga += temp;
-                                        riga += " ";
-                                    }
-                                }
-                            }
-                        }
-                        righe_testo.push_back(riga);
-                    }
+        bool valido = true;
+        for(int i=0; i< campi.size(); i++ && valido){
+            trovata = false;
+            for (int j=0; j < _colonne.size(); j++ && !trovata) {
+                if (campi[i] == _colonne[j]->getNomeColonna()) {
+                    trovata = true;
+                    riga += campi[i] + " ";
                 }
             }
-        } else {
-            throw InvalidCondition();
+            if (!trovata) valido = false;
         }
+        if (valido) {
+            trovata = false;
+            int a = 0;
+            while (a < _colonne.size() && !trovata) {
+                if (campo_condizione == _colonne[a]->getNomeColonna()) trovata = true;
+                else a++;
+            }
+            if (trovata) {
+                for (const string &b : campi) {
+                    riga += b + " ";
+                }
+                righe_testo.push_back(riga);
+                for (int i = 0; i < _recs; i++) {
+                    if (operatore_ordinamento == 0) {
+                        if (_colonne[a]->compareElements(condizione, operatore, i)) {
+                            riga.clear();
+                            for (auto j : _colonne) {
+                                for (const auto &s : campi) {
+                                    if (j->getNomeColonna() == s) {
+                                        if (j->getElement(i) == j->getElement(-1)) {
+                                            riga += "___ ";
+                                        } else {
+                                            int q = 0;
+                                            string temp = j->getElement(i);
+                                            while (q < temp.size()) {
+                                                if (temp[q] == '"' && temp[q + 1] == '"')
+                                                    temp.erase(q, 1);
+                                                else
+                                                    q++;
+                                            }
+                                            riga += temp;
+                                            riga += " ";
+                                        }
+                                    }
+                                }
+                            }
+                            righe_testo.push_back(riga);
+                        }
+                    } else {
+                        vector<int> indici_ordinati = ordinamento(campo_ordinamento, operatore_ordinamento);
+                        if (_colonne[a]->compareElements(condizione, operatore, indici_ordinati[i])) {
+                            riga.clear();
+                            for (auto j : _colonne) {
+                                for (const auto &s : campi) {
+                                    if (j->getNomeColonna() == s) {
+                                        if (j->getElement(indici_ordinati[i]) == j->getElement(-1)) {
+                                            riga += "___ ";
+                                        } else {
+                                            int q = 0;
+                                            string temp = j->getElement(indici_ordinati[i]);
+                                            while (q < temp.size()) {
+                                                if (temp[q] == '"' && temp[q + 1] == '"')
+                                                    temp.erase(q, 1);
+                                                else
+                                                    q++;
+                                            }
+                                            riga += temp;
+                                            riga += " ";
+                                        }
+                                    }
+                                }
+                            }
+                            righe_testo.push_back(riga);
+                        }
+                    }
+                }
+            } else {
+                throw InvalidCondition();
+            }
+        } else throw CampoNonTrovato();
     }else{
         righe_testo.emplace_back("Tabella vuota");
     }
@@ -357,75 +383,89 @@ vector<string> Tabella::returnData(const vector<string> &campi, const string& ca
     string riga;
     if(_recs!=0) {
         bool trovata = false;
-        int a = 0;
-        while (a < _colonne.size() && !trovata) {
-            if (campo_condizione == _colonne[a]->getNomeColonna()) trovata = true;
-            else a++;
-        }
-        if (trovata) {
-            for(const string & z : campi){
-                riga += z + " ";
-            }
-            righe_testo.push_back(riga);
-            for (int i = 0; i < _recs; i++) {
-                if (operatore_ordinamento == 0) {
-                    if (_colonne[a]->compareElements(condizione1, 4, i) &&
-                        _colonne[a]->compareElements(condizione2, 2, i)) {
-                        riga.clear();
-                        for (auto j : _colonne) {
-                            for (const auto &s : campi) {
-                                if (j->getNomeColonna() == s) {
-                                    if (j->getElement(i) == j->getElement(-1)) {
-                                        riga += "___ ";
-                                    } else {
-                                        int q = 0;
-                                        string temp = j->getElement(i);
-                                        while (q < temp.size()){
-                                            if (temp[q] == '"' && temp[q+1] == '"')
-                                                temp.erase(q,1);
-                                            else
-                                                q++;
-                                        }
-                                        riga += temp;
-                                        riga += " ";
-                                    }
-                                }
-                            }
-                        }
-                        righe_testo.push_back(riga);
-                    }
-                } else {
-                    vector<int> indici_ordinati = ordinamento(campo_ordinamento, operatore_ordinamento);
-                    if (_colonne[a]->compareElements(condizione1, 4, indici_ordinati[i]) &&
-                        _colonne[a]->compareElements(condizione2, 2, indici_ordinati[i])) {
-                        riga.clear();
-                        for (auto j : _colonne) {
-                            for (const auto &s : campi) {
-                                if (j->getNomeColonna() == s) {
-                                    if (j->getElement(indici_ordinati[i]) == j->getElement(-1)) {
-                                        riga += "___ ";
-                                    } else {
-                                        int q = 0;
-                                        string temp = j->getElement(indici_ordinati[i]);
-                                        while (q < temp.size()){
-                                            if (temp[q] == '"' && temp[q+1] == '"')
-                                                temp.erase(q,1);
-                                            else
-                                                q++;
-                                        }
-                                        riga += temp;
-                                        riga += " ";
-                                    }
-                                }
-                            }
-                        }
-                        righe_testo.push_back(riga);
-                    }
+        bool valido = true;
+        for(int i=0; i< campi.size(); i++ && valido){
+            trovata = false;
+            for (int j=0; j < _colonne.size(); j++ && !trovata) {
+                if (campi[i] == _colonne[j]->getNomeColonna()) {
+                    trovata = true;
+                    riga += campi[i] + " ";
                 }
             }
-        } else {
-            throw InvalidCondition();
+            if (!trovata) valido = false;
         }
+        if (valido) {
+            trovata = false;
+            int a = 0;
+            while (a < _colonne.size() && !trovata) {
+                if (campo_condizione == _colonne[a]->getNomeColonna()) trovata = true;
+                else a++;
+            }
+            if (trovata) {
+                for (const string &z : campi) {
+                    riga += z + " ";
+                }
+                righe_testo.push_back(riga);
+                for (int i = 0; i < _recs; i++) {
+                    if (operatore_ordinamento == 0) {
+                        if (_colonne[a]->compareElements(condizione1, 4, i) &&
+                            _colonne[a]->compareElements(condizione2, 2, i)) {
+                            riga.clear();
+                            for (auto j : _colonne) {
+                                for (const auto &s : campi) {
+                                    if (j->getNomeColonna() == s) {
+                                        if (j->getElement(i) == j->getElement(-1)) {
+                                            riga += "___ ";
+                                        } else {
+                                            int q = 0;
+                                            string temp = j->getElement(i);
+                                            while (q < temp.size()) {
+                                                if (temp[q] == '"' && temp[q + 1] == '"')
+                                                    temp.erase(q, 1);
+                                                else
+                                                    q++;
+                                            }
+                                            riga += temp;
+                                            riga += " ";
+                                        }
+                                    }
+                                }
+                            }
+                            righe_testo.push_back(riga);
+                        }
+                    } else {
+                        vector<int> indici_ordinati = ordinamento(campo_ordinamento, operatore_ordinamento);
+                        if (_colonne[a]->compareElements(condizione1, 4, indici_ordinati[i]) &&
+                            _colonne[a]->compareElements(condizione2, 2, indici_ordinati[i])) {
+                            riga.clear();
+                            for (auto j : _colonne) {
+                                for (const auto &s : campi) {
+                                    if (j->getNomeColonna() == s) {
+                                        if (j->getElement(indici_ordinati[i]) == j->getElement(-1)) {
+                                            riga += "___ ";
+                                        } else {
+                                            int q = 0;
+                                            string temp = j->getElement(indici_ordinati[i]);
+                                            while (q < temp.size()) {
+                                                if (temp[q] == '"' && temp[q + 1] == '"')
+                                                    temp.erase(q, 1);
+                                                else
+                                                    q++;
+                                            }
+                                            riga += temp;
+                                            riga += " ";
+                                        }
+                                    }
+                                }
+                            }
+                            righe_testo.push_back(riga);
+                        }
+                    }
+                }
+            } else {
+                throw InvalidCondition();
+            }
+        } else throw CampoNonTrovato();
     }else{
         righe_testo.emplace_back("Tabella vuota");
     }
