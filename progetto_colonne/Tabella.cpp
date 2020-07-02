@@ -120,7 +120,6 @@ void Tabella::deleteRecord(const string& campo_condizione, const string &condizi
             }
             if(!condizione_trovata)
                 throw ValueNotFound();
-            // inserire eccezione se nessun record viene modificato per la secondary key
         } else {
             throw InvalidCondition();
         }
@@ -150,7 +149,6 @@ void Tabella::deleteRecord(const string& campo_condizione, const string& condizi
         }
         if(!trovata2)
             throw ValueNotFound();
-        // inserire eccezione se nessun record viene cancellato per la secondary key
     }else{
         throw InvalidCondition();
     }
@@ -217,7 +215,6 @@ void Tabella::updateRecord(const string& campo_condizioni, const string& condizi
         }
         if(!trovata2)
             throw ValueNotFound();
-        // inserire eccezione se nessun record viene modificato per la secondary key
     }else{
         throw InvalidCondition();
     }

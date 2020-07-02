@@ -95,7 +95,6 @@ vector<Tabella*> Caricamento(const string& nome_file){
             campi.clear();
         }
         //ho in infos in ogni elemento informazioni su link esterni per ogni colonna della tabella
-        //fare i set chiave esterna
         for(int i=0; i< num_tabs; i++){
             for(int j=0; j< tabs[i]->numCampi(); j++){
                 if(infos[i].tabelle_madri[j]!="#" && infos[i].colonne_madri[j]!="#") {
@@ -126,7 +125,7 @@ void Salvataggio(const string& nome_file, const vector<Tabella*> &tabelle){ ///
         database << tabelle.size() << endl;
         for(auto & t : tabelle) {
             database << endl;
-            tab = t; ///
+            tab = t;
             database << tab->getNome() << " " << tab->numCampi() << endl;
             for (int i = 0; i < tab->numCampi(); i++) {
                 database << tab->getCol(i)->getNomeColonna() << '<';

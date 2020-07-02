@@ -1,5 +1,5 @@
 //
-// Created by Alessandro on 2019-04-12.
+//
 //
 
 #ifndef DATA_DATA_H
