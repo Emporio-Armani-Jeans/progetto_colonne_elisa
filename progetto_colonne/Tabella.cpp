@@ -26,9 +26,9 @@ void Tabella::setChiavePrimaria(const string& nomecolonna) {
         if(i->_primary_key)
             flag_another_pk_found = true;
     }
-    if(!flag_another_pk_found){ //se effettivamente non è ancora stata aggiunta una colonna marcata come primary key, posso impostarla
+    if(!flag_another_pk_found){ //se non è ancora stata aggiunta una colonna marcata come primary key, posso impostarla
         for(int j = 0; j < _colonne.size() && !flag_colonna_trovata; j++){
-            if(_colonne[j]->getNomeColonna() == nomecolonna){ //match nomecolonna con colonne della tabella
+            if(_colonne[j]->getNomeColonna() == nomecolonna){ //match nome colonna con colonne della tabella
                 _colonne[j]->_primary_key = true;
                 _colonne[j]->_not_null = !(_colonne[j]->getTipo() == "int" && _colonne[j]->isAutoIncrement());
                 flag_colonna_trovata = true;
@@ -237,8 +237,8 @@ vector<string> Tabella::returnData(const vector<string>& campi, const string& ca
                 valido = false;
         }
         if (valido) {
-            for (const auto & e : campi){
-                riga += e + " ";
+            for (const string & element : campi){
+                riga += element + " ";
             }
             righe_testo.push_back(riga);
             for (int i = 0; i < _recs; i++) {

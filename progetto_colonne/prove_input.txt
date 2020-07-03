@@ -1,8 +1,9 @@
+path memoria per ogni componente del team a portata di mano
 C:\Users\andry\CLionProjects\progetto_colonne_elisa\progetto_colonne\Memoria.txt
 C:\Users\calog\CLionProjects\progetto_colonne_elisa\progetto_colonne\Memoria.txt
 C:\Users\jccx1\CLionProjects\progetto_colonne_elisa\progetto_colonne\Memoria.txt
 
-Prove giuste per ogni comando:
+Prove per ogni tipo di comando:
 
 CREATE TABLE COUNTRIES ( ID INT NOT NULL AUTO_INCREMENT, NAME TEXT NOT NULL, PRIMARY KEY (ID) );
 CREATE TABLE CUSTOMERS ( ID INT AUTO_INCREMENT NOT NULL, NAME TEXT NOT NULL, AGE INT NOT NULL, ADDRESS TEXT, COUNTRY_ID INT, PRIMARY KEY (ID) FOREIGN KEY (COUNTRY_ID) REFERENCES COUNTRIES (ID) );
@@ -79,6 +80,9 @@ SELECT TRANSACT_DATE, TRANSACT_TIME, CODE FROM TRANSACTIONS WHERE PRODUCT_NAME =
 SELECT TRANSACT_DATE, TRANSACT_TIME, CODE FROM TRANSACTIONS WHERE PRODUCT_NAME = "Canottiera" ORDER BY TRANSACT_TIME ASC;
 SELECT TRANSACT_DATE, TRANSACT_TIME, CODE FROM TRANSACTIONS WHERE PRODUCT_NAME = "Canottiera";
 SELECT TRANSACT_TIME, TRANSACT_DATE FROM TRANSACTIONS WHERE PRODUCT_NAME = "Canottiera";
+select * from SUPPLIERS where CONTRACT_EXPIRATION < 07/08/2022;
+select * from SUPPLIERS where CONTRACT_EXPIRATION < 07/08/2020;  //nessun valore rispetta criteri di ricerca
+select * from suppliers where CONTRACT_EXPIRATION < 07/08/2022;  //tabella non trovata
 
 UPDATE TRANSACTIONS SET TRANSACT_DATE = 28/09/2019, TRANSACT_TIME = 23:34:56 WHERE CODE = 1;
 update CUSTOMERS set NAME = "Gian Franco" where ID = 5;
