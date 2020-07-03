@@ -187,6 +187,14 @@ int main() {
             tabelle = Caricamento(nome_file);
             cout << "Eccezione: " << cnt.what() << endl;
         }
+        catch (InvalidMatch &im){
+            tabelle = Caricamento(nome_file);
+            cout << "Eccezione: " << im.what() << endl;
+        }
+        catch (InvalidDate &id){
+            tabelle = Caricamento(nome_file);
+            cout << "Eccezione: " << id.what() << endl;
+        }
         catch(exception &unexpected) {
             tabelle = Caricamento(nome_file);
             cout << "Eccezione: " << unexpected.what() << endl;

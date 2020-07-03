@@ -17,9 +17,12 @@ Time::Time() {
 }
 
 Time::Time(const int &h, const int &m, const int &s) {
-    _ora = h;
-    _minuti = m;
-    _secondi = s;
+    if (h>=0 && h<25 && m>=0 && m<60 && s>=0 && s<60){
+        _ora = h;
+        _minuti = m;
+        _secondi = s;
+    } else
+        throw InvalidTime();
 }
 
 Time::Time(const Time &to_copy) {

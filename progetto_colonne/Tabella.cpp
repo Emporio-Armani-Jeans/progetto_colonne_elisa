@@ -76,7 +76,7 @@ void Tabella::addRecord(const vector<string>& campi, const vector<string>& valor
             for (auto &j : _colonne) {
                 if (campi[i] == j->getNomeColonna())
                 {
-                    if (_colonne[i]->isAutoIncrement())
+                    if (j->isAutoIncrement())
                         throw TentativoInserimentoAutoIncrement();
                     else
                         j->updateVal(valori[i], int(_recs - 1));
@@ -169,7 +169,7 @@ void Tabella::updateRecord(const string& campo_condizione,const string& condizio
                         for (int y = 0; y < campi.size(); y++) {
                             for (auto &g : _colonne) {
                                 if (campi[y] == g->getNomeColonna()) {
-                                    if(!erroreSecKey(j) || !g->isKey()) {
+                                    if(!erroreSecKey(j)) {
                                         if (g->isAutoIncrement())
                                             throw TentativoInserimentoAutoIncrement();
                                         else
@@ -202,7 +202,7 @@ void Tabella::updateRecord(const string& campo_condizioni, const string& condizi
                     for (int y = 0; y < campi.size(); y++) {
                         for (auto &g : _colonne) {
                             if (campi[y] == g->getNomeColonna()) {
-                                if(!erroreSecKey(j) || !_colonne[i]->isKey()) {
+                                if(!erroreSecKey(j)) {
                                     if (g->isAutoIncrement())
                                         throw TentativoInserimentoAutoIncrement();
                                     else
@@ -231,17 +231,20 @@ vector<string> Tabella::returnData(const vector<string>& campi, const string& ca
             for (int j=0; j < _colonne.size(); j++ && !trovata) {
                 if (campi[i] == _colonne[j]->getNomeColonna()) {
                     trovata = true;
-                    riga += campi[i] + " ";
                 }
             }
-            if (!trovata) valido = false;
+            if (!trovata)
+                valido = false;
         }
         if (valido) {
+            for (const auto & e : campi){
+                riga += e + " ";
+            }
             righe_testo.push_back(riga);
             for (int i = 0; i < _recs; i++) {
                 riga.clear();
-                for (auto j : _colonne) {
-                    for (const auto &s : campi) {
+                for (const auto &s : campi) {
+                    for (auto j : _colonne) {
                         if (j->getNomeColonna() == s) {
                             if (operatore_ordinamento == 0) {
                                 if (j->getElement(i) == j->getElement(-1)) {
@@ -294,7 +297,6 @@ vector<string> Tabella::returnData(const vector<string> &campi, const string& ca
             for (int j=0; j < _colonne.size(); j++ && !trovata) {
                 if (campi[i] == _colonne[j]->getNomeColonna()) {
                     trovata = true;
-                    riga += campi[i] + " ";
                 }
             }
             if (!trovata) valido = false;
@@ -315,8 +317,8 @@ vector<string> Tabella::returnData(const vector<string> &campi, const string& ca
                     if (operatore_ordinamento == 0) {
                         if (_colonne[a]->compareElements(condizione, operatore, i)) {
                             riga.clear();
-                            for (auto j : _colonne) {
-                                for (const auto &s : campi) {
+                            for (const auto &s : campi) {
+                                for (auto j : _colonne) {
                                     if (j->getNomeColonna() == s) {
                                         if (j->getElement(i) == j->getElement(-1)) {
                                             riga += "___ ";
@@ -341,8 +343,8 @@ vector<string> Tabella::returnData(const vector<string> &campi, const string& ca
                         vector<int> indici_ordinati = ordinamento(campo_ordinamento, operatore_ordinamento);
                         if (_colonne[a]->compareElements(condizione, operatore, indici_ordinati[i])) {
                             riga.clear();
-                            for (auto j : _colonne) {
-                                for (const auto &s : campi) {
+                            for (const auto &s : campi) {
+                                for (auto j : _colonne) {
                                     if (j->getNomeColonna() == s) {
                                         if (j->getElement(indici_ordinati[i]) == j->getElement(-1)) {
                                             riga += "___ ";
@@ -389,7 +391,6 @@ vector<string> Tabella::returnData(const vector<string> &campi, const string& ca
             for (int j=0; j < _colonne.size(); j++ && !trovata) {
                 if (campi[i] == _colonne[j]->getNomeColonna()) {
                     trovata = true;
-                    riga += campi[i] + " ";
                 }
             }
             if (!trovata) valido = false;
@@ -398,7 +399,8 @@ vector<string> Tabella::returnData(const vector<string> &campi, const string& ca
             trovata = false;
             int a = 0;
             while (a < _colonne.size() && !trovata) {
-                if (campo_condizione == _colonne[a]->getNomeColonna()) trovata = true;
+                if (campo_condizione == _colonne[a]->getNomeColonna())
+                    trovata = true;
                 else a++;
             }
             if (trovata) {
@@ -411,8 +413,8 @@ vector<string> Tabella::returnData(const vector<string> &campi, const string& ca
                         if (_colonne[a]->compareElements(condizione1, 4, i) &&
                             _colonne[a]->compareElements(condizione2, 2, i)) {
                             riga.clear();
-                            for (auto j : _colonne) {
-                                for (const auto &s : campi) {
+                            for (const auto &s : campi) {
+                                for (auto j : _colonne) {
                                     if (j->getNomeColonna() == s) {
                                         if (j->getElement(i) == j->getElement(-1)) {
                                             riga += "___ ";
@@ -438,8 +440,8 @@ vector<string> Tabella::returnData(const vector<string> &campi, const string& ca
                         if (_colonne[a]->compareElements(condizione1, 4, indici_ordinati[i]) &&
                             _colonne[a]->compareElements(condizione2, 2, indici_ordinati[i])) {
                             riga.clear();
-                            for (auto j : _colonne) {
-                                for (const auto &s : campi) {
+                            for (const auto &s : campi) {
+                                for (auto j : _colonne) {
                                     if (j->getNomeColonna() == s) {
                                         if (j->getElement(indici_ordinati[i]) == j->getElement(-1)) {
                                             riga += "___ ";

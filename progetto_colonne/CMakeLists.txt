@@ -9,4 +9,4 @@ add_executable(progetto_colonne main.cpp Tabella.cpp Tabella.h Colonna.h Colonna
         CampoNonTrovato.h PrimaryKeyAlreadyExisting.h InvalidOperator.h SecKeyNotFound.h SecKeyError.h
         PrimKeyError.h NotNullError.h InvalidCondition.h FileError.h SalvataggioCaricamento.hpp ControlloSintassi.cpp
         ControlloSintassi.h FormatTypeError.h SecKeyAlreadyExisting.h Comandi.hpp InexistentTable.h
-        ValueNotFound.h InsertAutoIncrement.h UsedValueInSecKey.h LinkedError.h TableAlreadyExisting.h)
+        ValueNotFound.h InsertAutoIncrement.h UsedValueInSecKey.h LinkedError.h TableAlreadyExisting.h InvalidMatch.h InvalidDate.h InvalidTime.h)
