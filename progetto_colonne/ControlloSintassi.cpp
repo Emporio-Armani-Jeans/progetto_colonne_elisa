@@ -805,8 +805,17 @@ bool ControlloSintassi::controlloSelect(stringstream &comando, string *messaggio
                                 carattere = GestioneTesto(&comando, word);
                                 if (carattere == ';') {
                                     flag_fine_comando = true;
-                                } else if (toupper(carattere) == 'O')
-                                    flag_ordinamento = true;
+                                } else if (toupper(carattere) == 'O') {
+                                    comando >> word;
+                                    word.insert(0,1,carattere);
+                                    if (toUp(word) == "ORDER"){
+                                        flag_ordinamento = true;
+                                    }
+                                    else {
+                                        messaggio->assign(_message_error);
+                                        return false;
+                                    }
+                                }
                                 else {
                                     messaggio->assign(_message_error);
                                     return false;

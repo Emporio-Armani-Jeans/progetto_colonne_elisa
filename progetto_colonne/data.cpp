@@ -1,5 +1,5 @@
 //
-// Created by Alessandro on 2019-04-12.
+//
 //
 
 #include "data.h"
@@ -16,9 +16,13 @@ Date::Date(const Date &to_copy) {
 }
 
 Date::Date(const int &d, const int &m, const int &y) {
-	_day = d;
-	_month = m;
-	_year = y;
+    if (d >= 0 && d < 32 && m >= 0 && m < 13 && y >= 0){
+        _day = d;
+        _month = m;
+        _year = y;
+    } else {
+        throw InvalidDate();
+    }
 }
 
 int Date::day() const {

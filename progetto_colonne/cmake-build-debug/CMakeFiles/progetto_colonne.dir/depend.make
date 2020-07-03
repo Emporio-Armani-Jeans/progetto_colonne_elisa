@@ -19,6 +19,7 @@ CMakeFiles/progetto_colonne.dir/ColonnaDate.cpp.obj: ../ColonnaDate.cpp
 CMakeFiles/progetto_colonne.dir/ColonnaDate.cpp.obj: ../ColonnaDate.h
 CMakeFiles/progetto_colonne.dir/ColonnaDate.cpp.obj: ../FormatTypeError.h
 CMakeFiles/progetto_colonne.dir/ColonnaDate.cpp.obj: ../InvalidCondition.h
+CMakeFiles/progetto_colonne.dir/ColonnaDate.cpp.obj: ../InvalidDate.h
 CMakeFiles/progetto_colonne.dir/ColonnaDate.cpp.obj: ../InvalidOperator.h
 CMakeFiles/progetto_colonne.dir/ColonnaDate.cpp.obj: ../PrimKeyError.h
 CMakeFiles/progetto_colonne.dir/ColonnaDate.cpp.obj: ../PrimaryKeyAlreadyExisting.h
@@ -69,6 +70,7 @@ CMakeFiles/progetto_colonne.dir/ColonnaTime.cpp.obj: ../ColonnaTime.h
 CMakeFiles/progetto_colonne.dir/ColonnaTime.cpp.obj: ../FormatTypeError.h
 CMakeFiles/progetto_colonne.dir/ColonnaTime.cpp.obj: ../InvalidCondition.h
 CMakeFiles/progetto_colonne.dir/ColonnaTime.cpp.obj: ../InvalidOperator.h
+CMakeFiles/progetto_colonne.dir/ColonnaTime.cpp.obj: ../InvalidTime.h
 CMakeFiles/progetto_colonne.dir/ColonnaTime.cpp.obj: ../PrimKeyError.h
 CMakeFiles/progetto_colonne.dir/ColonnaTime.cpp.obj: ../PrimaryKeyAlreadyExisting.h
 CMakeFiles/progetto_colonne.dir/ColonnaTime.cpp.obj: ../SecKeyError.h
@@ -90,7 +92,9 @@ CMakeFiles/progetto_colonne.dir/Tabella.cpp.obj: ../ColonnaTime.h
 CMakeFiles/progetto_colonne.dir/Tabella.cpp.obj: ../FormatTypeError.h
 CMakeFiles/progetto_colonne.dir/Tabella.cpp.obj: ../InsertAutoIncrement.h
 CMakeFiles/progetto_colonne.dir/Tabella.cpp.obj: ../InvalidCondition.h
+CMakeFiles/progetto_colonne.dir/Tabella.cpp.obj: ../InvalidDate.h
 CMakeFiles/progetto_colonne.dir/Tabella.cpp.obj: ../InvalidOperator.h
+CMakeFiles/progetto_colonne.dir/Tabella.cpp.obj: ../InvalidTime.h
 CMakeFiles/progetto_colonne.dir/Tabella.cpp.obj: ../LinkedError.h
 CMakeFiles/progetto_colonne.dir/Tabella.cpp.obj: ../NotNullError.h
 CMakeFiles/progetto_colonne.dir/Tabella.cpp.obj: ../PrimKeyError.h
@@ -105,9 +109,11 @@ CMakeFiles/progetto_colonne.dir/Tabella.cpp.obj: ../UsedValueInSecKey.h
 CMakeFiles/progetto_colonne.dir/Tabella.cpp.obj: ../ValueNotFound.h
 CMakeFiles/progetto_colonne.dir/Tabella.cpp.obj: ../data.h
 
+CMakeFiles/progetto_colonne.dir/Time.cpp.obj: ../InvalidTime.h
 CMakeFiles/progetto_colonne.dir/Time.cpp.obj: ../Time.cpp
 CMakeFiles/progetto_colonne.dir/Time.cpp.obj: ../Time.h
 
+CMakeFiles/progetto_colonne.dir/data.cpp.obj: ../InvalidDate.h
 CMakeFiles/progetto_colonne.dir/data.cpp.obj: ../data.cpp
 CMakeFiles/progetto_colonne.dir/data.cpp.obj: ../data.h
 
@@ -126,7 +132,10 @@ CMakeFiles/progetto_colonne.dir/main.cpp.obj: ../FormatTypeError.h
 CMakeFiles/progetto_colonne.dir/main.cpp.obj: ../InexistentTable.h
 CMakeFiles/progetto_colonne.dir/main.cpp.obj: ../InsertAutoIncrement.h
 CMakeFiles/progetto_colonne.dir/main.cpp.obj: ../InvalidCondition.h
+CMakeFiles/progetto_colonne.dir/main.cpp.obj: ../InvalidDate.h
+CMakeFiles/progetto_colonne.dir/main.cpp.obj: ../InvalidMatch.h
 CMakeFiles/progetto_colonne.dir/main.cpp.obj: ../InvalidOperator.h
+CMakeFiles/progetto_colonne.dir/main.cpp.obj: ../InvalidTime.h
 CMakeFiles/progetto_colonne.dir/main.cpp.obj: ../LinkedError.h
 CMakeFiles/progetto_colonne.dir/main.cpp.obj: ../NotNullError.h
 CMakeFiles/progetto_colonne.dir/main.cpp.obj: ../PrimKeyError.h

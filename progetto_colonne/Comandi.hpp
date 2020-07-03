@@ -8,6 +8,7 @@
 #include "Tabella.h"
 #include "InexistentTable.h"
 #include "TableAlreadyExisting.h"
+#include "InvalidMatch.h"
 #include <string>
 using namespace std;
 
@@ -497,15 +498,11 @@ void Select(vector<Tabella*> &tabelle, stringstream &stream_comando, string *mes
             for (int i = 0; i < tabelle[pos_table]->numCampi (); i++) {
                 campi.push_back (tabelle[pos_table]->getCol (i)->getNomeColonna ()); //caso * : riempio i campi con i nomi di tutte le colonne della tabella
             }
-            for(string & elem : campi){ //stampo i campi
-                cout << elem << "   ";
-            }
-            cout << endl;
         }
         if (word[word.size () - 1] == ';') {   //non c'è WHERE e nemmeno ORDER
             word.pop_back ();
             //stampo solo campi specificati della tabella
-            for (const auto &elem : tabelle[pos_table]->returnData (campi)) {
+            for (const auto &elem : tabelle[pos_table]->returnData(campi)) {
                 cout << elem << endl;
             }
             cout << endl;
@@ -568,24 +565,24 @@ void Select(vector<Tabella*> &tabelle, stringstream &stream_comando, string *mes
                             ordine.pop_back();
                             if (toUpper(ordine) == "ASC") {
                                 for (int z = 0;
-                                     z < tabelle[pos_table]->returnData(campi, word2, condizione1, condizione2,
+                                     z < tabelle[pos_table]->returnData(campi, word, condizione1, condizione2,
                                                                         nome_colonna, 1).size(); z++) {
-                                    cout << tabelle[pos_table]->returnData(campi, word2, condizione1, condizione2,
+                                    cout << tabelle[pos_table]->returnData(campi, word, condizione1, condizione2,
                                                                            nome_colonna,
                                                                            1)[z] << endl;
-                                    if (tabelle[pos_table]->returnData(campi, word2, condizione1, condizione2,
+                                    if (tabelle[pos_table]->returnData(campi, word, condizione1, condizione2,
                                                                        nome_colonna,
                                                                        1).empty())
                                         message->assign(valori_inesistenti);
                                 }
                             } else if (toUpper(ordine) == "DESC") {
                                 for (int z = 0;
-                                     z < tabelle[pos_table]->returnData(campi, word2, condizione1, condizione2,
+                                     z < tabelle[pos_table]->returnData(campi, word, condizione1, condizione2,
                                                                         nome_colonna, 3).size(); z++) {
-                                    cout << tabelle[pos_table]->returnData(campi, word2, condizione1, condizione2,
+                                    cout << tabelle[pos_table]->returnData(campi, word, condizione1, condizione2,
                                                                            nome_colonna,
                                                                            3)[z] << endl;
-                                    if (tabelle[pos_table]->returnData(campi, word2, condizione1, condizione2,
+                                    if (tabelle[pos_table]->returnData(campi, word, condizione1, condizione2,
                                                                        nome_colonna,
                                                                        3).empty())
                                         message->assign(valori_inesistenti);
@@ -618,6 +615,7 @@ void Select(vector<Tabella*> &tabelle, stringstream &stream_comando, string *mes
                         }
                         stream_comando >> scarto;
                         if (toUpper(scarto) == "ORDER") {
+                            word3.pop_back(); //tolgo "
                             ordinamento = true;
                             stream_comando >> scarto; //scarto by
                             stream_comando >> nome_colonna; //campo ordinamento
@@ -666,7 +664,7 @@ void Select(vector<Tabella*> &tabelle, stringstream &stream_comando, string *mes
                                                                 1).size(); z++) {
                                         cout << tabelle[pos_table]->returnData(campi, word, word3, 1, nome_colonna, 1)[z]
                                              << endl;
-                                        if (tabelle[pos_table]->returnData(campi, word2, word3, 1, nome_colonna, 1).empty())
+                                        if (tabelle[pos_table]->returnData(campi, word, word3, 1, nome_colonna, 1).empty())
                                             message->assign(valori_inesistenti);
                                     }
                                 } else if (toUpper(ordine) == "DESC") {
@@ -881,8 +879,13 @@ vector<Tabella*> Insert(vector<Tabella*> &tabelle, stringstream &stream_comando,
             valori.push_back(word);
             stream_comando >> word;
         }
-        tabelle[pos_table]->addRecord(campi, valori);
-        (*message) = "Operazione completata: Record aggiunto correttamente alla tabella";
+        if (campi.size() == valori.size()){
+            tabelle[pos_table]->addRecord(campi, valori);
+            (*message) = "Operazione completata: Record aggiunto correttamente alla tabella";
+        }
+        else {
+            throw InvalidMatch();
+        }
         return tabelle;
     }
 }
