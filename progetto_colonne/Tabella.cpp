@@ -141,12 +141,11 @@ void Tabella::deleteRecord(const string& campo_condizione, const string& condizi
                     for (auto &elem : _colonne) {
                         elem->deleteVal(j);
                     }
-                } else j++;
+                } else j++; //se cancello un record tutti gli indici sono scalati indietro, quindi non incremento j
             }else j++;
         }
         if(!trovata2)
             throw ValueNotFound();
-        // inserire eccezione se nessun record viene cancellato per la secondary key
     }else{
         throw InvalidCondition();
     }
@@ -179,7 +178,6 @@ void Tabella::updateRecord(const string& campo_condizione,const string& condizio
         }
         if(!trovata2)
             throw ValueNotFound();
-        // inserire eccezione se nessun record viene modificato per la secondary key
     }else{
         throw InvalidCondition();
     }

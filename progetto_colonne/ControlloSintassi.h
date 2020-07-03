@@ -15,7 +15,7 @@ using namespace std;
 class ControlloSintassi {
 public:
     ControlloSintassi();
-    ~ControlloSintassi() = default; //?
+    ~ControlloSintassi() = default;
 
     //controllo iniziale che gestisce i caratteri speciali
     static string Gestione_caratteri_speciali(string &comando, string *status_message);

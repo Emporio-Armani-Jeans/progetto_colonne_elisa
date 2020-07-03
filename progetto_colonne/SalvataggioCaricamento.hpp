@@ -160,4 +160,6 @@ void Salvataggio(const string& nome_file, const vector<Tabella*> &tabelle){ ///
         database.close();
     }
 }
+
+
 #endif //PROGETTO_COLONNE_SALVATAGGIOCARICAMENTO_HPP

@@ -100,7 +100,7 @@ int main() {
                         cout << message_error << endl;
                     break;
                 case UPDATE :
-                    if (controllore.controlloUpdate(comando_per_controlli, &message_error)) {   //Errore se c'è testo in mezzo, fare between nei controlli
+                    if (controllore.controlloUpdate(comando_per_controlli, &message_error)) {
                         tabelle = Update(tabelle, comando_intero, &status_message);
                         Salvataggio(nome_file, tabelle);
                         cout << status_message << endl;
