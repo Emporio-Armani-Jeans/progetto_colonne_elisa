@@ -219,9 +219,9 @@ vector<Tabella*> Drop(vector<Tabella*> &tabelle, stringstream &stream_comando, s
     string word;
     bool trovata;
     vector<Tabella*>::iterator it = tabelle.begin();
-    stream_comando >> word;      //butto via "TABLE"
+    stream_comando >> word;      //scarto "TABLE"
     stream_comando >> word;
-    word.pop_back();            //butto via ';'
+    word.pop_back();            //scarto ';'
     //ricerco match nome tabella
     for (trovata = false; it != tabelle.end(); it++) {
         if ((*it)->getNome() == word) {
@@ -232,7 +232,7 @@ vector<Tabella*> Drop(vector<Tabella*> &tabelle, stringstream &stream_comando, s
     if (!trovata) {
         throw InexistentTable();
     } else {
-        if(!(*it)->isLinked()) {
+        if(!(*it)->isLinked()) { //se non è collegata (non ha "figlie")
             tabelle.erase(it);
             (*message) = "Operazione completata: tabella eliminata dal database.";
             return tabelle;
@@ -243,13 +243,13 @@ vector<Tabella*> Drop(vector<Tabella*> &tabelle, stringstream &stream_comando, s
 vector<Tabella*> Truncate(vector<Tabella*> &tabelle, stringstream &stream_comando, string *message) {
     string word;
     bool tabella_trovata = false;
-    stream_comando >> word;      //butto via "TABLE"
+    stream_comando >> word;      //scarto "TABLE"
     stream_comando >> word;       //in word ho nome_tab
     word.pop_back();   //rimuovo ';'
     for (Tabella* &s : tabelle) {
         if ( word == s->getNome() ) {
             tabella_trovata = true;
-            if(!(s)->isLinked()) {
+            if(!(s)->isLinked()) { //se non ha vincoli esterni
                 s->deleteRecord();
             } else throw LinkedError();
             break;
@@ -291,13 +291,6 @@ vector<Tabella*> Delete(vector<Tabella*> &tabelle, stringstream &stream_comando,
                     stream_comando >> word; //prima condizione
                     if (word[0] == '"') {
                         word = campoTesto(&stream_comando, word);
-                        int j = 0;
-                        while (j < word.size()){
-                            if (word[j] == '"' && word[j+1] == '"')
-                                word.erase(j,1);
-                            else
-                                j++;
-                        }
                     }
                     else if (word[0] == 39){ //se è un char tolgo le '
                         word.pop_back();
@@ -317,7 +310,7 @@ vector<Tabella*> Delete(vector<Tabella*> &tabelle, stringstream &stream_comando,
                         word2.pop_back(); //;
                     }
                     tabelle[pos_table]->deleteRecord(nome_colonna, word, word2);
-                }else {
+                }else { //altri operatori
                     stream_comando >> word;
                     if (word[0] == '"') {
                         word = campoTesto(&stream_comando, word);
@@ -329,6 +322,7 @@ vector<Tabella*> Delete(vector<Tabella*> &tabelle, stringstream &stream_comando,
                     } else {
                         word.pop_back(); // ;
                     }
+                    //casistica operatori
                     if (operatore == "=") {
                         tabelle[pos_table]->deleteRecord(nome_colonna, word);
                     } else if (operatore == "<") {
@@ -422,7 +416,7 @@ vector<Tabella*> Update(vector<Tabella*> &tabelle, stringstream &stream_comando,
                         condizione2.pop_back(); //;
                 }
                 tabelle[pos_table]->updateRecord(word, condizione1, condizione2, campi, valori);
-            } else {
+            } else { //altri operatori
                 stream_comando >> word3; //condizione
                 if (word3[0] == '"') {
                     word3 = campoTesto(&stream_comando, word3);
@@ -436,6 +430,7 @@ vector<Tabella*> Update(vector<Tabella*> &tabelle, stringstream &stream_comando,
                     if (word3[word3.size()-1] == ';')
                         word3.pop_back(); //;
                 }
+                //casistica operatori
                 if (word2 == "=") {
                     tabelle[pos_table]->updateRecord(word, word3, campi, valori);
                 } else if (word2 == "<") {
@@ -514,22 +509,22 @@ void Select(vector<Tabella*> &tabelle, stringstream &stream_comando, string *mes
                 stream_comando >> ordine; //DESC o ASC
                 ordine.pop_back();
                 if (toUpper(ordine) == "ASC") {
+                    if (tabelle[pos_table]->returnData(campi, nome_colonna,1).size()==1)
+                        throw ValueNotFound();//se size è 1 vuol dire che stamperei solo i campi
                     for (int z = 0; z < tabelle[pos_table]->returnData(campi, nome_colonna, 1).size(); z++) {
                         cout << tabelle[pos_table]->returnData(campi, nome_colonna,1)[z] << endl;
-                        if (tabelle[pos_table]->returnData(campi, nome_colonna,1).size()==1)
-                            throw ValueNotFound();//se size è 1 vuol dire che stamperei solo i campi
                     }
                 } else if (toUpper(ordine) == "DESC") {
+                    if (tabelle[pos_table]->returnData(campi, nome_colonna,3).size()==1)
+                        throw ValueNotFound();//se size è 1 vuol dire che stamperei solo i campi
                     for (int z = 0; z < tabelle[pos_table]->returnData(campi, nome_colonna, 3).size(); z++) {
                         cout << tabelle[pos_table]->returnData(campi, nome_colonna,3)[z] << endl;
-                        if (tabelle[pos_table]->returnData(campi, nome_colonna,3).size()==1)
-                            throw ValueNotFound();//se size è 1 vuol dire che stamperei solo i campi
                     }
                 }
             } else { //WHERE
                 stream_comando >> word;  //in word c'è il campo condizione
                 stream_comando >> word2;  //in word2 c'è l'operatore
-                if (!belong_to(word2, operatori)) {
+                if (!belong_to(toUpper(word2), operatori)) {
                     throw InvalidOperator();
                 } else {
                     //casistica _operatori
@@ -563,39 +558,39 @@ void Select(vector<Tabella*> &tabelle, stringstream &stream_comando, string *mes
                             stream_comando >> ordine; //DESC o ASC
                             ordine.pop_back();
                             if (toUpper(ordine) == "ASC") {
+                                if (tabelle[pos_table]->returnData(campi, word, condizione1, condizione2,
+                                                                                              nome_colonna,
+                                                                                              1).size()==1)
+                                    throw ValueNotFound();//se size è 1 ci sono solo i campi
                                 for (int z = 0;
                                      z < tabelle[pos_table]->returnData(campi, word, condizione1, condizione2,
                                                                         nome_colonna, 1).size(); z++) {
                                     cout << tabelle[pos_table]->returnData(campi, word, condizione1, condizione2,
                                                                            nome_colonna,
                                                                            1)[z] << endl;
-                                    if (tabelle[pos_table]->returnData(campi, word, condizione1, condizione2,
-                                                                       nome_colonna,
-                                                                       1).size()==1)
-                                        throw ValueNotFound();//se size è 1 vuol dire che stamperei solo i campi
+
                                 }
                             } else if (toUpper(ordine) == "DESC") {
+                                if (tabelle[pos_table]->returnData(campi, word, condizione1, condizione2,
+                                        nome_colonna,3).size()==1)
+                                    throw ValueNotFound();//se size è 1 vuol dire che stamperei solo i campi
                                 for (int z = 0;
                                      z < tabelle[pos_table]->returnData(campi, word, condizione1, condizione2,
                                                                         nome_colonna, 3).size(); z++) {
                                     cout << tabelle[pos_table]->returnData(campi, word, condizione1, condizione2,
                                                                            nome_colonna,
                                                                            3)[z] << endl;
-                                    if (tabelle[pos_table]->returnData(campi, word, condizione1, condizione2,
-                                                                       nome_colonna,
-                                                                       3).size()==1)
-                                        throw ValueNotFound();//se size è 1 vuol dire che stamperei solo i campi
+
                                 }
                             }
                         }
                         else {
-                            //stampo campi che rispettando condizione senza ordinamento
+                            if (tabelle[pos_table]->returnData(campi, word, condizione1, condizione2).size()==1)
+                                throw ValueNotFound();//se size è 1 vuol dire che stamperei solo i campi
                             for (const auto &elem : tabelle[pos_table]->returnData(campi, word, condizione1,
                                                                            condizione2)) {
                                 cout << elem << endl;
                             }
-                            if (tabelle[pos_table]->returnData(campi, word, condizione1, condizione2).size()==1)
-                                throw ValueNotFound();//se size è 1 vuol dire che stamperei solo i campi
                             cout << endl;
                         }
                     } else {
@@ -627,183 +622,188 @@ void Select(vector<Tabella*> &tabelle, stringstream &stream_comando, string *mes
                         if (word2 == "=") {
                             if (ordinamento) {
                                 if (toUpper(ordine) == "ASC") {
+                                    if (tabelle[pos_table]->returnData(campi, word, word3, 0, nome_colonna, 1).size()==1)
+                                        throw ValueNotFound();   //se size è 1 vuol dire che stamperei solo i campi
                                     for (int z = 0;
                                          z <
                                          tabelle[pos_table]->returnData(campi, word, word3, 0, nome_colonna,
                                                                 1).size(); z++) {
                                         cout << tabelle[pos_table]->returnData(campi, word, word3, 0, nome_colonna, 1)[z]
                                              << endl;
-                                        if (tabelle[pos_table]->returnData(campi, word, word3, 0, nome_colonna, 1).size()==1)
-                                            throw ValueNotFound();   //se size è 1 vuol dire che stamperei solo i campi
+
                                     }
                                 } else if (toUpper(ordine) == "DESC") {
+                                    if (tabelle[pos_table]->returnData(campi, word, word3, 0, nome_colonna, 3).size()==1)
+                                        throw ValueNotFound();//se size è 1 vuol dire che stamperei solo i campi
                                     for (int z = 0;
                                          z <
                                          tabelle[pos_table]->returnData(campi, word, word3, 0, nome_colonna,
                                                                 3).size(); z++) {
                                         cout << tabelle[pos_table]->returnData(campi, word, word3, 0, nome_colonna, 3)[z]
                                              << endl;
-                                        if (tabelle[pos_table]->returnData(campi, word, word3, 0, nome_colonna, 3).size()==1)
-                                            throw ValueNotFound();//se size è 1 vuol dire che stamperei solo i campi
                                     }
                                 }
                             } else {
+                                if (tabelle[pos_table]->returnData(campi, word, word3, 0).size()==1)
+                                    throw ValueNotFound();//se size è 1 vuol dire che stamperei solo i campi
                                 for (const auto &elem : tabelle[pos_table]->returnData(campi, word, word3, 0)) {
                                     cout << elem << endl;
                                 }
-                                if (tabelle[pos_table]->returnData(campi, word, word3, 0).size()==1)
-                                    throw ValueNotFound();//se size è 1 vuol dire che stamperei solo i campi
                             }
                         } else if (word2 == "<") {
                             if (ordinamento) {
                                 if (toUpper(ordine) == "ASC") {
+                                    if (tabelle[pos_table]->returnData(campi, word, word3, 1, nome_colonna, 1).size()==1)
+                                        throw ValueNotFound();//se size è 1 vuol dire che stamperei solo i campi
                                     for (int z = 0;
                                          z <
                                          tabelle[pos_table]->returnData(campi, word, word3, 1, nome_colonna,
                                                                 1).size(); z++) {
                                         cout << tabelle[pos_table]->returnData(campi, word, word3, 1, nome_colonna, 1)[z]
                                              << endl;
-                                        if (tabelle[pos_table]->returnData(campi, word, word3, 1, nome_colonna, 1).size()==1)
-                                            throw ValueNotFound();//se size è 1 vuol dire che stamperei solo i campi
                                     }
                                 } else if (toUpper(ordine) == "DESC") {
+                                    if (tabelle[pos_table]->returnData(campi, word, word3, 1, nome_colonna, 3).size()==1)
+                                        throw ValueNotFound();//se size è 1 vuol dire che stamperei solo i campi
                                     for (int z = 0;
                                          z <
                                          tabelle[pos_table]->returnData(campi, word, word3, 1, nome_colonna,
                                                                 3).size(); z++) {
                                         cout << tabelle[pos_table]->returnData(campi, word, word3, 1, nome_colonna, 3)[z]
                                              << endl;
-                                        if (tabelle[pos_table]->returnData(campi, word, word3, 1, nome_colonna, 3).size()==1)
-                                            throw ValueNotFound();//se size è 1 vuol dire che stamperei solo i campi
                                     }
                                 }
                             } else {
+                                if (tabelle[pos_table]->returnData(campi, word, word3, 1).size()==1)
+                                    throw ValueNotFound();//se size è 1 vuol dire che stamperei solo i campi
                                 for (const auto &elem : tabelle[pos_table]->returnData(campi, word, word3, 1)) {
                                     cout << elem << endl;
                                 }
-                                if (tabelle[pos_table]->returnData(campi, word, word3, 1).size()==1)
-                                    throw ValueNotFound();//se size è 1 vuol dire che stamperei solo i campi
                             }
                         } else if (word2 == "<=") {
                             if (ordinamento) {
                                 if (toUpper(ordine) == "ASC") {
+                                    if (tabelle[pos_table]->returnData(campi, word, word3, 2, nome_colonna, 1).size()==1)
+                                        throw ValueNotFound();//se size è 1 vuol dire che stamperei solo i campi
                                     for (int z = 0;
                                          z <
                                          tabelle[pos_table]->returnData(campi, word, word3, 2, nome_colonna,
                                                                 1).size(); z++) {
                                         cout << tabelle[pos_table]->returnData(campi, word, word3, 2, nome_colonna, 1)[z]
                                              << endl;
-                                        if (tabelle[pos_table]->returnData(campi, word, word3, 2, nome_colonna, 1).size()==1)
-                                            throw ValueNotFound();//se size è 1 vuol dire che stamperei solo i campi
+
                                     }
                                 } else if (toUpper(ordine) == "DESC") {
+                                    if (tabelle[pos_table]->returnData(campi, word, word3, 2, nome_colonna, 3).size()==1)
+                                        throw ValueNotFound();//se size è 1 vuol dire che stamperei solo i campi
                                     for (int z = 0;
                                          z <
                                          tabelle[pos_table]->returnData(campi, word, word3, 2, nome_colonna,
                                                                 3).size(); z++) {
                                         cout << tabelle[pos_table]->returnData(campi, word, word3, 2, nome_colonna, 3)[z]
                                              << endl;
-                                        if (tabelle[pos_table]->returnData(campi, word, word3, 2, nome_colonna, 3).size()==1)
-                                            throw ValueNotFound();//se size è 1 vuol dire che stamperei solo i campi
                                     }
                                 }
                             } else {
+                                if (tabelle[pos_table]->returnData(campi, word, word3, 2).size()==1)
+                                    throw ValueNotFound();//se size è 1 vuol dire che stamperei solo i campi
                                 for (const auto &elem : tabelle[pos_table]->returnData(campi, word, word3,2)) {
                                     cout << elem << endl;
                                 }
-                                if (tabelle[pos_table]->returnData(campi, word, word3, 2).size()==1)
-                                    throw ValueNotFound();//se size è 1 vuol dire che stamperei solo i campi
                             }
                         } else if (word2 == ">") {
                             if (ordinamento) {
                                 if (toUpper(ordine) == "ASC") {
+                                    if (tabelle[pos_table]->returnData(campi, word, word3, 3, nome_colonna, 1).size()==1)
+                                        throw ValueNotFound();//se size è 1 vuol dire che stamperei solo i campi
                                     for (int z = 0;
                                          z <
                                          tabelle[pos_table]->returnData(campi, word, word3, 3, nome_colonna,
                                                                 1).size(); z++) {
                                         cout << tabelle[pos_table]->returnData(campi, word, word3, 3, nome_colonna, 1)[z]
                                              << endl;
-                                        if (tabelle[pos_table]->returnData(campi, word, word3, 3, nome_colonna, 1).size()==1)
-                                            throw ValueNotFound();//se size è 1 vuol dire che stamperei solo i campi
                                     }
                                 } else if (toUpper(ordine) == "DESC") {
+                                    if (tabelle[pos_table]->returnData(campi, word, word3, 3, nome_colonna, 3).size()==1)
+                                        throw ValueNotFound();//se size è 1 vuol dire che stamperei solo i campi
                                     for (int z = 0;
                                          z <
                                          tabelle[pos_table]->returnData(campi, word, word3, 3, nome_colonna,
                                                                 3).size(); z++) {
                                         cout << tabelle[pos_table]->returnData(campi, word, word3, 3, nome_colonna, 3)[z]
                                              << endl;
-                                        if (tabelle[pos_table]->returnData(campi, word, word3, 3, nome_colonna, 3).size()==1)
-                                            throw ValueNotFound();//se size è 1 vuol dire che stamperei solo i campi
                                     }
                                 }
                             } else {
+                                if (tabelle[pos_table]->returnData(campi, word, word3, 3).size()==1)
+                                    throw ValueNotFound();//se size è 1 vuol dire che stamperei solo i campi
                                 for (const auto &elem : tabelle[pos_table]->returnData(campi, word, word3, 3)) {
                                     cout << elem << endl;
                                 }
-                                if (tabelle[pos_table]->returnData(campi, word, word3, 3).size()==1)
-                                    throw ValueNotFound();//se size è 1 vuol dire che stamperei solo i campi
+
                             }
                         } else if (word2 == ">=") {
                             if (ordinamento) {
                                 if (toUpper(ordine) == "ASC") {
+                                    if (tabelle[pos_table]->returnData(campi, word, word3, 4, nome_colonna, 1).size()==1)
+                                        throw ValueNotFound();//se size è 1 vuol dire che stamperei solo i campi
                                     for (int z = 0;
                                          z <
                                          tabelle[pos_table]->returnData(campi, word, word3, 4, nome_colonna,
                                                                 1).size(); z++) {
                                         cout << tabelle[pos_table]->returnData(campi, word, word3, 4, nome_colonna, 1)[z]
                                              << endl;
-                                        if (tabelle[pos_table]->returnData(campi, word, word3, 4, nome_colonna, 1).size()==1)
-                                            throw ValueNotFound();//se size è 1 vuol dire che stamperei solo i campi
                                     }
                                 } else if (toUpper(ordine) == "DESC") {
+                                    if (tabelle[pos_table]->returnData(campi, word, word3, 4, nome_colonna, 3).size()==1)
+                                        throw ValueNotFound();//se size è 1 vuol dire che stamperei solo i campi
                                     for (int z = 0;
                                          z <
                                          tabelle[pos_table]->returnData(campi, word, word3, 4, nome_colonna,
                                                                 3).size(); z++) {
                                         cout << tabelle[pos_table]->returnData(campi, word, word3, 4, nome_colonna, 3)[z]
                                              << endl;
-                                        if (tabelle[pos_table]->returnData(campi, word, word3, 4, nome_colonna, 3).size()==1)
-                                            throw ValueNotFound();//se size è 1 vuol dire che stamperei solo i campi
                                     }
                                 }
                             } else {
+                                if (tabelle[pos_table]->returnData(campi, word, word3, 4).size()==1)
+                                    throw ValueNotFound();//se size è 1 vuol dire che stamperei solo i campi
                                 for (const auto &elem : tabelle[pos_table]->returnData(campi, word, word3, 4)) {
                                     cout << elem << endl;
                                 }
-                                if (tabelle[pos_table]->returnData(campi, word, word3, 4).size()==1)
-                                    throw ValueNotFound();//se size è 1 vuol dire che stamperei solo i campi
                                 cout << endl;
                             }
                         } else if (word2 == "<>") {
                             if (ordinamento) {
                                 if (toUpper(ordine) == "ASC") {
+                                    if (tabelle[pos_table]->returnData(campi, word, word3, 5, nome_colonna, 1).size()==1)
+                                        throw ValueNotFound();//se size è 1 vuol dire che stamperei solo i campi
                                     for (int z = 0;
                                          z <
                                          tabelle[pos_table]->returnData(campi, word, word3, 5, nome_colonna,
                                                                 1).size(); z++) {
                                         cout << tabelle[pos_table]->returnData(campi, word, word3, 5, nome_colonna, 1)[z]
                                              << endl;
-                                        if (tabelle[pos_table]->returnData(campi, word, word3, 5, nome_colonna, 1).size()==1)
-                                            throw ValueNotFound();//se size è 1 vuol dire che stamperei solo i campi
+
                                     }
                                 } else if (toUpper(ordine) == "DESC") {
+                                    if (tabelle[pos_table]->returnData(campi, word, word3, 5, nome_colonna, 3).size()==1)
+                                        throw ValueNotFound();//se size è 1 vuol dire che stamperei solo i campi
                                     for (int z = 0;
                                          z <
                                          tabelle[pos_table]->returnData(campi, word, word3, 5, nome_colonna,
                                                                 3).size(); z++) {
                                         cout << tabelle[pos_table]->returnData(campi, word, word3, 5, nome_colonna, 3)[z]
                                              << endl;
-                                        if (tabelle[pos_table]->returnData(campi, word, word3, 5, nome_colonna, 3).size()==1)
-                                            throw ValueNotFound();//se size è 1 vuol dire che stamperei solo i campi
+
                                     }
                                 }
                             } else {
+                                if (tabelle[pos_table]->returnData(campi, word, word3, 5).size()==1)
+                                    throw ValueNotFound();//se size è 1 vuol dire che stamperei solo i campi
                                 for (const auto &elem : tabelle[pos_table]->returnData(campi, word, word3, 5)) {
                                     cout << elem << endl;
                                 }
-                                if (tabelle[pos_table]->returnData(campi, word, word3, 5).size()==1)
-                                    throw ValueNotFound();//se size è 1 vuol dire che stamperei solo i campi
                                 cout << endl;
                             }
                         }
@@ -822,7 +822,7 @@ vector<Tabella*> Insert(vector<Tabella*> &tabelle, stringstream &stream_comando,
     stream_comando >> scarto;  //INTO
     stream_comando >> nome_tabella;
     for (a = 0, trovata = false; a < tabelle.size(); a++) {
-        if (tabelle[a]->getNome() == nome_tabella) {
+        if (tabelle[a]->getNome() == nome_tabella) { //match
             trovata = true;
             pos_table = a;
             break;

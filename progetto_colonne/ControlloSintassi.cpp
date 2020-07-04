@@ -35,7 +35,7 @@ char ControlloSintassi::GestioneTesto(stringstream *comando, string &word) {
         }
     } else
         carattere = word[k];
-    return carattere;
+    return carattere; //primo carattere trovato dopo le "
 }
 
 string ControlloSintassi::toUp(string word) {
@@ -54,15 +54,13 @@ bool ControlloSintassi::belongs_to(string &to_be_compared, const vector<string>&
 
 
 ControlloSintassi::ControlloSintassi() {
-    _message_error = "Error: Errore di sintassi nel comando, riprovare!";
-    _message_error_keyword = "Error: Utilizzo inappropriato di una parola chiave del linguaggio, riprovare!";
-    _inexistent_type = "Error: Tipo assegnato non esistente, riprovare!";
-    _message_error_key = "Error: Specificare tutti i campi prima dell'inserimento delle chiavi, riprovare!";
-    _missing_pk = "Error: Primary Key non specificata! Riprovare";
-    _duplicate_col = "Error: Due colonne di una stessa tabella non possono avere lo stesso nome, riprovare!";
+    _message_error = "Errore: Errore di sintassi nel comando, riprovare!";
+    _message_error_keyword = "Errore: Utilizzo inappropriato di una parola chiave del linguaggio, riprovare!";
+    _inexistent_type = "Errore: Tipo assegnato non esistente, riprovare!";
+    _message_error_key = "Errore: Specificare tutti i campi prima dell'inserimento delle chiavi, riprovare!";
+    _missing_pk = "Errore: Primary Key non specificata! Riprovare";
+    _duplicate_col = "Errore: Due colonne di una stessa tabella non possono avere lo stesso nome, riprovare!";
 }
-
-
 
 bool ControlloSintassi::controlloCreate(stringstream &comando, string* messaggio) {
     string word;
@@ -73,10 +71,7 @@ bool ControlloSintassi::controlloCreate(stringstream &comando, string* messaggio
     word = toUp(word);
     if (word == "TABLE"){ //controllo che la seconda parola dopo create sia table
         comando >> word;
-        if (word[word.size()-1] == '(') //caso create table nome(
-            word.pop_back();
-        else
-            comando >> c; //caso create table nome (
+        comando >> c; // (
         if (!belongs_to(word,_keywords)){ //controllo che il nome assegnato alla tabella non sia una keyword del linguaggio
             if (c == '('){ //controllo la presenza della (
                 while(!comando.eof()){ //finchè non finisce il comando
@@ -88,7 +83,7 @@ bool ControlloSintassi::controlloCreate(stringstream &comando, string* messaggio
 
                     if (toUp(words[0]) == "PRIMARY") { //caso in cui la prima parola della riga sia primary
                         chiave_trovata = true;
-                        chiave_primaria_trovata = true;
+                        chiave_primaria_trovata = true; //chiave primaria obbligatoria
                         while(words[i][words[i].size()-1] != ')' && words[i][words[i].size()-1] != ';') { //leggo tutta la riga e salvo le parole lette per ogni riga nel vettore di stringhe words
                             i++;
                             words.emplace_back();
@@ -110,7 +105,7 @@ bool ControlloSintassi::controlloCreate(stringstream &comando, string* messaggio
                         }
                     }
 
-                    else if (toUp(words[0]) == "FOREIGN"){
+                    else if (toUp(words[0]) == "FOREIGN"){ //caso chiave esterna
                         chiave_trovata = true;
                         int contatore_parentesi = 0;
                         while(contatore_parentesi < 2 && words[i][words[i].size()-1] != ';') { //leggo tutta la riga e salvo le parole lette per ogni riga nel vettore di stringhe words
@@ -122,8 +117,8 @@ bool ControlloSintassi::controlloCreate(stringstream &comando, string* messaggio
                                 comando >> words[i];
                             }
                         }
-                        if (toUp(words[1]) == "KEY"){
-                            if ((words[2][0]) == '(' && (words[2][words[2].size()-1]) == ')'){
+                        if (toUp(words[1]) == "KEY"){ //controllo che dopo foreign ci sia key
+                            if ((words[2][0]) == '(' && (words[2][words[2].size()-1]) == ')'){ //controllo che la clonna sia chusa tra parentesi
                                 if (toUp(words[3]) == "REFERENCES"){
                                     if ( (words[5][0]) == '(' && ( words[5][words[5].size()-1] == ')' ||  //caso di uno spazio
                                        ( (words[5][words[5].size()-1] == ';' && words[5][words[5].size()-2] == ')' && words[5][words[5].size()-3] == ')') ) ) ) //caso senza spazio
@@ -158,7 +153,7 @@ bool ControlloSintassi::controlloCreate(stringstream &comando, string* messaggio
                             comando >> words[i];
                         }
                         if (!belongs_to(words[0], _keywords)) { //controllo che non sia una keyword
-                            if (!belongs_to(words[0], nomi_colonne)) {
+                            if (!belongs_to(words[0], nomi_colonne)) { //controllo che non siano presenti altre colonne con questo nome
                                 nomi_colonne.push_back(words[0]);
                                 if (words[words.size() - 1][words[words.size() - 1].size() - 1] ==
                                     ',') { //controllo che ci sia la virgola a fine riga
@@ -175,7 +170,7 @@ bool ControlloSintassi::controlloCreate(stringstream &comando, string* messaggio
                                                         || (toUp(words[j]) == "NULL" && toUp(words[j - 1]) == "NOT")
                                                         || (toUp(words[j]) == "AUTO_INCREMENT")) {
                                                         if (toUp(words[j]) == "AUTO_INCREMENT") {
-                                                            if (toUp(words[1]) != "INT") {
+                                                            if (toUp(words[1]) != "INT") { //il tipo dell'auto_increment deve essere int
                                                                 throw FormatTypeError();
                                                             }
                                                         }
@@ -187,7 +182,7 @@ bool ControlloSintassi::controlloCreate(stringstream &comando, string* messaggio
                                                     if ((toUp(words[j]) == "NULL" && toUp(words[j - 1]) == "NOT") ||
                                                         (toUp(words[j]) == "AUTO_INCREMENT")) {
                                                         if ((toUp(words[j]) == "AUTO_INCREMENT")) {
-                                                            if (toUp(words[1]) != "INT") {
+                                                            if (toUp(words[1]) != "INT") {//il tipo dell'auto_increment deve essere int
                                                                 throw FormatTypeError();
                                                             }
                                                         }
@@ -240,12 +235,13 @@ bool ControlloSintassi::controlloCreate(stringstream &comando, string* messaggio
         messaggio->assign(_message_error);
         return false;
     }
+    //fine del comando
     if (chiave_primaria_trovata){
         if (comando_corretto){
             return true;
         }
         else {
-            if (words[0] == ");")
+            if (words[0] == ");") //caso in cui ci sia uno spazio alla fine
                 return true;
             else{
                 messaggio->assign(_message_error);
@@ -468,7 +464,7 @@ bool ControlloSintassi::controlloDelete(stringstream &comando, string *messaggio
                                 return false;
                             } else {
                                 comando >> word;
-                                word.insert(0, 1, carattere);
+                                word.insert(0, 1, carattere); //reinserisco la a
                             }
                         } else if (word[0] == 39) { //'c'
                             if (word.size() != 3) {
@@ -490,7 +486,7 @@ bool ControlloSintassi::controlloDelete(stringstream &comando, string *messaggio
                                     return false;
                                 }
                             } else {
-                                if (word[0] == 39) {
+                                if (word[0] == 39) { //'c'
                                     if (word.size() != 3) {
                                         messaggio->assign(_message_error);
                                         return false;

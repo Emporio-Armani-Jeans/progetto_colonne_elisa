@@ -113,7 +113,7 @@ string ColonnaTime::getTipo() const {
 }
 
 void ColonnaTime::controlloFormato(const string &value) const {
-    for(int i=0; i<value.size(); i++){          //controllo formato
+    for(int i=0; i<value.size(); i++){      //controllo formato
         if(i==2 || i==5){
             if(value[i]!=':')
                 throw FormatTypeError();

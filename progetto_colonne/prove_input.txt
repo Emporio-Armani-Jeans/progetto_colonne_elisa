@@ -106,3 +106,4 @@ create table tabella ( id int not null, name text, PRIMARY KEY (name) foreign ke
 drop table COUNTRIES; ECCEZIONE TABELLA COLLEGATA
 
 SELECT * FROM CUSTOMERS WHERE AGE BETWEEN "CIAO" AND "ZETA";
+SELECT * FROM CUSTOMERS WHERE AGE between 1 AND 100;

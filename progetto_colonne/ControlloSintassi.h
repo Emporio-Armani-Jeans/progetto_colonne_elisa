@@ -32,8 +32,9 @@ private:
                               "FROM", "WHERE", "TRUNCATE", "UPDATE", "SET", "SELECT", "ORDER", "BY", "DESC",
                               "ASC", "FOREIGN", "REFERENCES", "BETWEEN", "AND"};
     vector<string> _tipi {"INT", "FLOAT", "CHAR", "TEXT", "DATE", "TIME"};
+    //metodo che verifica se la stringa <to_be_compared> appartiene al vettore di stringhe <insieme>
     static bool belongs_to(string &to_be_compared, const vector<string>& insieme);
-    static string toUp(string word);
+    static string toUp(string word);//conversione in maiuscolo
     static char GestioneTesto(stringstream *comando, string &word);
 };
 
