@@ -1,7 +1,3 @@
-//
-// Created by Elisa Messina on 01/06/2020.
-//
-
 #include "ColonnaText.h"
 
 ColonnaText::ColonnaText(const string &nomecolonna, bool notnull) {

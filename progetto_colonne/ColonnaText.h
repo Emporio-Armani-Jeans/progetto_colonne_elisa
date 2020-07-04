@@ -1,7 +1,3 @@
-//
-// Created by Elisa Messina on 01/06/2020.
-//
-
 #ifndef PROGETTO_COLONNE_COLONNATEXT_H
 #define PROGETTO_COLONNE_COLONNATEXT_H
 

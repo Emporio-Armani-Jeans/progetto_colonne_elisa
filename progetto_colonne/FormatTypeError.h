@@ -1,7 +1,3 @@
-//
-// Created by andry on 16/06/2020.
-//
-
 #ifndef PROGETTO_COLONNE_FORMATTYPEERROR_H
 #define PROGETTO_COLONNE_FORMATTYPEERROR_H
 #include <exception>

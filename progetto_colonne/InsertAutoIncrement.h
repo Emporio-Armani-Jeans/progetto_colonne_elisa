@@ -1,7 +1,3 @@
-//
-// Created by andry on 27/06/2020.
-//
-
 #ifndef PROGETTO_COLONNE_INSERTAUTOINCREMENT_H
 #define PROGETTO_COLONNE_INSERTAUTOINCREMENT_H
 #include <exception>

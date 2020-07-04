@@ -1,7 +1,3 @@
-//
-// Created by jccx1 on 28/06/2020.
-//
-
 #ifndef PROGETTO_COLONNE_LINKEDERROR_H
 #define PROGETTO_COLONNE_LINKEDERROR_H
 #include <exception>

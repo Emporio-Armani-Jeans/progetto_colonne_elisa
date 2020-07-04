@@ -1,7 +1,3 @@
-//
-// Created by andry on 14/06/2020.
-//
-
 #ifndef PROGETTO_COLONNE_FILEERROR_H
 #define PROGETTO_COLONNE_FILEERROR_H
 #include <exception>

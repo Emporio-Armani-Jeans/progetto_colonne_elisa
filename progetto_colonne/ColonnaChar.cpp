@@ -1,7 +1,3 @@
-//
-// Created by Elisa Messina on 02/06/2020.
-//
-
 #include "ColonnaChar.h"
 
 ColonnaChar::ColonnaChar(const string &nomecolonna, bool notnull) {

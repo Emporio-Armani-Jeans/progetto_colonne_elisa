@@ -1,7 +1,3 @@
-//
-// Created by calog on 03/07/2020.
-//
-
 #ifndef PROGETTO_COLONNE_INVALIDTIME_H
 #define PROGETTO_COLONNE_INVALIDTIME_H
 #include <exception>

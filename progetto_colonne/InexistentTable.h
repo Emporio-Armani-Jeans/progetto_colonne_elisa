@@ -1,7 +1,3 @@
-//
-// Created by Elisa on 26/06/2020.
-//
-
 #ifndef PROGETTO_COLONNE_INEXISTENTTABLE_H
 #define PROGETTO_COLONNE_INEXISTENTTABLE_H
 

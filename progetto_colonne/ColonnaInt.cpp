@@ -1,4 +1,3 @@
-
 #include "ColonnaInt.h"
 
 ColonnaInt::ColonnaInt(const string &nomecolonna, bool notnull, bool autoincrement) {

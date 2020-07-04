@@ -1,7 +1,3 @@
-//
-//
-//
-
 #include "data.h"
 Date::Date() {
 	std::time_t t = std::time(0);   // get time now

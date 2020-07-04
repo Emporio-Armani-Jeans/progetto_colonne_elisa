@@ -1,7 +1,3 @@
-//
-// Created by andry on 21/06/2020.
-//
-
 #ifndef PROGETTO_COLONNE_COMANDI_HPP
 #define PROGETTO_COLONNE_COMANDI_HPP
 #include <vector>
@@ -17,10 +13,10 @@ string campoTesto(stringstream *comando, string &word){
     bool fine_testo = false;
     char carattere;
     int k;
-    for (k = 1; k < word.size(); k++){
+    for (k = 1; k < word.size(); k++){  //prima parola del testo
         if (word[k] == 34) {
             contatore_virgolette++;
-        } else {
+        } else { //se il carattere è " e il contatore è dispari -> fine testo
             if (contatore_virgolette % 2 != 0) {
                 fine_testo = true;
                 break;
@@ -28,11 +24,11 @@ string campoTesto(stringstream *comando, string &word){
             contatore_virgolette = 0;
         }
     }
-    if (!fine_testo) {
+    if (!fine_testo) { //testo composto da più parole
         while (!fine_testo) {
             (*comando).get(carattere);
             if (carattere == 34) {
-                word.push_back(carattere);
+                word.push_back(carattere); //aggiungo i caratteri letti alla parola
                 contatore_virgolette++;
             } else {
                 word.push_back(carattere);
@@ -45,6 +41,7 @@ string campoTesto(stringstream *comando, string &word){
     }
     else
         carattere = word[k];
+    //carattere = primo carattere dopo le "
     if (carattere == ';')
         word.pop_back();
     if (carattere == ')' && word[word.size()-1] == ')')
@@ -73,12 +70,14 @@ vector<Tabella*> Create(vector<Tabella*> &tabelle, stringstream &stream_comando,
     stringstream riga_temp;
     bool tabella_already_existing = false;
     stream_comando >> scarto >> nome_tabella;
-    if (nome_tabella[nome_tabella.size() - 1] == '(') {
-        nome_tabella.pop_back();
-    } else {
-        stream_comando >> scarto;
+    stream_comando >> nome_colonna;
+    if (nome_colonna.size() > 1){
+        nome_colonna.erase(0,1); //tolgo la parentesi se è attaccata alla prima colonna
     }
-    for (auto & j : tabelle){ //verifico che non ci siano tabelle con lo stesso nome nel database
+    else {
+        stream_comando >> nome_colonna;
+    }
+    for (auto & j : tabelle) { //verifico che non ci siano tabelle con lo stesso nome nel database
         if (j->getNome() == nome_tabella)
             tabella_already_existing = true;
     }
@@ -87,7 +86,7 @@ vector<Tabella*> Create(vector<Tabella*> &tabelle, stringstream &stream_comando,
     else
         throw TableAlreadyExisting();
 
-    stream_comando >> nome_colonna >> tipo;
+    stream_comando >> tipo;
     while (toUpper(tipo) != "KEY") {
         if (tipo[tipo.size()-1] == ','){
             tipo.pop_back();

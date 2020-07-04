@@ -1,7 +1,3 @@
-//
-// Created by andry on 13/06/2020.
-//
-
 #ifndef PROGETTO_COLONNE_NOTNULLERROR_H
 #define PROGETTO_COLONNE_NOTNULLERROR_H
 #include <exception>

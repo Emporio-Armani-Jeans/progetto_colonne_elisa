@@ -1,7 +1,3 @@
-//
-// Created by Elisa Messina on 01/06/2020.
-//
-
 #include "Tabella.h"
 
 Tabella::Tabella(const string &nometabella) {
@@ -307,7 +303,7 @@ vector<string> Tabella::returnData(const vector<string>& campi, const string& ca
             if (!trovata)
                 valido = false;
         }
-        if (valido) {
+        if (valido) {//se tutti i campi esistono valido = true
             for (const string & element : campi){ //aggiungo i nomi dei campi da stampare
                 riga += element + " ";
             }
@@ -363,7 +359,7 @@ vector<string> Tabella::returnData(const vector<string> &campi, const string& ca
     if(_recs!=0) {
         bool trovata = false;
         bool valido = true;
-        for(int i=0; i< campi.size(); i++ && valido){
+        for(int i=0; i< campi.size(); i++ && valido){ //ciclo per verificare l'effettiva esistenza dei campi selezionati
             trovata = false;
             for (int j=0; j < _colonne.size(); j++ && !trovata) {
                 if (campi[i] == _colonne[j]->getNomeColonna()) {
@@ -372,20 +368,22 @@ vector<string> Tabella::returnData(const vector<string> &campi, const string& ca
             }
             if (!trovata) valido = false;
         }
-        if (valido) {
+        if (valido) { //se tutti i campi esistono valido = true
             trovata = false;
             int a = 0;
-            while (a < _colonne.size() && !trovata) {
-                if (campo_condizione == _colonne[a]->getNomeColonna()) trovata = true;
+            while (a < _colonne.size() && !trovata) { //match campo comdizione - colonna
+                if (campo_condizione == _colonne[a]->getNomeColonna())
+                    trovata = true;
                 else a++;
             }
             if (trovata) {
-                for (const string &b : campi) {
+                _colonne[a]->controlloFormato(condizione);
+                for (const string &b : campi) { //aggiungo i campi da stampare
                     riga += b + " ";
                 }
                 righe_testo.push_back(riga);
                 for (int i = 0; i < _recs; i++) {
-                    if (operatore_ordinamento == 0) {
+                    if (operatore_ordinamento == 0) { //nessuna richiesta di ordinamento
                         if (_colonne[a]->compareElements(condizione, operatore, i)) {
                             riga.clear();
                             for (const auto &s : campi) {
@@ -396,7 +394,7 @@ vector<string> Tabella::returnData(const vector<string> &campi, const string& ca
                                         } else {
                                             int q = 0;
                                             string temp = j->getElement(i);
-                                            while (q < temp.size()) {
+                                            while (q < temp.size()) {//gestione virgolette nei campi di testo
                                                 if (temp[q] == '"' && temp[q + 1] == '"')
                                                     temp.erase(q, 1);
                                                 else
@@ -410,19 +408,19 @@ vector<string> Tabella::returnData(const vector<string> &campi, const string& ca
                             }
                             righe_testo.push_back(riga);
                         }
-                    } else {
+                    } else { //ordinamento
                         vector<int> indici_ordinati = ordinamento(campo_ordinamento, operatore_ordinamento);
                         if (_colonne[a]->compareElements(condizione, operatore, indici_ordinati[i])) {
                             riga.clear();
                             for (const auto &s : campi) {
                                 for (auto j : _colonne) {
                                     if (j->getNomeColonna() == s) {
-                                        if (j->getElement(indici_ordinati[i]) == j->getElement(-1)) {
+                                        if (j->getElement(indici_ordinati[i]) == j->getElement(-1)) {//se è presente il valore di default
                                             riga += "___ ";
                                         } else {
                                             int q = 0;
                                             string temp = j->getElement(indici_ordinati[i]);
-                                            while (q < temp.size()) {
+                                            while (q < temp.size()) {//gestione virgolette nei campi di testo
                                                 if (temp[q] == '"' && temp[q + 1] == '"')
                                                     temp.erase(q, 1);
                                                 else
@@ -459,14 +457,14 @@ vector<string> Tabella::returnData(const vector<string> &campi, const string& ca
         bool valido = true;
         for(int i=0; i< campi.size(); i++ && valido){
             trovata = false;
-            for (int j=0; j < _colonne.size(); j++ && !trovata) {
+            for (int j=0; j < _colonne.size(); j++ && !trovata) {//ciclo per verificare l'effettiva esistenza dei campi selezionati
                 if (campi[i] == _colonne[j]->getNomeColonna()) {
                     trovata = true;
                 }
             }
             if (!trovata) valido = false;
         }
-        if (valido) {
+        if (valido) {//se tutti i campi esistono valido = true
             trovata = false;
             int a = 0;
             while (a < _colonne.size() && !trovata) {
@@ -475,7 +473,9 @@ vector<string> Tabella::returnData(const vector<string> &campi, const string& ca
                 else a++;
             }
             if (trovata) {
-                for (const string &z : campi) {
+                _colonne[a]->controlloFormato(condizione1);
+                _colonne[a]->controlloFormato(condizione2);
+                for (const string &z : campi) {//aggiungo i nomi dei campi da stampare
                     riga += z + " ";
                 }
                 righe_testo.push_back(riga);
@@ -487,12 +487,12 @@ vector<string> Tabella::returnData(const vector<string> &campi, const string& ca
                             for (const auto &s : campi) {
                                 for (auto j : _colonne) {
                                     if (j->getNomeColonna() == s) {
-                                        if (j->getElement(i) == j->getElement(-1)) {
+                                        if (j->getElement(i) == j->getElement(-1)) {//se è presente il valore di default
                                             riga += "___ ";
                                         } else {
                                             int q = 0;
                                             string temp = j->getElement(i);
-                                            while (q < temp.size()) {
+                                            while (q < temp.size()) {//gestione virgolette nei campi di testo
                                                 if (temp[q] == '"' && temp[q + 1] == '"')
                                                     temp.erase(q, 1);
                                                 else
@@ -514,12 +514,12 @@ vector<string> Tabella::returnData(const vector<string> &campi, const string& ca
                             for (const auto &s : campi) {
                                 for (auto j : _colonne) {
                                     if (j->getNomeColonna() == s) {
-                                        if (j->getElement(indici_ordinati[i]) == j->getElement(-1)) {
+                                        if (j->getElement(indici_ordinati[i]) == j->getElement(-1)) {//se è presente il valore di default
                                             riga += "___ ";
                                         } else {
                                             int q = 0;
                                             string temp = j->getElement(indici_ordinati[i]);
-                                            while (q < temp.size()) {
+                                            while (q < temp.size()) {//gestione virgolette nei campi di testo
                                                 if (temp[q] == '"' && temp[q + 1] == '"')
                                                     temp.erase(q, 1);
                                                 else
@@ -547,17 +547,18 @@ vector<string> Tabella::returnData(const vector<string> &campi, const string& ca
 
 
 vector<int> Tabella::ordinamento(const string &campo, int operatore) const {
-    if(operatore==1 || operatore==3) {
+    if(operatore==1 || operatore==3) { //operatori < oppure >
         vector<int> indici(_recs);
         int tmp, c;
-        for (int i = 0; i < _recs; i++) {
+        for (int i = 0; i < _recs; i++) { //vettore di indici ordinati
             indici[i] = i;
         }
         for (c = 0; c < _colonne.size(); c++) {
-            if (_colonne[c]->getNomeColonna() == campo) break;
+            if (_colonne[c]->getNomeColonna() == campo)  //match
+                break;
         }
         if (c < _colonne.size()) {
-            for (int i = 0; i < _recs-1; i++) {
+            for (int i = 0; i < _recs-1; i++) { //ordinamento del vettore di indici in base al criterio scelto
                 for (int j = i+1; j < _recs; j++) {
                     if (_colonne[c]->compareElements(_colonne[c]->getElement(indici[i]), operatore, indici[j])) {
                         tmp=indici[i];
@@ -578,11 +579,11 @@ vector<int> Tabella::ordinamento(const string &campo, int operatore) const {
 
 bool Tabella::erroreSecKey(int indice) {
     for (auto item : _colonne) {
-        if (item->isKey()) {
-            if (item->_colonna_figlio != nullptr) {
+        if (item->isKey()) { //solo la chiave primaria può essere una "madre"
+            if (item->_colonna_figlio != nullptr) { //presenza di collegamenti esterni
                 bool already_used = false;
                 for (int i = 0; i < (item->_colonna_figlio)->getSize(); i++) { //scorro la colonna figlia
-                    if ((item->compareElements((item->_colonna_figlio)->getElement(i), 0, indice)))
+                    if ((item->compareElements((item->_colonna_figlio)->getElement(i), 0, indice))) //controllo valori usati
                         already_used = true;
                 }
                 return already_used;

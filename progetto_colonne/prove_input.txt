@@ -105,3 +105,4 @@ create table tabella ( id int not null, name text, PRIMARY KEY (name) foreign ke
 create table tabella ( id int not null, name text, PRIMARY KEY (name) foreign key (id) references CUSTOMERS (AGE) ); CAMPO CHIAVE ESTERNA NON è UNA CHIAVE PRIMARIA
 drop table COUNTRIES; ECCEZIONE TABELLA COLLEGATA
 
+SELECT * FROM CUSTOMERS WHERE AGE BETWEEN "CIAO" AND "ZETA";

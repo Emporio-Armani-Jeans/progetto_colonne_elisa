@@ -1,7 +1,3 @@
-//
-// Created by Elisa Messina on 02/06/2020.
-//
-
 #include "ColonnaTime.h"
 #include "Time.h"
 

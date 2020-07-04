@@ -1,7 +1,3 @@
-//
-//
-//
-
 #ifndef DATA_DATA_H
 #define DATA_DATA_H
 

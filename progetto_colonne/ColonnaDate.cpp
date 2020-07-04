@@ -1,7 +1,3 @@
-//
-// Created by andry on 01/06/2020.
-//
-
 #include "ColonnaDate.h"
 
 ColonnaDate::ColonnaDate(const string &nomecolonna, bool notnull){

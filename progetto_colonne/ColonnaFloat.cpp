@@ -1,7 +1,3 @@
-//
-// Created by Elisa Messina on 01/06/2020.
-//
-
 #include "ColonnaFloat.h"
 
 ColonnaFloat::ColonnaFloat(const string &nomecolonna, bool notnull) {

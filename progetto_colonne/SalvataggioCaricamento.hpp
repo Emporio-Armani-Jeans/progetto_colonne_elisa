@@ -1,7 +1,3 @@
-//
-// Created by andry on 14/06/2020.
-//
-
 #ifndef PROGETTO_COLONNE_SALVATAGGIOCARICAMENTO_HPP
 #define PROGETTO_COLONNE_SALVATAGGIOCARICAMENTO_HPP
 #include "Tabella.h"
@@ -18,9 +14,9 @@ vector<Tabella*> Caricamento(const string& nome_file){
     if(!database.is_open()){
         throw FileError();
     }else{
-        typedef struct infoKEsterna{
+        typedef struct infoKEsterna {
             vector<string> colonne_madri, tabelle_madri;  //indicizzazione riferita alla colonna figlia
-        }infoKEsterna;
+        } infoKEsterna;
         infoKEsterna tmp;
         vector<infoKEsterna> infos;
         int num_tabs=0, num_cols=0, num_recs=0;
@@ -46,6 +42,7 @@ vector<Tabella*> Caricamento(const string& nome_file){
                 getline(database, auto_increment,',');
                 getline(database, not_null,',');
                 getline(database, primary_key,'#');
+                //creazione colonne in base al tipo sfruttando le info appena salvate
                 if(tipo=="int"){
                     if(auto_increment=="true") {
                         new_col= new ColonnaInt(word, false, true);
@@ -73,8 +70,8 @@ vector<Tabella*> Caricamento(const string& nome_file){
                     }
                 }
                 campi.push_back(new_col->getNomeColonna());
-                tabs[i]->aggiungiColonna(new_col);
-                if(primary_key=="true") tabs[i]->setChiavePrimaria(new_col->getNomeColonna());
+                tabs[i]->aggiungiColonna(new_col); //aggiunta colonna alla relativa tabella
+                if(primary_key=="true") tabs[i]->setChiavePrimaria(new_col->getNomeColonna()); //impostazione chiave primaria
                 new_col= nullptr;
             }
             infos.push_back(tmp);
@@ -96,8 +93,8 @@ vector<Tabella*> Caricamento(const string& nome_file){
         //ho in infos in ogni elemento informazioni su link esterni per ogni colonna della tabella
         for(int i=0; i< num_tabs; i++){
             for(int j=0; j< tabs[i]->numCampi(); j++){
-                if(infos[i].tabelle_madri[j]!="#" && infos[i].colonne_madri[j]!="#") {
-                    //mi serve un puntatore alla tabella che matcha col nome presente nelle infos
+                if(infos[i].tabelle_madri[j]!="#" && infos[i].colonne_madri[j]!="#") { //se sono presenti collegamenti esterni
+                    //imposto temp = puntatore alla tabella che matcha col nome presente nelle infos
                     for (int a = 0; a < num_tabs; a++) {
                         if (infos[i].tabelle_madri[j] == tabs[a]->getNome()) {
                             temp = tabs[a];
@@ -151,9 +148,7 @@ void Salvataggio(const string& nome_file, const vector<Tabella*> &tabelle){
                     database << tab->getCol(j)->getElement(i) << "#";
                 }
             }
-            //memorizzo prima tabella in coda nella variabile, poi la cancello
             database << endl;
-            //delete tab;
         }
         database.close();
     }

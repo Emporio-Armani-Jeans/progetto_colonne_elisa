@@ -1,7 +1,3 @@
-//
-// Created by Elisa Messina on 15/06/2020.
-//
-
 #include "ControlloSintassi.h"
 #include <sstream>
 #include <vector>
@@ -15,9 +11,9 @@ char ControlloSintassi::GestioneTesto(stringstream *comando, string &word) {
     char carattere;
     int k;
     for (k = 1; k < word.size(); k++){
-        if (word[k] == 34) {
+        if (word[k] == 34) { //se è una virgoletta aggiorno il contatore
             contatore_virgolette++;
-        } else {
+        } else { //se non è una virgoletta e il contatore è dispari il testo è finito
             if (contatore_virgolette % 2 != 0) {
                 fine_testo = true;
                 break;
@@ -25,7 +21,7 @@ char ControlloSintassi::GestioneTesto(stringstream *comando, string &word) {
             contatore_virgolette = 0;
         }
     }
-    if (!fine_testo) {
+    if (!fine_testo) { //testo composto da più parole
         while (!fine_testo) {
             (*comando) >> carattere;
             if (carattere == 34) {

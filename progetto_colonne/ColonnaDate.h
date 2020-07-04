@@ -1,7 +1,3 @@
-//
-// Created by andry on 01/06/2020.
-//
-
 #ifndef PROGETTO_COLONNE_COLONNADATE_H
 #define PROGETTO_COLONNE_COLONNADATE_H
 #include "Colonna.h"
