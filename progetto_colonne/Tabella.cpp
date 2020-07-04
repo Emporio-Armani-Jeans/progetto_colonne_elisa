@@ -16,29 +16,9 @@ Tabella::~Tabella() {
     }
 }
 
-void Tabella::aggiungiColonna(Colonna *to_be_added) {
-    _colonne.push_back(to_be_added);
-}
 
-void Tabella::setChiavePrimaria(const string& nomecolonna) {
-    bool flag_another_pk_found = false, flag_colonna_trovata = false;
-    for(auto & i : _colonne) {   //verifica che non ci siano altre colonne marcate come primary key
-        if(i->_primary_key)
-            flag_another_pk_found = true;
-    }
-    if(!flag_another_pk_found){ //se non è ancora stata aggiunta una colonna marcata come primary key, posso impostarla
-        for(int j = 0; j < _colonne.size() && !flag_colonna_trovata; j++){
-            if(_colonne[j]->getNomeColonna() == nomecolonna){ //match nome colonna con colonne della tabella
-                _colonne[j]->_primary_key = true;
-                _colonne[j]->_not_null = !(_colonne[j]->getTipo() == "int" && _colonne[j]->isAutoIncrement());
-                flag_colonna_trovata = true;
-            }
-        }if(!flag_colonna_trovata)
-            throw CampoNonTrovato();
-    }
-    else{
-        throw PrimaryKeyAlreadyExisting();
-    }
+string Tabella::getNome() const {
+    return _nome_tabella;
 }
 
 Colonna *Tabella::getCol(int index) const {
@@ -53,6 +33,71 @@ int Tabella::numRecs() const {
     return _recs;
 }
 
+bool Tabella::isLinked() {
+    for (auto item: _colonne) {
+        if (item->isKey()) { //la colonna può essere una "madre" solo se è chiave primaria
+            return item->_colonna_figlio!= nullptr;
+        }
+    } return false;
+}
+
+
+void Tabella::aggiungiColonna(Colonna *to_be_added) {
+    _colonne.push_back(to_be_added);
+}
+
+void Tabella::setChiavePrimaria(const string& nomecolonna) {
+    bool flag_another_pk_found = false, flag_colonna_trovata = false;
+    for(auto & i : _colonne) {   //verifica che non ci siano altre colonne marcate come primary key
+        if(i->_primary_key)
+            flag_another_pk_found = true;
+    }
+    if(!flag_another_pk_found){ //se non è ancora stata aggiunta una colonna marcata come primary key, posso impostarla
+        for(int j = 0; j < _colonne.size() && !flag_colonna_trovata; j++){
+            if(_colonne[j]->getNomeColonna() == nomecolonna){ //match nome colonna con colonne della tabella
+                _colonne[j]->_primary_key = true;
+                flag_colonna_trovata = true;
+            }
+        }if(!flag_colonna_trovata)
+            throw CampoNonTrovato();
+    }
+    else{
+        throw PrimaryKeyAlreadyExisting();
+    }
+}
+
+void Tabella::setChiaveEsterna(Tabella* tabella_to_link, const string& colonna_this, const string& chiave_esterna) {
+    int pos_colonna_madre = INT_MAX, pos_colonna_figlia = INT_MAX;
+    for (int i = 0; i < tabella_to_link->_colonne.size(); i++){ //verifico l'esistenza della colonna esterna
+        if (tabella_to_link->_colonne[i]->_primary_key && tabella_to_link->_colonne[i]->getNomeColonna() == chiave_esterna)
+            pos_colonna_madre = i;
+    }
+    if (pos_colonna_madre < tabella_to_link->_colonne.size()){
+        for (int j = 0; j < _colonne.size(); j++){ // esistenza colonna interna
+            if (_colonne[j]->getNomeColonna() == colonna_this) {
+                pos_colonna_figlia = j;
+            }
+        }
+        if(_colonne[pos_colonna_figlia]->_foreign_key== nullptr) { //la colonna interna non deve presentare altri collegamenti
+            if (pos_colonna_figlia < _colonne.size()) {  //condizione soddisfatta se la colonna è stata trovata
+                if (_colonne[pos_colonna_figlia]->getTipo() == tabella_to_link->_colonne[pos_colonna_madre]->getTipo()){
+                    _colonne[pos_colonna_figlia]->_foreign_key = tabella_to_link->_colonne[pos_colonna_madre]; //imposto il vincolo per la colonna interna
+                    tabella_to_link->_colonne[pos_colonna_madre]->_colonna_figlio = _colonne[pos_colonna_figlia]; //imposto vincolo per la colonna esterna
+                    _colonne[pos_colonna_figlia]->_tab_madre=tabella_to_link->getNome(); //imposto il nome della tabella "madre"
+                } else
+                    throw FormatTypeError();
+            } else {
+                throw CampoNonTrovato();
+            }
+        }else{
+            throw SecKeyAlreadyExisting();
+        }
+    } else {
+        throw SecKeyNotFound();
+    }
+}
+
+
 void Tabella::addRecord(const vector<string>& campi, const vector<string>& valori) {
     bool flag_campo_non_trovato = false, flag_colonna_trovata = false;
     for(int i = 0; i < _colonne.size() && !flag_campo_non_trovato; i++){
@@ -63,23 +108,23 @@ void Tabella::addRecord(const vector<string>& campi, const vector<string>& valor
                     flag_colonna_trovata = true;
                 }
             }
-            if(!flag_colonna_trovata) //se alla fine di un ciclo
+            if(!flag_colonna_trovata) //se alla fine di un ciclo non l'ho ancora trovata
                 flag_campo_non_trovato = true;
         }
     }
     if(!flag_campo_non_trovato) { //se tutte le colonne marcate come not null sono presenti nei campi, posso procedere con l'aggiunta del record
         _recs++;
-        for (auto &i : _colonne) {
+        for (auto &i : _colonne) { //aggiunta del valore di default per mantenere l'indicizzazione corretta e gestione auto_increment
             i->addDefault(0);
         }
         for (int i = 0; i < campi.size(); i++) {
             for (auto &j : _colonne) {
-                if (campi[i] == j->getNomeColonna())
+                if (campi[i] == j->getNomeColonna()) //match nome della colonna e campo da inserire
                 {
                     if (j->isAutoIncrement())
                         throw TentativoInserimentoAutoIncrement();
                     else
-                        j->updateVal(valori[i], int(_recs - 1));
+                        j->updateVal(valori[i], int(_recs - 1)); //modifica del valore di default con il valore da inserire
                 }
 
             }
@@ -88,6 +133,30 @@ void Tabella::addRecord(const vector<string>& campi, const vector<string>& valor
         throw NotNullError(); //campo che doveva essere obbligatorio non inserito
     }
 }
+
+void Tabella::addRecordMemory(const vector<string> &campi, const vector<string> &valori) {
+    int a;
+    bool flag_campo_non_trovato = false, flag_colonna_trovata = false;
+    _recs++;
+    for(a=0; a < campi.size(); a++){
+        for (auto &i : _colonne) {
+            if (campi[a] == i->getNomeColonna()) {
+                if (i->isAutoIncrement())
+                    i->addDefault(stoi(valori[a])); //gestione dell'auto_increment alternativa per risalvare i dati in memoria tra una sessione e l'altra
+                else
+                    i->addDefault(0);
+            }
+        }
+    }
+    for (int i = 0; i < campi.size(); i++) {
+        for (auto &j : _colonne) {
+            if (campi[i] == j->getNomeColonna()) {
+                j->updateVal(valori[i], int(_recs - 1));
+            }
+        }
+    }
+}
+
 
 void Tabella::deleteRecord(const string& campo_condizione, const string &condizione, int operatore) {
     bool campo_condizione_trovato = false, condizione_trovata=false;
@@ -100,17 +169,17 @@ void Tabella::deleteRecord(const string& campo_condizione, const string &condizi
         }
         _recs=0;
     }else {
-        while (i < _colonne.size() && !campo_condizione_trovato) {
+        while (i < _colonne.size() && !campo_condizione_trovato) { //match campo condizione - colonna
             if (campo_condizione == _colonne[i]->getNomeColonna())
                 campo_condizione_trovato = true;
             else i++;
-        }
+        } //alla fine del ciclo la colonna che soddisfa il match è in _colonne[i]
         if (campo_condizione_trovato) {
             _colonne[i]->controlloFormato(condizione); //prima di eliminare verifico che il formato della condizione sia giusto
             while (j < _recs) {
-                if (_colonne[i]->compareElements(condizione, operatore, j)) {
+                if (_colonne[i]->compareElements(condizione, operatore, j)) { //condizione soddisfatta
                     condizione_trovata = true;
-                    if(!erroreSecKey(j)) {
+                    if(!erroreSecKey(j)) { //procedo all'eliminazione solo se non ci sono già valori usati in colonne "figlie"
                         _recs--;
                         for (auto &elem : _colonne) {
                             elem->deleteVal(j);
@@ -154,22 +223,23 @@ void Tabella::deleteRecord(const string& campo_condizione, const string& condizi
     }
 }
 
+
 void Tabella::updateRecord(const string& campo_condizione,const string& condizione, const vector<string>& campi, const vector<string>& valori, int operatore){
     bool trovata=false, trovata2 = false;
     int i=0, j;
     while(i<_colonne.size() && !trovata){
-        if(campo_condizione == _colonne[i]->getNomeColonna())
+        if(campo_condizione == _colonne[i]->getNomeColonna()) //match campo condizione - colonna
             trovata=true;
         else i++;
     }
-    if(trovata){
+    if(trovata){ // colonna trovata in _colonne[i]
         for(j=0; j<_recs; j++){
-            if(_colonne[i]->compareElements(condizione, operatore, j)) {
+            if(_colonne[i]->compareElements(condizione, operatore, j)) { //soddisfazione condizione
                 trovata2 = true;
                         for (int y = 0; y < campi.size(); y++) {
                             for (auto &g : _colonne) {
-                                if (campi[y] == g->getNomeColonna()) {
-                                    if(!erroreSecKey(j)) {
+                                if (campi[y] == g->getNomeColonna()) { //match campo da modificare - colonna
+                                    if(!erroreSecKey(j)) { //solo se i valori non sono usati in colonne "figlie"
                                         if (g->isAutoIncrement())
                                             throw TentativoInserimentoAutoIncrement();
                                         else
@@ -220,13 +290,14 @@ void Tabella::updateRecord(const string& campo_condizioni, const string& condizi
     }
 }
 
+
 vector<string> Tabella::returnData(const vector<string>& campi, const string& campo_ordinamento, int operatore_ordinamento) const {
     vector<string> righe_testo;
     string riga;
-    if(_recs!=0) {
+    if(_recs!=0) { //se sono presenti records
         bool trovata = false;
         bool valido = true;
-        for(int i=0; i< campi.size(); i++ && valido){
+        for(int i=0; i< campi.size(); i++ && valido){ //verifico che esistano tutte le colonne presenti nei <campi>
             trovata = false;
             for (int j=0; j < _colonne.size(); j++ && !trovata) {
                 if (campi[i] == _colonne[j]->getNomeColonna()) {
@@ -237,22 +308,22 @@ vector<string> Tabella::returnData(const vector<string>& campi, const string& ca
                 valido = false;
         }
         if (valido) {
-            for (const string & element : campi){
+            for (const string & element : campi){ //aggiungo i nomi dei campi da stampare
                 riga += element + " ";
             }
             righe_testo.push_back(riga);
-            for (int i = 0; i < _recs; i++) {
+            for (int i = 0; i < _recs; i++) { //tutti i record
                 riga.clear();
                 for (const auto &s : campi) {
                     for (auto j : _colonne) {
                         if (j->getNomeColonna() == s) {
-                            if (operatore_ordinamento == 0) {
-                                if (j->getElement(i) == j->getElement(-1)) {
+                            if (operatore_ordinamento == 0) { //nessuna richiesta di ordinamento
+                                if (j->getElement(i) == j->getElement(-1)) { //se è presente il valore di default
                                     riga += "___ ";
                                 } else {
                                     int q = 0;
                                     string temp = j->getElement(i);
-                                    while (q < temp.size()) {
+                                    while (q < temp.size()) { //gestione virgolette nei campi di testo
                                         if (temp[q] == '"' && temp[q + 1] == '"')
                                             temp.erase(q, 1);
                                         else
@@ -261,9 +332,9 @@ vector<string> Tabella::returnData(const vector<string>& campi, const string& ca
                                     riga += temp;
                                     riga += " ";
                                 }
-                            } else {
+                            } else { //richiesta ordinamento
                                 vector<int> indici_ordinati = ordinamento(campo_ordinamento, operatore_ordinamento);
-                                if (j->getElement(indici_ordinati[i]) == j->getElement(-1)) {
+                                if (j->getElement(indici_ordinati[i]) == j->getElement(-1)) { //default
                                     riga += "___ ";
                                 } else {
                                     riga += j->getElement(indici_ordinati[i]);
@@ -474,6 +545,7 @@ vector<string> Tabella::returnData(const vector<string> &campi, const string& ca
     return righe_testo;
 }
 
+
 vector<int> Tabella::ordinamento(const string &campo, int operatore) const {
     if(operatore==1 || operatore==3) {
         vector<int> indici(_recs);
@@ -503,63 +575,6 @@ vector<int> Tabella::ordinamento(const string &campo, int operatore) const {
     }
 }
 
-void Tabella::setChiaveEsterna(Tabella* tabella_to_link, const string& colonna_this, const string& chiave_esterna) {
-    int pos_colonna_madre = INT_MAX, pos_colonna_figlia = INT_MAX;
-    for (int i = 0; i < tabella_to_link->_colonne.size(); i++){
-       if (tabella_to_link->_colonne[i]->_primary_key && tabella_to_link->_colonne[i]->getNomeColonna() == chiave_esterna)
-           pos_colonna_madre = i;
-    }
-    if (pos_colonna_madre < tabella_to_link->_colonne.size()){
-        for (int j = 0; j < _colonne.size(); j++){
-            if (_colonne[j]->getNomeColonna() == colonna_this) {
-                pos_colonna_figlia = j;
-            }
-        }
-        if(_colonne[pos_colonna_figlia]->_foreign_key== nullptr) {
-            if (pos_colonna_figlia < _colonne.size()) {
-                if (_colonne[pos_colonna_figlia]->getTipo() == tabella_to_link->_colonne[pos_colonna_madre]->getTipo()){
-                    _colonne[pos_colonna_figlia]->_foreign_key = tabella_to_link->_colonne[pos_colonna_madre];
-                    tabella_to_link->_colonne[pos_colonna_madre]->_colonna_figlio = _colonne[pos_colonna_figlia];
-                    _colonne[pos_colonna_figlia]->_tab_madre=tabella_to_link->getNome();
-                } else
-                    throw FormatTypeError();
-            } else {
-                throw CampoNonTrovato();
-            }
-        }else{
-            throw SecKeyAlreadyExisting();
-        }
-    } else {
-        throw SecKeyNotFound();
-    }
-}
-
-string Tabella::getNome() const {
-    return _nome_tabella;
-}
-
-void Tabella::addRecordMemory(const vector<string> &campi, const vector<string> &valori) {
-    int a;
-    bool flag_campo_non_trovato = false, flag_colonna_trovata = false;
-        _recs++;
-        for(a=0; a < campi.size(); a++){
-            for (auto &i : _colonne) {
-                if (campi[a] == i->getNomeColonna()) {
-                    if (i->isAutoIncrement())
-                        i->addDefault(stoi(valori[a]));
-                    else
-                        i->addDefault(0);
-                }
-            }
-        }
-        for (int i = 0; i < campi.size(); i++) {
-            for (auto &j : _colonne) {
-                if (campi[i] == j->getNomeColonna()) {
-                   j->updateVal(valori[i], int(_recs - 1));
-                }
-            }
-        }
-}
 
 bool Tabella::erroreSecKey(int indice) {
     for (auto item : _colonne) {
@@ -577,13 +592,7 @@ bool Tabella::erroreSecKey(int indice) {
     return false;
 }
 
-bool Tabella::isLinked() {
-    for (auto item: _colonne) {
-        if (item->isKey()) {
-            return item->_colonna_figlio!= nullptr;
-        }
-    } return false;
-}
+
 
 
 

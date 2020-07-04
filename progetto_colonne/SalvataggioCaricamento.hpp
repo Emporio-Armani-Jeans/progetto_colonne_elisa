@@ -33,14 +33,13 @@ vector<Tabella*> Caricamento(const string& nome_file){
         for(int i=0; i<num_tabs; i++){
             //salvataggio della i-esima tabella
             database >> word;
-            //tabs.emplace_back(new Tabella(word));
             tabs.emplace_back(new Tabella(word));
             database >> num_cols;
             for(int i_col=0; i_col<num_cols; i_col++){
                 getline(database, word, '<');
                 if(i_col==0) word.erase(0,1);      // cancello il '\n'
-                getline(database, tabella_madre, '<');   /////
-                getline(database, colonna_madre, ':');  ////
+                getline(database, tabella_madre, '<');
+                getline(database, colonna_madre, ':');
                 tmp.colonne_madri.push_back(colonna_madre);
                 tmp.tabelle_madri.push_back(tabella_madre);
                 getline(database, tipo, ',');
@@ -74,8 +73,8 @@ vector<Tabella*> Caricamento(const string& nome_file){
                     }
                 }
                 campi.push_back(new_col->getNomeColonna());
-                tabs[i]->aggiungiColonna(new_col); ///
-                if(primary_key=="true") tabs[i]->setChiavePrimaria(new_col->getNomeColonna()); ///
+                tabs[i]->aggiungiColonna(new_col);
+                if(primary_key=="true") tabs[i]->setChiavePrimaria(new_col->getNomeColonna());
                 new_col= nullptr;
             }
             infos.push_back(tmp);
@@ -89,7 +88,7 @@ vector<Tabella*> Caricamento(const string& nome_file){
                     if(j==0 && t==0) word.erase(0,1);
                     valori.push_back(word);
                 }
-                tabs[i]->addRecordMemory(campi, valori);  //metodo alternativo per non tener conto di auto_increment ///
+                tabs[i]->addRecordMemory(campi, valori);  //metodo alternativo per non tener conto di auto_increment
                 valori.clear();
             }
             campi.clear();
@@ -115,7 +114,7 @@ vector<Tabella*> Caricamento(const string& nome_file){
 
 }
 
-void Salvataggio(const string& nome_file, const vector<Tabella*> &tabelle){ ///
+void Salvataggio(const string& nome_file, const vector<Tabella*> &tabelle){
     ofstream database;
     database.open(nome_file);
     if(!database.is_open()){

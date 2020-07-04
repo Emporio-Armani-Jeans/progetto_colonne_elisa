@@ -175,10 +175,6 @@ int main() {
             tabelle = Caricamento(nome_file);
             cout << "Eccezione: " << vnf.what() << endl;
         }
-        catch (UsedValueInSecKey &uvsk) {
-            tabelle = Caricamento(nome_file);
-            cout << "Eccezione: " << uvsk.what() << endl;
-        }
         catch (TableAlreadyExisting &tae) {
             tabelle = Caricamento(nome_file);
             cout << "Eccezione: " << tae.what() << endl;
@@ -194,6 +190,10 @@ int main() {
         catch (InvalidDate &id){
             tabelle = Caricamento(nome_file);
             cout << "Eccezione: " << id.what() << endl;
+        }
+        catch (InvalidTime &it){
+            tabelle = Caricamento(nome_file);
+            cout << "Eccezione: " << it.what() << endl;
         }
         catch(exception &unexpected) {
             tabelle = Caricamento(nome_file);

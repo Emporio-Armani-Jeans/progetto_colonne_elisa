@@ -31,7 +31,7 @@ INSERT INTO CUSTOMERS (NAME, AGE, ADDRESS) VALUES ("Andrea", 21, "Via dei Gigli,
 INSERT INTO CUSTOMERS (AGE, NAME, COUNTRY_ID) VALUES (42, "Maria Teresa", 1);
 insert into CUSTOMERS (AGE, NAME, COUNTRY_ID, ADDRESS) VALUES (12, "Fabrizio", 3, "Via Roma, 6");
 delete from CUSTOMERS where AGE = 12;
-INSERT INTO CUSTOMERS (NAME, ADDRESS, COUNTRY_ID) VALUES ("Orlando", "Via dei colli rossi", 6);
+INSERT INTO CUSTOMERS (NAME, ADDRESS, COUNTRY_ID, AGE) VALUES ("Orlando", "Via dei colli rossi", 6, 79);
 insert into CUSTOMERS (AGE, ADDRESS) values (12, "Via dei Campi, 89"); campo not null non specificato
 INSERT INTO CUSTOMERS (NAME, ADDRESS, COUNTRY_ID, AGE) VALUES ("Orlando", "Via dei colli rossi", 10, 67);  INSERIMENTO di un valore non corrispendente con la chiave esterna
 
@@ -82,8 +82,26 @@ SELECT TRANSACT_DATE, TRANSACT_TIME, CODE FROM TRANSACTIONS WHERE PRODUCT_NAME =
 SELECT TRANSACT_TIME, TRANSACT_DATE FROM TRANSACTIONS WHERE PRODUCT_NAME = "Canottiera";
 select * from SUPPLIERS where CONTRACT_EXPIRATION < 07/08/2022;
 select * from SUPPLIERS where CONTRACT_EXPIRATION < 07/08/2020;  //nessun valore rispetta criteri di ricerca
-select * from suppliers where CONTRACT_EXPIRATION < 07/08/2022;  //tabella non trovata
+select * from suppliers where CONTRACT_EXPIRATION < 07/08/2022;  //tabella non trovata (nomi tabelle case sensitive)
 
 UPDATE TRANSACTIONS SET TRANSACT_DATE = 28/09/2019, TRANSACT_TIME = 23:34:56 WHERE CODE = 1;
 update CUSTOMERS set NAME = "Gian Franco" where ID = 5;
 UPDATE SUPPLIERS set NAME = "FruttaandVerdura.co" where CODE = 1; non modifica il record perchè collegato
+update COUNTRIES set NAME = "Grecia" where ID = 5; modificato perchè non ancora collegato
+
+delete from PRODUCTS where NAME = "Anello d'argento"; elimina perchè non ancora utilizzato
+
+create table tabella ( name text auto_increment, colonna int not null, primary key (name) ); eccezione formatType (tipo sbagliato per auto_increment)
+CREATE TABLE CUSTOMERS ( ID INT AUTO_INCREMENT, NAME TEXT, PRIMARY KEY (ID) ); Eccezione tabella già esistente
+SELECT TRANSACT_TIME, TRANSACT_DATE FROM TRANSACTIONS WHERE NAME = "Canottiera"; eccezione campo condizione non valido
+SELECT NAME, TRANSACT_DATE FROM TRANSACTIONS WHERE PRODUCT_NAME = "Canottiera"; eccezione colonna non trovata
+insert into CUSTOMERS (NAME, AGE) VALUES ("Ciao", "ciao"); eccezione formato tipo
+update CUSTOMERS set NAME = "Giulia" where AGE != 34; eccezione operatore non valido
+update TRANSACTIONS set TRANSACT_TIME = 56:77:80 WHERE TRANSACT_DATE = 28/09/2019; Eccezione ora non valida
+create table tabella ( id int not null auto_increment, name text not null, primary key (id) primary key (name) ); eccezione doppia chiave primaria
+insert into PRODUCTS (NAME, PRICE) VALUES ("Canottiera", 34.60); eccezione valore duplicato chiave primaria
+create table tabella ( id int not null, name text, primary key (name) foreign key (id) references COUNTRIES (ID) foreign key (id) references CUSTOMERS (ID) ); ECCEZIONE DOPPIA CHIAVE SECONDARIA ALLA STESSA COLONNA
+create table tabella ( id int not null, name text, PRIMARY KEY (name) foreign key (id) references COUNTRIES (CODE) ); campo chiave esterna non esistent
+create table tabella ( id int not null, name text, PRIMARY KEY (name) foreign key (id) references CUSTOMERS (AGE) ); CAMPO CHIAVE ESTERNA NON è UNA CHIAVE PRIMARIA
+drop table COUNTRIES; ECCEZIONE TABELLA COLLEGATA
+

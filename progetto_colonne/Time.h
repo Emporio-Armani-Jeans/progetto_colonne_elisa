@@ -1,7 +1,3 @@
-//
-// Created by Elisa Messina on 02/06/2020.
-//
-
 #ifndef PROGETTO_COLONNE_TIME_H
 #define PROGETTO_COLONNE_TIME_H
 
