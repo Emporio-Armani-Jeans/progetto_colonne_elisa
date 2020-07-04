@@ -5,7 +5,7 @@
 class FormatTypeError : public std::exception{
 public:
     FormatTypeError()
-            : _message ("Il formato dell' input non è compatibile con il tipo") {}
+            : _message ("Il formato dell'input non è compatibile con il tipo.") {}
     const char* what()const noexcept override { return _message; }
 private:
     const char* _message;

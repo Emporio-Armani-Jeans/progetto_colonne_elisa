@@ -5,7 +5,7 @@
 class InvalidOperator : public std::exception{
 public:
     InvalidOperator()
-            : _message ("Operatore non valido") {}
+            : _message ("Operatore non valido.") {}
     const char* what()const noexcept override { return _message; }
 private:
     const char* _message;

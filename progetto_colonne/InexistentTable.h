@@ -4,7 +4,7 @@
 #include <exception>
 class InexistentTable : public std::exception {
 public:
-    InexistentTable() : _message ("ERR: tabella inesistente!") {}
+    InexistentTable() : _message ("La tabella risulta inesistente.") {}
     const char* what()const noexcept override { return _message; }
 private:
     const char* _message;

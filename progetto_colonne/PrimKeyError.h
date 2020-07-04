@@ -5,7 +5,7 @@
 class PrimKeyError : public std::exception{
 public:
     PrimKeyError()
-            : _message ("Valore duplicato nel campo chiave primaria") {}
+            : _message ("Valore duplicato nel campo chiave primaria.") {}
     const char* what()const noexcept override { return _message; }
 private:
     const char* _message;

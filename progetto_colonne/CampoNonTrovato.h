@@ -6,7 +6,7 @@ using namespace std;
 class CampoNonTrovato : public exception{
 public:
     CampoNonTrovato()
-       : _message("Colonna non trovata") {}
+       : _message("Colonna non trovata.") {}
     const char* what()const noexcept override {
         return _message;
     }

@@ -5,7 +5,7 @@
 class InvalidCondition : public std::exception{
 public:
     InvalidCondition()
-            : _message ("Campo condizione non valido") {}
+            : _message ("Campo condizione non valido.") {}
     const char* what()const noexcept override { return _message; }
 private:
     const char* _message;

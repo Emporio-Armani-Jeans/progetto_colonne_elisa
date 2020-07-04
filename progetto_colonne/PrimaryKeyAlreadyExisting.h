@@ -5,7 +5,7 @@
 class PrimaryKeyAlreadyExisting : public std::exception{
 public:
     PrimaryKeyAlreadyExisting()
-    : _message ("Chiave primaria già presente nella tabella") {}
+    : _message ("Chiave primaria già presente nella tabella.") {}
     const char* what()const noexcept override { return _message; }
 private:
     const char* _message;

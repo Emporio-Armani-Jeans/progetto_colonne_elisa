@@ -21,7 +21,7 @@ int compare_first_word_comandi(string &first_word);
 int main() {
     ControlloSintassi controllore;
     vector<Tabella*> tabelle;
-    string nome_file, riga_comando, message_error, syntax_err = "ERR: Errore di sintassi nel comando, riprovare!",
+    string nome_file, riga_comando, message_error, syntax_err = "Errore: Errore di sintassi nel comando, riprovare!",
     status_message, first_word;
     bool correct_file = false;
 
@@ -37,7 +37,7 @@ int main() {
             correct_file = true;
         }
         catch (FileError &ex) {
-            cout << "Exception occurred: " << ex.what() << endl;
+            cout << "Eccezione: " << ex.what() << endl;
         }
     }
 
@@ -208,7 +208,7 @@ int main() {
         comando_per_controlli.str("");
         riga_comando.clear();
 
-        cout << "Inserisci comando: " << endl;
+        cout << "Inserire il comando: " << endl;
         //leggi comando intero
         getline(cin,comando);
 
