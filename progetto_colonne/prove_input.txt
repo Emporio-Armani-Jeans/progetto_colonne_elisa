@@ -40,7 +40,7 @@ INSERT INTO PRODUCTS (NAME, PRICE) VALUES ("Papaya Africana", 3.14);
 INSERT INTO TRANSACTIONS (TRANSACT_DATE, TRANSACT_TIME, PRODUCT_NAME) VALUES (07/07/2007, 12:37:43, "Papaya Africana");
 
 update TRANSACTIONS SET PROFIT = 7.40 WHERE TRANSACT_DATE = 07/07/2007;
-update COUNTRIES set NAME = "Montene**o" WHERE NAME = "Francia";
+update COUNTRIES set NAME = "Inghilterra" WHERE NAME = "Francia";
 
 select * from CUSTOMERS ORDER BY NAME ASC;
 select NAME, ADDRESS from CUSTOMERS ORDER BY ADDRESS DESC; spazi vuoti alla fine
@@ -105,5 +105,3 @@ create table tabella ( id int not null, name text, PRIMARY KEY (name) foreign ke
 create table tabella ( id int not null, name text, PRIMARY KEY (name) foreign key (id) references CUSTOMERS (AGE) ); CAMPO CHIAVE ESTERNA NON è UNA CHIAVE PRIMARIA
 drop table COUNTRIES; ECCEZIONE TABELLA COLLEGATA
 
-SELECT * FROM CUSTOMERS WHERE AGE BETWEEN "CIAO" AND "ZETA";
-SELECT * FROM CUSTOMERS WHERE AGE between 1 AND 100;
